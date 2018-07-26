@@ -1,0 +1,19 @@
+<div class="form-group">
+	<label class="col-form-label" for="">الفصول</label>
+	<select class="form-control" (change)="handleClassChange($event.target.value)">
+		<option selected>KG2 - D</option>
+		<option>KG2 - E</option>
+		<option>KG2 - F</option>
+	</select>
+</div>
+<div class="form-group">
+	<label for="">بحث باﻷسم</label>
+	<input type="text" class="form-control" placeholder="بحث باﻷسم" [(ngModel)]="name" (change)="SearchByName()" />
+</div>
+<div>
+	<label for="result">التقييمات</label>
+	<select id="result" class="form-control" size="8">
+		<option selected>خديجة الجابر</option>
+		<option>أمل العيسي</option>
+	</select>
+</div>

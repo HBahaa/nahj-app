@@ -1,0 +1,34 @@
+<div class="bg">
+	<div class="cover">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-6">
+						<div class="signin-content">
+						  	<mat-card>
+								<mat-card-title>Nahj</mat-card-title>
+							    <mat-card-content>
+							      	<form [formGroup]="form" (ngSubmit)="onSubmit()">
+								        <mat-form-field class="full-width-input">
+								          <input matInput placeholder="اسم المستخدم" formControlName="userName" required>
+								          <mat-error *ngIf="isFieldInvalid('userName')">
+								          	يرجى إدخال اسم المستخدم الخاص بك
+								          </mat-error>
+								        </mat-form-field>
+								        <mat-form-field class="full-width-input">
+								          <input matInput type="password" placeholder="كلمة السـر" formControlName="password" required>
+								          <mat-error *ngIf="isFieldInvalid('userName')">
+								            يرجى إدخال كلمة الـسر الخاص بك
+								          </mat-error>
+								        </mat-form-field>
+								        <button mat-raised-button color="primary" type="submit">تسجيـل</button>
+								    </form>
+
+							      <a href="#">نسيت كلمة السـر أو اسم المستـخدم</a> 
+							    </mat-card-content>
+							</mat-card>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

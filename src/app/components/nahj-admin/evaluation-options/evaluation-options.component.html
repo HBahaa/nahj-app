@@ -1,0 +1,64 @@
+<div class="row">
+<div class="col-md-4 col-xs-0"></div>
+	<div class="col-md-4 col-xs-6">
+    	<h3 class="text-center">التقديرات</h3>
+      	<div class="form-group">
+            <select class="form-control" size="6">
+            	<option>ضعيف</option>
+              	<option>مقبول</option>
+              	<option selected>جيد</option>
+            </select>
+      	</div>
+
+      	<div dir="ltr">
+      		<div class="input-group">
+		    	<input type="text" class="form-control text-right" [disabled]="show" placeholder="جيد">
+		    </div>
+		    <div class="input-group">
+		        <span class="input-group-btn">
+			        <button [ngClass]="show ? 'btn-primary' : ' btn-info' " class="btn" (click)="handleChanges()" type="button">
+			        	<i [ngClass]="show ? ' fa-edit' : '  fa-save' "  class="fa"></i>
+			        </button>
+		      	</span>
+		      	<input type="text" class="form-control text-right" [disabled]="show" placeholder="الدرجة">
+		    </div>
+		    <div class="btns">
+		    	<button class="btn btn-danger" type="button">
+			        <i class="fa fa-close"></i>
+			    </button>
+		    	<button class="btn btn-success" type="button">
+		        	<i class="fa fa-plus"></i>
+			    </button>
+		    </div>
+      	</div>
+    </div>
+	<div class="col-md-4 col-xs-6">
+    	<h3 class="text-center">الخيارات</h3>
+      	<div class="form-group">
+            <select class="form-control" size="7">
+            	<option>تقييم ثلاثي (ممتاز)</option>
+              	<option>تقييم خماسي (ممتاز)</option>
+              	<option selected>تقييم وصفي</option>
+            </select>
+      	</div>
+
+      	<div dir="ltr">
+		    <div class="input-group">
+		        <span class="input-group-btn">
+			        <button [ngClass]="show ? 'btn-primary' : ' btn-info' " class="btn" (click)="handleChanges()" type="button">
+			        	<i [ngClass]="show ? ' fa-edit' : '  fa-save' "  class="fa"></i>
+			        </button>
+		      	</span>
+		      	<input type="text" class="form-control text-right" [disabled]="show" placeholder="تقييم وصفي">
+		    </div>
+		    <div class="btns">
+		    	<button class="btn btn-danger" type="button">
+			        <i class="fa fa-close"></i>
+			    </button>
+		    	<button class="btn btn-success" type="button">
+		        	<i class="fa fa-plus"></i>
+			    </button>
+		    </div>
+      	</div>
+    </div>
+</div>

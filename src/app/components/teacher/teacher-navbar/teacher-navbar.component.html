@@ -1,0 +1,61 @@
+<div class="fixed-action-btn">
+  <a class="btn-floating bg-danger">
+    <i id="menu" class="fa fa-bars fa-2x"></i>
+  </a>
+  <ul>
+    <li>
+      <a data-toggle="tooltip" data-placement="left" title="بيانات التقييم" routerLink="/teacher/evaluation-data" class="btn-floating bg-primary">
+        <i class="fa fa-book fa-2x"></i>
+      </a>
+    </li>
+    <li>
+      <a data-toggle="tooltip" data-placement="left" title="تعريف التقييمات" routerLink="/teacher/evaluations" class="btn-floating bg-success">
+        <i class="fa fa-star-half-o fa-2x"></i>
+      </a>
+    </li>
+    <li>
+      <a data-toggle="tooltip" data-placement="left" title="الصلاب" routerLink="/teacher/students" class="btn-floating bg-danger">
+        <i class="fa fa-users fa-2x"></i>
+      </a>
+    </li>
+    <li>
+      <a data-toggle="tooltip" data-placement="left" title="البيانات الشخصية" routerLink="/teacher/profile" class="btn-floating bg-info">
+        <i class="fa fa-edit fa-2x"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div id="sidebar-wrapper">
+  <div class="user-img">
+    <img src="http://via.placeholder.com/80x80" />
+    <p>طارق ابوسيف</p>
+  </div>
+
+  <ul class="sidebar-nav">
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+      <a routerLink="/teacher/profile">
+        <i class="fa fa-edit fa-2x"></i>
+        البيانات الشخصية
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/teacher/students">
+        <i class="fa fa-users fa-2x"></i>
+        الصلاب
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/teacher/evaluations">
+        <i class="fa fa-star-half-o fa-2x"></i>
+        تعريف التقييمات
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/teacher/evaluation-data">
+        <i class="fa fa-book fa-2x"></i>
+        بيانات التقييم
+      </a>
+    </li>
+  </ul>
+</div>

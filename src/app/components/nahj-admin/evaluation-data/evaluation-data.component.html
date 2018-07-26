@@ -1,0 +1,114 @@
+<div class="row">
+	<div class="col-md-9 col-sm-10">
+        <div class="data">
+          	<div class="row">
+				<div class="col-md-4 col-xs-0"></div>
+				<div class="col-md-4 col-xs-6">
+					<div class="form-group">
+	               		<label for="schoolName">عنوان المختصر</label>
+	                	<select class="form-control">
+		                	<option selected>تقييم وحدة روضتي 1</option>
+		                	<option></option>
+	                	</select>
+	              	</div>
+				</div>
+				<div class="col-md-4 col-xs-6">
+					<div class="form-group">
+	               		<label for="schoolName">عنوان التقييم</label>
+	                	<input type="text" name="schoolName" placeholder="تقييم الوحدة اﻷولي (روضتي-المستوي الثاني-قبلي)" class="form-control" />
+	              	</div>
+				</div>
+          	</div>
+          	<div class="row">
+	            <div class="col-md-4">
+	            	<h4>مجموعة اﻷسئلة</h4>
+	              	<div class="form-group">
+		                <select class="form-control" size="7">
+		                	<option>قصة اعرف عنواني</option>
+		                  	<option>قصة من أنا</option>
+		                  	<option selected>قصة اغسل ملابسي</option>
+		                </select>
+	              	</div>
+
+	              	<div dir="ltr">
+	              		<div class="input-group">
+					    	<input type="text" class="form-control text-right" [disabled]="show" placeholder="قصة اغسل ملابسي">
+					    </div>
+					    <div class="input-group">
+					        <span class="input-group-btn">
+						        <button [ngClass]="show ? 'btn-primary' : ' btn-info' " class="btn" (click)="handleChange($event)" type="button">
+						        	<i [ngClass]="show ? ' fa-edit' : '  fa-save' "  class="fa"></i>
+						        </button>
+					      	</span>
+					      	<input type="text" class="form-control text-right" [disabled]="show" placeholder="الوزن النسبي">
+					    </div>
+					    <div class="btns">
+					    	<button class="btn btn-danger" type="button">
+						        <i class="fa fa-close"></i>
+						    </button>
+					    	<button class="btn btn-success" type="button">
+					        	<i class="fa fa-plus"></i>
+						    </button>
+					    </div>
+	              	</div>
+	            </div>
+
+	            <div class="col-md-4">
+	                <div class="mt-3">
+	                	<div class="form-group row">
+		                	<div class="col-sm-7">
+								<select class="form-control">
+									<option selected></option>
+								</select>
+							</div>
+		                	<label class="col-sm-5 col-form-label" for="">الية الحساب</label>
+						</div>
+						<div class="form-group row">
+		                	<div class="col-sm-7">
+								<select class="form-control">
+									<option selected></option>
+								</select>
+		                	</div>
+		                	<label class="col-sm-5 col-form-label" for="">الحالة الراهنة</label>
+						</div>
+	                </div>
+	            </div>
+
+	            <div class="col-md-4">
+	              	<h4>مكونات المنهج المرتبط به التقييم</h4>
+	              	<div class="form-group">
+						<select class="form-control">
+							<option selected>وحدات المستوي اﻷول</option>
+							<option value="1">وحدات المستوي اﻷول</option>
+							<option value="2">وحدات المستوي اﻷول</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control">
+							<option selected>وحدات المستوي الثاني</option>
+							<option value="1">وحدات المستوي الثاني</option>
+							<option value="2">وحدات المستوي الثاني</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select (change)="handleChange($event)" class="form-control">
+							<option selected>وحدات المستوي الثالث</option>
+							<option value="1">وحدات المستوي الثالث</option>
+							<option value="2">وحدات المستوي الثالث</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control">
+							<option selected>وحدات المستوي الرابع</option>
+							<option value="1">وحدات المستوي الرابع</option>
+							<option value="2">وحدات المستوي الرابع</option>
+						</select>
+					</div>
+	            </div>
+          	</div>
+        </div>
+    </div>
+  	<div class="col-md-3 col-sm-3">
+    	<app-level-filter></app-level-filter>
+  	</div>
+</div>

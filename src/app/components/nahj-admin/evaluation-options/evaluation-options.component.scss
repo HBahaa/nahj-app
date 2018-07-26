@@ -1,0 +1,24 @@
+$color : #0eb6e2;
+
+.mt{
+	margin-top: 60px;
+}
+.data{
+	border: 1px solid $color;
+	height: auto;
+	padding: 10px;
+
+	select[size]{
+		background: #fafafa;
+	}
+}
+
+.input-group{
+	margin-bottom: 20px;
+	width: 100%;
+}
+.btns{
+	.btn{
+		margin-right: 10px;
+	}
+}

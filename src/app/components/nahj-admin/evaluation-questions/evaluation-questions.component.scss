@@ -1,0 +1,32 @@
+$color : #0eb6e2;
+
+.data{
+	border: 1px solid $color;
+	height: auto;
+	padding: 10px;
+
+	select[size]{
+		background: #fafafa;
+	}
+	.form-check{
+		line-height: 3em;
+
+		.form-check-input{
+			margin-left: 10px;
+		}
+	}
+
+	h4{
+		margin-bottom: 30px;
+	}
+}
+
+.input-group{
+	margin-bottom: 20px;
+	width: 100%;
+}
+.btns{
+	.btn{
+		margin-right: 10px;
+	}
+}

@@ -1,0 +1,10 @@
+$color : #0eb6e2;
+.data{
+	border: 1px solid $color;
+	height: auto;
+	padding: 10px;
+
+	select[size]{
+		background: #fafafa;
+	}
+}

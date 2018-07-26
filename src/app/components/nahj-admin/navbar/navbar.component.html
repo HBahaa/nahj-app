@@ -1,0 +1,72 @@
+<div class="fixed-action-btn">
+  <a class="btn-floating bg-danger">
+    <i id="menu" class="fa fa-bars"></i>
+  </a>
+  <ul>
+    <li>
+      <a data-toggle="tooltip" data-placement="left" title="مكتبة التقييمات" routerLink="/evaluations" class="btn-floating bg-primary">
+        <i class="fa fa-star-half-o"></i>
+      </a>
+    </li>
+    <li>
+      <a data-toggle="tooltip" data-placement="left" title="مكونات المنهج" routerLink="/levels" class="btn-floating bg-success">
+        <i class="fa fa-book"></i>
+      </a>
+    </li>
+    <li>
+      <a data-toggle="tooltip" data-placement="left" title="بيانات الرخص" routerLink="/data" class="btn-floating bg-info">
+        <i class="fa fa-file"></i>
+      </a>
+    </li>
+    <li>
+      <a data-toggle="tooltip" data-placement="left" title="تقسيمات الجهات" routerLink="/entities" class="btn-floating bg-danger">
+        <i class="fa fa-arrows-alt"></i>
+      </a>
+    </li>
+    <li>
+      <a data-toggle="tooltip" data-placement="left" title="ثوابت النظام" routerLink="/" class="btn-floating bg-secondary">
+        <i class="fa fa-thumb-tack"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div id="sidebar-wrapper">
+  <div class="user-img">
+    <img src="http://via.placeholder.com/80x80" />
+    <p>طارق ابوسيف</p>
+  </div>
+
+  <ul class="sidebar-nav">
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+      <a routerLink="/">
+        <i class="fa fa-thumb-tack fa-2x"></i>
+        ثوابت النظام
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/entities">
+        <i class="fa fa-arrows-alt fa-2x"></i>
+        تقسيمات الجهات
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/data">
+        <i class="fa fa-file fa-2x"></i>
+        بيانات الرخص
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/evaluations">
+        <i class="fa fa-star-half-o fa-2x"></i>
+        مكتبة التقييمات
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/levels">
+        <i class="fa fa-book fa-2x"></i>
+        مكونات المنهج
+      </a>
+    </li>
+  </ul>
+</div>

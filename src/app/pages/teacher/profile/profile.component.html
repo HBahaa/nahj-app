@@ -1,0 +1,113 @@
+<div class="content">
+	<div class="container-fluid">
+		<form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+			<div class="col-md-6">
+				<div class="form-group row">
+                	<label class="col-sm-3 col-form-label" for="">الأسم</label>
+                	<div class="col-sm-7">
+						<input type="text" class="form-control" formControlName="name" />
+					</div>
+				</div>
+				<div class="form-group row">
+                	<label class="col-sm-3 col-form-label" for="">الوظيفة</label>
+                	<div class="col-sm-7">
+						<select class="form-control" formControlName="job" >
+							<option selected></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+                	<label class="col-sm-3 col-form-label" for="">جوال 1 - اتصال</label>
+                	<div class="col-sm-7">
+						<input type="text" class="form-control" formControlName="phone1" />
+					</div>
+				</div>
+				<div class="form-group row">
+                	<label class="col-sm-3 col-form-label" for="">اسم المستخدم</label>
+                	<div class="col-sm-7">
+						<input type="text" class="form-control" formControlName="userName" />
+					</div>
+				</div>
+				<div class="form-group row">
+                	<label class="col-sm-3 col-form-label" for="">الفصل الدراسي</label>
+                	<div class="col-sm-7">
+						<select class="form-control" formControlName="term" >
+							<option selected>الفصل اﻷول - 2019/2018</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+                	<label class="col-sm-3 col-form-label" for="">الفصول</label>
+                	<div class="col-sm-7">
+						<select class="form-control" [size]="4" formControlName="class" >
+							<option>KG2 - D</option>
+							<option selected>KG2 - E</option>
+							<option>KG2 - F</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group row">
+                	<label class="col-sm-3 col-form-label" for="">اللقب</label>
+                	<div class="col-sm-7">
+						<select class="form-control" formControlName="nickname" >
+							<option selected></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+                	<label class="col-sm-3 col-form-label" for="">البريد اﻷلكتروني</label>
+                	<div class="col-sm-7">
+						<input type="email" class="form-control" formControlName="email" />
+					</div>
+				</div>
+				<div class="form-group row">
+                	<label class="col-sm-3 col-form-label" for="">جوال 2 - واتس</label>
+                	<div class="col-sm-7">
+						<input type="text" class="form-control" formControlName="phone2" />
+					</div>
+				</div>
+				<div class="form-group row">
+                	<label class="col-sm-3 col-form-label" for="">كلمة السر</label>
+                	<div class="col-sm-7">
+						<input type="text" class="form-control" formControlName="password" />
+					</div>
+				</div>
+				<div class="form-group row">
+                	<label class="col-sm-3 col-form-label" for="">حالة الحساب</label>
+                	<div class="col-sm-7">
+						<input type="text" class="form-control" formControlName="status" />
+					</div>
+				</div>
+				<div class="row text-center">
+					<div class="col-md-12">
+						<div class="custom-control custom-checkbox custom-control-inline">
+							<label class="custom-control-label" for="add_evaluation">إضافة تقييم</label>
+							<input class="custom-control-input" type="checkbox" id="add_evaluation" value="add_evaluation" formControlName="add_evaluation">
+						</div>
+						<div class="custom-control custom-checkbox custom-control-inline">
+							<label class="custom-control-label" for="add_data">إدخال بيانات التقييم</label>
+							<input class="custom-control-input" type="checkbox" id="add_data" value="add_data" formControlName="add_data">
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="custom-control custom-checkbox custom-control-inline">
+							<label class="custom-control-label" for="delete_evaluation">حذف تقييم</label>
+							<input class="custom-control-input" type="checkbox" id="delete_evaluation" value="delete_evaluation" formControlName="delete_evaluation">
+						</div>
+						<div class="custom-control custom-checkbox custom-control-inline">
+							<label class="custom-control-label" for="edit_data">تعديل بيانات التقييم</label>
+							<input class="custom-control-input" type="checkbox" id="edit_data" value="edit_data" formControlName="edit_data">
+						</div>
+					</div>
+				</div>
+				
+			</div>
+
+			<div class="col-md-12 text-left">
+				<button class="btn btn-primary" type="submit">حفـظ</button>
+			</div>
+		</form>
+	</div>
+</div>

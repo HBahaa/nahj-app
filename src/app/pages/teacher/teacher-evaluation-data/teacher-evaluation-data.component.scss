@@ -1,0 +1,43 @@
+.filter{
+	border-left: 2px solid #ddd;
+}
+.col-2{
+	text-align: center;
+}
+p{
+	font-size: 1.3rem;
+	margin-top: 0.5rem;
+}
+.custom-control-label::before,
+.custom-control-label::after{
+	width: 1.2rem;
+	height: 1.2rem;
+}
+
+.green-label::before{
+	border: 1px solid green;
+}
+.blue-label::before{
+	border: 1px solid blue;
+}
+.red-label::before{
+	border: 1px solid red;
+}
+.custom-control-input:focus ~ .custom-control-label::before{
+	box-shadow: none;
+}
+.custom-radio .custom-control-input:checked~.green-label::before{
+	background-color: green;
+}
+.custom-radio .custom-control-input:checked~.red-label::before{
+	background-color: red;
+}
+.custom-control-input:focus ~ .red-label::before{
+	box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem #f4433666;
+}
+.custom-control-input:focus ~ .blue-label::before{
+	box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem #007bff6b
+}
+.custom-control-input:focus ~ .green-label::before{
+	box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
