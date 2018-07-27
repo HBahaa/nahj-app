@@ -15,6 +15,15 @@ $color : #0eb6e2;
 			margin-left: 10px;
 		}
 	}
+	.custom-checkbox{
+		.custom-control-label::before,.custom-control-label::after{
+			right: 0rem;
+	    	left: 0;
+		}
+	}
+	.custom-control-label{
+		padding-right: 2em;
+	}
 
 	h4{
 		margin-bottom: 30px;
@@ -29,4 +38,7 @@ $color : #0eb6e2;
 	.btn{
 		margin-right: 10px;
 	}
+}
+.mt-6{
+	margin-top: 5.5rem;
 }

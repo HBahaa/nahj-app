@@ -10,9 +10,9 @@
         <app-school-filter [title]="title"></app-school-filter>
       </div>
       <div class="col-md-9 col-sm-10">
-        <div class="data text-right">
+        <div class="data">
           <div class="row">
-            <div class="col-md-4">
+          <div class="col-md-4">
               <div class="form-group">
                 <label for="schoolName">اسم المدرسة</label>
                 <input type="text" name="schoolName" class="form-control" />
@@ -48,14 +48,23 @@
               <h4>الموقع في التقسيم الشجري</h4>
               <div>
                 <label for="">المدارس</label>
-                <select class="form-control" size="5">
-                  <option>الموفع اﻹلكتروني</option>
-                  <option>العنوان</option>
-                  <option>GPS الموقع</option>
-                  <option>التلفون</option>
-                  <option>الفاكس</option>
-                  <option>الفاكس</option>
-                </select>
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="الموفع اﻹلكتروني">
+                  </li>
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="العنوان">
+                  </li>
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="GPS الموقع">
+                  </li>
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="التلفون">
+                  </li>
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="الفاكس">
+                  </li>
+                </ul>
               </div>
             </div>
             <div class="col-md-4">
@@ -72,27 +81,49 @@
                   <option></option>
                 </select>
               </div>
-              <div class="form-group">
-                <select class="form-control" size="5">
-                  <option>الحي</option>
-                  <option>إجمالي عدد الطلاب</option>
-                  <option>عدد الفصول الدراسية</option>
-                  <option>السنة الدرااسية اﻷدني</option>
-                  <option>السنة الدرااسية اﻷعلي</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="">بيانات المسئول</label>
-                <select class="form-control" size="7">
-                  <option>اﻷسم</option>
-                  <option>الوظيفة</option>
-                  <option>الجوال</option>
-                  <option>جوال الواتس اب</option>
-                  <option>اﻹيميل</option>
-                  <option>اسم المستخدم</option>
-                  <option>كلمة السر</option>
-                </select>
-              </div>
+              
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="الحي">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="إجمالي عدد الطلاب">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="عدد الفصول الدراسية">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="السنة الدرااسية اﻷدني">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="السنة الدرااسية اﻷعلي">
+                </li>
+              </ul>
+
+              <label for="">بيانات المسئول</label>
+              <ul class="list-group">
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="اﻷسم">
+                  </li>
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="الوظيفة">
+                  </li>
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="الجوال">
+                  </li>
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="جوال الواتس اب">
+                  </li>
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="اﻹيميل">
+                  </li>
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="اسم المستخدم">
+                  </li>
+                  <li class="list-group-item">
+                    <input type="text" class="form-control" placeholder="كلمة السر">
+                  </li>
+                </ul>
             </div>
             <div class="col-md-4">
               <div class="form-group">
@@ -102,38 +133,71 @@
                   <option></option>
                 </select>
               </div>
-              <div class="form-group">
-                <label>بيانات الرخصة</label>
-                <select class="form-control" size="4">
-                  <option>عدد الطلاب</option>
-                  <option>عدد الفصول</option>
-                  <option>عدد المدرسات/ المشرفات</option>
-                  <option>عدد اﻷدمن</option>
-                </select>
-              </div>
+              <label>بيانات الرخصة</label>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="عدد الطلاب">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="عدد الفصول">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="عدد المدرسات/ المشرفات">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="عدد اﻷدمن">
+                </li>
+              </ul>
+
               <div class="form-group">
                 <label>المحتوي المرخص</label>
-                <select class="form-control" size="3">
-                  <option>عدد الطلاب</option>
-                </select>
+                <ul class="content-list">
+                  <li>
+                    مواد الواقع المعزز
+                      <ul>
+                        <li>
+                          الوحدة الثالثة (أسرتي)
+
+                          <ul>
+                            <li>
+                              قصة أعرف عنواني
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                  </li>
+                </ul>
               </div>
-              <div class="form-group">
-                <label for="">بيانات اﻷدمن الرئيسي</label>
-                <select class="form-control" size="7">
-                  <option>اﻷسم</option>
-                  <option>الوظيفة</option>
-                  <option>الجوال</option>
-                  <option>جوال الواتس اب</option>
-                  <option>اﻹيميل</option>
-                  <option>اسم المستخدم</option>
-                  <option>كلمة السر</option>
-                  <option>كلمة السر</option>
-                </select>
-              </div>
+              <label for="">بيانات اﻷدمن الرئيسي</label>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="اﻷسم">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="الوظيفة">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="الجوال">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="جوال الواتس اب">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="اﻹيميل">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="اسم المستخدم">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="كلمة السر">
+                </li>
+              </ul>
+              
             </div>
           </div>
         </div>
       </div>
+      
     </div>
   </div>
 </div>

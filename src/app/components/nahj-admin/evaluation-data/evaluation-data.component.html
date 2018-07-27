@@ -1,8 +1,16 @@
 <div class="row">
+	<div class="col-md-3 col-sm-3">
+    	<app-level-filter></app-level-filter>
+  	</div>
 	<div class="col-md-9 col-sm-10">
         <div class="data">
           	<div class="row">
-				<div class="col-md-4 col-xs-0"></div>
+				<div class="col-md-4 col-xs-6">
+					<div class="form-group">
+	               		<label for="schoolName">عنوان التقييم</label>
+	                	<input type="text" name="schoolName" placeholder="تقييم الوحدة اﻷولي (روضتي-المستوي الثاني-قبلي)" class="form-control" />
+	              	</div>
+				</div>
 				<div class="col-md-4 col-xs-6">
 					<div class="form-group">
 	               		<label for="schoolName">عنوان المختصر</label>
@@ -12,15 +20,62 @@
 	                	</select>
 	              	</div>
 				</div>
-				<div class="col-md-4 col-xs-6">
-					<div class="form-group">
-	               		<label for="schoolName">عنوان التقييم</label>
-	                	<input type="text" name="schoolName" placeholder="تقييم الوحدة اﻷولي (روضتي-المستوي الثاني-قبلي)" class="form-control" />
-	              	</div>
-				</div>
+				<div class="col-md-4 col-xs-0"></div>
           	</div>
           	<div class="row">
+	           
+				<div class="col-md-4">
+	              	<h4>مكونات المنهج المرتبط به التقييم</h4>
+	              	<div class="form-group">
+						<select class="form-control">
+							<option selected>وحدات المستوي اﻷول</option>
+							<option value="1">وحدات المستوي اﻷول</option>
+							<option value="2">وحدات المستوي اﻷول</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control">
+							<option selected>وحدات المستوي الثاني</option>
+							<option value="1">وحدات المستوي الثاني</option>
+							<option value="2">وحدات المستوي الثاني</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select (change)="handleChange($event)" class="form-control">
+							<option selected>وحدات المستوي الثالث</option>
+							<option value="1">وحدات المستوي الثالث</option>
+							<option value="2">وحدات المستوي الثالث</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control">
+							<option selected>وحدات المستوي الرابع</option>
+							<option value="1">وحدات المستوي الرابع</option>
+							<option value="2">وحدات المستوي الرابع</option>
+						</select>
+					</div>
+	            </div>
 	            <div class="col-md-4">
+	                <div class="mt-3">
+	                	<div class="form-group row">
+		                	<label class="col-sm-5 col-form-label" for="">الية الحساب</label>
+		                	<div class="col-sm-7">
+								<select class="form-control">
+									<option selected></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+		                	<label class="col-sm-5 col-form-label" for="">الحالة الراهنة</label>
+		                	<div class="col-sm-7">
+								<select class="form-control">
+									<option selected></option>
+								</select>
+		                	</div>
+						</div>
+	                </div>
+	            </div>
+				 <div class="col-md-4">
 	            	<h4>مجموعة اﻷسئلة</h4>
 	              	<div class="form-group">
 		                <select class="form-control" size="7">
@@ -52,63 +107,8 @@
 					    </div>
 	              	</div>
 	            </div>
-
-	            <div class="col-md-4">
-	                <div class="mt-3">
-	                	<div class="form-group row">
-		                	<div class="col-sm-7">
-								<select class="form-control">
-									<option selected></option>
-								</select>
-							</div>
-		                	<label class="col-sm-5 col-form-label" for="">الية الحساب</label>
-						</div>
-						<div class="form-group row">
-		                	<div class="col-sm-7">
-								<select class="form-control">
-									<option selected></option>
-								</select>
-		                	</div>
-		                	<label class="col-sm-5 col-form-label" for="">الحالة الراهنة</label>
-						</div>
-	                </div>
-	            </div>
-
-	            <div class="col-md-4">
-	              	<h4>مكونات المنهج المرتبط به التقييم</h4>
-	              	<div class="form-group">
-						<select class="form-control">
-							<option selected>وحدات المستوي اﻷول</option>
-							<option value="1">وحدات المستوي اﻷول</option>
-							<option value="2">وحدات المستوي اﻷول</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<select class="form-control">
-							<option selected>وحدات المستوي الثاني</option>
-							<option value="1">وحدات المستوي الثاني</option>
-							<option value="2">وحدات المستوي الثاني</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<select (change)="handleChange($event)" class="form-control">
-							<option selected>وحدات المستوي الثالث</option>
-							<option value="1">وحدات المستوي الثالث</option>
-							<option value="2">وحدات المستوي الثالث</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<select class="form-control">
-							<option selected>وحدات المستوي الرابع</option>
-							<option value="1">وحدات المستوي الرابع</option>
-							<option value="2">وحدات المستوي الرابع</option>
-						</select>
-					</div>
-	            </div>
+	            
           	</div>
         </div>
     </div>
-  	<div class="col-md-3 col-sm-3">
-    	<app-level-filter></app-level-filter>
-  	</div>
 </div>

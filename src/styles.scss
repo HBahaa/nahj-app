@@ -21,21 +21,7 @@ body{
   left: 2%;
   padding-top: 30px;
   text-align: right;
-  /*padding-bottom: 20px;*/
 }
-
-@media (max-width: 1730px) {
-  .content{
-    top: 200px;
-  }
-}
-@media (max-width: 1500px) {
-  .content{
-    top: 175px;
-  }
-}
-
-
 select[multiple], select[size]{
   font-size: 18px;
   padding: 0;
@@ -91,4 +77,35 @@ select[multiple], select[size]{
 
 label{
   font-size: 16px;
+}
+
+@media (max-width: 1730px) {
+  .content{
+    top: 200px;
+  }
+}
+@media (max-width: 1500px) {
+  .content{
+    top: 175px;
+  }
+}
+
+
+@media (max-width: 1299px) {
+  body{
+    background-image: none;
+    background-color: #beebed;
+
+    .content {
+      background-image: url("/assets/images/5.png");
+      background-color: #fff;
+      background-size: cover;
+      width: 95%;
+      top: 200px;
+      margin: 50px auto;
+      border-radius: 20px;
+      padding-top: 10px;
+      padding-bottom: 50px;
+    }
+  }
 }
