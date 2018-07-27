@@ -88,7 +88,7 @@
     top: -6em;
   }
   .title{
-    margin: -13em 0 1em 0;
+    margin: -13em 0 2em 0;
     h2{
       font-size: 1.6em
     }
@@ -96,7 +96,7 @@
 }
 @media (max-width: 1780px) and (min-width: 1550px) {
   .hexa{
-    top: -4em;
+    top: -6em;
   }
   .title{
     margin: -13em 0 2em 0;
@@ -108,7 +108,7 @@
 }
 @media (max-width: 1550px) and (min-width: 1400px) {
   .hexa{
-    top: -3.5em;
+    top: -6em;
   }
   .title{
     margin: -14em 0 2em 0;
@@ -120,7 +120,7 @@
 
 @media (max-width: 1399px){
   .hexa{
-    top: -2em;
+    top: -5em;
   }
   .title{
     margin: -14em 0 1em 0;
@@ -131,18 +131,43 @@
   }
 } 
 
-@media (max-width: 1150px) {
+@media (max-width: 991px) and (min-width: 800px) {
   .hexa{
-    top: 0em;
+    top: -2em
+  }
+  .title{
+    margin: -14em 0 1em 0;
   }
 }
-
-@media (max-width: 767px) {
+@media (max-width: 799px) and (min-width: 768px){
   .hexa{
-    top: -6em;
+    top: -1em
+  }
+  .title{
+    margin: -14em 0 1em 0;
+  }
+}
+@media (max-width: 767px) and (min-width: 700px){
+  .hexa{
+    top: -4em
+  }
+  .title{
+    margin: -14em 0 1em 0;
+  }
+}
+@media (max-width: 699px) and (min-width: 576px){
+  .hexa{
+    top: -3em
+  }
+  .title{
+    margin: -14em 0 1em 0;
+  }
+}
+@media (max-width: 575px){
+  .hexa{
+    top: -7em
   }
   .title{
     margin: -14em 0 3em 0;
   }
 }
-

@@ -73,7 +73,7 @@ ul:not(.browser-default)>li {
     }
 }
 .navbar-toggler:not(:disabled):not(.disabled){
-    margin-left: 88%;
+    /*margin-left: 88%;*/
 }
 #wrapper {
     padding-left: 0;
@@ -224,5 +224,12 @@ ul:not(.browser-default)>li {
     }
     .navbar{
         display: flex;
+        z-index: 1111;
+
+        .nav-item{
+            a{
+                text-align: right;
+            }
+        }
     }
 }

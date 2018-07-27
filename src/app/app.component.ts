@@ -26,11 +26,12 @@ export class AppComponent {
 			if (!isLoggedIn) {
 				this.router.navigate(['/login']);
 			}
-			// else{
-			// 	this.authService.userType.subscribe(type=>{
-			// 		this.type = type;
-			// 	})
-			// }
+			else{
+				this.authService.userType.subscribe(type=>{
+					console.log("type", type)
+					this.type = type;
+				})
+			}
 		})
 	}
 
