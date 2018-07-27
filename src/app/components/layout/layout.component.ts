@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment-hijri';
 import 'moment/locale/ar-sa';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -12,11 +13,14 @@ export class LayoutComponent implements OnInit {
 
 	@Input() userType;
 
-	constructor() {
+	constructor( private authService: AuthService ) {
 		let m = moment();
 		this.date = m.format('dddd Do MMMM YYYY - iDo iMMMM iYYYY ');
 	}
 
 	ngOnInit() {
+	}
+	logout(){
+		this.authService.logout();
 	}
 }

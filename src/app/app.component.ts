@@ -14,7 +14,7 @@ export class AppComponent {
 
 	title = 'app';
 	isLoggedIn$: Observable<boolean>;
-	type: any;
+	type
 
 	constructor(private router: Router, private authService: AuthService){
 		
@@ -23,15 +23,14 @@ export class AppComponent {
 	ngOnInit() {
 		this.isLoggedIn$ = this.authService.isLoggedIn;
 		this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
-			this.type = 1;
-
 			if (!isLoggedIn) {
 				this.router.navigate(['/login']);
-			}else if (this.type == 1) {
-				this.router.navigate(['/']);
-			}else if (this.type == 2) {
-				this.router.navigate(['/teacher/profile']);
 			}
+			// else{
+			// 	this.authService.userType.subscribe(type=>{
+			// 		this.type = type;
+			// 	})
+			// }
 		})
 	}
 

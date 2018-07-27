@@ -4,10 +4,15 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class AuthService {
-  private loggedIn = new BehaviorSubject<boolean>(true);
+  private loggedIn = new BehaviorSubject<boolean>(false);
+  private type = new BehaviorSubject<number>(0);
+
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
+  }
+  get userType() {
+    return this.type.asObservable();
   }
 
   constructor(
@@ -17,7 +22,16 @@ export class AuthService {
   login(user){
     if (user.userName !== '' && user.password !== '' ) {
       this.loggedIn.next(true);
-      this.router.navigate(['/']);
+      // this.router.navigate(['/']);
+
+      if (user.userName == 'admin') {
+        this.router.navigate(['/']);
+        this.type.next(1);
+      }
+      else if (user.userName == 'teacher') {
+        this.router.navigate(['/teacher/profile']);
+        this.type.next(2);
+      }
     }
   }
 

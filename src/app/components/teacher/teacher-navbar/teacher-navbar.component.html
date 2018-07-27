@@ -1,4 +1,4 @@
-<div class="fixed-action-btn">
+<!-- <div class="fixed-action-btn">
   <a class="btn-floating bg-danger">
     <i id="menu" class="fa fa-bars fa-2x"></i>
   </a>
@@ -24,7 +24,43 @@
       </a>
     </li>
   </ul>
-</div>
+</div> -->
+
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <img style="border-radius: 50%; width: 60; height: 60px;" src="http://via.placeholder.com/80x80" alt=""> heba <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a (click)="logout()" >خروج</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/teacher/evaluation-data">بيانات التقييم <i class="fa fa-book"></i></a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/teacher/evaluations">تعريف التقييمات <i class="fa fa-star-half-o"></i></a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/teacher/students">الصلاب <i class="fa fa-users"></i></a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" routerLink="/teacher/profile">البيانات الشخصية <i class="fa fa-edit"></i></a>
+      </li>
+    </ul>    
+  </div>
+</nav>
+
+
 
 <div id="sidebar-wrapper">
   <div class="user-img">
