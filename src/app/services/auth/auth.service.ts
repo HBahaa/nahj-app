@@ -4,8 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class AuthService {
-  private loggedIn = new BehaviorSubject<boolean>(false);
-  private type = new BehaviorSubject<number>(0);
+  private loggedIn = new BehaviorSubject<boolean>(true);
+  private type = new BehaviorSubject<number>(1);
 
 
   get isLoggedIn() {
