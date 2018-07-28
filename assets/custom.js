@@ -4,4 +4,7 @@ $(function () {
 	  e.preventDefault();
 	  $("#sidebar-wrapper").toggleClass("toggled");
 	});
+	$(".dropdown-menu a").click(function() {
+	    $(this).closest(".dropdown-menu").prev().dropdown("toggle");
+	});
 })
