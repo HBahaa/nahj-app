@@ -28,7 +28,6 @@ export class AppComponent {
 			}
 			else{
 				this.authService.userType.subscribe(type=>{
-					console.log("type", type)
 					this.type = type;
 				})
 			}

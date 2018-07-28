@@ -64,6 +64,10 @@ ul:not(.browser-default)>li {
     .dropdown{
         a.dropdown-toggle{
             color: #fff;
+            img{
+                border-radius: 50%;
+                width: 60; height: 60px;
+            }
         }
     }
     .dropdown-menu.show{
@@ -72,9 +76,7 @@ ul:not(.browser-default)>li {
         padding-right: 20px;
     }
 }
-.navbar-toggler:not(:disabled):not(.disabled){
-    /*margin-left: 88%;*/
-}
+
 #wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
@@ -191,6 +193,8 @@ ul:not(.browser-default)>li {
 }
 .user-img img{
     border-radius: 50%;
+    width: 80;
+    height: 80px;
 }
 @media (min-width: 1800px) {
     .user-img p{
