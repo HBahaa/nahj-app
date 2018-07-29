@@ -24,7 +24,7 @@ export class AppComponent {
 		this.isLoggedIn$ = this.authService.isLoggedIn;
 		// this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
 		// 	if (!isLoggedIn) {
-				this.router.navigate(['/evaluations']);
+				this.router.navigate(['/login']);
 			// }
 			// else{
 				this.authService.userType.subscribe(type=>{
