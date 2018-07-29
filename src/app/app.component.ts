@@ -22,16 +22,16 @@ export class AppComponent {
 
 	ngOnInit() {
 		this.isLoggedIn$ = this.authService.isLoggedIn;
-		this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
-			if (!isLoggedIn) {
-				this.router.navigate(['/login']);
-			}
-			else{
+		// this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
+		// 	if (!isLoggedIn) {
+				this.router.navigate(['/evaluations']);
+			// }
+			// else{
 				this.authService.userType.subscribe(type=>{
-					this.type = type;
+					this.type = 1;
 				})
-			}
-		})
+		// 	}
+		// })
 	}
 
 }
