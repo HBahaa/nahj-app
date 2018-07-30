@@ -35,8 +35,7 @@ export class StudentsComponent implements OnInit {
 	handleChanges(){
 	}
 
-	changeImage(e){
-		console.log("hahahha", e)
+	changeImage(){
 		// $('#img').attr('src', e);
 	}
 }
