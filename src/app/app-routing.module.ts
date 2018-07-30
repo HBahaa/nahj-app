@@ -14,7 +14,7 @@ import { TeacherEvaluationDataComponent } from './pages/teacher/teacher-evaluati
 import { TeacherEvaluationsComponent } from './pages/teacher/teacher-evaluations/teacher-evaluations.component';
 
 const routes: Routes = [
-	{path: 'login', redirectTo: ''},
+	{path: 'login', component: LoginComponent},
 	{path: 'entities', component: EntitiesComponent},
 	{path: 'data', component: DataComponent},
 	{path: 'levels', component: LevelsComponent},

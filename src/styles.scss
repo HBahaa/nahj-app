@@ -91,12 +91,30 @@ label{
 }
 
 
-@media (max-width: 1299px) {
+@media (max-width: 1500px) and (min-width: 1300px) {
   body{
     background-image: none;
     background-color: #beebed;
 
     .content {
+      background-image: url("/assets/images/5.png");
+      background-color: #fff;
+      background-size: cover;
+      width: 95%;
+      top: 250px;
+      margin: 50px auto;
+      border-radius: 20px;
+      padding-top: 10px;
+      padding-bottom: 50px;
+    }
+  }
+}
+@media (max-width: 1299px){
+  body{
+    background-image: none;
+    background-color: #beebed;
+
+    .content{
       background-image: url("/assets/images/5.png");
       background-color: #fff;
       background-size: cover;
