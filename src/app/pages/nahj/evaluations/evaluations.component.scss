@@ -4,13 +4,14 @@
 	font-size: 1.5em;
 	padding-right: 0px;
 	
-	li{
+	.nav-item{
 		float: right;
 
-		a{
+		.nav-link{
 			color: #aaa;
+			border-color: transparent;
 		}
-		a:hover, a:focus{
+		.nav-link:hover, .nav-link:focus, .nav-link.active{
 			background-color: transparent;
 			border-color: transparent;
 			color: #222;
@@ -23,11 +24,4 @@
 			color: #222;
 		}
 	}
-}
-h3, h4{
-	margin-bottom: 10px;
-	margin-top: 10px;
-}
-h3{
-	font-size: 1.4em;
 }

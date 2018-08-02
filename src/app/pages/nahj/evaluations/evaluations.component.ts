@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class EvaluationsComponent implements OnInit {
 
 	@Input() options = ["تقييم ثلاثي (ممتاز)", "تقييم خماسي (ممتاز)", "تقييم وصفي"]	
-
+	@Input() values = ["ضعيف", "مقبول", "جيد"]
 	constructor() { }
 
 	ngOnInit() {

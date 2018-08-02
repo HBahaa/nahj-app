@@ -1,203 +1,210 @@
 <div class="content">
   <div class="container-fluid">
-    <div class="row">
+    <div class="row mb-2 mt-3">
       <div class="col-md-12 text-right">
         <h4>فلتر تقسيمات المدارس</h4>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3">
-        <app-school-filter [title]="title"></app-school-filter>
+      <div class="col-md-3 col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <app-school-filter [title]="title"></app-school-filter>
+          </div>
+        </div>
       </div>
-      <div class="col-md-9">
-        <div class="data">
-          <div class="row">
-          <div class="col-md-4">
-              <div class="form-group">
-                <label for="schoolName">اسم المدرسة</label>
-                <input type="text" name="schoolName" class="form-control" />
-              </div>
-              <div class="form-group">
-                <label for="companyName">الشركة اﻷم</label>
-                <input type="text" name="companyName" class="form-control" />
-              </div>
-
-              <h4>الموقع في التقسيم الشجري</h4>
-              <div class="form-group">
-                <select class="form-control">
-                  <option selected>المدارس اﻷهلية</option>
-                  <option value="1">المدارس اﻷهلية</option>
-                  <option value="2">المدارس اﻷهلية</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <select class="form-control">
-                  <option selected>منطقة الرياض</option>
-                  <option value="1">منطقة الرياض</option>
-                  <option value="2">منطقة الرياض</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <select class="form-control">
-                  <option selected>المدارس المشتركة بالفعل</option>
-                  <option value="1">المدارس المشتركة بالفعل</option>
-                  <option value="2">المدارس المشتركة بالفعل</option>
-                </select>
-              </div>
-
-              <h4>الموقع في التقسيم الشجري</h4>
-              <div>
-                <label for="">المدارس</label>
-                <ul class="list-group">
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="الموفع اﻹلكتروني">
-                  </li>
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="العنوان">
-                  </li>
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="GPS الموقع">
-                  </li>
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="التلفون">
-                  </li>
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="الفاكس">
-                  </li>
-                </ul>
-              </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="schoolName">اسم المدرسة</label>
+              <input type="text" name="schoolName" class="form-control" />
             </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="">بيانات المدرسة</label>
-                <select class="form-control">
-                  <option selected>المنطقة</option>
-                  <option></option>
-                </select>
-              </div>
-              <div class="form-group">
-                <select class="form-control">
-                  <option selected>المدينة</option>
-                  <option></option>
-                </select>
-              </div>
-              
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="الحي">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="إجمالي عدد الطلاب">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="عدد الفصول الدراسية">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="السنة الدرااسية اﻷدني">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="السنة الدرااسية اﻷعلي">
-                </li>
-              </ul>
-
-              <label for="">بيانات المسئول</label>
-              <ul class="list-group">
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="اﻷسم">
-                  </li>
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="الوظيفة">
-                  </li>
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="الجوال">
-                  </li>
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="جوال الواتس اب">
-                  </li>
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="اﻹيميل">
-                  </li>
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="اسم المستخدم">
-                  </li>
-                  <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="كلمة السر">
-                  </li>
-                </ul>
+            <div class="form-group">
+              <label for="companyName">الشركة اﻷم</label>
+              <input type="text" name="companyName" class="form-control" />
             </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="">الفصل الدراسي</label>
-                <select class="form-control">
-                  <option selected>اﻷول 2018 / 2019</option>
-                  <option></option>
-                </select>
-              </div>
-              <label>بيانات الرخصة</label>
+            <div class="form-group">
+              <label for="">الفصل الدراسي</label>
+              <select class="form-control">
+                <option selected>اﻷول 2018 / 2019</option>
+                <option></option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="">بيانات المدرسة</label>
+              <select class="form-control">
+                <option selected>المنطقة</option>
+                <option></option>
+              </select>
+            </div>
+            <div class="form-group">
+              <select class="form-control">
+                <option selected>المدينة</option>
+                <option></option>
+              </select>
+            </div>
+            
+            <ul class="list-group">
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="الحي">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="إجمالي عدد الطلاب">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="عدد الفصول الدراسية">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="السنة الدرااسية اﻷدني">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="السنة الدرااسية اﻷعلي">
+              </li>
+            </ul>
+                    
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card">
+          <div class="card-body">
+          <h5>الموقع في التقسيم الشجري</h5>
+            <div class="form-group">
+              <select class="form-control">
+                <option selected>المدارس اﻷهلية</option>
+                <option value="1">المدارس اﻷهلية</option>
+                <option value="2">المدارس اﻷهلية</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <select class="form-control">
+                <option selected>منطقة الرياض</option>
+                <option value="1">منطقة الرياض</option>
+                <option value="2">منطقة الرياض</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <select class="form-control">
+                <option selected>المدارس المشتركة بالفعل</option>
+                <option value="1">المدارس المشتركة بالفعل</option>
+                <option value="2">المدارس المشتركة بالفعل</option>
+              </select>
+            </div>   
+            <!-- <h5>الموقع في التقسيم الشجري</h5> -->
+            <div>
+              <label for="">المدارس</label>
               <ul class="list-group">
                 <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="عدد الطلاب">
+                  <input type="text" class="form-control" placeholder="الموفع اﻹلكتروني">
                 </li>
                 <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="عدد الفصول">
+                  <input type="text" class="form-control" placeholder="العنوان">
                 </li>
                 <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="عدد المدرسات/ المشرفات">
+                  <input type="text" class="form-control" placeholder="GPS الموقع">
                 </li>
                 <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="عدد اﻷدمن">
+                  <input type="text" class="form-control" placeholder="التلفون">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="الفاكس">
                 </li>
               </ul>
+            </div>
 
-              <div class="form-group">
-                <label>المحتوي المرخص</label>
-                <ul class="content-list">
-                  <li>
-                    مواد الواقع المعزز
-                      <ul>
-                        <li>
-                          الوحدة الثالثة (أسرتي)
+            <label for="">بيانات المسئول</label>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="اﻷسم">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="الوظيفة">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="الجوال">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="جوال الواتس اب">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="اﻹيميل">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="اسم المستخدم">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="كلمة السر">
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card">
+          <div class="card-body">            
+            
+            <label>بيانات الرخصة</label>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="عدد الطلاب">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="عدد الفصول">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="عدد المدرسات/ المشرفات">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="عدد اﻷدمن">
+              </li>
+            </ul>
+            <label for="">بيانات اﻷدمن الرئيسي</label>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="اﻷسم">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="الوظيفة">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="الجوال">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="جوال الواتس اب">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="اﻹيميل">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="اسم المستخدم">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="كلمة السر">
+              </li>
+            </ul>
+            <div class="form-group">
+              <label>المحتوي المرخص</label>
+              <ul class="content-list">
+                <li>
+                  مواد الواقع المعزز
+                    <ul>
+                      <li>
+                        الوحدة الثالثة (أسرتي)
 
-                          <ul>
-                            <li>
-                              قصة أعرف عنواني
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                  </li>
-                </ul>
-              </div>
-              <label for="">بيانات اﻷدمن الرئيسي</label>
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="اﻷسم">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="الوظيفة">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="الجوال">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="جوال الواتس اب">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="اﻹيميل">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="اسم المستخدم">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="كلمة السر">
+                        <ul>
+                          <li>
+                            قصة أعرف عنواني
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
                 </li>
               </ul>
-              
             </div>
           </div>
         </div>
       </div>
-      
     </div>
   </div>
 </div>

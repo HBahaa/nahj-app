@@ -1,44 +1,40 @@
 $color : #0eb6e2;
 
-.data{
-	border: 1px solid $color;
-	height: auto;
-	padding: 10px;
+.card{
+  	margin: 0 auto;
+	border: 4px solid #cad6d7;
+	background-color: #eaefee;
+	box-shadow: 0px 60px 100px -50px #333;
+	-moz-box-shadow: 0px 60px 100px -50px #333;
+	-webkit-box-shadow: 0px 60px 100px -50px #333;
+	border-radius: 20px;
+	transition: transform .2s;
+	margin-bottom: 50px;
+	min-height: 550px;
+	max-height: 550px;
 
-	select[size]{
-		background: #fafafa;
-	}
-	.form-check{
-		line-height: 3em;
+    .card-body{
+      	text-align: right;
+      	margin: 1.5em 0;
 
-		.form-check-input{
-			margin-left: 10px;
+      	select[size]{
+			background: #fafafa;
 		}
-	}
-	.custom-checkbox{
-		.custom-control-label::before,.custom-control-label::after{
-			right: 0rem;
-	    	left: 0;
+		.form-check{
+			line-height: 3em;
+
+			.form-check-input{
+				margin-left: 10px;
+			}
 		}
-	}
-	.custom-control-label{
-		padding-right: 2em;
-	}
-
-	h4{
-		margin-bottom: 30px;
-	}
-}
-
-.input-group{
-	margin-bottom: 20px;
-	width: 100%;
-}
-.btns{
-	.btn{
-		margin-right: 10px;
-	}
-}
-.mt-6{
-	margin-top: 5.5rem;
+		.custom-checkbox{
+			.custom-control-label::before,.custom-control-label::after{
+				right: -1.5rem;
+		    	left: 0;
+			}
+		}
+		.custom-control-label{
+			right: 1.5rem;
+		}
+    }
 }

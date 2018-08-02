@@ -1,57 +1,71 @@
 $color : #0eb6e2;
-.data{
-	border: 1px solid $color;
-	height: auto;
-	padding: 10px;
+.card{
+  	margin: 0 auto;
+	border: 4px solid #cad6d7;
+	background-color: #eaefee;
+	box-shadow: 0px 60px 100px -50px #333;
+	-moz-box-shadow: 0px 60px 100px -50px #333;
+	-webkit-box-shadow: 0px 60px 100px -50px #333;
+	border-radius: 20px;
+	transition: transform .2s;
+	margin-bottom: 50px;
+	min-height: 600px;
+	max-height: 600px;
 
-	select[size]{
-		background: #fafafa;
-	}
+    .card-body{
+      	text-align: right;
+      	margin: 1.5em 0;
+      	
+		select[size]{
+			background: #fafafa;
+		}
 
-	.list-group{
-		padding-right: 0px;
-		overflow-y: scroll;
-		max-height: 170px;
-		background: #fafafa;
-		font-size: 16px;
-		border: 1px solid $color;
-		margin-bottom: 0px;
-
-		.list-group-item{
-			padding: 0px;
-			/*border: 0px;*/
+		.list-group{
+			padding-right: 0px;
+			overflow-y: scroll;
+			max-height: 120px;
+			background: #fafafa;
+			font-size: 16px;
+			border: 1px solid $color;
 			margin-bottom: 0px;
-			background: transparent;
 
-			input{
-				border: 0px;
-				border-radius: 0;
-				height: 32px;
-				margin-bottom: 2px;
+			.list-group-item{
+				padding: 0px;
+				/*border: 0px;*/
+				margin-bottom: 0px;
 				background: transparent;
+
+				input{
+					border: 0px;
+					border-radius: 0;
+					height: 32px;
+					margin-bottom: 2px;
+					background: transparent;
+				}
 			}
 		}
-	}
-	.content-list{
-		padding: 10px;
-		overflow-y: scroll;
-		max-height: 180px;
-		background: #fafafa;
-		font-size: 14px;
-		border: 1px solid $color;
+		.content-list{
+			padding: 10px;
+			overflow-y: scroll;
+			max-height: 180px;
+			background: #fafafa;
+			font-size: 14px;
+			border: 1px solid $color;
 
-		ul{
-			margin-top: 5px;
-			margin-top: 5px;
+			ul{
+				margin-top: 5px;
+				margin-top: 5px;
+			}
 		}
-	}
-	.content-list::-webkit-scrollbar, .list-group::-webkit-scrollbar {
-		width: 0.5em;
-		border-right: 1px solid $color;
-		background: white;
-	}
-	.content-list::-webkit-scrollbar-thumb, .list-group::-webkit-scrollbar-thumb {
-		background-color: $color;
-		outline: 1px solid $color;
-	}
+		.content-list::-webkit-scrollbar, .list-group::-webkit-scrollbar {
+			width: 0.5em;
+			border-right: 1px solid $color;
+			background: white;
+		}
+		.content-list::-webkit-scrollbar-thumb, .list-group::-webkit-scrollbar-thumb {
+			background-color: $color;
+			outline: 1px solid $color;
+		}
+    }
 }
+

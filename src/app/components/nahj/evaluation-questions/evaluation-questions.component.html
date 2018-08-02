@@ -1,101 +1,81 @@
-<div class="row">
-	<div class="col-md-3">
+<form class="row">
+	<div class="col-md-4 col-xs-6">
     	<app-level-filter></app-level-filter>
   	</div>
-	<div class="col-md-9">
-        <div class="data">
-          	<div class="row">
-          		<div class="col-md-4">
-					<div class="form-group mb-3">
-	               		<label>المجموعىة الفرعية</label>
-	                	<select class="form-control">
-		                	<option selected>المهارات القيمية</option>
-		                	<option></option>
-	                	</select>
-	              	</div>
-					<div class="form-group">
-						<label>اﻷسئلة</label>
-		                <select class="form-control" size="5">
-		                  	<option>يلقي تحي اﻹسلام عند الدخول</option>
-		                	<option>يذكر أن الله ربه</option>
-		                  	<option>يذكر أن القراُن الكريم كتابه</option>
-		                  	<option>يقل (بسم الله الرحمن الرحيم) قبل اﻷكل</option>
-		                  	<option>يقول الحمدلله بعد اﻷكل</option>
-		                  	<option></option>
-		                </select>
-	              	</div>
+  	<div class="col-md-4 col-xs-6">
+		<div class="card">
+			<div class="card-body">
+				<div class="form-group">
+		       		<label>المجموعىة الفرعية</label>
+		        	<select class="form-control">
+		            	<option selected>المهارات القيمية</option>
+		            	<option></option>
+		        	</select>
+		      	</div>
+		      	<div class="form-group">
+               		<label>السؤال</label>
+                	<input type="text" placeholder="يلقي تحي اﻹسلام عند الدخول" class="form-control" />
+              	</div>
+				<div class="form-group">
+					<label>اﻷسئلة</label>
+		            <select class="form-control" size="5">
+		              	<option>يلقي تحي اﻹسلام عند الدخول</option>
+		            	<option>يذكر أن الله ربه</option>
+		              	<option>يذكر أن القراُن الكريم كتابه</option>
+		              	<option>يقل (بسم الله الرحمن الرحيم) قبل اﻷكل</option>
+		              	<option>يقول الحمدلله بعد اﻷكل</option>
+		              	<option></option>
+		            </select>
+		      	</div>
 
-				</div>
-				<div class="col-md-4">
-					<div class="form-group mb-3">
-	               		<label>السؤال</label>
-	                	<input type="text" placeholder="يلقي تحي اﻹسلام عند الدخول" class="form-control" />
-	              	</div>
-	              	<h5>طريقة التقييم</h5>
-	              	<div class="form-group row">
-					    <div class="col-md-6">
-					    	<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" id="check1">
-								<label class="custom-control-label" for="check1">نسبة مئوية</label>
-							</div>
-					    </div>
-					    <div class="col-md-6">
-					    	<div class="form-group">
-			                	<select class="form-control">
-				                	<option selected>خيارات متعددة</option>
-				                	<option></option>
-			                	</select>
-			              	</div>
-					    </div>
-
-					</div>
-					<div class="form-group">
-					    <label for="details">التفاصيل</label>
-					    <textarea class="form-control" id="details" rows="4"></textarea>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="mt-6">
-						<h5>اﻷوزان النسبية من كامل المجموعة</h5>
-						<div class="form-group row">
-
-						    <div class="col-md-6">
-						    	<div class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input" id="check2">
-									<label class="custom-control-label" for="check2">اوزان متساوية</label>
-								</div>
-						    </div>
-						    <div class="col-md-6">
-						    	<div class="form-group">
-				                	<select class="form-control">
-					                	<option selected>الوزن النسبي</option>
-					                	<option></option>
-				                	</select>
-				              	</div>
-						    </div>
+			</div>
+		</div>
+  	</div>
+  	<div class="col-md-4 col-xs-6">
+  		<div class="card">
+  			<div class="card-body">
+  				<div class="form-group row">
+				    <div class="col-md-6">
+				    	<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="check1">
+							<label class="custom-control-label" for="check1">نسبة مئوية</label>
 						</div>
-						<div class="form-group">
-						    <label for="details">توصيات التحسين</label>
-						    <textarea class="form-control" id="details" rows="4"></textarea>
-						</div>
-					</div>
-
-				</div>
-				
-				<div class="col-md-12">
-					<div class="btns text-left">
-				    	<button class="btn btn-primary" type="button">
-				        	<i class="fa fa-plus"></i>
-					    </button>
-					    <button class="btn btn-success" type="button">
-				        	<i class="fa fa-edit"></i>
-					    </button>
-				    	<button class="btn btn-danger" type="button">
-					        <i class="fa fa-close"></i>
-					    </button>
+				    </div>
+				    <div class="col-md-6">
+				    	<div class="form-group">
+		                	<select class="form-control">
+			                	<option selected>خيارات متعددة</option>
+			                	<option></option>
+		                	</select>
+		              	</div>
 				    </div>
 				</div>
-          	</div>         	
-        </div>
-    </div>
-</div>
+				<div class="form-group row">
+				    <div class="col-md-6">
+				    	<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="check2">
+							<label class="custom-control-label" for="check2">اوزان متساوية</label>
+						</div>
+				    </div>
+				    <div class="col-md-6">
+				    	<div class="form-group">
+		                	<select class="form-control">
+			                	<option selected>الوزن النسبي</option>
+			                	<option></option>
+		                	</select>
+		              	</div>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <label for="details">التفاصيل</label>
+				    <textarea class="form-control" id="details" rows="4"></textarea>
+				</div>
+  				<div class="form-group">
+				    <label for="details">توصيات التحسين</label>
+				    <textarea class="form-control" id="details" rows="4"></textarea>
+				</div>
+
+  			</div>
+  		</div>
+  	</div>
+</form>

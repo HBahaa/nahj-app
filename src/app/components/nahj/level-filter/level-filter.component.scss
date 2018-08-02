@@ -14,10 +14,11 @@ select[size]#result{
 	border-radius: 20px;
 	transition: transform .2s;
 	margin-bottom: 50px;
-	min-height: 500px;
-	max-height: 500px;
+	min-height: 550px;
+	max-height: 550px;
 
     .card-body{
       	text-align: right;
+      	margin: 1.5em 0;
     }
 }
