@@ -32,6 +32,10 @@ export class AuthService {
         this.type.next(2);
         this.router.navigate(['/teacher/profile']);
       }
+      else if (user.userName == 'school') {
+        this.type.next(3);
+        this.router.navigate(['/school/data']);
+      }
     }
   }
 

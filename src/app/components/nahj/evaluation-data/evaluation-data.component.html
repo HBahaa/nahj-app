@@ -1,0 +1,105 @@
+<form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+	<div class="col-md-3 col-sm-6">
+    	<app-level-filter></app-level-filter>
+  	</div>
+	<div class="col-md-3 col-sm-6">
+    	<div class="card">
+    		<div class="card-body">
+              	<h4>مكونات المنهج المرتبط به التقييم</h4>
+              	<div class="form-group">
+					<select class="form-control" formControlName="level1">
+						<option value="1">وحدات المستوي اﻷول</option>
+						<option value="2">وحدات المستوي اﻷول</option>
+						<option value="3">وحدات المستوي اﻷول</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select class="form-control" formControlName="level2">
+						<option value="1">وحدات المستوي الثاني</option>
+						<option value="2">وحدات المستوي الثاني</option>
+						<option value="3">وحدات المستوي الثاني</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select class="form-control" formControlName="level3">
+						<option value="1">وحدات المستوي الثالث</option>
+						<option value="2">وحدات المستوي الثالث</option>
+						<option value="3">وحدات المستوي الثالث</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select class="form-control" formControlName="level4">
+						<option value="1">وحدات المستوي الرابع</option>
+						<option value="2">وحدات المستوي الرابع</option>
+						<option value="3">وحدات المستوي الرابع</option>
+					</select>
+				</div>
+            </div>
+    	</div>
+  	</div>
+  	<div class="col-md-3 col-sm-6">
+    	<div class="card">
+    		<div class="card-body">
+              	<div class="form-group">
+               		<label for="schoolName">عنوان التقييم</label>
+                	<input type="text" name="schoolName" placeholder="تقييم الوحدة اﻷولي (روضتي-المستوي الثاني-قبلي)" class="form-control" />
+              	</div>
+              	<div class="form-group">
+               		<label for="schoolName">عنوان المختصر</label>
+                	<select class="form-control">
+	                	<option selected>تقييم وحدة روضتي 1</option>
+	                	<option></option>
+                	</select>
+              	</div>
+              	<div class="form-group">
+                	<label for="">الية الحساب</label>
+					<select class="form-control">
+						<option selected></option>
+					</select>
+				</div>
+				<div class="form-group">
+                	<label for="">الحالة الراهنة</label>
+					<select class="form-control">
+						<option selected></option>
+					</select>
+				</div>
+            </div>
+    	</div>
+  	</div>
+  	<div class="col-md-3 col-sm-6">
+  		<div class="card">
+    		<div class="card-body">
+              	<h4>مجموعة اﻷسئلة</h4>
+              	<div class="form-group">
+	                <select class="form-control" size="7">
+	                	<option>قصة اعرف عنواني</option>
+	                  	<option>قصة من أنا</option>
+	                  	<option selected>قصة اغسل ملابسي</option>
+	                </select>
+              	</div>
+
+              	<div dir="ltr">
+              		<div class="input-group">
+				    	<input type="text" class="form-control text-right" [disabled]="show" placeholder="قصة اغسل ملابسي">
+				    </div>
+				    <div class="input-group">
+				        <span class="input-group-btn">
+					        <button [ngClass]="show ? 'btn-primary' : ' btn-info' " class="btn" (click)="handleChange($event)" type="button">
+					        	<i [ngClass]="show ? ' fa-edit' : '  fa-save' "  class="fa"></i>
+					        </button>
+				      	</span>
+				      	<input type="text" class="form-control text-right" [disabled]="show" placeholder="الوزن النسبي">
+				    </div>
+				    <div class="btns">
+				    	<button class="btn btn-danger" type="button">
+					        <i class="fa fa-close"></i>
+					    </button>
+				    	<button class="btn btn-success" type="button">
+				        	<i class="fa fa-plus"></i>
+					    </button>
+				    </div>
+              	</div>
+            </div>
+    	</div>
+  	</div>
+</form>

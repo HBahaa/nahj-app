@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <ul class="navbar-nav mr-auto">
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <img style="border-radius: 50%; width: 60; height: 60px;" src="./assets/images/profile.png" alt=""> heba <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a (click)="logout()" >خروج</a></li>
+      </ul>
+    </li>
+  </ul>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/school/children">اﻷطفال<i class="fa fa-users"></i></a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/school/parents">أولياء اﻷمور <i class="fa fa-users"></i></a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/school/teachers">المدرسات <i class="fa fa-star-half-o"></i></a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" routerLink="/school/data">بيانات المدرسة <i class="fa fa-book"></i></a>
+      </li>
+    </ul>    
+  </div>
+</nav>
+
+
+
+<div id="sidebar-wrapper">
+  <div class="user-img">
+    <img src="./assets/images/profile.png" />
+    <p>طارق ابوسيف</p>
+  </div>
+
+  <ul class="sidebar-nav">
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+      <a routerLink="/school/data">
+        <i class="fa fa-edit fa-2x"></i>
+        بيانات المدرسة
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/school/teachers">
+        <i class="fa fa-users fa-2x"></i>
+        المدرسات
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/school/parents">
+        <i class="fa fa-star-half-o fa-2x"></i>
+        أولياء اﻷمور
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/school/children">
+        <i class="fa fa-users fa-2x"></i>
+        اﻷطفال
+      </a>
+    </li>
+  </ul>
+</div>

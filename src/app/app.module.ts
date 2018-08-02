@@ -14,21 +14,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 /************* Najh Admin *************/
-import { DataComponent } from './pages/nahj-admin/data/data.component';
-import { LevelsComponent } from './pages/nahj-admin/levels/levels.component';
-import { HomeComponent } from './pages/nahj-admin/home/home.component';
-import { EntitiesComponent } from './pages/nahj-admin/entities/entities.component';
-import { EvaluationsComponent } from './pages/nahj-admin/evaluations/evaluations.component';
+import { DataComponent } from './pages/nahj/data/data.component';
+import { LevelsComponent } from './pages/nahj/levels/levels.component';
+import { HomeComponent } from './pages/nahj/home/home.component';
+import { EntitiesComponent } from './pages/nahj/entities/entities.component';
+import { EvaluationsComponent } from './pages/nahj/evaluations/evaluations.component';
 import { LoginComponent } from './pages/login/login.component';
 
-import { EvaluationDataComponent } from './components/nahj-admin/evaluation-data/evaluation-data.component';
-import { EvaluationOptionsComponent } from './components/nahj-admin/evaluation-options/evaluation-options.component';
-import { EvaluationQuestionsComponent } from './components/nahj-admin/evaluation-questions/evaluation-questions.component';
-import { NavbarComponent } from './components/nahj-admin/navbar/navbar.component';
-import { LevelCardComponent } from './components/nahj-admin/level-card/level-card.component';
-import { LevelFilterComponent } from './components/nahj-admin/level-filter/level-filter.component';
-import { SchoolFilterComponent } from './components/nahj-admin/school-filter/school-filter.component';
-import { CardComponent } from './components/nahj-admin/card/card.component';
+import { EvaluationDataComponent } from './components/nahj/evaluation-data/evaluation-data.component';
+import { EvaluationOptionsComponent } from './components/nahj/evaluation-options/evaluation-options.component';
+import { EvaluationQuestionsComponent } from './components/nahj/evaluation-questions/evaluation-questions.component';
+import { NavbarComponent } from './components/nahj/navbar/navbar.component';
+import { LevelCardComponent } from './components/nahj/level-card/level-card.component';
+import { LevelFilterComponent } from './components/nahj/level-filter/level-filter.component';
+import { SchoolFilterComponent } from './components/nahj/school-filter/school-filter.component';
+import { CardComponent } from './components/nahj/card/card.component';
 import { LayoutComponent } from './components/layout/layout.component';
 
 /*************** servicers ****************/
@@ -39,8 +39,14 @@ import { StudentsComponent } from './pages/teacher/students/students.component';
 import { TeacherEvaluationDataComponent } from './pages/teacher/teacher-evaluation-data/teacher-evaluation-data.component';
 import { TeacherEvaluationsComponent } from './pages/teacher/teacher-evaluations/teacher-evaluations.component';
 import { ClassFilterComponent } from './components/teacher/class-filter/class-filter.component';
-import { Card2Component } from './components/nahj-admin/card2/card2.component';
-
+import { Card2Component } from './components/nahj/card2/card2.component';
+import { TeachersComponent } from './pages/school/teachers/teachers.component';
+import { ParentsComponent } from './pages/school/parents/parents.component';
+import { SchoolDataComponent } from './pages/school/school-data/school-data.component';
+import { ChildernComponent } from './pages/school/childern/childern.component';
+import { SchoolNavbarComponent } from './components/school/school-navbar/school-navbar.component';
+import { CardListComponent } from './components/card-list/card-list.component';
+import { LevelCardListComponent } from './components/nahj/level-card-list/level-card-list.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +72,14 @@ import { Card2Component } from './components/nahj-admin/card2/card2.component';
     TeacherEvaluationDataComponent,
     TeacherEvaluationsComponent,
     ClassFilterComponent,
-    Card2Component
+    Card2Component,
+    TeachersComponent,
+    ParentsComponent,
+    SchoolDataComponent,
+    ChildernComponent,
+    SchoolNavbarComponent,
+    CardListComponent,
+    LevelCardListComponent
   ],
   imports: [
     BrowserModule,

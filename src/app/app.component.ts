@@ -24,11 +24,11 @@ export class AppComponent {
 		this.isLoggedIn$ = this.authService.isLoggedIn;
 		// this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
 		// 	if (!isLoggedIn) {
-				this.router.navigate(['/teacher/profile']);
+				this.router.navigate(['/entities']);
 			// }
 			// else{
 				this.authService.userType.subscribe(type=>{
-					this.type = 2;
+					this.type = 1;
 				})
 		// 	}
 		// })
