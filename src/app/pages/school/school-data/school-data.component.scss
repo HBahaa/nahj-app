@@ -13,7 +13,7 @@ $color : #0eb6e2;
 			position: relative;
 			top: 50px;
 			margin-bottom: 50px;
-			min-height: 613px;
+			min-height: 560px;
 
 			.card-img{
 				width: 70%;
@@ -25,12 +25,22 @@ $color : #0eb6e2;
 		      	text-align: right;
 		      	margin-top: -30px;
 
+		      	#school-data{
+		      		.form-group{
+		      			margin-bottom: 0.5rem;
+		      		}
+		      	}
 		      	.data{
 		      		.form-group{
 		      			margin-bottom: 0.2rem;
 		      			input{
 			      			line-height: 1;
 			      		}
+		      		}
+		      		ul{
+		      			overflow-x: hidden;
+		      			list-style-type: none;
+		      			padding: 10px;
 		      		}
 		      	}
 				

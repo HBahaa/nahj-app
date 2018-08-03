@@ -2,23 +2,14 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-4 col-md-6">
-				<div class="card">
-					<img src="./assets/images/evaluations.png" alt="">
-					<div class="card-body">
-						<app-class-filter></app-class-filter>
-					</div>
-				</div>
+				<app-class-filter img="./assets/images/evaluations.png"></app-class-filter>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<app-level-filter></app-level-filter>
 			</div>
 			<div class="col-lg-4 col-md-6">
 				<div class="card">
-					<div class="card-body mt-4">
-						<app-level-filter></app-level-filter>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-4 col-md-6">
-				<div class="card">
-					<div class="card-body mt-5 mb-5">
+					<div class="card-body mt-5">
 						<div class="form-group row">
 		                	<label class="col-sm-4 col-form-label" for="">الفصل الدراسي</label>
 		                	<div class="col-sm-8">
@@ -42,7 +33,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-11 text-left">
+			<div class="col-md-12 text-left">
 				<button class="btn btn-success btn-lg mt-4" type="submit">حفـظ</button>
 			</div>
 		</div>

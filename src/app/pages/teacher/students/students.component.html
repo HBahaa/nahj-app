@@ -2,16 +2,11 @@
 	<div class="container-fluid">
 		<form class="row" [formGroup]="form" (ngSubmit)="handleChanges()">
 			<div class="col-lg-4 col-md-6">
-				<div class="card">
-					<img src="./assets/images/students.png" alt="">
-					<div class="card-body">
-						<app-class-filter></app-class-filter>
-					</div>
-				</div>
+				<app-class-filter img="./assets/images/students.png"></app-class-filter>
 			</div>
 			<div class="col-lg-4 col-md-6">
 				<div class="card">
-					<div class="card-body mt-5 mb-5">
+					<div class="card-body mt-5">
 						<div class="form-group row">
 		                	<label class="col-sm-4 col-form-label" for="">الأسم</label>
 		                	<div class="col-sm-8">
@@ -72,7 +67,7 @@
 			</div>
 			<div class="col-lg-4 col-md-6">
 				<div class="card">
-					<div class="card-body mt-5 mb-5">
+					<div class="card-body mt-5">
 						<div class="form-group row">
 		                	<label class="col-sm-4 col-form-label" for="">الصورة</label>
 		                	<div class="col-sm-8 text-center">

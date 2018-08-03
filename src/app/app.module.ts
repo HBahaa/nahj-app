@@ -25,10 +25,8 @@ import { EvaluationDataComponent } from './components/nahj/evaluation-data/evalu
 import { EvaluationOptionsComponent } from './components/nahj/evaluation-options/evaluation-options.component';
 import { EvaluationQuestionsComponent } from './components/nahj/evaluation-questions/evaluation-questions.component';
 import { NavbarComponent } from './components/nahj/navbar/navbar.component';
-import { LevelCardComponent } from './components/nahj/level-card/level-card.component';
 import { LevelFilterComponent } from './components/nahj/level-filter/level-filter.component';
 import { SchoolFilterComponent } from './components/nahj/school-filter/school-filter.component';
-import { CardComponent } from './components/nahj/card/card.component';
 import { LayoutComponent } from './components/layout/layout.component';
 
 /*************** servicers ****************/
@@ -39,7 +37,6 @@ import { StudentsComponent } from './pages/teacher/students/students.component';
 import { TeacherEvaluationDataComponent } from './pages/teacher/teacher-evaluation-data/teacher-evaluation-data.component';
 import { TeacherEvaluationsComponent } from './pages/teacher/teacher-evaluations/teacher-evaluations.component';
 import { ClassFilterComponent } from './components/teacher/class-filter/class-filter.component';
-import { Card2Component } from './components/nahj/card2/card2.component';
 import { TeachersComponent } from './pages/school/teachers/teachers.component';
 import { ParentsComponent } from './pages/school/parents/parents.component';
 import { SchoolDataComponent } from './pages/school/school-data/school-data.component';
@@ -60,10 +57,8 @@ import { LevelCardListComponent } from './components/nahj/level-card-list/level-
     EvaluationOptionsComponent,
     EvaluationQuestionsComponent,
     NavbarComponent,
-    LevelCardComponent,
     LevelFilterComponent,
     SchoolFilterComponent,
-    CardComponent,
     LayoutComponent,
     LoginComponent,
     TeacherNavbarComponent,
@@ -72,7 +67,6 @@ import { LevelCardListComponent } from './components/nahj/level-card-list/level-
     TeacherEvaluationDataComponent,
     TeacherEvaluationsComponent,
     ClassFilterComponent,
-    Card2Component,
     TeachersComponent,
     ParentsComponent,
     SchoolDataComponent,

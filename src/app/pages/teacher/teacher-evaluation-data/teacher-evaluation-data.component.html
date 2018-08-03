@@ -2,21 +2,16 @@
 	<div class="container-fluid">
 		<form class="row" [formGroup]="form" (ngSubmit)="handleChange()">
 			<div class="col-lg-4 col-md-6">
-				<div class="card">
-					<img src="./assets/images/evaluation_data.png" alt="">
-					<div class="card-body">
-						<app-class-filter></app-class-filter>
-					</div>
-				</div>
+				<app-class-filter img="./assets/images/evaluation_data.png"></app-class-filter>
 			</div>
 			<div class="col-lg-4 col-md-6">
 				<div class="card">
-					<div class="card-body mt-5 mb-5">
-						<div class="text-center mb-5">
+					<div class="card-body mt-5">
+						<div class="text-center">
 							<img src="http://via.placeholder.com/150x150" id="img" class="img-responsive" />
 							<p>أحمد عبدالله القحطاني</p>
 						</div>
-						<div class="form-group row mt">
+						<div class="form-group row mt-5">
 		                	<label class="col-sm-4 col-form-label">الفصل الدراسي</label>
 		                	<div class="col-sm-8">
 								<select class="form-control">
@@ -224,22 +219,22 @@
 						<div class="row text-left note">
 							<div class="col-3">
 								<label class="custom-control-label green-label"></label>
-								<h5>تمكن</h5>
+								<h6>تمكن</h6>
 							</div>
 							<div class="col-3">
 								<label class="custom-control-label blue-label"></label>
-								<h5>الي حد ما</h5>
+								<h6>الي حد ما</h6>
 							</div>
 							<div class="col-4">
 								<label class="custom-control-label red-label"></label>
-								<h5>مازال يحاول</h5>
+								<h6>مازال يحاول</h6>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-11 mt-4 text-left">
-				<button class="btn btn-success btn-lg mt-4" type="submit">حفـظ</button>
+			<div class="col-md-12 mt-4 text-left">
+				<button class="btn btn-success btn-lg" type="submit">حفـظ</button>
 			</div>
 		</form>
 	</div>

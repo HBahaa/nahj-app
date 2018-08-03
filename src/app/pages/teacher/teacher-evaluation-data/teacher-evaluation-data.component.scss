@@ -1,65 +1,3 @@
-p{
-	font-size: 1.25rem;
-	margin-top: 0.8rem;
-}
-#img{
-	/*width: 200px;
-	height: 200px;*/
-}
-label{
-	font-size: 1.1em;
-}
-.mt{
-	margin-top: 5em;
-}
-.note{
-
-	h5{
-		line-height: 0.5;
-		margin-left: .5em;
-
-	}
-	.custom-control-label::before,
-	.custom-control-label::after{
-		border-width: 2px;
-		border-radius: 50%
-	}
-}
-.custom-control-label::before,
-.custom-control-label::after{
-	width: 1.2rem;
-	height: 1.2rem;
-}
-
-.green-label::before{
-	border: 1px solid green;
-}
-.blue-label::before{
-	border: 1px solid blue;
-}
-.red-label::before{
-	border: 1px solid red;
-}
-.custom-control-input:focus ~ .custom-control-label::before{
-	box-shadow: none;
-}
-.custom-radio .custom-control-input:checked~.green-label::before{
-	background-color: green;
-}
-.custom-radio .custom-control-input:checked~.red-label::before{
-	background-color: red;
-}
-.custom-control-input:focus ~ .red-label::before{
-	box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem #f4433666;
-}
-.custom-control-input:focus ~ .blue-label::before{
-	box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem #007bff6b
-}
-.custom-control-input:focus ~ .green-label::before{
-	box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
-}
-
-
 .container-fluid{
 	.card{
 	  	margin: 0 auto;
@@ -73,7 +11,7 @@ label{
 		position: relative;
 		top: 50px;
 		margin-bottom: 50px;
-
+		min-height: 550px;
 
 		img:not(#img){
 			width: 65%;
@@ -94,6 +32,61 @@ label{
 					right: -1.5rem;
 			    	left: 0;
 				}
+			}
+
+			p{
+				font-size: 1.2rem;
+			}
+			label{
+				font-size: 1.1em;
+			}
+			.note{
+
+				h6{
+					line-height: 0.8;
+					margin-left: .5em;
+
+				}
+				.custom-control-label::before,
+				.custom-control-label::after{
+					border-width: 2px;
+					border-radius: 50%;
+					top: .25rem;
+				}
+			}
+			.custom-control-label::before,
+			.custom-control-label::after{
+				width: 1.2rem;
+				height: 1.2rem;
+				top: -0.75rem;
+			}
+
+			.green-label::before{
+				border: 1px solid green;
+			}
+			.blue-label::before{
+				border: 1px solid blue;
+			}
+			.red-label::before{
+				border: 1px solid red;
+			}
+			.custom-control-input:focus ~ .custom-control-label::before{
+				box-shadow: none;
+			}
+			.custom-radio .custom-control-input:checked~.green-label::before{
+				background-color: green;
+			}
+			.custom-radio .custom-control-input:checked~.red-label::before{
+				background-color: red;
+			}
+			.custom-control-input:focus ~ .red-label::before{
+				box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem #f4433666;
+			}
+			.custom-control-input:focus ~ .blue-label::before{
+				box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem #007bff6b
+			}
+			.custom-control-input:focus ~ .green-label::before{
+				box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
 			}
 	    }
 	  }
