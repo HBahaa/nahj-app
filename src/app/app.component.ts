@@ -27,7 +27,7 @@ export class AppComponent {
 			// }
 			// else{
 				this.authService.userType.subscribe(type=>{
-					this.type = 2;
+					this.type = 3;
 				})
 		// 	}
 		// })

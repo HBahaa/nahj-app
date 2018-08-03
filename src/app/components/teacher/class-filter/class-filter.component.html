@@ -2,7 +2,7 @@
 	<img src="{{img}}" class="card-img">
 	<div class="card-body" [ngClass]="img ? '' : 'mt-5'">
 		<div class="form-group">
-			<label class="col-form-label" for="">الفصول</label>
+			<label for="">الفصول</label>
 			<select class="form-control" (change)="handleClassChange($event.target.value)">
 				<option selected>KG2 - D</option>
 				<option>KG2 - E</option>
