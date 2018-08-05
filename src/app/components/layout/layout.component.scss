@@ -10,11 +10,11 @@
 }
 .date{
 	color: #555;
-	margin-top: -32px;
+	margin-top: -15px;
     margin-bottom: 30px;
     font-size: 19px;
     position: absolute;
-    top: 270px;
+    top: 255px;
     z-index: 111;
     width: 80%;
     left: 4%;
@@ -35,14 +35,14 @@
 }
 @media (max-width: 1780px) and (min-width: 1550px) {
     .date{
-        top: 250px;
+        top: 220px;
         font-size: 17px;
     }
 }
 
 @media (max-width: 1550px) and (min-width: 1400px) {
     .date{
-        top: 230px;
+        top: 200px;
         h4{
             font-size: 15px;
         }

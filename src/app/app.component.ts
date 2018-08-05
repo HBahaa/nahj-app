@@ -13,7 +13,6 @@ import { map, take } from 'rxjs/operators';
 })
 export class AppComponent {
 
-	title = 'app';
 	isLoggedIn$: Observable<boolean>;
 	type
 
@@ -31,12 +30,12 @@ export class AppComponent {
 
 		// this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
 		// 	if (!isLoggedIn) {
-		this.router.navigate(['/login']);
-		// }
-		// else{
-		this.authService.userType.subscribe(type => {
-			this.type = 1;
-		})
+				this.router.navigate(['/school/data']);
+			// }
+			// else{
+				this.authService.userType.subscribe(type=>{
+					this.type = 3;
+				})
 		// 	}
 		// })
 	}

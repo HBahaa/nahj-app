@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class AuthService {
-  private loggedIn = new BehaviorSubject<boolean>(false);
+  private loggedIn = new BehaviorSubject<boolean>(true);
   private type = new BehaviorSubject<number>(0);
 
 
@@ -31,6 +31,10 @@ export class AuthService {
       else if (user.userName == 'teacher') {
         this.type.next(2);
         this.router.navigate(['/teacher/profile']);
+      }
+      else if (user.userName == 'school') {
+        this.type.next(3);
+        this.router.navigate(['/school/data']);
       }
     }
   }
