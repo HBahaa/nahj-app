@@ -41,6 +41,8 @@ import { TeacherEvaluationsComponent } from './pages/teacher/teacher-evaluations
 import { ClassFilterComponent } from './components/teacher/class-filter/class-filter.component';
 import { Card2Component } from './components/nahj-admin/card2/card2.component';
 
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -78,7 +80,8 @@ import { Card2Component } from './components/nahj-admin/card2/card2.component';
     MatCardModule,
     MatInputModule,
     MatFormFieldModule,
-    MatButtonModule
+    MatButtonModule,
+    HttpClientModule
   ],
   providers: [
     AuthService
