@@ -4,7 +4,7 @@
       <div class="col-12">
         <ul class="nav nav-pills" id="pills-tab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="pills-data-tab" data-toggle="pill" href="#pills-data" role="tab" aria-controls="pills-data" aria-selected="true">البانات اﻷساسية</a>
+            <a class="nav-link active" id="pills-data-tab" data-toggle="pill" href="#pills-data" role="tab" aria-controls="pills-data" aria-selected="true">البيانات اﻷساسية</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="pills-class-tab" data-toggle="pill" href="#pills-class" role="tab" aria-controls="pills-class" aria-selected="false">الفصـول</a>
@@ -268,13 +268,13 @@
           <div class="tab-pane fade" id="pills-class" role="tabpanel" aria-labelledby="pills-profile-tab">
             <div class="row">
               <div class="col-lg-4 col-md-6">
-                <app-card-list [data]='level1' img="./assets/images/classes.png" title="المستوي اﻷول"></app-card-list>
+                <app-level-card [data]='level1' title="المستوي اﻷول" img="./assets/images/class.png"></app-level-card>
               </div>
               <div class="col-lg-4 col-md-6">
-                <app-card-list [data]='level1' title="المستوي الثاني"></app-card-list>
+                <app-level-card [data]='level1' title="المستوي الثاني"></app-level-card>
               </div>
               <div class="col-lg-4 col-md-6">
-                <app-card-list [data]='level1' title="المستوي الثالث (الفصول)"></app-card-list>
+                <app-level-card [data]='level1' title="المستوي الثالث (الفصول)"></app-level-card>
               </div>
             </div>
           </div>
