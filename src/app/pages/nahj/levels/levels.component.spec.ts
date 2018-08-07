@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { LevelCardComponent } from '../../../components/nahj-admin/level-card/level-card.component';
+import { LevelCardListComponent } from '../../../components/nahj/level-card-list/level-card-list.component';
 import { LevelsComponent } from './levels.component';
 
 describe('LevelsComponent', () => {
@@ -8,7 +8,7 @@ describe('LevelsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LevelCardComponent, LevelsComponent ]
+      declarations: [ LevelCardListComponent, LevelsComponent ]
     })
     .compileComponents();
   }));

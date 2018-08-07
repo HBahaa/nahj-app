@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SchoolFilterComponent } from '../../../components/nahj-admin/school-filter/school-filter.component';
+import { SchoolFilterComponent } from '../../../components/nahj/school-filter/school-filter.component';
 import { DataComponent } from './data.component';
 
 describe('DataComponent', () => {

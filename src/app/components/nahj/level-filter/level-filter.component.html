@@ -1,5 +1,6 @@
-<div class="card">
-	<div class="card-body mt-5">
+<div class="card"[ngClass]="img ? 'mt-3' : ''">
+	<img src="{{img}}" class="card-img" />
+	<div class="card-body" [ngClass]="img ? '' : 'mt-5'">
 		<div class="form-group">
 			<label>فلتر مكونات المنهج</label>
 			<select class="form-control" (change)="handleLevelChange($event)">

@@ -12,7 +12,7 @@ $color : #0eb6e2;
 	position: relative;
 	top: 50px;
 	margin-bottom: 50px;
-	min-height: 613px;
+	min-height: 590px;
 
 	.card-img{
 		width: 70%;
@@ -22,7 +22,18 @@ $color : #0eb6e2;
 
     .card-body{
       	text-align: right;
-      	/*margin-top: -30px;*/
+
+      	.input-group{
+			.btn, .form-control{
+				padding: .3rem .55rem;
+			}
+			.form-control{
+				border-radius: 0 .25rem .25rem 0
+			}
+			.btn{
+				border-radius: .25rem 0 0 .25rem;
+			}
+		}
 		
 		.list-group{
 			margin-bottom: 20px;
@@ -68,18 +79,171 @@ $color : #0eb6e2;
 		}
     }
 }
-
-@media (max-width: 767px) and (min-width: 660px){
+@media (min-width: 1830px) {
+  .card{
+    .card-img{
+		top: -20px;
+    }
+  }
+}
+@media (max-width: 1829px) and (min-width: 1720px) {
 	.card{
-		width: 80%;
+		.card-img{
+			top: -19px;
+		}
 	}
 }
-
-@media (max-width: 659px) and (min-width: 580px){
+@media (max-width: 1719px) and (min-width: 1670px) {
 	.card{
-		max-width: 90%;
 		.card-img{
-			top: -28px;
+			top: -18px;
+		}
+	}
+}
+@media (max-width: 1669px) and (min-width: 1550px) {
+	.card{
+		.card-img{
+			top: -17px;
+		}
+	}
+}
+@media (max-width: 1549px) and (min-width: 1500px){
+	.card{
+		.card-img{
+			top: -16px;
+		}
+	}
+}
+@media (max-width: 1499px) and (min-width: 1450px){
+	.card{
+		.card-img{
+			top: -18px;
+		}
+	}
+}
+@media (max-width: 1449px) and (min-width: 1380px){
+	.card{
+		.card-img{
+			top: -17px;
+		}
+	}
+}
+@media (max-width: 1379px) and (min-width: 1280px){
+	.card{
+		.card-img{
+			top: -17px;
+		}
+	}
+}
+@media (max-width: 1279px) and (min-width: 1180px){
+	.card{
+		.card-img{
+			top: -16px;
+		}
+	}
+}
+@media (max-width: 1179px) and (min-width: 1080px){
+	.card{
+		.card-img{
+			top: -15px;
+		}
+	}
+}
+@media (max-width: 1079px) and (min-width: 995px){
+	.card{
+		.card-img{
+			top: -14px;
+		}
+	}
+}
+@media (max-width: 994px) and (min-width: 970px){
+	.card{
+		.card-img{
+			top: -16px;
+		}
+	}
+}
+@media (max-width: 969px) and (min-width: 768px){
+	.card{
+		.card-img{
+			top: -15px;
+		}
+	}
+}
+@media (max-width: 849px) and (min-width: 768px) {
+	.card{
+		.card-img{
+			top: -14px;
+		}
+	}
+}
+@media (max-width: 767px) and (min-width: 725px){
+	.card{
+		.card-img{
+			top: -19px;
+		}
+	}
+}
+@media (max-width: 724px) and (min-width: 660px){
+	.card{
+		.card-img{
+			top: -18px;
+		}
+	}
+}
+@media (max-width: 659px) and (min-width: 610px){
+	.card{
+		.card-img{
+			top: -16px;
+		}
+	}
+}
+@media (max-width: 609px) and (min-width: 580px){
+	.card{
+		.card-img{
+			top: 15px;
+		}
+	}
+}
+@media (max-width: 579px) and (min-width: 540px){
+	.card{
+		.card-img{
+			top: -26px;
+		}
+	}
+}
+@media (max-width: 539px) and (min-width: 480px){
+	.card{
+		.card-img{
+			top: -24px;
+		}
+	}
+}
+@media (max-width: 479px) and (min-width: 450px){
+	.card{
+		.card-img{
+			top: -22px;
+		}
+	}
+}
+@media (max-width: 449px) and (min-width: 425px){
+	.card{
+		.card-img{
+			top: -22px;
+		}
+	}
+}
+@media (max-width: 424px) and (min-width: 395px){
+	.card{
+		.card-img{
+			top: -20px;
+		}
+	}
+}
+@media (max-width: 394px){
+	.card{
+		.card-img{
+			top: -18px;
 		}
 	}
 }

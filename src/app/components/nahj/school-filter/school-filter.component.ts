@@ -7,7 +7,7 @@ import { Component, OnInit,Input } from '@angular/core';
 })
 export class SchoolFilterComponent implements OnInit {
 
-	@Input() title;
+	@Input() img: string;
 
 	constructor() { }
 
@@ -15,6 +15,5 @@ export class SchoolFilterComponent implements OnInit {
 	}
 
 	handleChange(e){
-		// console.log("dddd", e.target.value)
 	}
 }

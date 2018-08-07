@@ -1,18 +1,23 @@
 <div class="card">
-	<!-- <img src="{{img}}" class="card-img"> -->
+	<img src="{{img}}" class="card-img" />
 	<div class="card-body" [ngClass]="img ? '' : 'mt-5'">
 		<h4 class="text-center mb-3">{{title}}</h4>
 		<ul class="list-group">
-			<!-- <li class="list-group-item" *ngFor="let item of data; index as i" [ngClass]="i == 0 ? 'active' : ''">{{item}}</li> -->
 			<li class="list-group-item" [ngClass]="{'active': selectedItem == item}" (click)="listClick($event, item)" *ngFor="let item of data; index as i">{{item}}</li>
 		</ul>
-		<input type="text" class="form-control mb-2 text-right" [disabled]="show" placeholder="{{data[0]}}">
-		<input type="text" class="form-control text-right" [disabled]="show" placeholder="الوزن النسبي %">
-
 		<div class="card-footer text-left">
-			<button [ngClass]="show ? 'btn-primary' : ' btn-info' " class="btn" (click)="handleChanges()" type="button">
-				<i [ngClass]="show ? ' fa-edit' : '  fa-save' "  class="fa fa-fw"></i>
-			</button>
+			<div class="input-group mb-2">
+		    	<input type="text" class="form-control text-right" [disabled]="show" placeholder="{{data[0]}}">
+		    </div>
+		    <div class="input-group mb-2">
+		      	<input type="text" class="form-control text-right" [disabled]="show" placeholder="الوزن النسبي %">
+		      	<span class="input-group-btn">
+		        	<button [ngClass]="show ? 'btn-primary' : ' btn-info' " class="btn" (click)="handleChanges()" type="button">
+		        		<i [ngClass]="show ? ' fa-edit' : '  fa-save' "  class="fa"></i>
+		        	</button>
+		      	</span>
+		    </div>
+			
 			<button class="btn btn-danger mr-2" type="button"><i class="fa fa-close fa-fw"></i></button>
 			<button class="btn btn-success mr-2" type="button"><i class="fa fa-plus fa-fw"></i></button>
 		</div>
