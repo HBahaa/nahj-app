@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -24,7 +24,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { EvaluationDataComponent } from './components/nahj/evaluation-data/evaluation-data.component';
 import { EvaluationOptionsComponent } from './components/nahj/evaluation-options/evaluation-options.component';
 import { EvaluationQuestionsComponent } from './components/nahj/evaluation-questions/evaluation-questions.component';
-import { NavbarComponent } from './components/nahj/navbar/navbar.component';
+import { NahjNavbarComponent } from './components/nahj/nahj-navbar/nahj-navbar.component';
 import { LevelFilterComponent } from './components/nahj/level-filter/level-filter.component';
 import { SchoolFilterComponent } from './components/nahj/school-filter/school-filter.component';
 import { LayoutComponent } from './components/layout/layout.component';
@@ -48,6 +48,11 @@ import { ChildernComponent } from './pages/school/childern/childern.component';
 import { SchoolNavbarComponent } from './components/school/school-navbar/school-navbar.component';
 import { CardListComponent } from './components/card-list/card-list.component';
 import { LevelCardListComponent } from './components/nahj/level-card-list/level-card-list.component';
+import { ParentProfileComponent } from './pages/parents/parent-profile/parent-profile.component';
+import { KidsComponent } from './pages/parents/kids/kids.component';
+import { KidsEvaluationsComponent } from './pages/parents/kids-evaluations/kids-evaluations.component';
+import { ParentsNavbarComponent } from './components/parents/parents-navbar/parents-navbar.component';
+import { LevelCardComponent } from './components/school/level-card/level-card.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +65,7 @@ import { LevelCardListComponent } from './components/nahj/level-card-list/level-
     EvaluationDataComponent,
     EvaluationOptionsComponent,
     EvaluationQuestionsComponent,
-    NavbarComponent,
+    NahjNavbarComponent,
     LevelFilterComponent,
     SchoolFilterComponent,
     LayoutComponent,
@@ -77,10 +82,16 @@ import { LevelCardListComponent } from './components/nahj/level-card-list/level-
     ChildernComponent,
     SchoolNavbarComponent,
     CardListComponent,
-    LevelCardListComponent
+    LevelCardListComponent,
+    ParentProfileComponent,
+    KidsComponent,
+    KidsEvaluationsComponent,
+    ParentsNavbarComponent,
+    LevelCardComponent
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,

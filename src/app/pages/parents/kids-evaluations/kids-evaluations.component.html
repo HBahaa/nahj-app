@@ -1,0 +1,264 @@
+<div class="content">
+	<div class="container-fluid">
+		<form class="row" [formGroup]="form" (ngSubmit)="handleChange()">
+			<div class="col-lg-4 col-md-6">
+				<div class="card">
+					<img src="./assets/images/evaluation_data.png" class="card-img">
+					<div class="card-body">
+						<div class="form-group">
+							<label for="">الفصول</label>
+							<select class="form-control" (change)="handleClassChange($event.target.value)">
+								<option selected>KG2 - D</option>
+								<option>KG2 - E</option>
+								<option>KG2 - F</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="">بحث باﻷسم</label>
+							<input type="text" class="form-control" placeholder="بحث باﻷسم" (change)="SearchByName()" />
+						</div>
+						<div>
+							<label for="result">التقييمات</label>
+							<select id="result" class="form-control" size="6">
+								<option selected>خديجة الجابر</option>
+								<option>أمل العيسي</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<div class="card">
+					<div class="card-body mt-5">
+						<div class="text-center">
+							<img src="http://via.placeholder.com/150x150" id="img" class="img-responsive" />
+							<p>أحمد عبدالله القحطاني</p>
+						</div>
+						<div class="form-group row mt-5">
+		                	<label class="col-sm-4 col-form-label">الفصل الدراسي</label>
+		                	<div class="col-sm-8">
+								<select class="form-control">
+									<option selected>الفصل اﻷول - 2019/2018</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row mt-4">
+		                	<label class="col-sm-4 col-form-label">التقييم</label>
+		                	<div class="col-sm-8">
+								<select class="form-control">
+									<option selected>وحدة جسمي - تقييم أول</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row mt-4">
+		                	<label class="col-sm-4 col-form-label">المجموعة الفرعية</label>
+		                	<div class="col-sm-8">
+								<select class="form-control">
+									<option selected>المهارات اللغوية</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<div class="card">
+					<div class="card-body mt-4 mb-4">
+						<div class="row">
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom01" name="custom0" value="تمكن" class="custom-control-input" formControlName="custom0">
+									<label class="custom-control-label green-label" for="custom01"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom02" name="custom0" value="الي حد ما" class="custom-control-input" formControlName="custom0">
+									<label class="custom-control-label blue-label" for="custom02"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom03" name="custom0" value="مازال يحاول" class="custom-control-input" formControlName="custom0" checked>
+									<label class="custom-control-label red-label" for="custom03"></label>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<p> 
+								<i class="fa fa-comment-o ml-2"></i>
+								<i class="fa fa-question ml-2"></i> يذكر اسم روضته و اسم فصله</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom11" name="custom1" value="تمكن" class="custom-control-input" formControlName="custom1">
+									<label class="custom-control-label green-label" for="custom11"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom12" name="custom1" value="الي حد ما" class="custom-control-input" formControlName="custom1" checked>
+									<label class="custom-control-label blue-label" for="custom12"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom13" name="custom1" value="مازال يحاول" class="custom-control-input" formControlName="custom1">
+									<label class="custom-control-label red-label" for="custom13"></label>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<p> 
+								<i class="fa fa-comment-o ml-2"></i>
+								<i class="fa fa-question ml-2"></i> يذكر اسماء أصدقاءه في الفصل</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom21" formControlName="custom2" value="تمكن" class="custom-control-input" checked>
+									<label class="custom-control-label green-label" for="custom21"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom22" formControlName="custom2" value="الي حد ما" class="custom-control-input">
+									<label class="custom-control-label blue-label" for="custom22"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom23" formControlName="custom2" value="مازال يحاول" class="custom-control-input">
+									<label class="custom-control-label red-label" for="custom23"></label>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<p> 
+								<i class="fa fa-comment-o ml-2"></i>
+								<i class="fa fa-question ml-2"></i> يسمي مراكز التعليم في فصله</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom31" formControlName="custom3" value="تمكن" class="custom-control-input" >
+									<label class="custom-control-label green-label" for="custom31"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom32" formControlName="custom3" value="الي حد ما" class="custom-control-input">
+									<label class="custom-control-label blue-label" for="custom32"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom33" formControlName="custom3" value="مازال يحاول" class="custom-control-input" checked>
+									<label class="custom-control-label red-label" for="custom33"></label>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<p> 
+								<i class="fa fa-comment-o ml-2"></i>
+								<i class="fa fa-question ml-2"></i> يعدد بعض مرافق الروضة</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom41" formControlName="custom4" value="تمكن" class="custom-control-input" checked>
+									<label class="custom-control-label green-label" for="custom41"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom42" formControlName="custom4" value="الي حد ما" class="custom-control-input">
+									<label class="custom-control-label blue-label" for="custom42"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom43" formControlName="custom4" value="مازال يحاول" class="custom-control-input">
+									<label class="custom-control-label red-label" for="custom43"></label>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<p> 
+								<i class="fa fa-comment-o ml-2"></i>
+								<i class="fa fa-question ml-2"></i> يردد قوانين العمل في الصف</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom51" formControlName="custom5" value="تمكن" class="custom-control-input">
+									<label class="custom-control-label green-label" for="custom51"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom52" formControlName="custom5" value="الي حد ما" class="custom-control-input" checked>
+									<label class="custom-control-label blue-label" for="custom52"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom53" formControlName="custom5" value="مازال يحاول" class="custom-control-input">
+									<label class="custom-control-label red-label" for="custom53"></label>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<p> 
+								<i class="fa fa-comment-o ml-2"></i>
+								<i class="fa fa-question ml-2"></i> يعطي إجابات مترابطة للإجابة عن اﻷسئلة المفتوحة</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom61" formControlName="custom6" value="تمكن" class="custom-control-input">
+									<label class="custom-control-label green-label" for="custom61"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom62" formControlName="custom6" value="الي حد ما" class="custom-control-input">
+									<label class="custom-control-label blue-label" for="custom62"></label>
+								</div>
+							</div>
+							<div class="col-1">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="custom63" formControlName="custom6" value="مازال يحاول" class="custom-control-input" checked>
+									<label class="custom-control-label red-label" for="custom63"></label>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<p> 
+								<i class="fa fa-comment-o ml-2"></i>
+								<i class="fa fa-question ml-2"></i> يتحدث عن خبراته وتجاربه في نهاية اليوم</p>
+							</div>
+						</div>
+						<div class="row text-left note">
+							<div class="col-3">
+								<label class="custom-control-label green-label"></label>
+								<h6>تمكن</h6>
+							</div>
+							<div class="col-3">
+								<label class="custom-control-label blue-label"></label>
+								<h6>الي حد ما</h6>
+							</div>
+							<div class="col-4">
+								<label class="custom-control-label red-label"></label>
+								<h6>مازال يحاول</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 mt-4 text-left">
+				<button class="btn btn-success btn-lg" type="submit">حفـظ</button>
+			</div>
+		</form>
+	</div>
+</div>

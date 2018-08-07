@@ -1,38 +1,24 @@
 <div class="content">
   <div class="container-fluid">
-    <div class="row mb-2 mt-3">
+    <div class="row mt-3">
       <div class="col-md-12 text-right">
-        <h4>فلتر تقسيمات المدارس</h4>
+        <h4>بيانات الجهات و رخص الأستخدام</h4>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-3 col-sm-6">
-        <div class="card">
-          <div class="card-body">
-            <app-school-filter [title]="title"></app-school-filter>
-          </div>
-        </div>
+    <div class="row mt-4">
+      <div class="col-lg-3 col-sm-6">
+        <app-school-filter ></app-school-filter>
       </div>
       <div class="col-md-3 col-sm-6">
         <div class="card">
           <div class="card-body">
             <div class="form-group">
-              <label for="schoolName">اسم المدرسة</label>
-              <input type="text" name="schoolName" class="form-control" />
+              <input type="text" name="schoolName" placeholder="اسم المدرسة" class="form-control" />
             </div>
             <div class="form-group">
-              <label for="companyName">الشركة اﻷم</label>
-              <input type="text" name="companyName" class="form-control" />
+              <input type="text" name="companyName" placeholder="الشركة اﻷم" class="form-control" />
             </div>
             <div class="form-group">
-              <label for="">الفصل الدراسي</label>
-              <select class="form-control">
-                <option selected>اﻷول 2018 / 2019</option>
-                <option></option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="">بيانات المدرسة</label>
               <select class="form-control">
                 <option selected>المنطقة</option>
                 <option></option>
@@ -44,7 +30,7 @@
                 <option></option>
               </select>
             </div>
-            
+            <h5>بيانات المدرسة</h5>
             <ul class="list-group">
               <li class="list-group-item">
                 <input type="text" class="form-control" placeholder="الحي">
@@ -62,7 +48,26 @@
                 <input type="text" class="form-control" placeholder="السنة الدرااسية اﻷعلي">
               </li>
             </ul>
-                    
+            <div>
+              <h5>بيانات اﻷتصال</h5>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="الموفع اﻹلكتروني">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="العنوان">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="GPS الموقع">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="التلفون">
+                </li>
+                <li class="list-group-item">
+                  <input type="text" class="form-control" placeholder="الفاكس">
+                </li>
+              </ul>
+            </div>  
           </div>
         </div>
       </div>
@@ -92,28 +97,33 @@
               </select>
             </div>   
             <!-- <h5>الموقع في التقسيم الشجري</h5> -->
-            <div>
-              <label for="">المدارس</label>
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="الموفع اﻹلكتروني">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="العنوان">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="GPS الموقع">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="التلفون">
-                </li>
-                <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="الفاكس">
-                </li>
-              </ul>
-            </div>
+            
 
-            <label for="">بيانات المسئول</label>
+            <h5>بيانات المسئول</h5>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="اﻷسم">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="الوظيفة">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="الجوال">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="جوال الواتس اب">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="اﻹيميل">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="اسم المستخدم">
+              </li>
+              <li class="list-group-item">
+                <input type="text" class="form-control" placeholder="كلمة السر">
+              </li>
+            </ul>
+            <h5>بيانات اﻷدمن الرئيسي</h5>
             <ul class="list-group">
               <li class="list-group-item">
                 <input type="text" class="form-control" placeholder="اﻷسم">
@@ -144,8 +154,15 @@
         <div class="card">
           <div class="card-body">            
             
-            <label>بيانات الرخصة</label>
-            <ul class="list-group">
+            <div class="form-group">
+              <label>الفصل الدراسي</label>
+              <select class="form-control">
+                <option selected>اﻷول 2018 / 2019</option>
+                <option></option>
+              </select>
+            </div>
+            <h5>بيانات الرخصة</h5>
+            <!-- <ul class="list-group">
               <li class="list-group-item">
                 <input type="text" class="form-control" placeholder="عدد الطلاب">
               </li>
@@ -158,33 +175,23 @@
               <li class="list-group-item">
                 <input type="text" class="form-control" placeholder="عدد اﻷدمن">
               </li>
-            </ul>
-            <label for="">بيانات اﻷدمن الرئيسي</label>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="اﻷسم">
-              </li>
-              <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="الوظيفة">
-              </li>
-              <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="الجوال">
-              </li>
-              <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="جوال الواتس اب">
-              </li>
-              <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="اﻹيميل">
-              </li>
-              <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="اسم المستخدم">
-              </li>
-              <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="كلمة السر">
-              </li>
-            </ul>
+            </ul> -->
+
             <div class="form-group">
-              <label>المحتوي المرخص</label>
+              <input type="text" class="form-control" placeholder="عدد الطلاب">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="عدد الفصول">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="عدد المدرسات/ المشرفات">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="عدد اﻷدمن">
+            </div>
+            
+            <div class="form-group">
+              <h5>المحتوي المرخص</h5>
               <ul class="content-list">
                 <li>
                   مواد الواقع المعزز

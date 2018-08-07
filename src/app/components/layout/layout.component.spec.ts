@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LayoutComponent } from './layout.component';
+import { NahjNavbarComponent } from '../nahj/nahj-navbar/nahj-navbar.component';
+import { SchoolNavbarComponent } from '../school/school-navbar/school-navbar.component';
+import { TeacherNavbarComponent } from '../teacher/teacher-navbar/teacher-navbar.component';
+import { ParentsNavbarComponent } from '../parents/parents-navbar/parents-navbar.component';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
@@ -8,7 +12,13 @@ describe('LayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LayoutComponent ]
+      declarations: [
+      LayoutComponent,
+      NahjNavbarComponent,
+      SchoolNavbarComponent,
+      ParentsNavbarComponent,
+      TeacherNavbarComponent
+      ]
     })
     .compileComponents();
   }));

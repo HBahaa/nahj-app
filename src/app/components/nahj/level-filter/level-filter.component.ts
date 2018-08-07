@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-level-filter',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./level-filter.component.scss']
 })
 export class LevelFilterComponent implements OnInit {
+
+	@Input() img: string;
 	
 	levels = {
 		level1:'',
@@ -17,7 +19,7 @@ export class LevelFilterComponent implements OnInit {
 	constructor() { }
 
 	ngOnInit() {
-	}
+	} 
 
 	handleLevelChange(e){
 		console.log(e.target.value)

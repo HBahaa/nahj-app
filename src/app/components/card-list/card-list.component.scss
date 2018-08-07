@@ -22,7 +22,6 @@ $color : #0eb6e2;
 
     .card-body{
       	text-align: right;
-      	margin-top: -40px;
 		
 		.list-group{
 			margin-bottom: 20px;
@@ -58,6 +57,17 @@ $color : #0eb6e2;
 			border-radius: 10px 0 0 10px;
 
 		}
+		.input-group{
+			.btn, .form-control{
+				padding: .3rem .55rem;
+			}
+			.form-control{
+				border-radius: 0 .25rem .25rem 0
+			}
+			.btn{
+				border-radius: .25rem 0 0 .25rem;
+			}
+		}
 		.card-footer{
 			background-color: transparent;
 			border-top: 0px;
@@ -71,158 +81,147 @@ $color : #0eb6e2;
 @media (min-width: 1830px) {
   .card{
     .card-img{
-		top: -27px;
+		top: -20px;
     }
   }
 }
 @media (max-width: 1829px) and (min-width: 1720px) {
 	.card{
 		.card-img{
-			top: -25px;
+			top: -19px;
 		}
 	}
 }
 @media (max-width: 1719px) and (min-width: 1670px) {
 	.card{
 		.card-img{
-			top: -23px;
+			top: -18px;
 		}
 	}
 }
 @media (max-width: 1669px) and (min-width: 1550px) {
 	.card{
 		.card-img{
-			top: -22px;
+			top: -17px;
 		}
 	}
 }
 @media (max-width: 1549px) and (min-width: 1500px){
 	.card{
 		.card-img{
-			top: -21px;
+			top: -16px;
 		}
 	}
 }
 @media (max-width: 1499px) and (min-width: 1450px){
 	.card{
 		.card-img{
-			top: -24px;
+			top: -18px;
 		}
 	}
 }
 @media (max-width: 1449px) and (min-width: 1380px){
 	.card{
 		.card-img{
-			top: -23px;
+			top: -17px;
 		}
 	}
 }
 @media (max-width: 1379px) and (min-width: 1280px){
 	.card{
 		.card-img{
-			top: -22px;
+			top: -17px;
 		}
 	}
 }
 @media (max-width: 1279px) and (min-width: 1180px){
 	.card{
 		.card-img{
-			top: -21px;
+			top: -16px;
 		}
 	}
 }
 @media (max-width: 1179px) and (min-width: 1080px){
 	.card{
 		.card-img{
-			top: -19px;
+			top: -15px;
 		}
 	}
 }
 @media (max-width: 1079px) and (min-width: 995px){
 	.card{
 		.card-img{
-			top: -18px;
+			top: -14px;
 		}
 	}
 }
 @media (max-width: 994px) and (min-width: 970px){
 	.card{
 		.card-img{
-			top: -25px;
+			top: -16px;
 		}
 	}
 }
-@media (max-width: 969px) and (min-width: 890px){
+@media (max-width: 969px) and (min-width: 768px){
 	.card{
 		.card-img{
-			top: -23px;
-		}
-	}
-}
-@media (max-width: 889px) and (min-width: 850px) {
-	.card{
-		.card-img{
-			top: -22px;
+			top: -15px;
 		}
 	}
 }
 @media (max-width: 849px) and (min-width: 768px) {
 	.card{
 		.card-img{
-			top: -21px;
+			top: -14px;
 		}
 	}
 }
 @media (max-width: 767px) and (min-width: 725px){
 	.card{
-		width: 80%;
 		.card-img{
-			top: -30px;
+			top: -19px;
 		}
 	}
 }
 @media (max-width: 724px) and (min-width: 660px){
 	.card{
-		width: 80%;
 		.card-img{
-			top: -29px;
+			top: -18px;
 		}
 	}
 }
 @media (max-width: 659px) and (min-width: 610px){
 	.card{
-		max-width: 90%;
 		.card-img{
-			top: -28px;
+			top: -16px;
 		}
 	}
 }
 @media (max-width: 609px) and (min-width: 580px){
 	.card{
-		max-width: 90%;
 		.card-img{
-			top: -27px;
+			top: 15px;
 		}
 	}
 }
 @media (max-width: 579px) and (min-width: 540px){
 	.card{
 		.card-img{
-			top: -28px;
+			top: -26px;
 		}
 	}
 }
 @media (max-width: 539px) and (min-width: 480px){
 	.card{
 		.card-img{
-			top: -25px;
+			top: -24px;
 		}
 	}
 }
 @media (max-width: 479px) and (min-width: 450px){
 	.card{
 		.card-img{
-			top: -24px;
+			top: -22px;
 		}
 	}
 }
@@ -243,7 +242,7 @@ $color : #0eb6e2;
 @media (max-width: 394px){
 	.card{
 		.card-img{
-			top: -19px;
+			top: -18px;
 		}
 	}
 }

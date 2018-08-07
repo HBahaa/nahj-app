@@ -1,4 +1,4 @@
-	console.log("ready")
+console.log("ready")
 $(function () {
 	$('[data-toggle="sidebar"]').click(function(e) {
 	  e.preventDefault();

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TeacherEvaluationDataComponent } from './teacher-evaluation-data.component';
+import { ClassFilterComponent } from '../../../components/teacher/class-filter/class-filter.component';
 
 describe('TeacherEvaluationDataComponent', () => {
   let component: TeacherEvaluationDataComponent;
@@ -8,7 +9,8 @@ describe('TeacherEvaluationDataComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TeacherEvaluationDataComponent ]
+      imports: [ ReactiveFormsModule, FormsModule ],
+      declarations: [ TeacherEvaluationDataComponent, ClassFilterComponent ]
     })
     .compileComponents();
   }));

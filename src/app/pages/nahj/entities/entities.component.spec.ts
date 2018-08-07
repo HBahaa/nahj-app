@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CardComponent } from '../../../components/nahj-admin/card/card.component';
+import { CardListComponent } from '../../../components/card-list/card-list.component';
 import { EntitiesComponent } from './entities.component';
 
 describe('EntitiesComponent', () => {
@@ -8,7 +8,7 @@ describe('EntitiesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CardComponent, EntitiesComponent ]
+      declarations: [ CardListComponent, EntitiesComponent ]
     })
     .compileComponents();
   }));

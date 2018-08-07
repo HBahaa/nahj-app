@@ -7,10 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class LevelCardListComponent implements OnInit {
 
-
-	@Input() title: string;
 	@Input() data: any = [];
-	// @Input() img: string;
+	@Input() img: string;
 
 	show: boolean = true;
 	selectedItem: any;

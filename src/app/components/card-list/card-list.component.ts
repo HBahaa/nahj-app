@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CardListComponent implements OnInit {
 
-	@Input() title: string;
+	// @Input() title: string;
 	@Input() img: string;
 	@Input() data: any = [];
 
@@ -25,6 +25,9 @@ export class CardListComponent implements OnInit {
 
 	handleChanges(){
 		this.show = ! this.show;
+	}
+	addItem(){
+		this.show = false;
 	}
 
 }

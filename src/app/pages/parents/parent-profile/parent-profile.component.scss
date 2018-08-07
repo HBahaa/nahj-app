@@ -1,0 +1,118 @@
+.content{
+	padding-bottom: 0px;
+	
+	.container{
+		.card{
+		  	margin: 0 auto;
+			border: 4px solid #cad6d7;
+			background-color: #eaefee;
+			box-shadow: 0px 60px 100px -50px #333;
+			-moz-box-shadow: 0px 60px 100px -50px #333;
+			-webkit-box-shadow: 0px 60px 100px -50px #333;
+			border-radius: 20px;
+			transition: transform .2s;
+			position: relative;
+			top: 50px;
+			margin-bottom: 50px;
+			min-height: 550px;
+
+			img{
+				width: 70%;
+			    margin: 0 auto;
+			    position: relative;
+			}
+
+		    .card-body{
+		      	text-align: center;
+		      	margin-top: -30px;
+
+		      	select[multiple] option, select[size] option{
+		      		padding: 12px 10px;
+		      	}
+
+		      	.form-check-label{
+					margin-right: 20px;
+				}
+
+				.custom-checkbox{
+					.custom-control-label::before,.custom-control-label::after{
+						right: -1.5rem;
+				    	left: 0;
+					}
+				}
+		    }
+		}
+	}
+	@media (min-width: 1830px) {
+	  .card{
+	    img{
+			top: -38px;
+	    }
+	  }
+	}
+	@media (max-width: 1829px) and (min-width: 1200px) {
+		.card{
+			img{
+				top: -37px;
+			}
+		}
+	}
+	@media (max-width: 1199px) and (min-width: 1000px){
+		.card{
+			img{
+				top: -32px;
+			}
+		}
+	}
+	@media (max-width: 999px) and (min-width: 768px){
+		.card{
+			img{
+				top: -24px;
+			}
+		}
+	}
+	@media (max-width: 767px) and (min-width: 700px){
+		.card{
+			img{
+				top: -35px;
+			}
+		}
+	}
+	@media (max-width: 699px) and (min-width: 540px){
+		.card{
+			img{
+				top: -35px;
+			}
+		}
+	}
+	@media (max-width: 539px) and (min-width: 480px){
+		.card{
+			img{
+				top: -30px;
+			}
+		}
+	}
+	@media (max-width: 479px) and (min-width: 421px){
+		.card{
+			img{
+				top: -27px;
+			}
+		}
+	}
+	@media (max-width: 420px) and (min-width: 375px){
+		.card{
+			max-width: 90%;
+			img{
+				top: -23px;
+			}
+		}
+	}
+	@media (max-width: 374px){
+		.card{
+			img{
+				top: -22px;
+			}
+		}
+	}
+
+}
