@@ -22,6 +22,15 @@
 	    .card-body{
 	      	text-align: right;
 	      	margin-top: -30px;
+
+	      	.card-footer{
+	      		background-color: transparent;
+	      		border-top: 0px;
+
+	      		.btn{
+	      			width: 40%
+	      		}
+	      	}
 	    }
 	  }
 	@media (min-width: 1830px) {

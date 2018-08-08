@@ -1,0 +1,41 @@
+<div class="card">
+	<img [src]="img" class="card-img" />
+	<div class="card-body" [ngClass]="img ? '' : 'mt-5'">
+		<div class="form-group row">
+			<label class="col-md-4 col-form-label" for="">المستوي اﻷول</label>
+			<div class="col-md-8">
+				<select class="form-control" (change)="handleLevel1Change($event.target.value)">
+					<option selected>فصول الأولاد</option>
+					<option>فصول البنات</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-4 col-form-label" for="">المستوي الثاني</label>
+			<div class="col-md-8">
+				<select class="form-control" (change)="handleLevel2Change($event.target.value)">
+					<option selected>KG2 - D</option>
+					<option>KG2 - E</option>
+					<option>KG2 - F</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-4 col-form-label" for="">المستوي الثالث</label>
+			<div class="col-md-8">
+				<select class="form-control" (change)="handleLevel3Change($event.target.value)">
+					<option selected>الجميع</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="بحث باﻷسم" (change)="SearchByName($event.target.value)" />
+		</div>
+		<div>
+			<select class="form-control" size="6">
+				<option selected>خديجة الجابر</option>
+				<option>أمل العيسي</option>
+			</select>
+		</div>
+	</div>
+</div>

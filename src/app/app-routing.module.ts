@@ -97,7 +97,7 @@ const routes: Routes = [
         component: SchoolDataComponent
       },
       {
-        path: 'children',
+        path: 'students',
         component: ChildernComponent
       },
       {

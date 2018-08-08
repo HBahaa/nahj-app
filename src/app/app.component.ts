@@ -14,7 +14,7 @@ import { map, take } from 'rxjs/operators';
 export class AppComponent {
 
 	isLoggedIn$: Observable<boolean>;
-	type
+	type: number;
 
 	constructor(private router: Router, private authService: AuthService, private evaluate: EvalutionStatusService) {
 
@@ -30,11 +30,11 @@ export class AppComponent {
 
 		// this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
 		// 	if (!isLoggedIn) {
-				this.router.navigate(['/nahj/']);
+				this.router.navigate(['/teacher/profile']);
 			// }
 			// else{
 				this.authService.userType.subscribe(type=>{
-					this.type = 1;
+					this.type = 2;
 				})
 		// 	}
 		// })

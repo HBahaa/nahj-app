@@ -32,18 +32,6 @@ export class TeachersComponent implements OnInit {
 	    });
 	}
 
-	handleLevel1Change(level1){
-
-	}
-	handleLevel2Change(level2){
-
-	}
-	handleLevel3Change(level3){
-
-	}
-	SearchByName(name){
-
-	}
 	onSubmit() {
 		console.log("submit", this.form.value)
 	    if (this.form.valid) {

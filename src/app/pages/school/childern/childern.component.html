@@ -1,8 +1,104 @@
 <div class="content">
-	<div class="row">
-		<div class="container-fluid">
-			<div class="col-12">
-				<img src="./assets/images/kids.png" class="img-fluid" alt="">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-4 col-md-6">
+				<app-students-filter img="./assets/images/students.png"></app-students-filter>
+			</div>
+			<div class="col-lg-8">
+				<form class="row" [formGroup]="form" (ngSubmit)="handleChanges()">
+					<div class="col-lg-6 col-md-6">
+						<div class="card">
+							<div class="card-body mt-5">
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">الأسم</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="name" />
+									</div>
+								</div>
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">اﻷسم المختصر</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="nickname" />
+									</div>
+								</div>
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">ولي اﻷمر</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="parent" />
+									</div>
+								</div>
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">تاريخ الميلاد</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="birthday" />
+									</div>
+								</div>
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">الجنسية</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="nationality" />
+									</div>
+								</div>
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">النوع</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="type" />
+									</div>
+								</div>
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">الرقم التعريفي</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="id" />
+									</div>
+								</div>
+							</div>					
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<div class="card">
+							<div class="card-body mt-3">
+								<div class="col-sm-12 text-center">
+									<img id="img" src="./assets/images/profile.png" class="img-responsive mb-3" />
+								</div>
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">اسم المستخدم</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="userName" />
+									</div>
+								</div>
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">كلمة السر</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="password" />
+									</div>
+								</div>
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">بيان 1</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="data1" />
+									</div>
+								</div>
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">بيان 2</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="data2" />
+									</div>
+								</div>	
+								<div class="form-group row">
+				                	<label class="col-md-4 col-form-label" for="">بيان 3</label>
+				                	<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="data3" />
+									</div>
+								</div>
+								<div class="card-footer text-left mt-3">
+									<button class="btn btn-primary" type="button"><i class="fa fa-save fa-fw"></i></button>
+									<button class="btn btn-danger mr-2" type="button"><i class="fa fa-close fa-fw"></i></button>
+									<button class="btn btn-success mr-2" type="button"><i class="fa fa-plus fa-fw"></i></button>
+								</div>					
+							</div>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>

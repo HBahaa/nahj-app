@@ -52,6 +52,7 @@ import { KidsComponent } from './pages/parents/kids/kids.component';
 import { KidsEvaluationsComponent } from './pages/parents/kids-evaluations/kids-evaluations.component';
 import { ParentsNavbarComponent } from './components/parents/parents-navbar/parents-navbar.component';
 import { LevelCardComponent } from './components/school/level-card/level-card.component';
+import { StudentsFilterComponent } from './components/school/students-filter/students-filter.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { LevelCardComponent } from './components/school/level-card/level-card.co
     KidsComponent,
     KidsEvaluationsComponent,
     ParentsNavbarComponent,
-    LevelCardComponent
+    LevelCardComponent,
+    StudentsFilterComponent
   ],
   imports: [
     BrowserModule,

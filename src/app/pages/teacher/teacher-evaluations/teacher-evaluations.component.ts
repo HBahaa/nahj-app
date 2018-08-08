@@ -12,4 +12,10 @@ export class TeacherEvaluationsComponent implements OnInit {
 	ngOnInit() {
 	}
 
+	addToHome(){
+
+	}
+	addToClass(){
+		
+	}
 }
