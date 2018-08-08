@@ -8,21 +8,23 @@ import { HttpClient } from '@angular/common/http';
 export class ELevelsService {
 
   constructor(private http: HttpClient) { }
-  service(config) { ////method,url,
+  service(config) { ////method,url,namel1,namel2,namel3
     let query: string = "";
     let variable: object = {};
     console.log(config)
     switch (config.method) {
-      case "POST": //create
-        query = ``
+      case "PUT": //create
+        query = `mutation ($namel1: String!, $namel2: String!, $namel3: String!) { createLevelOne(data: {name: $namel1, LevelTwo: {create: {name: $namel2, levelThree: {create: {name: $namel3}}}}}) { name LevelTwo { name levelThree { name } } } } `
         variable = {
-
+          namel1:config.namel1,
+          namel2:config.namel2,
+          namel3:config.namel3
         }
         break;
       case "GET": //read
         query = `{ levelOnes { name LevelTwo { name levelThree { name } } } }`;
         break;
-      case "PUT"://update
+      case "POST"://update
         query = ``
         variable = {
 
