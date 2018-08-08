@@ -37,6 +37,7 @@ import { StudentsComponent } from './pages/teacher/students/students.component';
 import { TeacherEvaluationDataComponent } from './pages/teacher/teacher-evaluation-data/teacher-evaluation-data.component';
 import { TeacherEvaluationsComponent } from './pages/teacher/teacher-evaluations/teacher-evaluations.component';
 import { ClassFilterComponent } from './components/teacher/class-filter/class-filter.component';
+///import { Card2Component } from './components/nahj-admin/card2/card2.component';
 
 import { HttpClientModule } from '@angular/common/http';
 
