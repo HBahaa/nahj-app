@@ -16,12 +16,12 @@ export class SchoolService {
         query = `` 
         variable = {
         }       
-      break;
+      break;  
       case "GET": //read
-        query = `{ schools { id schAdmins { job name type phone whatsApp email username password } address gps phone fax district studentsNum StudyYears lowestStudyYear highestStudyYear name motherComp } } `;
+        query = `{ schools { id schAdmins { job name type phone whatsApp email username password } address studentsNum adminNum teachersNum classesNum gps phone fax district StudyYears lowestStudyYear highestStudyYear name motherComp } } `;
       break;
       case "PUT"://create
-        query = `lowestStudyYear: $lowestStudyYear, highestStudyYear: $highestStudyYear, name: $name, motherComp: $motherComp, schAdmins: {create: {name: $adminName, job: $adminJob, type: $admintype, phone: $adminPhone, whatsApp: $adminWhatsapp, email: $adminEmail, username: $adminUsername, password: $adminPassword}}}) { highestStudyYear id address phone schAdmins { name } gps fax district StudyYears lowestStudyYear highestStudyYear motherComp studentsNum } } `
+        query = ` {create: {name: $adminName, job: $adminJob, type: $admintype, phone: $adminPhone, whatsApp: $adminWhatsapp, email: $adminEmail, username: $adminUsername, password: $adminPassword}}}) { highestStudyYear id address phone schAdmins { name job type phone whatsApp email username password } gps fax district StudyYears lowestStudyYear highestStudyYear motherComp studentsNum classesNum teachersNum } } `
         variable = {
             adminWhatsapp:config.adminWhatsapp,
             adminUsername:config.adminUsername,
@@ -41,7 +41,10 @@ export class SchoolService {
             district:config.district,
             motherComp:config.motherComp,
             lowestStudyYear:config.lowestStudyYear,
-            fax:config.fax
+            fax:config.fax,
+            teacherNum:config.teacherNum,
+            ClassesNum:config.ClassesNum,
+            adminNum:config.adminNum
         }
       break;
       case "DELETE": //delete
