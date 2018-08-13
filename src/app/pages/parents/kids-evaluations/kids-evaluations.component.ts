@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-kids-evaluations',
@@ -7,9 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class KidsEvaluationsComponent implements OnInit {
 
-  constructor() { }
+	form: FormGroup;
 
-  ngOnInit() {
-  }
+	constructor( private fb: FormBuilder ) { }
 
+	ngOnInit() {
+		this.form = this.fb.group({
+			custom0: [''],
+			custom1: [''],
+			custom2: [''],
+			custom3: [''],
+			custom4: [''],
+			custom5: [''],
+			custom6: ['']
+	    });
+	}
+	onSubmit(){
+		console.log("data", this.form.value)
+	}
+	handleClassChange(value){
+
+	}
+	SearchByName(){
+		
+	}
 }

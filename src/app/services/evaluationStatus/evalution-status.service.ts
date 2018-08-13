@@ -11,9 +11,8 @@ export class EvalutionStatusService {
   service(config) { ////method,url,[value]
     let query: string = "";
     let variable: object = {};
-    console.log(config)
     switch(config.method){
-      case "POST" : //update
+      case "PUT" : //update
         query = `` 
         variable = {
           
@@ -22,7 +21,7 @@ export class EvalutionStatusService {
       case "GET": //read
         query = `{ evaluationStatuses { name } } `;
       break;
-      case "PUT"://create
+      case "POST"://create
         query = `mutation ($value: [String!]) { createEvaluationStatus(data: {name: {set: $value}}) { name } } `
         variable = {
           value:config.value
@@ -34,7 +33,7 @@ export class EvalutionStatusService {
         }
       break;
       
-}
+    }
     return this
       .http
       .post(`${config.url}`, {

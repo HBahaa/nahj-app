@@ -2,16 +2,16 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-3 col-md-4 col-sm-6">
-        <app-card-list img="./assets/images/region.png" [data]='level1'></app-card-list>
+        <app-card-list img="./assets/images/region.png" componentType="geo" [data]='geoArray' (listItems)="getCities($event)" (deleteButton)="deleteGeo($event)" (saveButton)="addNewGeo($event)" ></app-card-list>
       </div>
       <div class="col-lg-3 col-md-4 col-sm-6">
-        <app-card-list img="./assets/images/city.png" [data]='level2'></app-card-list>
+        <app-card-list img="./assets/images/city.png" componentType="city" [data]='citiesArray' (deleteButton)="deleteCity($event)" (saveButton)="addNewCity($event)"></app-card-list>
       </div>
       <div class="col-lg-3 col-md-4 col-sm-6">
-        <app-card-list img="./assets/images/term.png" [data]='level3'></app-card-list> 
+        <app-card-list img="./assets/images/term.png" componentType="term" [data]='termArray' (saveButton)="addNewStudyYear($event)" (deleteButton)="deleteStudyYear($event)"></app-card-list> 
       </div>
       <div class="col-lg-3 col-md-4 col-sm-6">
-        <app-card-list img="./assets/images/evaluation_status.png" [data]='level3'></app-card-list> 
+        <app-card-list img="./assets/images/evaluation_status.png" componentType="evaluation" [data]='evaluationStatus' (saveButton)="addNewEvaluation($event)" (deleteButton)="deleteEvaluation($event)"></app-card-list> 
       </div>
     </div>
   </div>

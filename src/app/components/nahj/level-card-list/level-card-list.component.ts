@@ -9,6 +9,7 @@ export class LevelCardListComponent implements OnInit {
 
 	@Input() data: any = [];
 	@Input() img: string;
+	@Input() title: string;
 
 	show: boolean = true;
 	selectedItem: any;

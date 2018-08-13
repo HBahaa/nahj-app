@@ -10,7 +10,6 @@ export class StudyYearsService {
   service(config) { ////method,url,[studyYearName]
     let query: string = "";
     let variable: object = {};
-    console.log(config)
     switch(config.method){
       case "POST" : //update
         query = `mutation ($name: [String!]) { updateManyStudyYears(data: {name: {set: $name}}) { count } } ` 
@@ -32,8 +31,7 @@ export class StudyYearsService {
         variable = {
         }
       break;
-      
-}
+  }
     return this
       .http
       .post(`${config.url}`, {
