@@ -22,22 +22,33 @@ export class AppComponent {
 
 	async ngOnInit() {
 		this.isLoggedIn$ = this.authService.isLoggedIn;
-		this.evaluate.service({
-			method: 'PUT',
-			url: "http://localhost:4466",
-			value: ["old city"],
-		}).subscribe((data: any) => console.log(data));
+		// this.evaluate.service({
+		// 	method: 'PUT',
+		// 	url: "http://localhost:4466",
+		// 	value: ["old city"],
+		// }).subscribe((data: any) => console.log("data",data));
 
 		// this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
 		// 	if (!isLoggedIn) {
-				this.router.navigate(['/nahj/']);
-			// }
-			// else{
-				this.authService.userType.subscribe(type=>{
-					this.type = 1;
-				})
+		// 		this.router.navigate(['/login']);
+		// 	}
+		// 	else if (isLoggedIn) {
+		// 		this.authService.userType.subscribe(type=>{
+		// 			this.type = type;
+		// 		})
 		// 	}
 		// })
+		this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
+			if (!isLoggedIn) {
+				this.router.navigate(['/login']);
+			}
+			else if (isLoggedIn) {
+				this.authService.userType.subscribe(type=>{
+					this.router.navigate(['/nahj/']);
+					this.type = 1;
+				})
+			}
+		})
 	}
 
 }

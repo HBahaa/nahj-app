@@ -24,6 +24,7 @@ import { KidsComponent } from './pages/parents/kids/kids.component';
 import { KidsEvaluationsComponent } from './pages/parents/kids-evaluations/kids-evaluations.component';
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent},
 	{
     path: 'nahj',
     children: [

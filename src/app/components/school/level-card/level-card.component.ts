@@ -10,10 +10,13 @@ export class LevelCardComponent implements OnInit {
 	@Input() title: string;
 	@Input() img: string;
 	@Input() data: any = [];
-
+	show: boolean = true;
+	
 	constructor() { }
 
 	ngOnInit() {
 	}
-
+	handleChanges(){
+		this.show = ! this.show;
+	}
 }

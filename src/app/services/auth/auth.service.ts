@@ -22,11 +22,11 @@ export class AuthService {
   login(user){
     if (user.userName !== '' && user.password !== '' ) {
       this.loggedIn.next(true);
-      // this.router.navigate(['/']);
+      // this.router.navigate(['/']); 
 
-      if (user.userName == 'admin') {
+      if (user.userName == 'nahj') {
         this.type.next(1);
-        this.router.navigate(['/']);
+        this.router.navigate(['/nahj/']);
       }
       else if (user.userName == 'teacher') {
         this.type.next(2);
@@ -35,6 +35,10 @@ export class AuthService {
       else if (user.userName == 'school') {
         this.type.next(3);
         this.router.navigate(['/school/data']);
+      }
+      else if (user.userName == 'parents') {
+        this.type.next(4);
+        this.router.navigate(['/parents/profile']);
       }
     }
   }

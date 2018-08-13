@@ -14,6 +14,6 @@ export class SchoolNavbarComponent implements OnInit {
 	}
 
   	logout(){
-		//this.authService.logout();
+		this.authService.logout();
 	}
 }

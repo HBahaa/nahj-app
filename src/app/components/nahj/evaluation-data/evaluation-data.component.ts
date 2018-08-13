@@ -29,7 +29,7 @@ export class EvaluationDataComponent implements OnInit {
 	    }
 	}
 
-	handleChange(e){
+	handleChanges(){
 		this.show = ! this.show;
 	}
 }

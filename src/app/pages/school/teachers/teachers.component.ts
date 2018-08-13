@@ -31,7 +31,6 @@ export class TeachersComponent implements OnInit {
 			delete_evaluation: ['', Validators.required]
 	    });
 	}
-
 	onSubmit() {
 		console.log("submit", this.form.value)
 	    if (this.form.valid) {
