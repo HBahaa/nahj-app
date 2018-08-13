@@ -8,37 +8,34 @@ import { HttpClient } from '@angular/common/http';
 export class ELevelsService {
 
   constructor(private http: HttpClient) { }
-  service(config) { ////method,url,namel1,namel2,namel3
+  service(config) { ////method,url,newName1,newName2,id
     let query: string = "";
     let variable: object = {};
     console.log(config)
     switch (config.method) {
       case "PUT": //create
-        query = `mutation ($namel1: String!, $namel2: String!, $namel3: String!) { createLevelOne(data: {name: $namel1, LevelTwo: {create: {name: $namel2, levelThree: {create: {name: $namel3}}}}}) { name LevelTwo { name levelThree { name } } } } `
+        query = `mutation ($name: String!) { createLevelOne(data: {name: $name}) { id, name } }`
         variable = {
-          namel1:config.namel1,
-          namel2:config.namel2,
-          namel3:config.namel3
+          namel1:config.newName1
         }
         break;
       case "GET": //read
-        query = `{ levelOnes { name LevelTwo { name levelThree { name } } } }`;
+        query = `{ levelOnes { id, name, LevelTwo { id, name, levelThree { id, name } } } }`;
         break;
       case "POST"://update
-        query = ``
+        query = `mutation ($newName1: String!, $newName2: String!, $id1: ID!) { updateLevelOne(data: {name: $newName1, LevelTwo: {create: {name: $newName2}}}, where: {id: $id1}) { id, name, LevelTwo { id, name } } }`
         variable = {
-
+          newName1:config.newName1,
+          newName2:config.newName2,
+          id1:config.id
         }
         break;
       case "DELETE": //delete
-        query = `mutation ($namel1: String!, $namel2: String!, $namel3: String!) { deleteManyLevelOnes(where: {name: $namel1, LevelTwo_every: {name: $namel2, levelThree_every: {name: $namel3}}}) { count } }`
+        query = `mutation ($id: ID!) { deleteLevelOne(where: {id: $id}) { id, name } } `
         variable = {
-          namel1:config.namel1,
-          namel2:config.namel2,
-          namel3:config.namel3
+          id:config.id
         }
         break;
-
     }
     return this
       .http
