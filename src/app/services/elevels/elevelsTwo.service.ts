@@ -8,34 +8,31 @@ import { HttpClient } from '@angular/common/http';
 export class ELevelsService {
 
   constructor(private http: HttpClient) { }
-  service(config) { ////method,url,namel1,namel2,namel3
+  service(config) { ////method,url,newName2,newName3,id
     let query: string = "";
     let variable: object = {};
     console.log(config)
     switch (config.method) {
       case "PUT": //create
-        query = `mutation ($namel1: String!, $namel2: String!, $namel3: String!) { createLevelOne(data: {name: $namel1, LevelTwo: {create: {name: $namel2, levelThree: {create: {name: $namel3}}}}}) { name LevelTwo { name levelThree { name } } } } `
+        query = ` `
         variable = {
-          namel1:config.namel1,
-          namel2:config.namel2,
-          namel3:config.namel3
         }
         break;
       case "GET": //read
-        query = `{ levelOnes { name LevelTwo { name levelThree { name } } } }`;
+        query = `{ levelOnes { id, name, LevelTwo { id, name, levelThree { id, name } } } }`;
         break;
       case "POST"://update
-        query = ``
+        query = `mutation ($newName2: String!, $newName3: String!, $id: ID!) { updateLevelTwo(data: {name: $newName2, levelThree: {create: {name: $newName3}}}, where: {id: $id}) { id name levelThree { id name } } } `
         variable = {
-
+          newName2:config.newName2,
+          newName3:config.newName3,
+          id:config.id
         }
         break;
       case "DELETE": //delete
-        query = `mutation ($namel1: String!, $namel2: String!, $namel3: String!) { deleteManyLevelOnes(where: {name: $namel1, LevelTwo_every: {name: $namel2, levelThree_every: {name: $namel3}}}) { count } }`
+        query = `mutation ($id: ID!) { deleteLevelTwo(where: {id: $id}) { id name } } `
         variable = {
-          namel1:config.namel1,
-          namel2:config.namel2,
-          namel3:config.namel3
+          id:config.id
         }
         break;
 
