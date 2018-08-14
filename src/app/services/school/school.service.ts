@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class SchoolService {
 
   constructor(private http: HttpClient) { }
-  service(config) { ////method,url,name,cities,newName
+  service(config) { ////method,url,id,adminId,address,admin,gps,phone,fa,district,adminNum,studentsNum,classesNum ... , admin[Object of admin data check schema] 
     let query: string = "";
     let variable: object = {};
     console.log(config)
@@ -15,40 +15,52 @@ export class SchoolService {
       case "POST" : //update
         query = `` 
         variable = {
+          id:config.id,
+          address:config.address,
+          admin:config.admin,
+          gps:config.gps,
+          phone:config.phone,
+          fax:config.fax,
+          district:config.district,
+          adminNum:config.adminNum,
+          studentsNum:config.studentsNum,
+          classesNum:config.classesNum,
+          teachersNum:config.teachersNum,
+          StudyYears:config.StudyYears,
+          lowestStudyYear:config.lowestStudyYear,
+          highestStudyYear:config.highestStudyYear,
+          name:config.name,
+          motherComp:config.motherComp,
+          adminId:config.adminId
         }       
       break;  
       case "GET": //read
-        query = `{ schools { id schAdmins { job name type phone whatsApp email username password } address studentsNum adminNum teachersNum classesNum gps phone fax district StudyYears lowestStudyYear highestStudyYear name motherComp } } `;
+        query = `{schools { id address admin { id name job type phone whatsApp email username password } gps phone fax district adminNum studentsNum classesNum teachersNum StudyYears lowestStudyYear highestStudyYear name motherComp } }`;
       break;
       case "PUT"://create
-        query = ` {create: {name: $adminName, job: $adminJob, type: $admintype, phone: $adminPhone, whatsApp: $adminWhatsapp, email: $adminEmail, username: $adminUsername, password: $adminPassword}}}) { highestStudyYear id address phone schAdmins { name job type phone whatsApp email username password } gps fax district StudyYears lowestStudyYear highestStudyYear motherComp studentsNum classesNum teachersNum } } `
+        query = `mutation ($admin: NahjAdminCreateInput!, $address: String!, $gps: String!, $phone: String!, $fax: String!, $district: String!, $adminNum: Int!, $studentsNum: Int!, $classesNum: Int!, $teachersNum: Int!, $StudyYears: String!, $lowestStudyYear: String!, $highestStudyYear: String!, $name: String!, $motherComp: String!) { createSchool(data: {address: $address, gps: $gps, phone: $phone, fax: $fax, district: $district, adminNum: $adminNum, studentsNum: $studentsNum, classesNum: $classesNum, teachersNum: $teachersNum, StudyYears: $StudyYears, lowestStudyYear: $lowestStudyYear, highestStudyYear: $highestStudyYear, name: $name, motherComp: $motherComp, admin: {create: [$admin]}}) { id address admin { id name job type phone whatsApp email username password } gps phone fax district adminNum studentsNum classesNum teachersNum StudyYears lowestStudyYear highestStudyYear name motherComp } }`
         variable = {
-            adminWhatsapp:config.adminWhatsapp,
-            adminUsername:config.adminUsername,
-            adminJob:config.adminJob,
-            adminPhone:config.adminPhone,
-            admintype:config.admintype,
-            adminPassword:config.adminPassword,
-            adminEmail:config.adminEmail,
-            adminName:config.adminName,
-            gps:config.gps,
-            name:config.name,
-            highestStudyYear:config.highestStudyYear,
-            address:config.address,
-            StudyYears:config.StudyYears,
-            phone:config.phone,
-            studentsNum:config.studentsNum,
-            district:config.district,
-            motherComp:config.motherComp,
-            lowestStudyYear:config.lowestStudyYear,
-            fax:config.fax,
-            teacherNum:config.teacherNum,
-            ClassesNum:config.ClassesNum,
-            adminNum:config.adminNum
+          email	:config.email,
+          id:config.id,
+          address:config.address,
+          admin:config.admin,
+          gps:config.gps,
+          phone:config.phone,
+          fax:config.fax,
+          district:config.district,
+          adminNum:config.adminNum,
+          studentsNum:config.studentsNum,
+          classesNum:config.classesNum,
+          teachersNum:config.teachersNum,
+          StudyYears:config.StudyYears,
+          lowestStudyYear:config.lowestStudyYear,
+          highestStudyYear:config.highestStudyYear,
+          name:config.name,
+          motherComp:config.motherComp,
         }
       break;
       case "DELETE": //delete
-        query = `mutation ($id: ID!) { deleteschool(where: {id: $id}) { id } } `
+        query = `mutation ($id: ID!) { deleteSchool(where: {id: $id}) { id name } }`
         variable = {
           id:config.id
         }
