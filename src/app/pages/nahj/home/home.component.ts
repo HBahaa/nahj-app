@@ -214,7 +214,6 @@ export class HomeComponent implements OnInit {
 			this.getGeoCityData(undefined);
 			this.selectedGeo = undefined;
 		})
-
 	}
 
 	deleteCity($event){

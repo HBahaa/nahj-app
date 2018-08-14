@@ -5,18 +5,17 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class ELevelsService {
+export class ELevelsOneService {
 
   constructor(private http: HttpClient) { }
   service(config) { ////method,url,newName1,newName2,id
     let query: string = "";
     let variable: object = {};
-    console.log(config)
     switch (config.method) {
       case "PUT": //create
         query = `mutation ($name: String!) { createLevelOne(data: {name: $name}) { id, name } }`
         variable = {
-          namel1:config.newName1
+          name:config.newName1
         }
         break;
       case "GET": //read
