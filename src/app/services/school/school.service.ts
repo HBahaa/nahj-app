@@ -56,8 +56,9 @@ export class SchoolService {
           lowestStudyYear:config.lowestStudyYear,
           highestStudyYear:config.highestStudyYear,
           name:config.name,
-          motherComp:config.motherComp,
+          motherComp:config.motherComp
         }
+
       break;
       case "DELETE": //delete
         query = `mutation ($id: ID!) { deleteSchool(where: {id: $id}) { id name } }`

@@ -2,50 +2,35 @@
 	<img src="{{img}}" class="card-img" />
 	<div class="card-body" [ngClass]="img ? '' : 'mt-5'">
 		<div class="form-group">
-			<select class="form-control">
-				<option selected>المدارس اﻷهلية</option>
-				<option value="1">المدارس اﻷهلية</option>
-				<option value="2">المدارس اﻷهلية</option>
+			<select (change)="handleChange('level1', $event)" class="form-control">
+				<option *ngFor="let item of level1; index as i" value="{{item}}">{{item}}</option>
 			</select>
 		</div>
 		<div class="form-group">
-			<select class="form-control">
-				<option selected>منطقة الرياض</option>
-				<option value="1">منطقة الرياض</option>
-				<option value="2">منطقة الرياض</option>
+			<select (change)="handleChange('level2', $event)" class="form-control">
+				<option *ngFor="let item of level2; index as i" value="{{item}}">{{item}}</option>
 			</select>
 		</div>
 		<div class="form-group">
-			<select (change)="handleChange($event)" class="form-control">
-				<option selected>المدارس المشتركة بالفعل</option>
-				<option value="1">المدارس المشتركة بالفعل</option>
-				<option value="2">المدارس المشتركة بالفعل</option>
+			<select (change)="handleChange('level3', $event)" class="form-control">
+				<option *ngFor="let item of level3; index as i" value="{{item}}">{{item}}</option>
 			</select>
 		</div>
 		<div>
 			<label for="">المدارس</label>
 			<select class="form-control" size="7">
-				<option selected>مدارس المنارات</option>
-				<option value="1">مدارس المملكة</option>
-				<option value="2">مدارس الرياض</option>
-				<option value="2">مدارس الرياض</option>
-				<option value="2">مدارس الرياض</option>
-				<option value="2">مدارس الرياض</option>
-				<option value="2">مدارس الرياض</option>
-				<option value="2">مدارس الرياض</option>
-				<option value="2">مدارس الرياض</option>
-				<option value="2">مدارس الرياض</option>
+				<option (click)="itemClicked(item)" *ngFor="let item of result; index as i" value="{{i}}">{{item}}</option>
 			</select>
 		</div>
 
 		<div class="text-left card-footer">
-	    	<button class="btn btn-success ml-2" type="button">
+	    	<button class="btn btn-success ml-2" (click)="addSchool()" type="button">
 	        	<i class="fa fa-fw fa-plus"></i>
 		    </button>
-		    <button class="btn btn-primary ml-2" type="button">
+		    <button class="btn btn-primary ml-2" (click)="editSchool()" type="button">
 	        	<i class="fa fa-fw fa-edit"></i>
 		    </button>
-		    <button class="btn btn-danger" type="button">
+		    <button class="btn btn-danger" (click)="deleteSchool()" type="button">
 		        	<i class="fa fa-fw fa-close"></i>
 		    </button>
 	    </div>

@@ -5,66 +5,66 @@
         <h4>بيانات الجهات و رخص الأستخدام</h4>
       </div>
     </div>
-    <div class="row mt-4">
+    <form [formGroup]="form" class="row mt-4">
       <div class="col-lg-3 col-sm-6">
-        <app-school-filter ></app-school-filter>
+        <app-school-filter (itemDetails)="getItemDetails($event)" (filterChange)="filterSchoolList($event)" (addButton)="addSchool($event)" (editButton)="editSchool($event)" (deleteButton)="deleteSchool($event)"></app-school-filter>
       </div>
       <div class="col-md-3 col-sm-6">
         <div class="card">
           <div class="card-body">
             <div class="form-group">
-              <input type="text" name="schoolName" placeholder="اسم المدرسة" class="form-control" />
+              <input type="text" formControlName="schoolName" class="form-control" placeholder="اسم المدرسة" />
             </div>
             <div class="form-group">
-              <input type="text" name="companyName" placeholder="الشركة اﻷم" class="form-control" />
+              <input type="text" formControlName="motherComp" class="form-control" placeholder="الشركة اﻷم" />
             </div>
             <div class="form-group">
-              <select class="form-control">
-                <option selected>المنطقة</option>
+              <select class="form-control" formControlName="region">
+                <option value="0">المنطقة</option>
                 <option></option>
               </select>
             </div>
             <div class="form-group">
-              <select class="form-control">
-                <option selected>المدينة</option>
+              <select class="form-control" formControlName="city">
+                <option value="0">المدينة</option>
                 <option></option>
               </select>
             </div>
             <h5>بيانات المدرسة</h5>
             <ul class="list-group">
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="الحي">
+                <input type="text" class="form-control" formControlName="district" placeholder="الحي">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="إجمالي عدد الطلاب">
+                <input type="number" class="form-control" formControlName="studentsNum" placeholder="إجمالي عدد الطلاب">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="عدد الفصول الدراسية">
+                <input type="number" class="form-control" formControlName="classesNum" placeholder="عدد الفصول الدراسية">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="السنة الدرااسية اﻷدني">
+                <input type="text" class="form-control" formControlName="lowestStudyYear" placeholder="السنة الدرااسية اﻷدني">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="السنة الدرااسية اﻷعلي">
+                <input type="text" class="form-control" formControlName="highestStudyYear" placeholder="السنة الدرااسية اﻷعلي">
               </li>
             </ul>
             <div>
               <h5>بيانات اﻷتصال</h5>
               <ul class="list-group">
                 <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="الموفع اﻹلكتروني">
+                  <input type="text" class="form-control" formControlName="email" placeholder="الموفع اﻹلكتروني">
                 </li>
                 <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="العنوان">
+                  <input type="text" class="form-control" formControlName="address" placeholder="العنوان">
                 </li>
                 <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="GPS الموقع">
+                  <input type="text" class="form-control" formControlName="gps" placeholder="GPS الموقع">
                 </li>
                 <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="التلفون">
+                  <input type="text" class="form-control" formControlName="phone" placeholder="التلفون">
                 </li>
                 <li class="list-group-item">
-                  <input type="text" class="form-control" placeholder="الفاكس">
+                  <input type="text" class="form-control" formControlName="fax" placeholder="الفاكس">
                 </li>
               </ul>
             </div>  
@@ -76,75 +76,67 @@
           <div class="card-body">
           <h5>الموقع في التقسيم الشجري</h5>
             <div class="form-group">
-              <select class="form-control">
-                <option selected>المدارس اﻷهلية</option>
-                <option value="1">المدارس اﻷهلية</option>
-                <option value="2">المدارس اﻷهلية</option>
+              <select (change)="handleChange('level1', $event)" class="form-control" formControlName="level1">
+                <option *ngFor="let item of level1; index as i" value="{{item}}">{{item}}</option>
               </select>
             </div>
             <div class="form-group">
-              <select class="form-control">
-                <option selected>منطقة الرياض</option>
-                <option value="1">منطقة الرياض</option>
-                <option value="2">منطقة الرياض</option>
+              <select (change)="handleChange('level2', $event)" class="form-control" formControlName="level2">
+                <option *ngFor="let item of level2; index as i" value="{{item}}">{{item}}</option>
               </select>
             </div>
             <div class="form-group">
-              <select class="form-control">
-                <option selected>المدارس المشتركة بالفعل</option>
-                <option value="1">المدارس المشتركة بالفعل</option>
-                <option value="2">المدارس المشتركة بالفعل</option>
+              <select (change)="handleChange('level3', $event)" class="form-control" formControlName="level3">
+                <option *ngFor="let item of level3; index as i" value="{{item}}">{{item}}</option>
               </select>
-            </div>   
-            <!-- <h5>الموقع في التقسيم الشجري</h5> -->
-            
+            </div>
 
             <h5>بيانات المسئول</h5>
             <ul class="list-group">
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="اﻷسم">
+                <input type="text" class="form-control" formControlName="adminName"  placeholder="اﻷسم">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="الوظيفة">
+                <input type="text" class="form-control" formControlName="adminJob" placeholder="الوظيفة">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="الجوال">
+                <input type="text" class="form-control" formControlName="adminPhone" placeholder="الجوال">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="جوال الواتس اب">
+                <input type="text" class="form-control" formControlName="adminWhatsApp" placeholder="جوال الواتس اب">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="اﻹيميل">
+                <input type="text" class="form-control" formControlName="adminEmail" placeholder="اﻹيميل">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="اسم المستخدم">
+                <input type="text" class="form-control" formControlName="adminUsername" placeholder="اسم المستخدم">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="كلمة السر">
+                <input type="text" class="form-control" formControlName="adminPassword" placeholder="كلمة السر">
               </li>
             </ul>
             <h5>بيانات اﻷدمن الرئيسي</h5>
             <ul class="list-group">
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="اﻷسم">
+                <input type="text" class="form-control" formControlName="nahjAdminName"  placeholder="اﻷسم">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="الوظيفة">
+                <input type="text" class="form-control" formControlName="nahjAdminJob" placeholder="الوظيفة">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="الجوال">
+                <input type="text" class="form-control" formControlName="nahjAdminPhone" placeholder="الجوال">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="جوال الواتس اب">
+                <input type="text" class="form-control" formControlName="nahjAdminWhatsApp" placeholder="جوال الواتس اب">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="اﻹيميل">
+                <input type="text" class="form-control" formControlName="nahjAdminEmail" placeholder="اﻹيميل">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="اسم المستخدم">
+                <input type="text" class="form-control" formControlName="nahjAdminUsername" placeholder="اسم المستخدم">
               </li>
               <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="كلمة السر">
+                <input type="text" class="form-control" formControlName="nahjAdminPassword" placeholder="كلمة السر">
               </li>
             </ul>
           </div>
@@ -156,38 +148,24 @@
             
             <div class="form-group">
               <label>الفصل الدراسي</label>
-              <select class="form-control">
+              <select class="form-control" formControlName="studyYears">
                 <option selected>اﻷول 2018 / 2019</option>
                 <option></option>
               </select>
             </div>
             <h5>بيانات الرخصة</h5>
-            <!-- <ul class="list-group">
-              <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="عدد الطلاب">
-              </li>
-              <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="عدد الفصول">
-              </li>
-              <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="عدد المدرسات/ المشرفات">
-              </li>
-              <li class="list-group-item">
-                <input type="text" class="form-control" placeholder="عدد اﻷدمن">
-              </li>
-            </ul> -->
 
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="عدد الطلاب">
+              <input type="number" class="form-control" formControlName="studentsNum" placeholder="عدد الطلاب">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="عدد الفصول">
+              <input type="number" class="form-control" formControlName="classesNum" placeholder="عدد الفصول">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="عدد المدرسات/ المشرفات">
+              <input type="number" class="form-control" formControlName="teachersNum" placeholder="عدد المدرسات/ المشرفات">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="عدد اﻷدمن">
+              <input type="number" class="form-control" formControlName="adminsNum" placeholder="عدد اﻷدمن">
             </div>
             
             <div class="form-group">
@@ -212,6 +190,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>

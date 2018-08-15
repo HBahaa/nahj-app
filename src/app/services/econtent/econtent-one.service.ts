@@ -18,8 +18,7 @@ export class EcontentOneService {
         }
         break;
       case "GET": //read
-        query = `{ contentLevelOnes { id name contentLevelTwo { id name contentLevelThree { id name contentLevelFour { id name } } } } }
-        variables	{}`;
+        query = `{ contentLevelOnes { id name contentLevelTwo { id name contentLevelThree { id name contentLevelFour { id name } } } } }`;
         break;
       case "POST"://update
         query = `mutation ($namel1: String!, $namel2: String!, $Id: ID!) { updateContentLevelOne(data: {name: $namel1, contentLevelTwo: {create: {name: $namel2}}}, where: {id: $Id}) { id name contentLevelTwo { id name } } } `

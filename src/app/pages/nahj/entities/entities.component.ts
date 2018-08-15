@@ -63,11 +63,14 @@ export class EntitiesComponent implements OnInit {
 									}
 									return level3.name;
 								});
+							}else{
+								this.level3 = undefined
 							}
 						}
 						return level2.name
 					});
 				}else if (name1 == level1.name) {
+
 					this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
 						if (!name2 && index2 == 0) {
 							this.selectedLevel2 = level2['name'];
@@ -78,6 +81,8 @@ export class EntitiesComponent implements OnInit {
 									}
 									return level3.name;
 								});
+							}else{
+								this.selectedLevel3 = undefined
 							}
 						}else if (name2 == level2.name) {
 							this.selectedLevel2 = level2['name'];
@@ -88,10 +93,14 @@ export class EntitiesComponent implements OnInit {
 									}
 									return level3.name;
 								});
+							}else{
+								this.level3 = undefined
 							}
 						}
 						return level2.name;
 					});
+					console.log("level2", this.level2)
+					console.log("level3", this.level3)
 				}
 				return level1.name;
 
@@ -161,11 +170,11 @@ export class EntitiesComponent implements OnInit {
 								newName1: this.selectedLevel1,
 								newName2: $event.newValue
 							}).subscribe(data => {
-								let index = this.level1.indexOf($event.value);
-								this.level1.splice(index , 1);
-								this.level1.splice(index , 0, data['data'].updateLevelOne.name);
+								// let index = this.level1.indexOf($event.value);
+								// this.level1.splice(index , 1);
+								// this.level1.splice(index , 0, data['data'].updateLevelOne.name);
+								this.getAllLevels(undefined, undefined);
 							});
-							this.getAllLevels(undefined, undefined);
 						break;
 						case "update":
 							level['LevelTwo'].map(item =>{

@@ -3,16 +3,16 @@
     <div class="row">
       <h4 class="col-md-12">التقسيم الشجري لمكونات المنهج</h4>
       <div class="col-lg-3 col-sm-6">
-        <app-level-card-list [data]='level1' img="./assets/images/level1.png"></app-level-card-list>
+        <app-level-card-list [data]='level1' img="./assets/images/level1.png" componentType="level1" (listItems)="getContentTwo($event)" (deleteButton)="deleteContentOne($event)" (saveButton)="addContentOne($event)"></app-level-card-list>
       </div>
       <div class="col-lg-3 col-sm-6">
-        <app-level-card-list [data]='level2' img="./assets/images/level2.png"></app-level-card-list>
+        <app-level-card-list [data]='level2' img="./assets/images/level2.png" componentType="level2" (listItems)="getContentThree($event)" (deleteButton)="deleteContentTwo($event)" (saveButton)="addContentTwo($event)"></app-level-card-list>
       </div>
       <div class="col-lg-3 col-sm-6">
-        <app-level-card-list [data]='level3' img="./assets/images/level3.png"></app-level-card-list> 
+        <app-level-card-list [data]='level3' img="./assets/images/level3.png" componentType="level3" (listItems)="getContentFour($event)" (deleteButton)="deleteContentThree($event)" (saveButton)="addContentThree($event)"></app-level-card-list> 
       </div>
       <div class="col-lg-3 col-sm-6">
-        <app-level-card-list [data]='level3' img="./assets/images/level4.png"></app-level-card-list> 
+        <app-level-card-list [data]='level4' img="./assets/images/level4.png" componentType="level4" (deleteButton)="deleteContentFour($event)" (saveButton)="addContentFour($event)"></app-level-card-list> 
       </div>
     </div>
   </div>
