@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ELevelsService } from './elevels.service';
+import { ELevelsOneService } from './elevelsOne.service';
 
 describe('ELevelsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ELevelsService]
+      providers: [ELevelsOneService]
     });
   });
 
-  it('should be created', inject([ELevelsService], (service: ELevelsService) => {
+  it('should be created', inject([ELevelsOneService], (service: ELevelsOneService) => {
     expect(service).toBeTruthy();
   }));
 });

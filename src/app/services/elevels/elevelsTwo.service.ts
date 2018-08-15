@@ -5,13 +5,12 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class ELevelsService {
+export class ELevelsTwoService {
 
   constructor(private http: HttpClient) { }
   service(config) { ////method,url,newName2,newName3,id
-    let query: string = "";
+    let query = '';
     let variable: object = {};
-    console.log(config)
     switch (config.method) {
       case "PUT": //create
         query = ` `
@@ -22,6 +21,7 @@ export class ELevelsService {
         query = `{ levelOnes { id, name, LevelTwo { id, name, levelThree { id, name } } } }`;
         break;
       case "POST"://update
+        // tslint:disable-next-line:max-line-length
         query = `mutation ($newName2: String!, $newName3: String!, $id: ID!) { updateLevelTwo(data: {name: $newName2, levelThree: {create: {name: $newName3}}}, where: {id: $id}) { id name levelThree { id name } } } `
         variable = {
           newName2:config.newName2,

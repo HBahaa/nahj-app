@@ -5,46 +5,34 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class ELevelsService {
+export class ELevelsThreeService {
 
   constructor(private http: HttpClient) { }
-  service(config) { ////method,url,namel1,namel2,namel3
-    let query: string = "";
+  service(config) {
+    let query = '';
     let variable: object = {};
-    console.log(config)
+
     switch (config.method) {
-      case "PUT": //create
-        query = `mutation ($namel1: String!, $namel2: String!, $namel3: String!) { createLevelOne(data: {name: $namel1, LevelTwo: {create: {name: $namel2, levelThree: {create: {name: $namel3}}}}}) { name LevelTwo { name levelThree { name } } } } `
+      case 'POST': // update
+        // console.log("conf" , config);
+        query = `mutation ($newName3: String!, $id: ID!) { updateLevelThree(data: {name: $newName3}, where: {id: $id}) { id name } }`;
         variable = {
-          namel1:config.namel1,
-          namel2:config.namel2,
-          namel3:config.namel3
-        }
+          newName3:config.newName3,
+          id:config.id
+        };
         break;
-      case "GET": //read
-        query = `{ levelOnes { name LevelTwo { name levelThree { name } } } }`;
-        break;
-      case "POST"://update
-        query = ``
+      case 'DELETE': // delete
+        query = `mutation ($id: ID!) { deleteLevelThree(where: {id: $id}) { id, name } }`;
         variable = {
-
-        }
+          id: config.id
+        };
         break;
-      case "DELETE": //delete
-        query = `mutation ($namel1: String!, $namel2: String!, $namel3: String!) { deleteManyLevelOnes(where: {name: $namel1, LevelTwo_every: {name: $namel2, levelThree_every: {name: $namel3}}}) { count } }`
-        variable = {
-          namel1:config.namel1,
-          namel2:config.namel2,
-          namel3:config.namel3
-        }
-        break;
-
     }
     return this
       .http
       .post(`${config.url}`, {
-        "query": query,
-        "variables": variable
+        'query': query,
+        'variables': variable
       });
   }
 }
