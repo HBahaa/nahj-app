@@ -13,7 +13,7 @@ export class SchoolService {
     console.log(config)
     switch(config.method){
       case "POST" : //update
-        query = `` 
+        query = `mutation ($address: String!, $gps: String!, $phone: String!, $fax: String!, $district: String!, $adminNum: Int!, $studentsNum: Int!, $classesNum: Int!, $teachersNum: Int!, $StudyYears: String!, $lowestStudyYear: String!, $highestStudyYear: String!, $name: String!, $motherComp: String!, $Id: ID!, $admin: NahjAdminUpdateDataInput!, $adminId: ID!) { updateSchool(data: {address: $address, gps: $gps, phone: $phone, fax: $fax, district: $district, adminNum: $adminNum, studentsNum: $studentsNum, classesNum: $classesNum, teachersNum: $teachersNum, StudyYears: $StudyYears, lowestStudyYear: $lowestStudyYear, highestStudyYear: $highestStudyYear, name: $name, motherComp: $motherComp, admin: {update: {where: {id: $adminId}, data: $admin}}}, where: {id: $Id}) { id address admin { id name job type phone whatsApp email username password } gps phone } }  ` 
         variable = {
           id:config.id,
           address:config.address,
