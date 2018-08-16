@@ -17,23 +17,23 @@ export class EcontentFourService {
         }
         break;
       case "GET": //read
-        query = `{ contentLevelOnes { id name contentLevelTwo { id name contentLevelThree { id name contentLevelFour { id name } } } } }
+        query = `{ contentLevelOnes { id name relativePercentage contentLevelTwo { id name relativePercentage contentLevelThree { id name relativePercentage contentLevelFour { id name relativePercentage } } } } }
         variables	{}`;
         break;
       case "POST"://update
-        query = `mutation ($namel4: String!, $Id: ID!) { updateContentLevelFour(data: {name: $namel4}, where: {id: $Id}) { id name } }`
+        query = `mutation ($namel4: String!, $relativePercentagel4: Int!, $Id: ID!) { updateContentLevelFour(data: {name: $namel4, relativePercentage: $relativePercentagel4}, where: {id: $Id}) { id name relativePercentage } }`
         variable = {
           namel4:config.namel4,
+          relativePercentagel4: config.relativePercentagel4,
           Id:config.Id
         }
         break;
       case "DELETE": //delete
-        query = `mutation ($Id: ID!) { deleteContentLevelFour(where: {id: $Id}) { id name } }`
+        query = `mutation ($Id: ID!) { deleteContentLevelFour(where: {id: $Id}) { id name relativePercentage } }`
         variable = {
           Id:config.Id
         }
         break;
-
     }
     return this
       .http

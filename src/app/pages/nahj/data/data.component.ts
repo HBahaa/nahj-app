@@ -69,7 +69,7 @@ export class DataComponent implements OnInit {
 			nahjAdminPassword: ['', Validators.required]
 	    });
 
-	this.getAllLevels(undefined, undefined);
+		this.getAllLevels(undefined, undefined);
 	}
 
 	///   get data functions
@@ -150,15 +150,15 @@ export class DataComponent implements OnInit {
 			email:config.email,
 			address:config.address,
 			admin:[{
-							name: config.nahjAdminName,
-							phone: config.nahjAdminPhone,
-							email: config.nahjAdminEmail,
-							job: config.nahjAdminJob,
-							whatsApp: config.nahjAdminWhatsApp,
-							type: 'nahjAdmin',
-							password: config.nahjAdminPassword,
-							username: config.nahjAdminUsername
-						}],
+					name: config.nahjAdminName,
+					phone: config.nahjAdminPhone,
+					email: config.nahjAdminEmail,
+					job: config.nahjAdminJob,
+					whatsApp: config.nahjAdminWhatsApp,
+					type: 'nahjAdmin',
+					password: config.nahjAdminPassword,
+					username: config.nahjAdminUsername
+				}],
 			gps:config.gps,
 			phone:config.phone,
 			fax:config.fax,

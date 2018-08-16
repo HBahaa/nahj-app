@@ -53,54 +53,64 @@ export class EntitiesComponent implements OnInit {
 			this.level1 = data['data'].levelOnes.map((level1, index1)=>{
 				if (!name1 && index1 == 0) {
 					this.selectedLevel1 = level1.name;
-					this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
-						if (index2 == 0) {
-							this.selectedLevel2 = level2['name'];
-							if (level2['levelThree']) {
-								this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
-									if(index3 == 0){
-										this.selectedLevel3 = level3['name']
-									}
-									return level3.name;
-								});
-							}else{
-								this.level3 = undefined
+					if(level1['LevelTwo'].length > 0){
+						this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
+							if (index2 == 0) {
+								this.selectedLevel2 = level2['name'];
+								if (level2['levelThree']) {
+									this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
+										if(index3 == 0){
+											this.selectedLevel3 = level3['name']
+										}
+										return level3.name;
+									});
+								}else{
+									this.level3 = undefined
+								}
 							}
-						}
-						return level2.name
-					});
+							return level2.name
+						});
+					}else{
+						this.selectedLevel2 = undefined;
+						this.selectedLevel3 = undefined;
+						this.level3 = []
+					}
 				}else if (name1 == level1.name) {
-
-					this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
-						if (!name2 && index2 == 0) {
-							this.selectedLevel2 = level2['name'];
-							if (level2['levelThree']) {
-								this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
-									if(index3 == 0){
-										this.selectedLevel3 = level3['name']
-									}
-									return level3.name;
-								});
-							}else{
-								this.selectedLevel3 = undefined
+					if(level1['LevelTwo'].length > 0){
+						this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
+							if (!name2 && index2 == 0) {
+								this.selectedLevel2 = level2['name'];
+								if (level2['levelThree']) {
+									this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
+										if(index3 == 0){
+											this.selectedLevel3 = level3['name']
+										}
+										return level3.name;
+									});
+								}else{
+									this.selectedLevel3 = undefined
+								}
+							}else if (name2 == level2.name) {
+								this.selectedLevel2 = level2['name'];
+								if (level2['levelThree']) {
+									this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
+										if(index3 == 0){
+											this.selectedLevel3 = level3['name']
+										}
+										return level3.name;
+									});
+								}else{
+									this.level3 = undefined
+								}
 							}
-						}else if (name2 == level2.name) {
-							this.selectedLevel2 = level2['name'];
-							if (level2['levelThree']) {
-								this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
-									if(index3 == 0){
-										this.selectedLevel3 = level3['name']
-									}
-									return level3.name;
-								});
-							}else{
-								this.level3 = undefined
-							}
-						}
-						return level2.name;
-					});
-					console.log("level2", this.level2)
-					console.log("level3", this.level3)
+							return level2.name;
+						});
+					}
+					else{
+						this.selectedLevel2 = undefined;
+						this.selectedLevel3 = undefined;
+						this.level3 = []
+					}
 				}
 				return level1.name;
 

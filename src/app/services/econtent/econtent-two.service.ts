@@ -17,19 +17,21 @@ export class EcontentTwoService {
         }
         break;
       case "GET": //read
-        query = `{ contentLevelOnes { id name contentLevelTwo { id name contentLevelThree { id name contentLevelFour { id name } } } } }
+        query = `{ contentLevelOnes { id name relativePercentage contentLevelTwo { id name relativePercentage contentLevelThree { id name relativePercentage contentLevelFour { id name relativePercentage } } } } }
         variables	{}`;
         break;
       case "POST"://update
-        query = `mutation ($namel2: String!, $namel3: String!, $Id: ID!) { updateContentLevelTwo(data: {name: $namel2, contentLevelThree: {create: {name: $namel3}}}, where: {id: $Id}) { id name contentLevelThree { id name } } } `
+        query = `mutation ($namel2: String!, $namel3: String!, $relativePercentagel2: Int!, $relativePercentagel3: Int!, $Id: ID!) { updateContentLevelTwo(data: {name: $namel2, relativePercentage: $relativePercentagel2, contentLevelThree: {create: {name: $namel3, relativePercentage: $relativePercentagel3}}}, where: {id: $Id}) { id name relativePercentage contentLevelThree { id name relativePercentage } } } `
         variable = {
           namel2:config.namel2,
           namel3:config.namel3,
+          relativePercentagel2: config.relativePercentagel2,
+          relativePercentagel3: config.relativePercentagel3,
           Id:config.Id
         }
         break;
       case "DELETE": //delete
-        query = `mutation ($Id: ID!) { deleteContentLevelTwo(where: {id: $Id}) { id name } } `
+        query = `mutation ($Id: ID!) { deleteContentLevelTwo(where: {id: $Id}) { id name relativePercentage } } `
         variable = {
           Id:config.Id
         }

@@ -19,6 +19,7 @@ export class LevelCardListComponent implements OnInit {
 	show: boolean = true;
 	selectedItem: any;
 	newValue: string;
+	parcentage: string;
 
 	constructor() {	}
 
@@ -26,9 +27,10 @@ export class LevelCardListComponent implements OnInit {
 	}
 
 	listClick(event, componentType, item) {
-	    this.selectedItem = item;
-	    this.newValue = item;
-	    this.listItems.emit({componentType: this.componentType, value: item,newValue:null,eventType:"click"});
+	    this.selectedItem = item.name;
+	    this.newValue = item.name;
+	    this.parcentage = item.relativePercentage
+	    this.listItems.emit({componentType: this.componentType, value: item.name, parcenatge: item.relativePercentage,newValue:null,eventType:"click"});
 	    this.show = true;
 	}
 
@@ -37,10 +39,11 @@ export class LevelCardListComponent implements OnInit {
 	}
 	
 	saveChanges(componentType, value1, value2){
+		console.log("selectedItem", this.selectedItem);
 		this.saveButton.emit({
 			value: this.selectedItem,
 			newValue1: value1,
-			newValue2: value2,
+			newValue2: parseInt(value2),
 			type: this.componentType,
 			eventType : (this.selectedItem && this.selectedItem !== this.newValue ) 
 						? "update" 
@@ -49,13 +52,14 @@ export class LevelCardListComponent implements OnInit {
 						  : "add"
 		});
 		this.show = true;
-		this.updateData.emit();
+		// this.updateData.emit();
 	}
 
 	addItem(){
 		this.show = false;
 		this.selectedItem = undefined;
 		this.newValue = undefined;
+		this.parcentage = undefined;
 	}
 
 	deleteItem(type){
@@ -67,6 +71,7 @@ export class LevelCardListComponent implements OnInit {
 				eventType : "delete"
 			})
 			this.newValue = undefined;
+			this.parcentage = undefined;
 		}
 	}
 }
