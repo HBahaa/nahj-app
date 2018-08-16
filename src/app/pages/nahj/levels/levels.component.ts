@@ -178,15 +178,44 @@ export class LevelsComponent implements OnInit {
 
 	////   add functions
 	addContentOne($event){
-		this.econtentOneService.service({
-			method: 'PUT',
-			url: this.url,
-			namel1: $event.newValue1,
-			relativePercentagel1: $event.newValue2
-		}).subscribe(data=>{
-			this.level1.push({name:data['data'].createContentLevelOne.name, relativePercentage: data['data'].createContentLevelOne.parcentage});
-			this.selectedContent1 = $event.newValue1;
-		})
+		switch ($event.eventType) {
+			case "add":
+				this.econtentOneService.service({
+					method: 'PUT',
+					url: this.url,
+					namel1: $event.newValue1,
+					relativePercentagel1: $event.newValue2
+				}).subscribe(data=>{
+					this.level1.push({name:data['data'].createContentLevelOne.name, relativePercentage: data['data'].createContentLevelOne.parcentage});
+					this.selectedContent1 = $event.newValue1;
+				})
+				break;
+				
+			case "update":
+				this.econtentOneService.service({
+					method: "GET",
+					url: this.url
+				}).subscribe(resp=>{
+					resp['data'].contentLevelOnes.map(l1=> {
+						if (l1.name == this.selectedContent1) {
+
+							this.econtentOneService.service({
+								method: 'POST',
+								url: this.url,
+								namel1: $event.newValue1,
+								relativePercentagel1: $event.newValue2,
+								namel2: "",
+								relativePercentagel2: 0,
+								Id: l1.id
+							}).subscribe(data=>{
+								this.selectedContent1 = $event.newValue1;
+								this.getContentData($event.newValue1, undefined, undefined, undefined)
+							})
+						}
+					})
+				})
+				break;
+		}
 	}
 	addContentTwo($event){
 		this.econtentOneService.service({
@@ -370,6 +399,12 @@ export class LevelsComponent implements OnInit {
 							url: this.url,
 							Id: item2.id
 						}).subscribe(resp=>{
+							this.selectedContent2 = undefined;
+							this.selectedParcentage2 = undefined;
+							this.selectedContent3 = undefined;
+							this.selectedParcentage3 = undefined;
+							this.selectedContent4 = undefined;
+							this.selectedParcentage4 = undefined;
 							this.getContentData(this.selectedContent1, undefined, undefined, undefined)
 						});
 					}
@@ -391,6 +426,10 @@ export class LevelsComponent implements OnInit {
 								url: this.url,
 								Id: item3.id
 							}).subscribe(resp=>{
+								this.selectedContent3 = undefined;
+								this.selectedParcentage3 = undefined;
+								this.selectedContent4 = undefined;
+								this.selectedParcentage4 = undefined;
 								this.getContentData(this.selectedContent1, this.selectedContent2, undefined, undefined)
 							});
 						}
@@ -415,6 +454,8 @@ export class LevelsComponent implements OnInit {
 									url: this.url,
 									Id: item4.id
 								}).subscribe(resp=>{
+									this.selectedContent4 = undefined;
+									this.selectedParcentage4 = undefined;
 									this.getContentData(this.selectedContent1, this.selectedContent2, this.selectedContent3, undefined)
 								});
 							}

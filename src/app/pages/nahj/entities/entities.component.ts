@@ -53,7 +53,7 @@ export class EntitiesComponent implements OnInit {
 			this.level1 = data['data'].levelOnes.map((level1, index1)=>{
 				if (!name1 && index1 == 0) {
 					this.selectedLevel1 = level1.name;
-					if(level1['LevelTwo'].length > 0){
+					if(level1['LevelTwo'].length > 0){ 
 						this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
 							if (index2 == 0) {
 								this.selectedLevel2 = level2['name'];
@@ -73,7 +73,8 @@ export class EntitiesComponent implements OnInit {
 					}else{
 						this.selectedLevel2 = undefined;
 						this.selectedLevel3 = undefined;
-						this.level3 = []
+						this.level2 = [];
+						this.level3 = [];
 					}
 				}else if (name1 == level1.name) {
 					if(level1['LevelTwo'].length > 0){
@@ -109,6 +110,7 @@ export class EntitiesComponent implements OnInit {
 					else{
 						this.selectedLevel2 = undefined;
 						this.selectedLevel3 = undefined;
+						this.level2 = []
 						this.level3 = []
 					}
 				}

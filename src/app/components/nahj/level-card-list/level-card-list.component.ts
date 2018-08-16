@@ -39,15 +39,14 @@ export class LevelCardListComponent implements OnInit {
 	}
 	
 	saveChanges(componentType, value1, value2){
-		console.log("selectedItem", this.selectedItem);
 		this.saveButton.emit({
 			value: this.selectedItem,
 			newValue1: value1,
 			newValue2: parseInt(value2),
 			type: this.componentType,
-			eventType : (this.selectedItem && this.selectedItem !== this.newValue ) 
+			eventType : (this.selectedItem && (this.selectedItem === this.newValue || parseInt(this.parcentage) === parseInt(value2)) ) 
 						? "update" 
-						: (this.selectedItem === this.newValue) 
+						: (this.selectedItem === this.newValue && parseInt(this.parcentage) === parseInt(value2)) 
 						  ? undefined
 						  : "add"
 		});
@@ -72,6 +71,7 @@ export class LevelCardListComponent implements OnInit {
 			})
 			this.newValue = undefined;
 			this.parcentage = undefined;
+			this.selectedItem = undefined;
 		}
 	}
 }
