@@ -12,35 +12,49 @@ export class evaluationSchema {
     let query: string = "";
     let variable: object = {};
     // console.log(config)
-    switch(config.method){
-      case "POST" : //update
-        query = `mutation($id:ID!,$name:String!,$grades:[String!]){
-            updateEvaluationOptions(data:{
+    switch (config.method) {
+      case "POST": //update
+        query = `mutation($id:ID!,$name:String!,$Gid:ID,$Gname:String!,$Gwt:String!){
+          updateEvaluationOptions(
+            data:{
               name:$name,
               grades:{
-                update:{
-                  grades:{
-                    set:$grades
+                upsert:{
+                  where:{
+                    id:$Gid
+                  }
+                  update:{
+                    grade:$Gname,
+                    weight:$Gwt
+                  },
+                  create:{
+                    grade:$Gname
+                    weight:$Gwt
                   }
                 }
               }
-            },where:{
+            },
+            where:{
               id:$id
-            }){
-              id,
-              name,
-              grades{
-                id,
-                grades
-              }
             }
-          }` 
+          ){
+            id,
+            name,
+            grades{
+              id,
+              grade,
+              weight
+            }
+          }
+        }`
         variable = {
-          id:config.id,
-          name:config.name,
-          grades:config.grades
-        }       
-      break;
+          id: config.id,
+          name: config.name,
+          Gid: config.Gid,//optional pass for update , skip for create
+          Gname: config.Gname,
+          Gwt: config.Gwt
+        }
+        break;
       case "GET": //read
         query = `{
             evaluationOptionses{
@@ -48,59 +62,80 @@ export class evaluationSchema {
               name,
               grades{
                 id,
-                grades
+                grade,
+                weight
               }
             }
           }`;
-      break;
-      case "PUT"://create
+        break;
+      case "PUT"://create main grade not sub-fields
         query = `mutation($name:String!){
-            createEvaluationOptions(
+          createEvaluationOptions(
+            data:{
+              name:$name,
+            }
+          ){
+            id,
+            name,
+          }
+        }`
+        variable = {
+          name: config.name
+        }
+        break;
+      case "DELETE": //delete
+        if (config.Gid) {
+          query = `mutation($id:ID!$Gid:ID){
+            updateEvaluationOptions(
               data:{
-                name:$name,
                 grades:{
-                  create:{
-                    grades:{
-                      set:[""]
-                    }
+                  delete:{
+                    id:$Gid
                   }
                 }
+              },
+              where:{
+                id:$id
               }
             ){
               id,
               name,
               grades{
                 id,
-                grades
+                grade,
+                weight
               }
             }
-          }`
-        variable = {
-         name:config.name 
-        }
-      break;
-      case "DELETE": //delete
-        query = `mutation($id:ID!){
+          }
+          `
+          variable = {
+            id : config.id,
+            Gid : config.Gid
+          }
+        } else {
+          query = `mutation($id:ID!){
             deleteEvaluationOptions(where:{id:$id}){
               id,
               name,
               grades{
                 id,
-                grades
+                grade,
+                weight
               }
             }
           }`
-        variable = {
-            id:config.id
+          variable = {
+            id: config.id
+          }
         }
-      break;
-      
+        break;
+
     }
     return this
       .http
       .post(`${config.url}`, {
-          "query": query,
-          "variables": variable
+        "query": query,
+        "variables": variable
       });
   }
 

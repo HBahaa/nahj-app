@@ -36,8 +36,8 @@ export class SchoolService {
           $level1: ID
           $level2: ID
           $level3: ID
-          $GeoAreaID: ID
-          $cityID: ID
+          $GeoAreaName: String!
+          $cityName: String!
         ) {
           updateSchool(
             data: {
@@ -65,9 +65,9 @@ export class SchoolService {
               levelTwo: { connect: { id: $level2 } }
               levelThree: { connect: { id: $level3 } }
               speciificArea: {
-                create: {
-                  speciificGeaoArea: { connect: { id: $GeoAreaID } }
-                  speciificCity: { connect: { id: $cityID } }
+                update: {
+                  speciificGeaoArea: { update: { name: $GeoAreaName } }
+                  speciificCity: { update: { name: $cityName } }
                 }
               }
             }
@@ -110,50 +110,25 @@ export class SchoolService {
             }
             name
             motherComp
+            gps
+            phone
+            fax
+            district
+            adminNum
+            studentsNum
+            classesNum
+            teachersNum
+            StudyYears
+            lowestStudyYear
+            highestStudyYear
+            name
+            motherComp
             levels {
               id
               name
               LevelTwo {
                 id
                 name
-                id
-                address
-                admin {
-                  id
-                  name
-                  job
-                  type
-                  phone
-                  whatsApp
-                  email
-                  username
-                  password
-                }
-                gps
-                phone
-                fax
-                district
-                adminNum
-                studentsNum
-                classesNum
-                teachersNum
-                StudyYears
-                lowestStudyYear
-                highestStudyYear
-                name
-                motherComp
-                levels {
-                  id
-                  name
-                  LevelTwo {
-                    id
-                    name
-                    levelThree {
-                      id
-                      name
-                    }
-                  }
-                }
                 levelThree {
                   id
                   name
@@ -186,8 +161,8 @@ export class SchoolService {
 					level2: config.level2,
   				level3: config.level3,
   				schoolID: config.schoolID,
-  				GeoAreaID: config.GeoAreaID,
-  				cityID: config.cityID
+  				GeoAreaName: config.GeoAreaName,
+  				cityName: config.cityName
         }       
       break;  
       case "GET": //read
@@ -267,8 +242,8 @@ export class SchoolService {
           $level1: ID
           $level2: ID
           $level3: ID
-          $GeoAreaID: ID
-          $cityID: ID
+          $GeoAreaName: String!
+          $cityName: String!
         ) {
           createSchool(
             data: {
@@ -294,8 +269,8 @@ export class SchoolService {
               levelThree: { connect: { id: $level3 } }
               speciificArea: {
                 create: {
-                  speciificGeaoArea: { connect: { id: $GeoAreaID } }
-                  speciificCity: { connect: { id: $cityID } }
+                  speciificGeaoArea: { create: { name: $GeoAreaName } }
+                  speciificCity: { create: { name: $cityName } }
                 }
               }
             }
@@ -372,8 +347,8 @@ export class SchoolService {
           level1:config.level1,
 					level2: config.level2,
   				level3: config.level3,
-  				GeoAreaID: config.GeoAreaID,
-  				cityID: config.cityID
+  				GeoAreaName: config.GeoAreaName,
+  				cityName: config.cityName
         }
 
       break;
