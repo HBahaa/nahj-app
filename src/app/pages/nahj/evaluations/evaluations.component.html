@@ -27,10 +27,10 @@
 					<div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="options-tab">
 						<div class="row">
 							<div class="col-lg-3 col-sm-6">
-								<app-card-list img="./assets/images/evaluation_options.png" [data]="options" title="الخيارات" ></app-card-list>
+								<app-card-list img="./assets/images/evaluation_options.png" componentType="option" [data]="options" title="الخيارات"  (listItems)="getGrades($event)" (saveButton)="addNewEvaluationOption($event)" (deleteButton)="deleteEvaluationOption($event)"></app-card-list> 
 							</div>
 							<div class="col-lg-3 col-sm-6">
-								<app-level-card-list [data]="values" title="التقديرات" ></app-level-card-list>
+								<app-level-card-list [data]="grades" title="التقديرات" (saveButton)="addNewGrade($event)"></app-level-card-list>
 							</div>
 						</div>
 					</div>

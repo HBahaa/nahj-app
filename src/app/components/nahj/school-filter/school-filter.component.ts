@@ -12,6 +12,7 @@ import { SchoolService } from '../../../services/school/school.service';
 export class SchoolFilterComponent implements OnInit {
 
 	@Input() img: string;
+	@Input() update: string;
 	url = 'http://localhost:4466';
 	level1=[];
 	level2=[];
@@ -22,12 +23,15 @@ export class SchoolFilterComponent implements OnInit {
 	selectedLevel3;
 	selectedItem;
 	selectedItemName;
+	add: boolean = true;
+	edit: boolean = true;
 
 	@Output() filterChange = new EventEmitter();
 	@Output() itemDetails = new EventEmitter();
 	@Output() deleteButton = new EventEmitter();
 	@Output() editButton = new EventEmitter();
 	@Output() addButton = new EventEmitter();
+	@Output() clearFormFields = new EventEmitter();
 
 
 	constructor(
@@ -38,6 +42,10 @@ export class SchoolFilterComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.getAllLevels(undefined, undefined);
+	}
+	ngOnChanges(){
+		//when update input changes this function runs
 		this.getAllLevels(undefined, undefined);
 	}
 
@@ -134,7 +142,8 @@ export class SchoolFilterComponent implements OnInit {
 	}
 
 	itemClicked(item) {
-		console.log("item", item)
+		this.add = true;
+		this.edit = true;
 	    this.selectedItemName = item.name;
 	    this.selectedItem = item;
 		this.itemDetails.emit(item);
@@ -143,11 +152,20 @@ export class SchoolFilterComponent implements OnInit {
 	handleChange(level, e){
 		this.getLevelData({'level': level, 'value': e.target.value })
 	}
+	addClicked(){
+		this.add = false;
+		this.clearFormFields.emit();
+	}
+	editClicked(){
+		this.edit = false;
+	}
 	addSchool(){
 		this.addButton.emit();
+		this.add = true;
 	}
 	editSchool(){
-		this.editButton.emit({})
+		this.editButton.emit(this.selectedItem);
+		this.edit = true;
 	}
 	deleteSchool(item){
 		this.deleteButton.emit(this.selectedItem)

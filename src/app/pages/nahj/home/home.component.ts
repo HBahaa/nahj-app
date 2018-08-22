@@ -206,11 +206,13 @@ export class HomeComponent implements OnInit {
 
 	//delete data functions
 	deleteGeo($event){
+		console.log("delel", $event)
 		this.geoService.service({
 			method: 'DELETE',
 			url: this.url,
 			name: $event.value
 		}).subscribe((data:any)=> {
+			console.log("delte geo", data)
 			this.getGeoCityData(undefined);
 			this.selectedGeo = undefined;
 		})

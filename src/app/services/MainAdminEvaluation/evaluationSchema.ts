@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class evaluationSchema {
+export class EvaluationSchema {
   constructor(private http: HttpClient) { }
 
   service(config) { ////method,url,name,cities,newName
@@ -66,7 +66,7 @@ export class evaluationSchema {
                 weight
               }
             }
-          }`;
+          }`; 
         break;
       case "PUT"://create main grade not sub-fields
         query = `mutation($name:String!){
