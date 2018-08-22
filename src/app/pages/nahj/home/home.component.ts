@@ -208,13 +208,23 @@ export class HomeComponent implements OnInit {
 	deleteGeo($event){
 		console.log("delel", $event)
 		this.geoService.service({
-			method: 'DELETE',
-			url: this.url,
-			name: $event.value
-		}).subscribe((data:any)=> {
-			console.log("delte geo", data)
-			this.getGeoCityData(undefined);
-			this.selectedGeo = undefined;
+			method: 'GET',
+			url: this.url
+		}).subscribe(geos=>{
+			geos['data'].geoAreas.map(geo=>{
+				if (geo.name == $event.value) {
+					this.geoService.service({
+						method: 'DELETE',
+						url: this.url,
+						id: geo.id
+					}).subscribe((data:any)=> {
+						console.log("delte geo", data)
+						this.getGeoCityData(undefined);
+						this.selectedGeo = undefined;
+					})
+				}
+			})
+
 		})
 	}
 

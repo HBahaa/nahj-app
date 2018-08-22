@@ -32,6 +32,7 @@ export class EvaluationsComponent implements OnInit {
 				if(!name && index == 0){
 					// this.selectedEvaluationOption = option.name;
 					this.grades = option.grades.filter(n => n.name != "" ).map(object=> (({grade, id, weight})=>({grade, weight}))(object));
+					console.log("grades", this.grades)
 				}else if(option.name == name){
 					// this.selectedEvaluationOption = option.name;
 					this.grades = option.grades.filter(n => n.name != "" ).map(object=> (({grade, id, weight})=>({grade, weight}))(object));
@@ -72,6 +73,7 @@ export class EvaluationsComponent implements OnInit {
 								url: this.url,
 								id: option.id,
 								name: $event.newValue,
+								Gid:"",
 								Gname:"",
 								Gwt: ""
 							}).subscribe((data: any) => {
@@ -84,7 +86,29 @@ export class EvaluationsComponent implements OnInit {
 		}
 	}
 	addNewGrade($event){
-
+		console.log("add grade", $event);
+		console.log("selectedEval", this.selectedEvaluationOption);
+		this.evaluationSchema.service({
+			method: 'GET',
+			url: this.url
+		}).subscribe((data: any) => {
+			data['data'].evaluationOptionses.map(option =>{
+				if (option.name == this.selectedEvaluationOption) {
+					let gwt = $event.newValue2.toString();
+					this.evaluationSchema.service({
+						method: 'POST',
+						url: this.url,
+						id: option.id,
+						name: this.selectedEvaluationOption,
+						Gid:"",
+						Gname:$event.newValue1,
+						Gwt: gwt
+					}).subscribe((data: any) => {
+						console.log("data", data)
+					});
+				}
+			});
+		});
 	}
 	deleteEvaluationOption($event){
 
