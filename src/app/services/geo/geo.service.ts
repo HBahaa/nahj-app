@@ -32,22 +32,13 @@ export class GeoService {
         }
       break;
       case "DELETE": //delete
-        query = `mutation($id:ID!){
-          deleteGeoArea(
-            where:{
-              id:$id
-            }
-          ){
-            id,
-            name,
-            cities
+        query = `mutation($Id:ID!){
+          deleteManyGeoAreas(where: { id: $Id }) {
+            count
           }
         }`
-        // variable = {
-        //   name:config.city
-        // }
         variable = {
-          id:config.id
+          Id:config.Id
         }
       break;
       
