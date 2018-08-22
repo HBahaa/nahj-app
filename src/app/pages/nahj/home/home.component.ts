@@ -184,6 +184,7 @@ export class HomeComponent implements OnInit {
 			url: this.url,
 			value: $event.newValue
 		}).subscribe((data: any) => {
+			console.log("adtat", data)
 			this.getEvaluationStatusData();
 			this.selectedEval = $event.newValue;
 		});
@@ -206,7 +207,6 @@ export class HomeComponent implements OnInit {
 
 	//delete data functions
 	deleteGeo($event){
-		console.log("delel", $event)
 		this.geoService.service({
 			method: 'GET',
 			url: this.url
@@ -216,20 +216,17 @@ export class HomeComponent implements OnInit {
 					this.geoService.service({
 						method: 'DELETE',
 						url: this.url,
-						id: geo.id
+						Id: geo.id
 					}).subscribe((data:any)=> {
-						console.log("delte geo", data)
 						this.getGeoCityData(undefined);
 						this.selectedGeo = undefined;
 					})
 				}
 			})
-
 		})
 	}
 
 	deleteCity($event){
-		console.log("delete city", $event);
 		this.geoService.cities({
 			url: this.url,
 			name: this.selectedGeo

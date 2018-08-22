@@ -19,7 +19,7 @@ export class EvalutionStatusService {
         }       
       break;
       case "GET": //read
-        query = `{ evaluationStatuses { name } } `;
+        query = `{ evaluationStatuses { id name } } `;
       break;
       case "POST"://create
         query = `mutation ($value: [String!]) { createEvaluationStatus(data: {name: {set: $value}}) { name } } `

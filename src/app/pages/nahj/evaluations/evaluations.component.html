@@ -30,7 +30,7 @@
 								<app-card-list img="./assets/images/evaluation_options.png" componentType="option" [data]="options" title="الخيارات"  (listItems)="getGrades($event)" (saveButton)="addNewEvaluationOption($event)" (deleteButton)="deleteEvaluationOption($event)"></app-card-list> 
 							</div>
 							<div class="col-lg-3 col-sm-6">
-								<app-level-card-list [data]="grades" title="التقديرات" (saveButton)="addNewGrade($event)"></app-level-card-list>
+								<app-level-card-list [data]="grades" title="التقديرات" (saveButton)="addNewGrade($event)" (deleteButton)="deleteGrade($event)"></app-level-card-list>
 							</div>
 						</div>
 					</div>

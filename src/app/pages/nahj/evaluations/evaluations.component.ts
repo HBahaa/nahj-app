@@ -31,11 +31,10 @@ export class EvaluationsComponent implements OnInit {
 			this.options = data['data'].evaluationOptionses.map((option, index) =>{
 				if(!name && index == 0){
 					// this.selectedEvaluationOption = option.name;
-					this.grades = option.grades.filter(n => n.name != "" ).map(object=> (({grade, id, weight})=>({grade, weight}))(object));
-					console.log("grades", this.grades)
+					this.grades = option.grades.filter(n => n.grade != "" ).map(object=> (({grade, id, weight})=>({name:grade, relativePercentage:weight}))(object));
 				}else if(option.name == name){
 					// this.selectedEvaluationOption = option.name;
-					this.grades = option.grades.filter(n => n.name != "" ).map(object=> (({grade, id, weight})=>({grade, weight}))(object));
+					this.grades = option.grades.filter(n => n.grade != "" ).map(object=> (({grade, id, weight})=>({name:grade, relativePercentage:weight}))(object));
 				}
 				return option.name;
 			});
@@ -48,7 +47,6 @@ export class EvaluationsComponent implements OnInit {
 	}
 
 	addNewEvaluationOption($event){
-		console.log("add eval", $event);
 		switch($event.eventType){
 			case "add" :
 				this.evaluationSchema.service({
@@ -67,7 +65,6 @@ export class EvaluationsComponent implements OnInit {
 				}).subscribe((data: any) => {
 					data['data'].evaluationOptionses.map(option =>{
 						if (option.name == $event.value) {
-							console.log("equal", $event.newValue)
 							this.evaluationSchema.service({
 								method: 'POST',
 								url: this.url,
@@ -77,7 +74,7 @@ export class EvaluationsComponent implements OnInit {
 								Gname:"",
 								Gwt: ""
 							}).subscribe((data: any) => {
-								console.log("data", data)
+								this.getEvaluationOptions(this.selectedEvaluationOption);
 							});
 						}
 					});
@@ -86,8 +83,6 @@ export class EvaluationsComponent implements OnInit {
 		}
 	}
 	addNewGrade($event){
-		console.log("add grade", $event);
-		console.log("selectedEval", this.selectedEvaluationOption);
 		this.evaluationSchema.service({
 			method: 'GET',
 			url: this.url
@@ -95,24 +90,86 @@ export class EvaluationsComponent implements OnInit {
 			data['data'].evaluationOptionses.map(option =>{
 				if (option.name == this.selectedEvaluationOption) {
 					let gwt = $event.newValue2.toString();
-					this.evaluationSchema.service({
-						method: 'POST',
-						url: this.url,
-						id: option.id,
-						name: this.selectedEvaluationOption,
-						Gid:"",
-						Gname:$event.newValue1,
-						Gwt: gwt
-					}).subscribe((data: any) => {
-						console.log("data", data)
-					});
+					switch ($event.eventType) {
+						case "add":
+							this.evaluationSchema.service({
+								method: 'POST',
+								url: this.url,
+								id: option.id,
+								name: this.selectedEvaluationOption,
+								Gid:"",
+								Gname:$event.newValue1,
+								Gwt: gwt
+							}).subscribe((data: any) => {
+								this.getEvaluationOptions(this.selectedEvaluationOption);
+							});
+							break;
+						case "update":
+							option.grades.map(grade =>{
+								if(grade.grade == $event.value){
+									this.evaluationSchema.service({
+										method: 'POST',
+										url: this.url,
+										id: option.id,
+										name: this.selectedEvaluationOption,
+										Gid: grade.id,
+										Gname: $event.newValue1,
+										Gwt: gwt
+									}).subscribe((data: any) => {
+										this.getEvaluationOptions(this.selectedEvaluationOption);
+									});
+								}
+							})
+							break;
+					}
 				}
 			});
 		});
 	}
 	deleteEvaluationOption($event){
-
+		console.log("eval ppt", $event)
+		this.evaluationSchema.service({
+			method: 'GET',
+			url: this.url
+		}).subscribe((data: any) => {
+			data['data'].evaluationOptionses.map(option =>{
+				if (option.name == $event.value) {
+					this.evaluationSchema.service({
+						method: 'DELETE',
+						url: this.url,
+						id: option.id
+					}).subscribe(res =>{
+						this.getEvaluationOptions(undefined);
+					})
+				}
+			});
+		});
 	}
-
-
+	deleteGrade($event){
+		console.log("grade", $event)
+		this.evaluationSchema.service({
+			method: 'GET',
+			url: this.url
+		}).subscribe((data: any) => {
+			data['data'].evaluationOptionses.map(option =>{
+				if (option.name == this.selectedEvaluationOption) {
+					option.grades.map(grade =>{
+						if(grade.grade == $event.value){
+							this.evaluationSchema.service({
+								method: 'POST',
+								url: this.url,
+								id: option.id,
+								name: this.selectedEvaluationOption,
+								Gid: grade.id,
+								Gname: "",
+								Gwt: ""
+							}).subscribe((data: any) => {
+								this.getEvaluationOptions(this.selectedEvaluationOption);
+							});
+						}
+					})
+				}
+			});
+		});
+	}
 }

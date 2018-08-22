@@ -1,88 +1,113 @@
-<form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="row">
 	<div class="col-lg-3 col-sm-6">
-    	<app-level-filter img="./assets/images/main_data.png"></app-level-filter>
+    	<app-level-filter (itemClicked)="evaluationClicked($event)" img="./assets/images/main_data.png"></app-level-filter>
   	</div> 
-	<div class="col-lg-3 col-sm-6">
-    	<div class="card">
-    		<div class="card-body">
-    			<div class="form-group">
-               		<label for="schoolName">عنوان التقييم</label>
-                	<input type="text" name="schoolName" placeholder="تقييم الوحدة اﻷولي (روضتي-المستوي الثاني-قبلي)" class="form-control" />
-              	</div>
-              	<div class="form-group">
-               		<label for="schoolName">عنوان المختصر</label>
-                	<select class="form-control">
-	                	<option selected>تقييم وحدة روضتي 1</option>
-	                	<option></option>
-                	</select>
-              	</div>
-              	<div class="form-group">
-              		<label>مكونات المنهج المرتبط به التقييم</label>
-					<select class="form-control" formControlName="level1">
-						<option value="1">وحدات المستوي اﻷول</option>
-						<option value="2">وحدات المستوي اﻷول</option>
-						<option value="3">وحدات المستوي اﻷول</option>
-					</select>
+	<div class="col-lg-6">
+		<form class="row" [formGroup]="form">
+			<div class="col-lg-6 col-sm-6">
+				<div class="card">
+					<div class="card-body">
+						<div class="form-group">
+							<label>عنوان التقييم</label>
+						<input type="text" formControlName="title" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label>عنوان المختصر</label>
+						<input type="text" class="form-control" formControlName="shortTitle" />
+						</div>
+						
+						<div class="form-group">
+							<label for="">الية الحساب</label>
+							<select class="form-control" formControlName="accountWay">
+								<option *ngFor="let option of evalOptions" [value]="option.id" >{{option.name}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="">الحالة الراهنة</label>
+							<select class="form-control" formControlName="currentStatus">
+								<option *ngFor="let value of evalStatus" [value]="value.id" >{{value.name}}</option>
+							</select>
+						</div>
+					</div>
 				</div>
-				<div class="form-group">
-					<select class="form-control" formControlName="level2">
-						<option value="1">وحدات المستوي الثاني</option>
-						<option value="2">وحدات المستوي الثاني</option>
-						<option value="3">وحدات المستوي الثاني</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<select class="form-control" formControlName="level3">
-						<option value="1">وحدات المستوي الثالث</option>
-						<option value="2">وحدات المستوي الثالث</option>
-						<option value="3">وحدات المستوي الثالث</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<select class="form-control" formControlName="level4">
-						<option value="1">وحدات المستوي الرابع</option>
-						<option value="2">وحدات المستوي الرابع</option>
-						<option value="3">وحدات المستوي الرابع</option>
-					</select>
-				</div>
-            </div>
-    	</div>
-  	</div>
+			  </div>
+		
+			  <div class="col-lg-6 col-sm-6">
+				  <div class="card">
+					<div class="card-body">
+						<div class="form-group">
+							<label>مكونات المنهج المرتبط به التقييم</label>
+							<select class="form-control" (change)="handleLevelChange('level1', $event)" formControlName="level1">
+								<option *ngFor="let l1 of level1" [value]="l1.id" [id]="l1.id">{{l1.name}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" (change)="handleLevelChange('level2', $event)" formControlName="level2">
+								<option *ngFor="let l2 of level2" [value]="l2.id" [id]="l2.id">{{l2.name}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" (change)="handleLevelChange('level3', $event)" formControlName="level3">
+								<option *ngFor="let l3 of level3" [value]="l3.id" [id]="l3.id">{{l3.name}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" (change)="handleLevelChange('level4', $event)" formControlName="level4">
+								<option *ngFor="let l4 of level4" [value]="l4.id" [id]="l4.id">{{l4.name}}</option>
+							</select>
+						</div>
+						  
 
-  	<div class="col-lg-3 col-sm-6">
-  		<div class="card">
-    		<div class="card-body">
-              	<div class="form-group">
-                	<label for="">الية الحساب</label>
-					<select class="form-control">
-						<option selected></option>
-					</select>
+						<div class="card-footer text-left">
+							<button *ngIf="EvalEdit" class="btn btn-primary" (click)="handleEditEvalChanges()" type="button">
+								<i class="fa fa-edit fa-fw"></i>
+							</button>
+							<button *ngIf="!EvalEdit" class="btn btn-info" (click)="addNewEvaluation()" type="button">
+								<i  class="fa fa-save fa-fw"></i>
+							</button>
+							<button class="btn btn-danger mr-2" type="button"><i class="fa fa-close fa-fw"></i></button>
+							<button *ngIf="EvalAdd" class="btn btn-success mr-2" type="button"  (click)="handleAddEvalChanges()">
+								<i class="fa fa-plus fa-fw"></i>
+							</button>
+							<button *ngIf="!EvalAdd" class="btn btn-success mr-2" type="button"  (click)="addNewEvaluation()">
+								<i class="fa fa-save fa-fw"></i>
+							</button>
+						</div>
+					</div>
 				</div>
+			  </div>
+		</form>
+	</div>
+	<form [formGroup]="questGroupForm" class="col-lg-3 col-sm-6">
+    	<div class="card">
+			<div class="card-body">
 				<div class="form-group">
-                	<label for="">الحالة الراهنة</label>
-					<select class="form-control">
-						<option selected></option>
-					</select>
+					<label>مجموعة اﻷسئلة</label>
+				  <select class="form-control" size="4">
+					  <option>قصة اعرف عنواني</option>
+						<option>قصة من أنا</option>
+						<option selected>قصة اغسل ملابسي</option>
+				  </select>
 				</div>
-              	<div class="form-group">
-              		<label>مجموعة اﻷسئلة</label>
-	                <select class="form-control" size="4">
-	                	<option>قصة اعرف عنواني</option>
-	                  	<option>قصة من أنا</option>
-	                  	<option selected>قصة اغسل ملابسي</option>
-	                </select>
-              	</div>
-			    <input type="text" class="form-control text-right mb-2" [disabled]="show" placeholder="قصة اغسل ملابسي">
-			    <input type="text" class="form-control text-right" [disabled]="show" placeholder="الوزن النسبي">
-			    
-			    <div class="card-footer text-left">
-					<button [ngClass]="show ? 'btn-primary' : ' btn-info' " class="btn" (click)="handleChanges()" type="button">
-						<i [ngClass]="show ? ' fa-edit' : '  fa-save' "  class="fa fa-fw"></i>
+				<input type="text" class="form-control text-right mb-2" formControlName="name">
+				<input type="text" class="form-control text-right"  formControlName="weight">
+				
+				<div class="card-footer text-left">
+					<button *ngIf="questionEdit" class="btn btn-primary" (click)="handleEditQuestionChanges()" type="button">
+						<i class="fa fa-edit fa-fw"></i>
+					</button>
+					<button *ngIf="!questionEdit" class="btn btn-info" (click)="addNewQuestionGroup()" type="button">
+						<i  class="fa fa-save fa-fw"></i>
 					</button>
 					<button class="btn btn-danger mr-2" type="button"><i class="fa fa-close fa-fw"></i></button>
-					<button class="btn btn-success mr-2" type="button"><i class="fa fa-plus fa-fw"></i></button>
+					<button *ngIf="questionEdit" class="btn btn-success mr-2" type="button" (click)="handleAddQuestionChanges()">
+						<i class="fa fa-plus fa-fw"></i>
+					</button>
+					<button *ngIf="!questionAdd" class="btn btn-info" (click)="addNewQuestionGroup()" type="button">
+						<i  class="fa fa-save fa-fw"></i>
+					</button>
 				</div>
-            </div>
-    	</div>
-  	</div>
-</form>
+			</div>
+		</div>
+	</form> 
+</div>
