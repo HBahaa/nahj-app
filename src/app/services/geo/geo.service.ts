@@ -22,7 +22,7 @@ export class GeoService {
         }       
       break;
       case "GET": //read
-        query = `	{ geoAreas { name, cities } }`;
+        query = `	{ geoAreas { id, name, cities } }`;
       break;
       case "PUT"://create
         query = `mutation ($name: String!, $cities: [String!]) { createGeoArea(data: {name: $name, cities: {set: $cities}}) { name, cities } }`

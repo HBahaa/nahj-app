@@ -18,7 +18,7 @@ export class CardListComponent implements OnInit {
 	show: boolean = true;
 	edit: boolean = false;
 	selectedItem: any;
-	newValue: string;
+	newValue: string; 
 
 	constructor() {	}
 

@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatDialogModule } from '@angular/material';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -54,6 +56,7 @@ import { KidsEvaluationsComponent } from './pages/parents/kids-evaluations/kids-
 import { ParentsNavbarComponent } from './components/parents/parents-navbar/parents-navbar.component';
 import { LevelCardComponent } from './components/school/level-card/level-card.component';
 import { StudentsFilterComponent } from './components/school/students-filter/students-filter.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -89,9 +92,11 @@ import { StudentsFilterComponent } from './components/school/students-filter/stu
     KidsEvaluationsComponent,
     ParentsNavbarComponent,
     LevelCardComponent,
-    StudentsFilterComponent
+    StudentsFilterComponent,
+    DialogComponent
   ],
   imports: [
+    
     BrowserModule,
     RouterModule,
     AppRoutingModule,
@@ -103,11 +108,13 @@ import { StudentsFilterComponent } from './components/school/students-filter/stu
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [
     AuthService
   ],
+  entryComponents: [ DialogComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

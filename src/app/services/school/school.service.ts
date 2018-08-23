@@ -10,7 +10,6 @@ export class SchoolService {
   service(config) { ////method,url,id,adminId,address,admin,gps,phone,fa,district,adminNum,studentsNum,classesNum ... , admin[Object of admin data check schema] 
     let query: string = "";
     let variable: object = {};
-    console.log(config)
     switch(config.method){
       case "POST" : //update
         query = `mutation(
@@ -137,7 +136,7 @@ export class SchoolService {
             }
           }
         }
-        ` 
+        `  
         variable = {
           address:config.address,
           adminRes:config.adminRes,
