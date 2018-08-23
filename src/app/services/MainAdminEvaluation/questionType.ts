@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
     providedIn: 'root'
 })
-export class questionDetails {
+export class questionType {
     constructor(private http: HttpClient) { }
 
     service(config) { ////method,url,name,cities,newName

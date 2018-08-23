@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { evaluation } from '../../../services/MainAdminEvaluation/evaluation';
-import { questionDetails } from '../../../services/MainAdminEvaluation/questionsDetails';
 import { EcontentOneService } from '../../../services/econtent/econtent-one.service';
 import { EcontentTwoService } from '../../../services/econtent/econtent-two.service';
 import { EcontentThreeService } from '../../../services/econtent/econtent-three.service';
 import { EcontentFourService } from '../../../services/econtent/econtent-four.service';
 import { EvalutionStatusService } from '../../../services/evaluationStatus/evalution-status.service';
+import { questionType } from './../../../services/MainAdminEvaluation/questionType';
 import { EvaluationSchema } from '../../../services/MainAdminEvaluation/evaluationSchema';
 
 
@@ -21,6 +21,7 @@ export class EvaluationDataComponent implements OnInit {
 	EvalAdd: boolean = true;
 	questionEdit: boolean = true;
 	questionAdd: boolean = true;
+	updateFilter: boolean = false;
 	form: FormGroup;
 	questGroupForm: FormGroup;
 	url: string = 'http://localhost:4466';
@@ -36,11 +37,12 @@ export class EvaluationDataComponent implements OnInit {
 	selectedLevel3;
 	selectedLevel4;
 	selectedEvaluation;
+	selectedQuestionGroup;
 
 	constructor( 
 		private fb: FormBuilder,
 		private evaluation: evaluation,
-		private questionDetails: questionDetails,
+		private questionType: questionType,
 		private econtentOneService: EcontentOneService,
 		private econtentTwoService: EcontentTwoService,
 		private econtentThreeService: EcontentThreeService,
@@ -67,13 +69,6 @@ export class EvaluationDataComponent implements OnInit {
 		this.getContentData(undefined, undefined, undefined, undefined);
 		this.getEvaluationStatus();
 		this.getEvaluationOptions();
-	}
-
-	SaveEvaluation() {
-		console.log("submit", this.form.value)
-	    if (this.form.valid) {
-	    	console.log(this.form.value);
-	    }
 	}
 
 	handleEditEvalChanges(){
@@ -105,8 +100,7 @@ export class EvaluationDataComponent implements OnInit {
 	
 	// list functions
 	evaluationClicked($event){
-		console.log("evaluationClicked", $event);
-		this.selectedEvaluation = $event.name;
+		this.selectedEvaluation = $event.id;
 		this.form = this.fb.group({
 			title: [$event.title, Validators.required],
 			shortTitle: [$event.shortTitle, Validators.required],
@@ -117,8 +111,16 @@ export class EvaluationDataComponent implements OnInit {
 			level3: [$event.speciificContentLevel.speciificContentLevelThree['id'], Validators.required],
 			level4: [$event.speciificContentLevel.speciificContentLevelFour['id'], Validators.required]
 		});
+		this.getQuestionGroups()
 	}
-	
+	getQuestionGroupDetails(qGroup){
+		this.selectedQuestionGroup = qGroup;
+		console.log("qGroup",qGroup)
+		this.questGroupForm = this.fb.group({
+			name: [qGroup.name, Validators.required],
+			weight: [qGroup.weight, Validators.required],
+		})
+	}
 	/// get Functions
 
 	getEvaluationStatus(){
@@ -143,8 +145,9 @@ export class EvaluationDataComponent implements OnInit {
 			url: this.url
 		}).subscribe(data=>{
 			data['data'].evaluations.map(item=>{
-				if(item.title == this.selectedEvaluation){
-					
+				if(item.id == this.selectedEvaluation){
+					this.questionGroups  =  item.questionGroup;
+					console.log("ques", this.questionGroups)
 				}
 			})
 		})
@@ -263,10 +266,8 @@ export class EvaluationDataComponent implements OnInit {
 		this.getLevelData({'level': level, 'value': e.target.value })
 	}
 	getLevelData($event){
-		console.log("level", $event)
 		switch($event.level){
 			case "level1":
-				console.log("equal 1")
 				this.selectedLevel1 = $event.value;
 				this.getContentData(this.selectedLevel1, undefined, undefined, undefined);
 			break;
@@ -279,31 +280,117 @@ export class EvaluationDataComponent implements OnInit {
 				this.getContentData(this.selectedLevel3, this.selectedLevel2,$event.value, undefined);
 			break;
 		}
-
 	}
 
 	//add functions
 	addNewEvaluation(){
-		this.evaluation.service({
-			method: "PUT",
-			url: this.url,
-			title: this.form.value.title,
-			shortTitle: this.form.value.shortTitle,
-			currentStatusId: this.form.value.currentStatus,
-			accountWayId: this.form.value.accountWay,
-			speciificContentLevelOneId: this.form.value.level1,
-			speciificContentLevelTwoId: this.form.value.level2,
-			speciificContentLevelThreeId: this.form.value.level3,
-			speciificContentLevelFourId: this.form.value.level4,
-			questionGroupName: "",
-			questionGroupWeight: ""
-		}).subscribe(data=>{
-			this.EvalAdd = false;
-			this.EvalEdit = false;
-
-		})
+		if (this.form.valid) {
+			this.evaluation.service({
+				method: "PUT",
+				url: this.url,
+				title: this.form.value.title,
+				shortTitle: this.form.value.shortTitle,
+				currentStatusId: this.form.value.currentStatus,
+				accountWayId: this.form.value.accountWay,
+				speciificContentLevelOneId: this.form.value.level1,
+				speciificContentLevelTwoId: this.form.value.level2,
+				speciificContentLevelThreeId: this.form.value.level3,
+				speciificContentLevelFourId: this.form.value.level4,
+				questionGroupName: "",
+				questionGroupWeight: ""
+			}).subscribe(data=>{
+				this.EvalAdd = true;
+				console.log("add", data);
+				this.updateFilter = true;
+			})
+		}
+		this.updateFilter = false;
 	}
 	addNewQuestionGroup(){
+		if (this.selectedEvaluation) {
+			if (this.questGroupForm.valid) {
+				this.questionType.service({
+					method: "PUT",
+					url: this.url,
+					name: this.questGroupForm.value.name,
+                    weight: this.questGroupForm.value.weight,
+                    evaluationId: this.selectedEvaluation
+				}).subscribe(data => {
+					console.log("select eval", data);
+					this.getQuestionGroups()
+					this.questionAdd = true;
+				})
+			}
+		}
+	}
 
+	// edit functions
+	editEvaluation(){
+		if (this.selectedEvaluation) {
+			this.evaluation.service({
+				method: "POST",
+				url: this.url,
+				evaluationId:this.selectedEvaluation,
+				title: this.form.value.title,
+				shortTitle: this.form.value.shortTitle,
+				currentStatusId: this.form.value.currentStatus,
+				accountWayId: this.form.value.accountWay,
+				speciificContentLevelOneId: this.form.value.level1,
+				speciificContentLevelTwoId: this.form.value.level2,
+				speciificContentLevelThreeId: this.form.value.level3,
+				speciificContentLevelFourId: this.form.value.level4,
+				questionGroupName: "",
+				questionGroupWeight: ""
+			}).subscribe(data=>{
+				this.EvalEdit = true;
+				this.updateFilter = true;
+			})
+		}
+		this.updateFilter = false;
+	}
+	EditQuestionGroup(){
+		if (this.selectedQuestionGroup) {
+			this.questionType.service({
+				method: "POST",
+				url: this.url,
+				name: this.questGroupForm.value.name,
+				weight: this.questGroupForm.value.weight,
+				evaluationId: this.selectedEvaluation,
+				id:this.selectedQuestionGroup.id
+			}).subscribe(data => {
+				this.getQuestionGroups()
+				this.questionEdit = true;
+			})
+		}
+	}
+
+
+	// delete Functions
+	deleteEvaluation(){
+		if (this.selectedEvaluation) {
+			this.evaluation.service({
+				method: "DELETE",
+				url: this.url,
+				id:this.selectedEvaluation
+			}).subscribe(data=>{
+				console.log("delete", data);
+				this.updateFilter = true;
+			})
+		}
+		this.updateFilter = false;
+	}
+
+	deleteQuestionGroup(){
+		console.log("dele g", this.selectedQuestionGroup)
+		// if (this.selectedQuestionGroup) {
+		// 	this.questionType.service({
+		// 		method: "DELETE",
+		// 		url: this.url,
+		// 		Id:this.selectedQuestionGroup.id
+		// 	}).subscribe(data => {
+		// 		console.log("select eval", data);
+		// 		this.getQuestionGroups()
+		// 	})
+		// }
 	}
 }

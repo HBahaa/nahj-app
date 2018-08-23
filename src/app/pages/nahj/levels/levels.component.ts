@@ -54,40 +54,54 @@ export class LevelsComponent implements OnInit {
 							if (!name2 && index2 == 0) {
 								this.selectedContent2 = l2.name;
 								this.selectedParcentage2 = l2.relativePercentage;
-								if (l2.contentLevelThree) {
+								if (l2.contentLevelThree.length > 0) {
 									this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage, contentLevelFour})=>({name, relativePercentage}))(object));
 									l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
 										this.selectedContent3=l3.name;
 										this.selectedParcentage3 = l3.relativePercentage;
 										if (!name3 && index3 == 0) {
-											if (l3.contentLevelFour) {
+											if (l3.contentLevelFour.length > 0) {
 												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
+											}else{
+												this.level4 = [];
 											}
 										}else if (name3 == l3.name) {
-											if (l3.contentLevelFour) {
+											if (l3.contentLevelFour.length > 0) {
 												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
+											}else{
+												this.level4 = [];
 											}
 										}
 									})
+								}else{
+									this.level3 = [];
+									this.level4 = [];
 								}
 							}else if (name2 == l2.name) {
 								this.selectedContent2 = l2.name;
 								this.selectedParcentage2 = l2.relativePercentage;
-								if (l2.contentLevelThree) {
+								if (l2.contentLevelThree.length > 0) {
 									this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage, contentLevelFour})=>({name, relativePercentage}))(object));
 									l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
 										this.selectedContent3=l3.name;
 										this.selectedParcentage3 = l3.relativePercentage;
 										if (!name3 && index3 == 0) {
-											if (l3.contentLevelFour) {
+											if (l3.contentLevelFour.length > 0) {
 												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
+											}else{
+												this.level4 = [];
 											}
 										}else if (name3 == l3.name) {
-											if (l3.contentLevelFour) {
+											if (l3.contentLevelFour.length > 0) {
 												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
+											}else{
+												this.level4 = [];
 											}
 										}
 									})
+								}else{
+									this.level3 = [];
+									this.level4 = [];
 								}
 							}
 						})
@@ -108,44 +122,58 @@ export class LevelsComponent implements OnInit {
 							if (!name2 && index2 == 0) {
 								this.selectedContent2 = l2.name;
 								this.selectedParcentage2 = l2.relativePercentage;
-								if (l2.contentLevelThree) {
+								if (l2.contentLevelThree.length > 0) {
 									this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage, contentLevelFour})=>({name, relativePercentage}))(object));
 									l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
 										if (!name3 && index3 == 0) {
 											this.selectedContent3=l3.name;
 											this.selectedParcentage3 = l3.relativePercentage;
-											if (l3.contentLevelFour) {
+											if (l3.contentLevelFour.length > 0) {
 												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
+											}else{
+												this.level4 = [];
 											}
 										}else if (name3 == l3.name) {
 											this.selectedContent3=l3.name;
 											this.selectedParcentage3 = l3.relativePercentage;
-											if (l3.contentLevelFour) {
+											if (l3.contentLevelFour.length > 0) {
 												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
+											}else{
+												this.level4 = [];
 											}
 										}
 									})
+								}else{
+									this.level3 = [];
+									this.level4 = [];
 								}
 							}else if (name2 == l2.name) {
 								this.selectedContent2 = l2.name;
 								this.selectedParcentage2 = l2.relativePercentage;
-								if (l2.contentLevelThree) {
+								if (l2.contentLevelThree.length > 0) {
 									this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage, contentLevelFour})=>({name, relativePercentage}))(object));
 									l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
 										if (!name3 && index3 == 0) {
 											this.selectedContent3=l3.name;
 											this.selectedParcentage3 = l3.relativePercentage;
-											if (l3.contentLevelFour) {
+											if (l3.contentLevelFour.length > 0) {
 												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
+											}else{
+												this.level4 = [];
 											}
 										}else if (name3 == l3.name) {
 											this.selectedContent3=l3.name;
 											this.selectedParcentage3 = l3.relativePercentage;
-											if (l3.contentLevelFour) {
+											if (l3.contentLevelFour.length > 0) {
 												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
+											}else{
+												this.level4 = [];
 											}
 										}
 									})
+								}else{
+									this.level3 = [];
+									this.level4 = [];
 								}
 							}
 						})
