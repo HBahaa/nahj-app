@@ -13,23 +13,45 @@ export class EvalutionStatusService {
     let variable: object = {};
     switch(config.method){
       case "PUT" : //update
-        query = `` 
+        query = `mutation($name: String!, $id: ID!) {
+          updateEvaluationStatus(where: { id: $id }, data: { name: $name }) {
+            id
+            name
+          }
+        }` 
         variable = {
-          
+          name:config.name,
+          id:config.id
         }       
       break;
       case "GET": //read
-        query = `{ evaluationStatuses { id name } } `;
+        query = `query{
+          evaluationStatuses{
+            id,
+            name
+          }
+        }`;
       break;
       case "POST"://create
-        query = `mutation ($value: [String!]) { createEvaluationStatus(data: {name: {set: $value}}) { name } } `
+        query = `mutation($name: String!) {
+          createEvaluationStatus(data: { name: $name }) {
+            id
+            name
+          }
+        }`
         variable = {
-          value:config.value
+          name:config.name
         }
       break;
       case "DELETE": //delete
-        query = `mutation { deleteManyEvaluationStatuses { count } }`
+        query = `mutation( $id: ID!) {
+          deleteEvaluationStatus(where: { id: $id }) {
+            id
+            name
+          }
+        }`
         variable = {
+          id:config.id
         }
       break;
       
