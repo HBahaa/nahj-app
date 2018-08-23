@@ -5,7 +5,6 @@ import { EcontentTwoService } from '../../../services/econtent/econtent-two.serv
 import { EcontentThreeService } from '../../../services/econtent/econtent-three.service';
 import { EcontentFourService } from '../../../services/econtent/econtent-four.service';
 import { evaluation } from '../../../services/MainAdminEvaluation/evaluation';
-import { identifierModuleUrl } from '@angular/compiler';
 
 @Component({
   selector: 'app-level-filter',

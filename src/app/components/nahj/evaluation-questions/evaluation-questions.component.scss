@@ -16,7 +16,14 @@ $color : #0eb6e2;
     .card-body{
       	text-align: right;
       	margin: 1.5em 0;
-
+		.card-footer{
+			background-color: transparent;
+			border-top: 0px;
+			padding: .75rem 0;
+			.btn{
+				padding: .268rem .375rem;
+			}
+		}
       	select[size]{
 			background: #fafafa;
 		}

@@ -1,81 +1,96 @@
-<form class="row">
+<div class="row">
 	<div class="col-lg-3 col-sm-6">
     	<app-level-filter (itemClicked)="evaluationClicked($event)" img="./assets/images/evaluation_questions.png"></app-level-filter>
   	</div>
-  	<div class="col-lg-3 col-sm-6">
-		<div class="card">
-			<div class="card-body">
-				<div class="form-group">
-		       		<label>المجموعىة الفرعية</label>
-		        	<select class="form-control">
-		            	<option selected>المهارات القيمية</option>
-		            	<option></option>
-		        	</select>
-		      	</div>
-		      	<div class="form-group">
-               		<label>السؤال</label>
-                	<input type="text" placeholder="يلقي تحي اﻹسلام عند الدخول" class="form-control" />
-              	</div>
-				<div class="form-group">
-					<label>اﻷسئلة</label>
-		            <select class="form-control" size="5">
-		              	<option>يلقي تحي اﻹسلام عند الدخول</option>
-		            	<option>يذكر أن الله ربه</option>
-		              	<option>يذكر أن القراُن الكريم كتابه</option>
-		              	<option>يقل (بسم الله الرحمن الرحيم) قبل اﻷكل</option>
-		              	<option>يقول الحمدلله بعد اﻷكل</option>
-		              	<option></option>
-		            </select>
-		      	</div>
-
-			</div>
-		</div>
-  	</div>
-  	<div class="col-lg-3 col-sm-6">
-  		<div class="card">
-  			<div class="card-body">
-  				<div class="form-group row">
-				    <div class="col-md-6">
-				    	<div class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-control-input" id="check1">
-							<label class="custom-control-label" for="check1">نسبة مئوية</label>
+  	<div class="col-lg-9">
+		<form class="row" [formGroup]="form">
+			<div class="col-lg-4 col-sm-6">
+				<div class="card">
+					<div class="card-body">
+						<div class="form-group">
+							<label>المجموعىة الفرعية</label>
+							<select class="form-control" (change)="getQuestions(questionGroup)" formControlName="questionGroup">
+								<option [value]="questionGroups?.id">{{questionGroups?.name}}</option>
+							</select>
 						</div>
-				    </div>
-				    <div class="col-md-6">
-				    	<div class="form-group">
-		                	<select class="form-control">
-			                	<option selected>خيارات متعددة</option>
-			                	<option></option>
-		                	</select>
-		              	</div>
-				    </div>
-				</div>
-				<div class="form-group row">
-				    <div class="col-md-6">
-				    	<div class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-control-input" id="check2">
-							<label class="custom-control-label" for="check2">اوزان متساوية</label>
+						<div class="form-group">
+							<label>السؤال</label>
+							<input type="text" formControlName="question" class="form-control" />
 						</div>
-				    </div>
-				    <div class="col-md-6">
-				    	<div class="form-group">
-		                	<select class="form-control">
-			                	<option selected>الوزن النسبي</option>
-			                	<option></option>
-		                	</select>
-		              	</div>
-				    </div>
+						<div class="form-group">
+							<label>اﻷسئلة</label>
+							<select class="form-control" size="5">
+								<option (click)="getQuestionDetails(question)" *ngFor="let question of questions">{{ question.question }}</option>
+							</select>
+						</div>
+						<div class="form-group row">
+							<div class="col-md-6">
+								<div class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" id="check1" formControlName="isPercentage">
+									<label class="custom-control-label" for="check1">نسبة مئوية</label>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<select class="form-control" formControlName="multiSelect">
+										<option selected>خيارات متعددة</option>
+									</select>
+									</div>
+							</div>
+						</div>
+						<div class="form-group row">
+								<div class="col-md-6">
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" id="check2" formControlName="isEqualWeights">
+										<label class="custom-control-label" for="check2">اوزان متساوية</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<select class="form-control" formControlName="weight">
+											<option>الوزن النسبي</option>
+											<option value="20">20</option>
+											<option value="40">40</option>
+											<option value="60">60</option>
+											<option value="80">80</option>
+											<option value="100">100</option>
+										</select>
+									</div>
+								</div>
+							</div>
+					</div>
 				</div>
-				<div class="form-group">
-				    <label for="details">التفاصيل</label>
-				    <textarea class="form-control" id="details" rows="4"></textarea>
-				</div>
-  				<div class="form-group">
-				    <label for="details">توصيات التحسين</label>
-				    <textarea class="form-control" id="details" rows="4"></textarea>
-				</div>
-
-  			</div>
-  		</div>
-  	</div>
-</form>
+			  </div>
+			  <div class="col-lg-4 col-sm-6">
+				  <div class="card">
+					  <div class="card-body">
+						
+						<div class="form-group">
+							<label for="details">التفاصيل</label>
+							<textarea class="form-control" id="details" rows="4" formControlName="details"></textarea>
+						</div>
+						  <div class="form-group">
+							<label>توصيات التحسين</label>
+							<textarea class="form-control" rows="4" formControlName="enhancement"></textarea>
+						</div>
+						<div class="card-footer text-left">
+							<button *ngIf="edit" class="btn btn-primary" (click)="handleEditQuestionChanges()" type="button">
+								<i class="fa fa-edit fa-fw"></i>
+							</button>
+							<button *ngIf="!edit" class="btn btn-info" (click)="editQuestion()" type="button">
+								<i  class="fa fa-save fa-fw"></i>
+							</button>
+							<button class="btn btn-danger mr-2" type="button" (click)="deleteQuestion()" ><i class="fa fa-close fa-fw"></i></button>
+							<button *ngIf="add" class="btn btn-success mr-2" type="button" (click)="handleAddQuestionChanges()">
+								<i class="fa fa-plus fa-fw"></i>
+							</button>
+							<button *ngIf="!add" class="btn btn-info mr-2" (click)="addNewQuestion()" type="button">
+								<i  class="fa fa-save fa-fw"></i>
+							</button>
+						</div>
+					  </div>
+				  </div>
+			  </div>
+		</form>
+	</div>
+</div>
