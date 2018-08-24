@@ -47,6 +47,7 @@ export class LevelFilterComponent implements OnInit {
 	handleItemClicked(item){
 		this.itemClicked.emit(item);
 	}
+	/// get Functions
 
 	getEvaluations(){
 		this.evaluation.service({
@@ -68,147 +69,130 @@ export class LevelFilterComponent implements OnInit {
 			this.evaluations = evals
 		})
 	}
-	/// get Functions
+
 	getContentData(name1, name2, name3, name4){
 		this.econtentOneService.service({
 			method: 'GET',
 			url: this.url
 		}).subscribe(econtent1=>{
-			this.level1 =  econtent1['data'].contentLevelOnes.map(object=> (({name, id, relativePercentage, contentLevelTwo})=>({name, relativePercentage}))(object));
-			econtent1['data'].contentLevelOnes.map((l1, index1)=> {
+			this.level1 = econtent1['data'].contentLevelOnes.map((l1, index1)=> {
 				if (!name1 && index1 == 0) {
 					this.selectedLevel1 = l1.name;
-					this.level2 = l1.contentLevelTwo.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage, contentLevelThree})=>({name, relativePercentage}))(object));
-					if (l1.contentLevelTwo.length > 0) {
-						l1.contentLevelTwo.map((l2, index2)=>{
-							if (!name2 && index2 == 0) {
-								this.selectedLevel2 = l2.name;
-								if (l2.contentLevelThree.length > 0) {
-									this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage, contentLevelFour})=>({name, relativePercentage}))(object));
-									l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-										this.selectedLevel3=l3.name;
-										if (!name3 && index3 == 0) {
-											if (l3.contentLevelFour.length > 0) {
-												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
-											}else{
-												this.level4 = [];
-											}
-										}else if (name3 == l3.name) {
-											if (l3.contentLevelFour.length > 0) {
-												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
-											}else{
-												this.level4 = [];
-											}
+					this.level2 = l1.contentLevelTwo.map((l2, index2)=>{
+						if (!name2 && index2 == 0) {
+							this.selectedLevel2 = l2.name;
+							if (l2.contentLevelThree.length > 0) {
+								this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
+									this.selectedLevel3=l3.name;
+									if (!name3 && index3 == 0) {
+										if (l3.contentLevelFour.length > 0) {
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+										}else{
+											this.level4 = [];
 										}
-									})
-								}else{
-									this.level3 = [];
-									this.level4 = [];
-								}
-							}else if (name2 == l2.name) {
-								this.selectedLevel2 = l2.name;
-								if (l2.contentLevelThree.length > 0) {
-									this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage, contentLevelFour})=>({name, relativePercentage}))(object));
-									l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-										this.selectedLevel3=l3.name;
-										if (!name3 && index3 == 0) {
-											if (l3.contentLevelFour.length > 0) {
-												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
-											}else{
-												this.level4 = [];
-											}
-										}else if (name3 == l3.name) {
-											if (l3.contentLevelFour.length > 0) {
-												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
-											}else{
-												this.level4 = [];
-											}
+									}else if (name3 == l3.name) {
+										if (l3.contentLevelFour.length > 0) {
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+										}else{
+											this.level4 = [];
 										}
-									})
-								}else{
-									this.level3 = [];
-									this.level4 = [];
-								}
+									}
+									return l3.name;
+								})
+							}else{
+								this.level3 = [];
+								this.level4 = [];
 							}
-						})
-					}else{
-						this.selectedLevel2 = undefined;
-						this.selectedLevel3 = undefined;
-						this.level2 = [];
-						this.level3 = [];
-						this.level4 = [];
-					}
+						}else if (name2 == l2.name) {
+							this.selectedLevel2 = l2.name;
+							if (l2.contentLevelThree.length > 0) {
+								this.level3 =  l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
+									if (!name3 && index3 == 0) {
+										this.selectedLevel3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+										}else{
+											this.level4 = [];
+										}
+									}else if (name3 == l3.name) {
+										this.selectedLevel3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+										}else{
+											this.level4 = [];
+										}
+									}
+									return l3.name
+								})
+							}else{
+								this.level3 = [];
+								this.level4 = [];
+							}
+						}
+						return l2.name;
+					})
 				}else if (name1 == l1.name) {
 					this.selectedLevel1 = l1.name;
-					this.level1 = l1.id;
-					this.level2 = l1.contentLevelTwo.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage, contentLevelTwo})=>({name, relativePercentage}))(object));
-					if (l1.contentLevelTwo.length > 0) {
-						l1.contentLevelTwo.map((l2, index2)=>{
-							// this.selectedLevel2 = l2.name;
-							if (!name2 && index2 == 0) {
-								this.selectedLevel2 = l2.name;
-								if (l2.contentLevelThree.length > 0) {
-									this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage, contentLevelFour})=>({name, relativePercentage}))(object));
-									l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-										if (!name3 && index3 == 0) {
-											this.selectedLevel3=l3.name;
-											if (l3.contentLevelFour.length > 0) {
-												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
-											}else{
-												this.level4 = [];
-											}
-										}else if (name3 == l3.name) {
-											this.selectedLevel3=l3.name;
-											if (l3.contentLevelFour.length > 0) {
-												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
-											}else{
-												this.level4 = [];
-											}
+					this.level2 = l1.contentLevelTwo.map((l2, index2)=>{
+						if (!name2 && index2 == 0) {
+							this.selectedLevel2 = l2.name;
+							if (l2.contentLevelThree.length > 0) {
+								this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
+									if (!name3 && index3 == 0) {
+										this.selectedLevel3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+										}else{
+											this.level4 = [];
 										}
-									})
-								}else{
-									this.level3 = [];
-									this.level4 = [];
-								}
-							}else if (name2 == l2.name) {
-								this.selectedLevel2 = l2.name;
-								if (l2.contentLevelThree.length > 0) {
-									this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage, contentLevelFour})=>({name, relativePercentage}))(object));
-									l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-										if (!name3 && index3 == 0) {
-											this.selectedLevel3=l3.name;
-											if (l3.contentLevelFour.length > 0) {
-												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
-											}else{
-												this.level4 = [];
-											}
-										}else if (name3 == l3.name) {
-											this.selectedLevel3=l3.name;
-											if (l3.contentLevelFour.length > 0) {
-												this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(object=> (({name, id, relativePercentage})=>({name, relativePercentage}))(object));
-											}else{
-												this.level4 = [];
-											}
+									}else if (name3 == l3.name) {
+										this.selectedLevel3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+										}else{
+											this.level4 = [];
 										}
-									})
-								}else{
-									this.level3 = [];
-									this.level4 = [];
-								}
+									}
+									return l3.name
+								})
+							}else{
+								this.level3 = [];
+								this.level4 = [];
 							}
-						})
-					}else{
-						this.selectedLevel2 = undefined;
-						this.selectedLevel3 = undefined;
-						this.level2 = [];
-						this.level3 = [];
-						this.level4 = [];
-					}
+						}else if (name2 == l2.name) {
+							this.selectedLevel2 = l2.name;
+							if (l2.contentLevelThree.length > 0) {
+								 this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
+									if (!name3 && index3 == 0) {
+										this.selectedLevel3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+										}else{
+											this.level4 = [];
+										}
+									}else if (name3 == l3.name) {
+										this.selectedLevel3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+										}else{
+											this.level4 = [];
+										}
+									}
+									return l3.name
+								})
+							}else{
+								this.level3 = [];
+								this.level4 = [];
+							}
+						}
+						return l2.name
+					})
 				}
-			})
+				// return (({id, name})=>({id, name}))(l1)
+				return l1.name
+			});
 		})
 	}
-
 	handleLevelChange(level, e){
 		this.getLevelData({'level': level, 'value': e.target.value })
 	}
@@ -217,7 +201,6 @@ export class LevelFilterComponent implements OnInit {
 			case "level1":
 				this.selectedLevel1 = $event.value;
 				this.getContentData(this.selectedLevel1, undefined, undefined, undefined);
-				this.getEvaluations()
 			break;
 			case "level2":
 				this.selectedLevel2 = $event.value;
@@ -228,6 +211,7 @@ export class LevelFilterComponent implements OnInit {
 				this.getContentData(this.selectedLevel3, this.selectedLevel2,$event.value, undefined);
 			break;
 		}
+		this.getEvaluations();
 
 	}
 }

@@ -4,22 +4,22 @@
 		<div class="form-group">
 			<label>فلتر مكونات المنهج</label>
 			<select class="form-control" (change)="handleLevelChange('level1', $event)">
-				<option *ngFor="let l1 of level1" [value]="l1.name" [id]="l1.id">{{l1.name}}</option>
+				<option *ngFor="let l1 of level1" [value]="l1">{{l1}}</option>
 			</select>
 		</div>
 		<div class="form-group">
 			<select class="form-control" (change)="handleLevelChange('level2', $event)">
-				<option *ngFor="let l2 of level2" [value]="l2.name" [id]="l2.id">{{l2.name}}</option>
+				<option *ngFor="let l2 of level2" [value]="l2">{{l2}}</option>
 			</select>
 		</div>
 		<div class="form-group">
 			<select class="form-control" (change)="handleLevelChange('level3', $event)">
-				<option *ngFor="let l3 of level3" [value]="l3.name" [id]="l3.id">{{l3.name}}</option>
+				<option *ngFor="let l3 of level3" [value]="l3">{{l3}}</option>
 			</select>
 		</div>
 		<div class="form-group">
 			<select class="form-control" (change)="handleLevelChange('level4', $event)">
-				<option *ngFor="let l4 of level4" [value]="l4.name" [id]="l4.id">{{l4.name}}</option>
+				<option *ngFor="let l4 of level4" [value]="l4">{{l4}}</option>
 			</select>
 		</div>
 		<div>

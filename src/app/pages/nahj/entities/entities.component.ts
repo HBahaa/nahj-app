@@ -268,6 +268,7 @@ export class EntitiesComponent implements OnInit {
 						url: this.url,
 						id: id
 					}).subscribe(resp => {
+						console.log("delete 1", resp)
 						this.getAllLevels(undefined, undefined);
 					})
 				}
