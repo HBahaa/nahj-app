@@ -14,6 +14,7 @@ export class EntitiesComponent implements OnInit {
 	selectedLevel1;
 	selectedLevel2;
 	selectedLevel3;
+	clearSelected: boolean = false;
 
 	constructor(
 		private elevelsOne: ELevelsOneService,
@@ -131,7 +132,8 @@ export class EntitiesComponent implements OnInit {
 					url: this.url,
 					newName1: $event.newValue
 				}).subscribe(data => {
-					this.level1.push(data['data']['createLevelOne']['name']);
+					this.getAllLevels(data['data']['createLevelOne']['name'], undefined);
+					this.selectedLevel1 = data['data']['createLevelOne']['name'];
 				});
 			break;
 			case 'update':
@@ -139,7 +141,6 @@ export class EntitiesComponent implements OnInit {
 					method: 'GET',
 					url: this.url
 				}).subscribe(data => {
-
 					data['data'].levelOnes.map(level=>{
 						if (level.name  == $event.value) {
 							let id = level.id;
@@ -150,18 +151,17 @@ export class EntitiesComponent implements OnInit {
 								newName1: $event.newValue,
 								newName2: ""
 							}).subscribe(data => {
-								let index = this.level1.indexOf($event.value);
-								this.level1.splice(index , 1);
-								this.level1.splice(index , 0, data['data'].updateLevelOne.name);
+								// let index = this.level1.indexOf($event.value);
+								// this.level1.splice(index , 1);
+								// this.level1.splice(index , 0, data['data'].updateLevelOne.name);
+								this.getAllLevels(data['data']['updateLevelOne']['name'], undefined);
+								this.selectedLevel1 = data['data']['updateLevelOne']['name'];
 							});
 
 						}
 					});
 
-				});
-
-
-				
+				});	
 			break;
 		}
 	}
@@ -182,10 +182,8 @@ export class EntitiesComponent implements OnInit {
 								newName1: this.selectedLevel1,
 								newName2: $event.newValue
 							}).subscribe(data => {
-								// let index = this.level1.indexOf($event.value);
-								// this.level1.splice(index , 1);
-								// this.level1.splice(index , 0, data['data'].updateLevelOne.name);
-								this.getAllLevels(undefined, undefined);
+								this.selectedLevel2 = $event.newValue;
+								this.getAllLevels(this.selectedLevel1, $event.newValue);
 							});
 						break;
 						case "update":
@@ -199,7 +197,8 @@ export class EntitiesComponent implements OnInit {
 										newName2: $event.newValue,
 										newName3: ""
 									}).subscribe(resp=>{
-										this.getAllLevels(undefined, undefined);
+										this.selectedLevel2 = $event.newValue;
+										this.getAllLevels(this.selectedLevel1, $event.newValue);
 									})
 								}
 							})
@@ -229,7 +228,7 @@ export class EntitiesComponent implements OnInit {
 										newName2: this.selectedLevel2,
 										newName3: $event.newValue
 									}).subscribe(data2 => {
-										this.getAllLevels(undefined, undefined);
+										this.getAllLevels(this.selectedLevel1, this.selectedLevel2);
 									});
 								break;
 								case "update":
@@ -242,7 +241,7 @@ export class EntitiesComponent implements OnInit {
 												id: id3,
 												newName3: $event.newValue
 											}).subscribe(data3 =>{
-												this.getAllLevels(undefined, undefined);
+												this.getAllLevels(this.selectedLevel1, this.selectedLevel2);
 											})
 										}
 									})
@@ -268,7 +267,6 @@ export class EntitiesComponent implements OnInit {
 						url: this.url,
 						id: id
 					}).subscribe(resp => {
-						console.log("delete 1", resp)
 						this.getAllLevels(undefined, undefined);
 					})
 				}
@@ -295,7 +293,7 @@ export class EntitiesComponent implements OnInit {
 					}
 				})
 			});
-		});
+		})
 	}
 
 	deleteLevelThree($event){

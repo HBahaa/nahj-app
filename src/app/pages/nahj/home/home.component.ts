@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit {
 			method: "GET",
 			url: this.url
 		}).subscribe((data: any) => {
-			this.evaluationStatus = data.data.evaluationStatuses.map(item => item.name[0]);
+			this.evaluationStatus = data.data.evaluationStatuses.map(item => item.name);
 		})
 	}
 
@@ -123,6 +123,7 @@ export class HomeComponent implements OnInit {
 	}
 
 	addNewCity($event){
+		console.log("add city", $event)
 		switch ($event.eventType) {
 			case "add":
 				this.geoService.cities({
@@ -131,21 +132,31 @@ export class HomeComponent implements OnInit {
 				}).subscribe(data => {
 					let oldCities = data["data"]["geoAreas"][0]["cities"];
 					let newCities = oldCities
+					console.log("old city", oldCities)
 					newCities.push($event.newValue);
+					console.log("new city", newCities)
+
 					this.geoService.service({
-						method: "DELETE",
-						url: this.url,
-						name: this.selectedGeo
-					}).subscribe(data =>{
-						this.geoService.service({
-							method: 'PUT',
-							url: this.url,
-							name: this.selectedGeo,
-							cities: newCities
-						}).subscribe((data: any) => {
-							this.citiesArray= data["data"]["createGeoArea"]["cities"];
-							this.selectedCity = $event.newValue;
-						});
+						method: 'GET',
+						url: this.url
+					}).subscribe(geos=>{
+						geos['data'].geoAreas.filter(geo=>geo.name == this.selectedGeo).map(geo=>{
+							this.geoService.service({
+								method: "DELETE",
+								url: this.url,
+								Id: geo.id
+							}).subscribe(data =>{
+								this.geoService.service({
+									method: 'PUT',
+									url: this.url,
+									name: this.selectedGeo,
+									cities: newCities
+								}).subscribe((data: any) => {
+									this.citiesArray= data["data"]["createGeoArea"]["cities"];
+									this.selectedCity = $event.newValue;
+								});
+							})
+						})
 					})
 				});
 				break;
@@ -160,34 +171,63 @@ export class HomeComponent implements OnInit {
 					cities.splice(index , 1);
 					cities.push($event.newValue);
 					this.geoService.service({
-						method: "DELETE",
-						url: this.url,
-						name: this.selectedGeo
-					}).subscribe(data =>{
-						this.geoService.service({
-							method: 'PUT',
-							url: this.url,
-							name: this.selectedGeo,
-							cities: cities
-						}).subscribe((data: any) => {
-							this.citiesArray= data["data"]["createGeoArea"]["cities"];
-							// this.selectedCity = $event.newValue;
-						});
+						method: 'GET',
+						url: this.url
+					}).subscribe(geos=>{
+						geos['data'].geoAreas.filter(geo=>geo.name == this.selectedGeo).map(geo=>{
+							this.geoService.service({
+								method: "DELETE",
+								url: this.url,
+								Id: geo.id
+							}).subscribe(data =>{
+								this.geoService.service({
+									method: 'PUT',
+									url: this.url,
+									name: this.selectedGeo,
+									cities: cities
+								}).subscribe((data: any) => {
+									this.citiesArray= data["data"]["createGeoArea"]["cities"];
+									this.selectedCity = $event.newValue;
+								});
+							})
+						})
 					})
 				});
 				break;
 		}
 	}
 	addNewEvaluation($event){
-		this.evaluationService.service({
-			method: "POST",
-			url: this.url,
-			value: $event.newValue
-		}).subscribe((data: any) => {
-			console.log("adtat", data)
-			this.getEvaluationStatusData();
-			this.selectedEval = $event.newValue;
-		});
+		switch ($event.eventType) {
+			case "add":
+				this.evaluationService.service({
+					method: "PUT",
+					url: this.url,
+					name: $event.newValue
+				}).subscribe((data: any) => {
+					this.getEvaluationStatusData();
+					this.selectedEval = $event.newValue;
+				});
+				break;
+		
+			case "update":
+				this.evaluationService.service({
+					method: "GET",
+					url: this.url
+				}).subscribe((data: any) => {
+					data.data.evaluationStatuses.filter(item => item.name == $event.value ).map(item => {
+						this.evaluationService.service({
+							method: "POST",
+							url: this.url,
+							name: $event.newValue,
+							id: item.id
+						}).subscribe((data: any) => {
+							this.getEvaluationStatusData();
+							this.selectedEval = $event.newValue;
+						});
+					});
+				})
+				break;
+		}
 	}
 	addNewStudyYear($event){
 		switch($event.eventType){
@@ -227,39 +267,49 @@ export class HomeComponent implements OnInit {
 	}
 
 	deleteCity($event){
-		this.geoService.cities({
-			url: this.url,
-			name: this.selectedGeo
-		}).subscribe(data => {
-			let cities = data["data"]["geoAreas"][0]["cities"];
-			let index = cities.indexOf($event.value);
-			cities.splice(index , 1);
-			this.geoService.service({
-				method: "DELETE",
-				url: this.url,
-				name: this.selectedGeo
-			}).subscribe(data =>{
+		this.geoService.service({
+			method: 'GET',
+			url: this.url
+		}).subscribe(data=>{
+			data['data'].geoAreas.filter(geo=>geo.name == this.selectedGeo).map(geo=>{
+				let cities = geo["cities"];
+				let index = cities.indexOf($event.value);
+				cities.splice(index , 1);
 				this.geoService.service({
-					method: 'PUT',
+					method: "DELETE",
 					url: this.url,
-					name: this.selectedGeo,
-					cities: cities
-				}).subscribe((data: any) => {
-					this.citiesArray= data["data"]["createGeoArea"]["cities"];
-					// this.selectedCity = $event.newValue;
-				});
+					Id: geo.id
+				}).subscribe(data =>{
+					this.geoService.service({
+						method: 'PUT',
+						url: this.url,
+						name: this.selectedGeo,
+						cities: cities
+					}).subscribe((data: any) => {
+						this.citiesArray= data["data"]["createGeoArea"]["cities"];
+						this.selectedCity = $event.newValue;
+					});
+				})
 			})
-		});
+		})
 	}
 
 	deleteEvaluation($event){
 		this.evaluationService.service({
-			method: "DELETE",
+			method: "GET",
 			url: this.url
 		}).subscribe((data: any) => {
-			this.getEvaluationStatusData();
-			this.selectedEval = undefined;
-		});
+			data.data.evaluationStatuses.filter(item => item.name == $event.value ).map(item => {
+				this.evaluationService.service({
+					method: "DELETE",
+					url: this.url,
+					id: item.id
+				}).subscribe((data: any) => {
+					this.getEvaluationStatusData();
+					this.selectedEval = undefined;
+				});
+			});
+		})
 	}
 
 	deleteStudyYear($event){

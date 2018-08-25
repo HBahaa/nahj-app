@@ -17,7 +17,7 @@ export class LevelsComponent implements OnInit {
 	selectedContent4;
 	selectedParcentage1;
 	selectedParcentage2;
-	selectedParcentage3;
+	selectedParcentage3; 
 	selectedParcentage4;
 
 	constructor(
@@ -252,13 +252,12 @@ export class LevelsComponent implements OnInit {
 		}).subscribe(data1=>{
 			data1['data'].contentLevelOnes.map(l1=> {
 				if (l1.name == this.selectedContent1) {
-					let id1 = l1.id;
 					switch ($event.eventType) {
 						case "add":
 							this.econtentOneService.service({
 								method: 'POST',
 								url: this.url,
-								Id: id1,
+								Id: l1.id,
 								namel1: this.selectedContent1,
 								namel2: $event.newValue1,
 								relativePercentagel1: this.selectedParcentage1,
@@ -270,7 +269,6 @@ export class LevelsComponent implements OnInit {
 						case "update":
 							l1.contentLevelTwo.map(l2 =>{
 								if (l2.name == $event.value) {
-									let id2 = l2.id;
 									this.econtentTwoService.service({
 										method: 'POST',
 										url: this.url,
@@ -278,7 +276,7 @@ export class LevelsComponent implements OnInit {
 										namel2: $event.newValue1,
 										relativePercentagel2: $event.newValue2,
 										relativePercentagel3: 0,
-										Id: id2
+										Id: l2.id
 									}).subscribe(data2=>{
 										this.getContentData(this.selectedContent1, $event.newValue1, undefined, undefined)
 									})
@@ -312,7 +310,6 @@ export class LevelsComponent implements OnInit {
 										relativePercentagel2: this.selectedParcentage2,
 										relativePercentagel3: $event.newValue2
 									}).subscribe(resp => {
-										console.log("rresp 3", resp)
 										this.getContentData(this.selectedContent1, this.selectedContent2, $event.newValue1, undefined);
 									});
 								break;

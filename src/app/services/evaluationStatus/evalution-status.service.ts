@@ -12,7 +12,7 @@ export class EvalutionStatusService {
     let query: string = "";
     let variable: object = {};
     switch(config.method){
-      case "PUT" : //update
+      case "POST" : //update
         query = `mutation($name: String!, $id: ID!) {
           updateEvaluationStatus(where: { id: $id }, data: { name: $name }) {
             id
@@ -32,7 +32,7 @@ export class EvalutionStatusService {
           }
         }`;
       break;
-      case "POST"://create
+      case "PUT"://create
         query = `mutation($name: String!) {
           createEvaluationStatus(data: { name: $name }) {
             id

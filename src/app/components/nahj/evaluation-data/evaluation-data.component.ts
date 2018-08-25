@@ -102,23 +102,22 @@ export class EvaluationDataComponent implements OnInit {
 	evaluationClicked($event){
 		this.selectedEvaluation = $event.id;
 		this.form = this.fb.group({
-			title: [$event.title, Validators.required],
-			shortTitle: [$event.shortTitle, Validators.required],
-			currentStatus: [$event.currentStatus.id, Validators.required],
-			accountWay: [$event.accountWay.id, Validators.required],
-			level1: [$event.speciificContentLevel.speciificContentLevelOne['id'], Validators.required],
-			level2: [$event.speciificContentLevel.speciificContentLevelTwo['id'], Validators.required],
-			level3: [$event.speciificContentLevel.speciificContentLevelThree['id'], Validators.required],
-			level4: [$event.speciificContentLevel.speciificContentLevelFour['id'], Validators.required]
+			title: [$event.title],
+			shortTitle: [$event.shortTitle],
+			currentStatus: [$event.currentStatus.id],
+			accountWay: [$event.accountWay.id],
+			level1: [$event.speciificContentLevel.speciificContentLevelOne['name']],
+			level2: [$event.speciificContentLevel.speciificContentLevelTwo['name']],
+			level3: [$event.speciificContentLevel.speciificContentLevelThree['name']],
+			level4: [$event.speciificContentLevel.speciificContentLevelFour['name']]
 		});
 		this.getQuestionGroups()
 	}
 	getQuestionGroupDetails(qGroup){
 		this.selectedQuestionGroup = qGroup;
-		console.log("qGroup",qGroup)
 		this.questGroupForm = this.fb.group({
-			name: [qGroup.name, Validators.required],
-			weight: [qGroup.weight, Validators.required],
+			name: [qGroup.name],
+			weight: [qGroup.weight],
 		})
 	}
 	/// get Functions
@@ -147,7 +146,6 @@ export class EvaluationDataComponent implements OnInit {
 			data['data'].evaluations.map(item=>{
 				if(item.id == this.selectedEvaluation){
 					this.questionGroups  =  item.questionGroup;
-					console.log("ques", this.questionGroups)
 				}
 			})
 		})
@@ -168,18 +166,18 @@ export class EvaluationDataComponent implements OnInit {
 									this.selectedLevel3=l3.name;
 									if (!name3 && index3 == 0) {
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
 										}else{
 											this.level4 = [];
 										}
 									}else if (name3 == l3.name) {
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
 										}else{
 											this.level4 = [];
 										}
 									}
-									return l3;
+									return l3.name;
 								})
 							}else{
 								this.level3 = [];
@@ -192,26 +190,26 @@ export class EvaluationDataComponent implements OnInit {
 									if (!name3 && index3 == 0) {
 										this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
 										}else{
 											this.level4 = [];
 										}
 									}else if (name3 == l3.name) {
 										this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
 										}else{
 											this.level4 = [];
 										}
 									}
-									return l3
+									return l3.name
 								})
 							}else{
 								this.level3 = [];
 								this.level4 = [];
 							}
 						}
-						return l2;
+						return l2.name;
 					})
 				}else if (name1 == l1.name) {
 					this.selectedLevel1 = l1.name;
@@ -223,19 +221,19 @@ export class EvaluationDataComponent implements OnInit {
 									if (!name3 && index3 == 0) {
 										this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
 										}else{
 											this.level4 = [];
 										}
 									}else if (name3 == l3.name) {
 										this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
 										}else{
 											this.level4 = [];
 										}
 									}
-									return l3
+									return l3.name
 								})
 							}else{
 								this.level3 = [];
@@ -248,30 +246,30 @@ export class EvaluationDataComponent implements OnInit {
 									if (!name3 && index3 == 0) {
 										this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
 										}else{
 											this.level4 = [];
 										}
 									}else if (name3 == l3.name) {
 										this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
 										}else{
 											this.level4 = [];
 										}
 									}
-									return l3
+									return l3.name
 								})
 							}else{
 								this.level3 = [];
 								this.level4 = [];
 							}
 						}
-						return l2
+						return l2.name
 					})
 				}
 				// return (({id, name})=>({id, name}))(l1)
-				return l1
+				return l1.name
 			});
 		})
 	}
@@ -299,26 +297,42 @@ export class EvaluationDataComponent implements OnInit {
 	//add functions
 	addNewEvaluation(){
 		if (this.form.valid) {
-			this.evaluation.service({
-				method: "PUT",
-				url: this.url,
-				title: this.form.value.title,
-				shortTitle: this.form.value.shortTitle,
-				currentStatusId: this.form.value.currentStatus,
-				accountWayId: this.form.value.accountWay,
-				speciificContentLevelOneId: this.form.value.level1,
-				speciificContentLevelTwoId: this.form.value.level2,
-				speciificContentLevelThreeId: this.form.value.level3,
-				speciificContentLevelFourId: this.form.value.level4,
-				questionGroupName: "",
-				questionGroupWeight: ""
-			}).subscribe(data=>{
-				this.EvalAdd = true;
-				console.log("add", data);
-				this.updateFilter = true;
-			})
+			this.econtentOneService.service({
+				method: 'GET',
+				url: this.url
+			}).subscribe(econtent1=>{
+				econtent1['data'].contentLevelOnes.filter(l1=> l1.name == this.form.value.level1).map(l1 => {
+					var l1ID = l1.id;
+					l1.contentLevelTwo.filter(l2 => l2.name == this.form.value.level2).map(l2=>{
+						var l2ID = l2.id
+						l2.contentLevelThree.filter(l3 => l3.name == this.form.value.level3).map(l3=>{
+							var l3ID = l3.id
+							l3.contentLevelFour.filter(l4 => l4.name == this.form.value.level4).map(l4=>{
+								var l4ID = l4.id
+								this.evaluation.service({
+									method: "PUT",
+									url: this.url,
+									title: this.form.value.title,
+									shortTitle: this.form.value.shortTitle,
+									currentStatusId: this.form.value.currentStatus,
+									accountWayId: this.form.value.accountWay,
+									speciificContentLevelOneId: l1ID,
+									speciificContentLevelTwoId: l2ID,
+									speciificContentLevelThreeId: l3ID,
+									speciificContentLevelFourId: l4ID,
+									questionGroupName: "",
+									questionGroupWeight: ""
+								}).subscribe(data=>{
+									this.EvalAdd = true;
+									this.updateFilter = true;
+								})
+							})
+						})
+					})
+				})
+				this.updateFilter = false;
+			})			
 		}
-		this.updateFilter = false;
 	}
 	addNewQuestionGroup(){
 		if (this.selectedEvaluation) {
@@ -330,7 +344,6 @@ export class EvaluationDataComponent implements OnInit {
                     weight: this.questGroupForm.value.weight,
                     evaluationId: this.selectedEvaluation
 				}).subscribe(data => {
-					console.log("select eval", data);
 					this.getQuestionGroups()
 					this.questionAdd = true;
 				})
@@ -341,26 +354,45 @@ export class EvaluationDataComponent implements OnInit {
 	// edit functions
 	editEvaluation(){
 		if (this.selectedEvaluation) {
-			this.evaluation.service({
-				method: "POST",
-				url: this.url,
-				evaluationId:this.selectedEvaluation,
-				title: this.form.value.title,
-				shortTitle: this.form.value.shortTitle,
-				currentStatusId: this.form.value.currentStatus,
-				accountWayId: this.form.value.accountWay,
-				speciificContentLevelOneId: this.form.value.level1,
-				speciificContentLevelTwoId: this.form.value.level2,
-				speciificContentLevelThreeId: this.form.value.level3,
-				speciificContentLevelFourId: this.form.value.level4,
-				questionGroupName: "",
-				questionGroupWeight: ""
-			}).subscribe(data=>{
-				this.EvalEdit = true;
-				this.updateFilter = true;
+			this.econtentOneService.service({
+				method: 'GET',
+				url: this.url
+			}).subscribe(econtent1=>{
+				econtent1['data'].contentLevelOnes.filter(l1=> l1.name == this.form.value.level1).map(l1 => {
+					var l1ID = l1.id;
+					l1.contentLevelTwo.filter(l2 => l2.name == this.form.value.level2).map(l2=>{
+						var l2ID = l2.id
+						l2.contentLevelThree.filter(l3 => l3.name == this.form.value.level3).map(l3=>{
+							var l3ID = l3.id
+							l3.contentLevelFour.filter(l4 => l4.name == this.form.value.level4).map(l4=>{
+								var l4ID = l4.id
+								this.evaluation.service({
+									method: "POST",
+									url: this.url,
+									evaluationId:this.selectedEvaluation,
+									title: this.form.value.title,
+									shortTitle: this.form.value.shortTitle,
+									currentStatusId: this.form.value.currentStatus,
+									accountWayId: this.form.value.accountWay,
+									speciificContentLevelOneId: l1ID,
+									speciificContentLevelTwoId: l2ID,
+									speciificContentLevelThreeId: l3ID,
+									speciificContentLevelFourId: l4ID,
+									questionGroupName: "",
+									questionGroupWeight: ""
+								}).subscribe(data=>{
+									// console.log("data", data)
+									this.EvalEdit = true;
+									this.updateFilter = true;
+								})
+								
+							})
+						})
+					})
+				})
+				this.updateFilter = false;
 			})
 		}
-		this.updateFilter = false;
 	}
 	EditQuestionGroup(){
 		if (this.selectedQuestionGroup) {
@@ -383,28 +415,83 @@ export class EvaluationDataComponent implements OnInit {
 	deleteEvaluation(){
 		if (this.selectedEvaluation) {
 			this.evaluation.service({
-				method: "DELETE",
-				url: this.url,
-				id:this.selectedEvaluation
+				method: 'GET',
+				url: this.url
 			}).subscribe(data=>{
-				console.log("delete", data);
-				this.updateFilter = true;
+				data['data'].evaluations.map(item=>{
+					if(item.id == this.selectedEvaluation){
+						let questionGroupsID =  item.questionGroup.id;
+						this.evaluation.service({
+							method: "DELETE",
+							url: this.url,
+							id:this.selectedEvaluation
+						}).subscribe(data=>{
+							this.updateFilter = true;
+							this.EvalEdit = true;
+							this.questionType.service({
+								method: "DELETE",
+								url: this.url,
+								Id: questionGroupsID
+							}).subscribe(data => {
+								console.log("delete", data)
+								this.getQuestionGroups()
+							})
+						})
+					}
+				})
 			})
+			this.updateFilter = false;			
 		}
-		this.updateFilter = false;
 	}
 
 	deleteQuestionGroup(){
 		console.log("dele g", this.selectedQuestionGroup)
-		// if (this.selectedQuestionGroup) {
-		// 	this.questionType.service({
-		// 		method: "DELETE",
-		// 		url: this.url,
-		// 		Id:this.selectedQuestionGroup.id
-		// 	}).subscribe(data => {
-		// 		console.log("select eval", data);
-		// 		this.getQuestionGroups()
-		// 	})
-		// }
+		if (this.selectedEvaluation && this.selectedQuestionGroup) {
+			this.econtentOneService.service({
+				method: 'GET',
+				url: this.url
+			}).subscribe(econtent1=>{
+				econtent1['data'].contentLevelOnes.filter(l1=> l1.name == this.form.value.level1).map(l1 => {
+					var l1ID = l1.id;
+					l1.contentLevelTwo.filter(l2 => l2.name == this.form.value.level2).map(l2=>{
+						var l2ID = l2.id
+						l2.contentLevelThree.filter(l3 => l3.name == this.form.value.level3).map(l3=>{
+							var l3ID = l3.id
+							l3.contentLevelFour.filter(l4 => l4.name == this.form.value.level4).map(l4=>{
+								var l4ID = l4.id
+								this.evaluation.service({
+									method: "POST",
+									url: this.url,
+									evaluationId:this.selectedEvaluation,
+									title: this.form.value.title,
+									shortTitle: this.form.value.shortTitle,
+									currentStatusId: this.form.value.currentStatus,
+									accountWayId: this.form.value.accountWay,
+									speciificContentLevelOneId: l1ID,
+									speciificContentLevelTwoId: l2ID,
+									speciificContentLevelThreeId: l3ID,
+									speciificContentLevelFourId: l4ID,
+									questionGroupName: "",
+									questionGroupWeight: ""
+								}).subscribe(data=>{
+									// console.log("data", data)
+									this.questionType.service({
+										method: "DELETE",
+										url: this.url,
+										Id:this.selectedQuestionGroup.id
+									}).subscribe(data => {
+										console.log("select eval", data);
+										this.getQuestionGroups()
+									})
+									this.EvalEdit = true;
+									this.updateFilter = true;
+								})
+							})
+						})
+					})
+				})
+				this.updateFilter = false;
+			})
+		}
 	}
 }

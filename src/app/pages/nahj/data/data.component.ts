@@ -85,7 +85,6 @@ export class DataComponent implements OnInit {
 		const dialogRef = this.dialog.open(DialogComponent, {
 		  width: '500px'
 		});
-	
 		dialogRef.afterClosed().subscribe(result => {
 			if(result){
 				this.deleteSchool($event);
@@ -275,6 +274,7 @@ export class DataComponent implements OnInit {
 	}
 
 	addSchool(){
+		console.log("form", this.form.value)
 		let config = this.form.value;
 		this.schoolService.service({
 			method: 'PUT',
@@ -320,6 +320,7 @@ export class DataComponent implements OnInit {
 			GeoAreaName: config.geo,
 			cityName: config.city
 		}).subscribe(data => {
+			console.log("data add", data);
 			this.form = this.fb.group({
 				schoolName: [''],motherComp: [''],
 				email: [''],
@@ -357,6 +358,7 @@ export class DataComponent implements OnInit {
 			});
 			this.updateChildData = true;
 		})
+		this.updateChildData = false;
 	}
 	editSchool($event){
 		let config = this.form.value;
@@ -423,6 +425,7 @@ export class DataComponent implements OnInit {
 				}
 			})
 		})
+		this.updateChildData = false;
 	}
 	deleteSchool($event){
 		this.schoolService.service({
@@ -441,6 +444,7 @@ export class DataComponent implements OnInit {
 				}
 			})
 		})
+		this.updateChildData = false;
 	}
 
 }

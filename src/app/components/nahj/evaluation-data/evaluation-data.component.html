@@ -38,22 +38,22 @@
 						<div class="form-group">
 							<label>مكونات المنهج المرتبط به التقييم</label>
 							<select class="form-control" (change)="handleLevelChange('level1', $event)" formControlName="level1">
-								<option *ngFor="let l1 of level1" [value]="l1.id" [id]="l1.id">{{l1.name}}</option>
+								<option *ngFor="let l1 of level1" [value]="l1">{{l1}}</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<select class="form-control" (change)="handleLevelChange('level2', $event)" formControlName="level2">
-								<option *ngFor="let l2 of level2" [value]="l2.id" [id]="l2.id">{{l2.name}}</option>
+								<option *ngFor="let l2 of level2" [value]="l2">{{l2}}</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<select class="form-control" (change)="handleLevelChange('level3', $event)" formControlName="level3">
-								<option *ngFor="let l3 of level3" [value]="l3.id" [id]="l3.id">{{l3.name}}</option>
+								<option *ngFor="let l3 of level3" [value]="l3">{{l3}}</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<select class="form-control" (change)="handleLevelChange('level4', $event)" formControlName="level4">
-								<option *ngFor="let l4 of level4" [value]="l4.id" [id]="l4.id">{{l4.name}}</option>
+								<option *ngFor="let l4 of level4" [value]="l4">{{l4}}</option>
 							</select>
 						</div>
 						
