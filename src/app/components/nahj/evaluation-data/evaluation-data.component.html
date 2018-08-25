@@ -83,7 +83,7 @@
 				<div class="form-group">
 					<label>مجموعة اﻷسئلة</label>
 				  <select class="form-control" size="4">
-					  <option (click)="getQuestionGroupDetails(questionGroups)">{{questionGroups.name}}</option>
+					  <option *ngIf="!questionGroups.name==''" (click)="getQuestionGroupDetails(questionGroups)">{{questionGroups?.name}}</option>
 				  </select>
 				</div>
 				<input type="text" class="form-control text-right mb-2" formControlName="name">

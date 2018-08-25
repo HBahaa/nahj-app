@@ -31,7 +31,7 @@ export class EvaluationDataComponent implements OnInit {
 	level4 = [];
 	evalStatus = [];
 	evalOptions = [];
-	questionGroups= [];
+	questionGroups= {};
 	selectedLevel1;
 	selectedLevel2;
 	selectedLevel3;
@@ -144,7 +144,10 @@ export class EvaluationDataComponent implements OnInit {
 			url: this.url
 		}).subscribe(data=>{
 			data['data'].evaluations.map(item=>{
+				console.log("item", item)
+				console.log("selecredEvaluation", this.selectedEvaluation)
 				if(item.id == this.selectedEvaluation){
+					console.log("eq")
 					this.questionGroups  =  item.questionGroup;
 				}
 			})
@@ -433,8 +436,17 @@ export class EvaluationDataComponent implements OnInit {
 								url: this.url,
 								Id: questionGroupsID
 							}).subscribe(data => {
-								console.log("delete", data)
-								this.getQuestionGroups()
+								this .questionGroups = {}
+								this.form = this.fb.group({
+									title: [''],
+									shortTitle: [''],
+									currentStatus: [''],
+									accountWay: [''],
+									level1: [''],
+									level2: [''],
+									level3: [''],
+									level4: ['']
+								});
 							})
 						})
 					}
@@ -480,7 +492,6 @@ export class EvaluationDataComponent implements OnInit {
 										url: this.url,
 										Id:this.selectedQuestionGroup.id
 									}).subscribe(data => {
-										console.log("select eval", data);
 										this.getQuestionGroups()
 									})
 									this.EvalEdit = true;

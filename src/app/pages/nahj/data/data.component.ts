@@ -188,13 +188,13 @@ export class DataComponent implements OnInit {
 	}
 
 	getItemDetails($event){
+		console.log("clicked", $event)
 		$event.admin.filter(admin => admin.type == 'res').map(res => {
 			let adminRes = res;
 			$event.admin.filter(admin => admin.type == 'admin').map(admin=>{
 				let nahjAdmin = admin;
-				let l1 = $event.levels.name;
-				let l2 = $event.levels.LevelTwo.filter(n => n.name != "" )[0].name
-				let l3 = $event.levels.LevelTwo.filter(n => n.name != "" )[0].levelThree.filter(n => n.name != "" )[0].name;
+				let l2 = $event.levels.LevelTwo.filter(n => n.name != "" )[0].id
+				let l3 = $event.levels.LevelTwo.filter(n => n.name != "" )[0].levelThree.filter(n => n.name != "" )[0].id;
 				this.form = this.fb.group({
 					schoolName: [$event.name],
 					motherComp: [$event.motherComp],
@@ -213,7 +213,7 @@ export class DataComponent implements OnInit {
 					lowestStudyYear: [$event.lowestStudyYear],
 					highestStudyYear: [$event.highestStudyYear],
 					studyYears: [$event.StudyYears],
-					level1: [l1],
+					level1: [$event.levels.id],
 					level2: [l2],
 					level3: [l3],
 					adminName: [adminRes.name],
@@ -361,6 +361,7 @@ export class DataComponent implements OnInit {
 		this.updateChildData = false;
 	}
 	editSchool($event){
+		console.log("edit", $event)
 		let config = this.form.value;
 		this.schoolService.service({
 			method: "GET",
