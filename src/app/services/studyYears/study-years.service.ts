@@ -12,23 +12,60 @@ export class StudyYearsService {
     let variable: object = {};
     switch(config.method){
       case "POST" : //update
-        query = `mutation ($name: [String!]) { updateManyStudyYears(data: {name: {set: $name}}) { count } } ` 
+        query = `mutation($name:String!,$Id:ID!){
+          updateStudyYear(
+            data:{
+              name:$name,
+            },
+            where:{
+              id:$Id
+            }
+          ){
+            id,
+            name
+          }
+        }` 
         variable = {
-          studyYearName:config.studyYearName
+          name:config.name,
+          Id:config.Id
         }       
       break;
       case "GET": //read
-        query = `{ studyYears { name } } `;
+        query = `query{
+          studyYears{
+            id,
+            name
+          }
+        }`;
       break;
       case "PUT"://create
-        query = `mutation ($studyYearName: [String!]) { createStudyYear(data: {name: {set: $studyYearName}}) { name } } `
+        query = `mutation($name:String!){
+          createStudyYear(
+            data:{
+              name:$name,
+            }
+          ){
+            id,
+            name
+          }
+        }`
         variable = {
-          studyYearName:config.studyYearName
+          name:config.name
         }
       break;
       case "DELETE": //delete
-        query = `mutation { deleteManyStudyYears { count } } `
+        query = `mutation($Id:ID!){
+          deleteStudyYear(
+            where:{
+              id:$Id
+            }
+          ){
+            id,
+            name
+          }
+        }`
         variable = {
+          Id:config.Id
         }
       break;
   }

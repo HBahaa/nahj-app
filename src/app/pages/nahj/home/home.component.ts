@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
 			url: this.url
 		}).subscribe(data => {
 			this.termArray = data["data"].studyYears.map(styYear =>{
-				return styYear.name[0];
+				return styYear.name;
 			})
 
 		})
@@ -235,12 +235,29 @@ export class HomeComponent implements OnInit {
 				this.studyYearService.service({
 					method: "PUT",
 					url: this.url,
-					studyYearName: $event.newValue,
+					name: $event.newValue, 
 				}).subscribe(data=>{
-					let newStyYear = data["data"].createStudyYear.name
-					this.termArray.push(...newStyYear)
-					this.selectedTerm  = data["data"].createStudyYear.name;
+					this.getStudyYears();
+					this.selectedTerm  =  $event.newValue;
 				});
+			break;
+			case "update":
+			this.studyYearService.service({
+				method: "GET",
+				url: this.url 
+			}).subscribe(data=>{
+				data['data'].studyYears.filter(studyYear=> studyYear.name == $event.value).map(resp=>{
+					this.studyYearService.service({
+						method: "POST",
+						url: this.url,
+						name: $event.newValue,
+						Id: resp.id 
+					}).subscribe(data=>{
+						this.getStudyYears();
+						this.selectedTerm  =  $event.newValue;
+					});
+				})
+			});
 			break;
 		}
 	}
@@ -314,11 +331,27 @@ export class HomeComponent implements OnInit {
 
 	deleteStudyYear($event){
 		this.studyYearService.service({
-			method: "DELETE",
-			url: this.url
-		}).subscribe(data =>{
-			this.termArray = []
-			this.selectedTerm = undefined;
-		})
+			method: "GET",
+			url: this.url 
+		}).subscribe(data=>{
+			data['data'].studyYears.filter(studyYear=> studyYear.name == $event.value).map(resp=>{
+				this.studyYearService.service({
+					method: "DELETE",
+					url: this.url,
+					Id: resp.id 
+				}).subscribe(data=>{
+					console.log("data", data)
+					this.getStudyYears();
+					this.selectedTerm = undefined;
+				});
+			})
+		});
+		// this.studyYearService.service({
+		// 	method: "DELETE",
+		// 	url: this.url
+		// }).subscribe(data =>{
+		// 	this.termArray = []
+		// 	this.selectedTerm = undefined;
+		// })
 	}
 }

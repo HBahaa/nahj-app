@@ -38,21 +38,25 @@
 						<div class="form-group">
 							<label>مكونات المنهج المرتبط به التقييم</label>
 							<select class="form-control" (change)="handleLevelChange('level1', $event)" formControlName="level1">
+								<option value=""></option>
 								<option *ngFor="let l1 of level1" [value]="l1">{{l1}}</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<select class="form-control" (change)="handleLevelChange('level2', $event)" formControlName="level2">
+								<option value=""></option>
 								<option *ngFor="let l2 of level2" [value]="l2">{{l2}}</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<select class="form-control" (change)="handleLevelChange('level3', $event)" formControlName="level3">
+								<option value=""></option>
 								<option *ngFor="let l3 of level3" [value]="l3">{{l3}}</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<select class="form-control" (change)="handleLevelChange('level4', $event)" formControlName="level4">
+								<option value=""></option>
 								<option *ngFor="let l4 of level4" [value]="l4">{{l4}}</option>
 							</select>
 						</div>
@@ -78,16 +82,17 @@
 		</form>
 	</div>
 	<form [formGroup]="questGroupForm" class="col-lg-3 col-sm-6">
-    	<div class="card">
+    	<div class="card" *ngIf="selectedEvaluation">
 			<div class="card-body">
 				<div class="form-group">
 					<label>مجموعة اﻷسئلة</label>
 				  <select class="form-control" size="4">
-					  <option *ngIf="!questionGroups.name==''" (click)="getQuestionGroupDetails(questionGroups)">{{questionGroups?.name}}</option>
+					  <!-- <option *ngIf="!questionGroups.name==''" (click)="getQuestionGroupDetails(questionGroups)">{{questionGroups?.name}}</option> -->
+					  <option (click)="getQuestionGroupDetails(questionGroup)" *ngFor="let questionGroup of questionGroups" [value]="questionGroup.id">{{questionGroup.name}}</option>
 				  </select>
 				</div>
-				<input type="text" class="form-control text-right mb-2" formControlName="name">
-				<input type="text" class="form-control text-right"  formControlName="weight">
+				<input type="text" class="form-control text-right mb-2" placeholder="السؤال" formControlName="name">
+				<input type="text" class="form-control text-right" placeholder="الوزن النسبي"  formControlName="weight">
 				
 				<div class="card-footer text-left">
 					<button *ngIf="questionEdit" class="btn btn-primary" (click)="handleEditQuestionChanges()" type="button">
@@ -104,6 +109,7 @@
 						<i  class="fa fa-save fa-fw"></i>
 					</button>
 				</div>
+				
 			</div>
 		</div>
 	</form> 

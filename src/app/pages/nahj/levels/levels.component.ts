@@ -206,44 +206,54 @@ export class LevelsComponent implements OnInit {
 
 	////   add functions
 	addContentOne($event){
-		switch ($event.eventType) {
-			case "add":
-				this.econtentOneService.service({
-					method: 'PUT',
-					url: this.url,
-					namel1: $event.newValue1,
-					relativePercentagel1: $event.newValue2
-				}).subscribe(data=>{
-					this.level1.push({name:data['data'].createContentLevelOne.name, relativePercentage: data['data'].createContentLevelOne.parcentage});
-					this.selectedContent1 = $event.newValue1;
-				})
-				break;
-				
-			case "update":
-				this.econtentOneService.service({
-					method: "GET",
-					url: this.url
-				}).subscribe(resp=>{
-					resp['data'].contentLevelOnes.map(l1=> {
-						if (l1.name == this.selectedContent1) {
-
-							this.econtentOneService.service({
-								method: 'POST',
-								url: this.url,
-								namel1: $event.newValue1,
-								relativePercentagel1: $event.newValue2,
-								namel2: "",
-								relativePercentagel2: 0,
-								Id: l1.id
-							}).subscribe(data=>{
-								this.selectedContent1 = $event.newValue1;
-								this.getContentData($event.newValue1, undefined, undefined, undefined)
-							})
+		try{
+			switch ($event.eventType) {
+				case "add":
+					this.econtentOneService.service({
+						method: 'PUT',
+						url: this.url,
+						namel1: $event.newValue1,
+						relativePercentagel1: $event.newValue2
+					}).subscribe(data=>{
+						try{
+							this.level1.push({name:data['data'].createContentLevelOne.name, relativePercentage: data['data'].createContentLevelOne.parcentage});
+							this.selectedContent1 = $event.newValue1;
+						}catch(er){
+							console.log(er)
 						}
+						
 					})
-				})
-				break;
+					break;
+					
+				case "update":
+					this.econtentOneService.service({
+						method: "GET",
+						url: this.url
+					}).subscribe(resp=>{
+						resp['data'].contentLevelOnes.map(l1=> {
+							if (l1.name == this.selectedContent1) {
+	
+								this.econtentOneService.service({
+									method: 'POST',
+									url: this.url,
+									namel1: $event.newValue1,
+									relativePercentagel1: $event.newValue2,
+									namel2: "",
+									relativePercentagel2: 0,
+									Id: l1.id
+								}).subscribe(data=>{
+									this.selectedContent1 = $event.newValue1;
+									this.getContentData($event.newValue1, undefined, undefined, undefined)
+								})
+							}
+						})
+					})
+					break;
+			}
+		}catch(er){
+			console.log(er)
 		}
+		
 	}
 	addContentTwo($event){
 		this.econtentOneService.service({
@@ -290,7 +300,6 @@ export class LevelsComponent implements OnInit {
 	}
 
 	addContentThree($event){
-		console.log("event", $event)
 		this.econtentOneService.service({
 			method: 'GET',
 			url: this.url

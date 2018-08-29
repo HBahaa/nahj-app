@@ -154,6 +154,7 @@ export class DataComponent implements OnInit {
 			method: "GET",
 			url: this.url
 		}).subscribe((data: any) => {
+			console.log("getGeoCityData", data)
 			this.geoArray = data.data.geoAreas.map((item, index) => {
 				if(!name && index == 0){
 					this.citiesArray = item["cities"];
@@ -441,6 +442,42 @@ export class DataComponent implements OnInit {
 						id: $event.id
 					}) .subscribe(resp=>{
 						this.updateChildData = true;
+						this.form = this.fb.group({
+							schoolName: [''],
+							motherComp: [''],
+							email: [''],
+							phone: [''],
+							gps: [''],
+							fax: [''],
+							address: [''],
+							geo: [''],
+							district: [''],
+							city: [''],
+							studentsNum: [''],
+							classesNum: [''],
+							teachersNum: [''],
+							adminsNum: [''],
+							lowestStudyYear: [''],
+							highestStudyYear: [''],
+							studyYears: [''],
+							level1: [''],
+							level2: [''],
+							level3: [''],
+							adminName: [''],
+							adminEmail: [''],
+							adminPhone: [''],
+							adminJob: [''],
+							adminWhatsApp: [''],
+							adminUsername: [''],
+							adminPassword: [''],
+							nahjAdminName: [''],
+							nahjAdminEmail: [''],
+							nahjAdminPhone: [''],
+							nahjAdminJob: [''],
+							nahjAdminWhatsApp: [''],
+							nahjAdminUsername: [''],
+							nahjAdminPassword: ['']
+						});
 					})
 				}
 			})

@@ -53,21 +53,24 @@ export class EvaluationQuestionsComponent implements OnInit {
   // list functions
 	evaluationClicked($event){
 		this.selectedEvaluation = $event.id;
-    console.log("clciked", $event)
-    this.questionGroups = $event.questionGroup;
+    this.questionGroups = $event.questionGroup.filter(item => item.name != '');
+    this.getQuestions('');
   }
   getQuestions(id){
+    console.log("getQuestions", id)
     this.evaluation.service({
       method: "GET",
       url: this.url
     }).subscribe(data=>{
+      console.log("data", data)
       data['data'].evaluations.map((evaluations, index)=>{
         if(!id && index==0){
           this.questions = evaluations.questionGroup.questions;
+          console.log("quest 0", this.questions)
         }else if(id == evaluations.id){
           this.questions = evaluations.questionGroup.questions;
+          console.log("quest name", this.questions)
         }
-        console.log("ss", this.questions)
       })
     })
   }
@@ -88,7 +91,8 @@ export class EvaluationQuestionsComponent implements OnInit {
   }
   getQuestionGroupDetails(question){
 		this.selectedQuestion = question;
-		console.log("question",question)
+    console.log("question",question);
+    this.getQuestions('');
 		this.clearAllInputs();
   }
   

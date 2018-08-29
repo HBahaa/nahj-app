@@ -31,7 +31,7 @@ export class EvaluationDataComponent implements OnInit {
 	level4 = [];
 	evalStatus = [];
 	evalOptions = [];
-	questionGroups= {};
+	questionGroups= [];
 	selectedLevel1;
 	selectedLevel2;
 	selectedLevel3;
@@ -86,12 +86,15 @@ export class EvaluationDataComponent implements OnInit {
 			level3: ['', Validators.required],
 			level4: ['', Validators.required]
 		});
+		this.selectedEvaluation = undefined;
 	}
 	handleEditQuestionChanges(){
 		this.questionEdit = ! this.questionEdit;
+		this.questionAdd = true;
 	}
 	handleAddQuestionChanges(){
 		this.questionAdd = ! this.questionAdd;
+		this.questionEdit = true;
 		this.questGroupForm = this.fb.group({
 			name: ['', Validators.required],
 			weight: ['', Validators.required],
@@ -144,11 +147,8 @@ export class EvaluationDataComponent implements OnInit {
 			url: this.url
 		}).subscribe(data=>{
 			data['data'].evaluations.map(item=>{
-				console.log("item", item)
-				console.log("selecredEvaluation", this.selectedEvaluation)
 				if(item.id == this.selectedEvaluation){
-					console.log("eq")
-					this.questionGroups  =  item.questionGroup;
+					this.questionGroups  =  item.questionGroup.filter(item => item.name !="");
 				}
 			})
 		})
@@ -299,6 +299,8 @@ export class EvaluationDataComponent implements OnInit {
 
 	//add functions
 	addNewEvaluation(){
+		console.log("add", this.form.valid)
+		console.log("value", this.form.value)
 		if (this.form.valid) {
 			this.econtentOneService.service({
 				method: 'GET',
@@ -335,6 +337,8 @@ export class EvaluationDataComponent implements OnInit {
 				})
 				this.updateFilter = false;
 			})			
+		}else{
+			this.EvalAdd = true;
 		}
 	}
 	addNewQuestionGroup(){
@@ -352,6 +356,7 @@ export class EvaluationDataComponent implements OnInit {
 				})
 			}
 		}
+
 	}
 
 	// edit functions
@@ -436,7 +441,8 @@ export class EvaluationDataComponent implements OnInit {
 								url: this.url,
 								Id: questionGroupsID
 							}).subscribe(data => {
-								this .questionGroups = {}
+								this.updateFilter = true;
+								this.questionGroups = []
 								this.form = this.fb.group({
 									title: [''],
 									shortTitle: [''],
