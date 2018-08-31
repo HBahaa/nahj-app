@@ -12,17 +12,32 @@ export class evaluation {
     let query: string = "";
     let variable: object = {};
     // console.log(config)
+    let query1 = config.speciificContentLevelOneId ? `speciificContentLevelOne: { connect: { id: $speciificContentLevelOneId }}` : ""
+    let query2 = config.speciificContentLevelTwoId ? `speciificContentLevelTwo: { connect: { id: $speciificContentLevelTwoId } }` : ""
+    let query3 = config.speciificContentLevelThreeId ? `speciificContentLevelThree: { connect: { id: $speciificContentLevelThreeId } }` : ""
+    let query4 = config.speciificContentLevelFourId ? `speciificContentLevelFour: { connect: { id: $speciificContentLevelFourId } }` : ""
+
+    let variable1 = config.speciificContentLevelOneId ? `$speciificContentLevelOneId: ID` : ""
+    let variable2 = config.speciificContentLevelTwoId ? `$speciificContentLevelTwoId: ID` : ""
+    let variable3 = config.speciificContentLevelThreeId ? `$speciificContentLevelThreeId: ID` : ""
+    let variable4 = config.speciificContentLevelFourId ? `$speciificContentLevelFourId: ID` : ""
+
+    
+
     switch (config.method) {
+
       case "POST": //update
+
+
         query = `mutation(
           $title: String!
           $shortTitle: String!
           $currentStatusId: ID!
           $accountWayId: ID!
-          $speciificContentLevelOneId: ID
-          $speciificContentLevelTwoId: ID
-          $speciificContentLevelThreeId: ID
-          $speciificContentLevelFourId: ID
+          ${variable1}
+          ${variable2}
+          ${variable3}
+          ${variable4}
           $evaluationId:ID!
         ) {
           updateEvaluation(
@@ -33,18 +48,10 @@ export class evaluation {
               accountWay: { connect: { id: $accountWayId } }
               speciificContentLevel: {
                 update: {
-                  speciificContentLevelOne: {
-                    connect: { id: $speciificContentLevelOneId }
-                  }
-                  speciificContentLevelTwo: {
-                    connect: { id: $speciificContentLevelTwoId }
-                  }
-                  speciificContentLevelThree: {
-                    connect: { id: $speciificContentLevelThreeId }
-                  }
-                  speciificContentLevelFour: {
-                    connect: { id: $speciificContentLevelFourId }
-                  }
+                  ${query1}
+                  ${query2}
+                  ${query3}
+                  ${query4}
                 }
               }
             }
@@ -98,10 +105,6 @@ export class evaluation {
           shortTitle: config.shortTitle,
           currentStatusId: config.currentStatusId,
           accountWayId: config.accountWayId,
-          speciificContentLevelOneId: config.speciificContentLevelOneId,
-          speciificContentLevelTwoId: config.speciificContentLevelTwoId,
-          speciificContentLevelThreeId: config.speciificContentLevelThreeId,
-          speciificContentLevelFourId: config.speciificContentLevelFourId,
           evaluationId: config.evaluationId
         }
         break;
@@ -166,18 +169,6 @@ export class evaluation {
                   }`;
         break;
       case "PUT"://create
-
-      let query1 = config.speciificContentLevelOneId ? `speciificContentLevelOne: { connect: { id: $speciificContentLevelOneId }}` : ""
-      let query2 = config.speciificContentLevelTwoId ? `speciificContentLevelTwo: { connect: { id: $speciificContentLevelTwoId } }` : ""
-      let query3 = config.speciificContentLevelThreeId ? `speciificContentLevelThree: { connect: { id: $speciificContentLevelThreeId } }` : ""
-      let query4 = config.speciificContentLevelFourId ? `speciificContentLevelFour: { connect: { id: $speciificContentLevelFourId } }` : ""
-
-      let variable1 = config.speciificContentLevelOneId ? `$speciificContentLevelOneId: ID` : ""
-      let variable2 = config.speciificContentLevelTwoId ? `$speciificContentLevelTwoId: ID` : ""
-      let variable3 = config.speciificContentLevelThreeId ? `$speciificContentLevelThreeId: ID` : ""
-      let variable4 = config.speciificContentLevelFourId ? `$speciificContentLevelFourId: ID` : ""
-
-      
         query = ` mutation(
           $title: String!
                   $shortTitle: String!
@@ -260,11 +251,7 @@ export class evaluation {
           questionGroupName: config.questionGroupName,
           questionGroupWeight: config.questionGroupWeight
         }
-        console.log("service",config.speciificContentLevelOneId,config.speciificContentLevelTwoId,config.speciificContentLevelThreeId,config.speciificContentLevelFourId)
-        if(config.speciificContentLevelOneId) variable["speciificContentLevelOneId"] = config.speciificContentLevelOneId;
-        if(config.speciificContentLevelTwoId) variable["speciificContentLevelTwoId"] = config.speciificContentLevelTwoId;
-        if(config.speciificContentLevelThreeId) variable["speciificContentLevelThreeId"] = config.speciificContentLevelThreeId;
-        if(config.speciificContentLevelFourId) variable["speciificContentLevelFourId"] = config.speciificContentLevelFourId;
+
         break;
       case "DELETE": //delete
         query = `mutation($id: ID!){
@@ -283,6 +270,12 @@ export class evaluation {
         }
         break;
     }
+
+    if (config.speciificContentLevelOneId) variable["speciificContentLevelOneId"] = config.speciificContentLevelOneId;
+    if (config.speciificContentLevelTwoId) variable["speciificContentLevelTwoId"] = config.speciificContentLevelTwoId;
+    if (config.speciificContentLevelThreeId) variable["speciificContentLevelThreeId"] = config.speciificContentLevelThreeId;
+    if (config.speciificContentLevelFourId) variable["speciificContentLevelFourId"] = config.speciificContentLevelFourId;
+
     return this
       .http
       .post(`${config.url} `, {
