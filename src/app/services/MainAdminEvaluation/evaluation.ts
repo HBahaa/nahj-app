@@ -281,7 +281,7 @@ export class evaluation {
     if (config.speciificContentLevelThreeId) variable["speciificContentLevelThreeId"] = config.speciificContentLevelThreeId;
     if (config.speciificContentLevelFourId) variable["speciificContentLevelFourId"] = config.speciificContentLevelFourId;
     
-    console.log("------------------->",query,variable)
+    // console.log("------------------->",query,variable)
 
     return this
       .http

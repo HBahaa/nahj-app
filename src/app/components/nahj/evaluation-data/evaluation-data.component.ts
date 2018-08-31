@@ -344,11 +344,13 @@ export class EvaluationDataComponent implements OnInit {
 	// edit functions
 	editEvaluation(){
 		if (this.selectedEvaluation) {
-			this.econtentOneService.service({
-				method: 'GET',
+			this.evaluation.service({
+				method: "GET",
 				url: this.url
-			}).subscribe(econtent1=>{
-				console.log("cont1", econtent1)
+			}).subscribe(evals=>{
+				let evaluation = evals['data'].evaluations.filter(evaluation => evaluation.id == this.selectedEvaluation)
+				console.log("evaluation", evaluation)
+				
 				this.evaluation.service({
 					method: "POST",
 					url: this.url,
@@ -362,14 +364,26 @@ export class EvaluationDataComponent implements OnInit {
 					speciificContentLevelThreeId: this.form.value.level3,
 					speciificContentLevelFourId: this.form.value.level4,
 					questionGroupName: "",
-					questionGroupWeight: ""
+					questionGroupWeight: "",
+					hadL1: evaluation.speciificContentLevel.speciificContentLevelOne?true:false,
+					hadL2: evaluation.speciificContentLevel.speciificContentLevelTwo?true:false,
+					hadL3: evaluation.speciificContentLevel.speciificContentLevelThree?true:false,
+					hadL4: evaluation.speciificContentLevel.speciificContentLevelFour?true:false
 				}).subscribe(data=>{
 					console.log("edit", data)
 					this.EvalEdit = true;
 					this.updateFilter = true;
 				})
-				
 			})
+			// console.log("selectedEval", this.selectedEvaluation)
+			// this.econtentOneService.service({
+			// 	method: 'GET',
+			// 	url: this.url
+			// }).subscribe(econtent1=>{
+			// 	console.log("cont1", econtent1)
+				
+				
+			// })
 		
 			this.updateFilter = false;
 		}
