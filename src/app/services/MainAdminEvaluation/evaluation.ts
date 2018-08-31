@@ -12,10 +12,18 @@ export class evaluation {
     let query: string = "";
     let variable: object = {};
     // console.log(config)
-    let query1 = config.speciificContentLevelOneId ? `speciificContentLevelOne: { connect: { id: $speciificContentLevelOneId }}` : "speciificContentLevelOne: { disconnect: true}" ;
-    let query2 = config.speciificContentLevelTwoId ? `speciificContentLevelTwo: { connect: { id: $speciificContentLevelTwoId } }` : "speciificContentLevelTwo: { disconnect: true}" ;
-    let query3 = config.speciificContentLevelThreeId ? `speciificContentLevelThree: { connect: { id: $speciificContentLevelThreeId } }` : "speciificContentLevelThree: { disconnect: true}" ;
-    let query4 = config.speciificContentLevelFourId ? `speciificContentLevelFour: { connect: { id: $speciificContentLevelFourId } }` : "speciificContentLevelFour: { disconnect: true}" ;
+    let query1 = config.speciificContentLevelOneId ? `speciificContentLevelOne: { connect: { id: $speciificContentLevelOneId }}` 
+                                                    : config.hadL1 ? "speciificContentLevelOne: { disconnect: true}" 
+                                                    : "" ;
+    let query2 = config.speciificContentLevelTwoId ? `speciificContentLevelTwo: { connect: { id: $speciificContentLevelTwoId } }` 
+                                                    : config.hadL2 ? "speciificContentLevelTwo: { disconnect: true}" 
+                                                    : "" ;
+    let query3 = config.speciificContentLevelThreeId ? `speciificContentLevelThree: { connect: { id: $speciificContentLevelThreeId } }` 
+                                                    : config.hadL3 ? "speciificContentLevelThree: { disconnect: true}" 
+                                                    : "" ;
+    let query4 = config.speciificContentLevelFourId ? `speciificContentLevelFour: { connect: { id: $speciificContentLevelFourId } }` 
+                                                    : config.hadL4 ? "speciificContentLevelFour: { disconnect: true}" 
+                                                    :""; 
 
     let variable1 = config.speciificContentLevelOneId ? `$speciificContentLevelOneId: ID` : ""
     let variable2 = config.speciificContentLevelTwoId ? `$speciificContentLevelTwoId: ID` : ""
