@@ -90,7 +90,7 @@ export class EntitiesComponent implements OnInit {
 										return level3.name;
 									});
 								}else{
-									this.selectedLevel3 = undefined
+									this.selectedLevel3 = undefined;
 								}
 							}else if (name2 == level2.name) {
 								this.selectedLevel2 = level2['name'];
@@ -215,7 +215,6 @@ export class EntitiesComponent implements OnInit {
 		}).subscribe(data => {
 			data['data'].levelOnes.map((level, i)=>{
 				if (level.name  == this.selectedLevel1) {
-					
 					level['LevelTwo'].map(item =>{
 						if (item.name == this.selectedLevel2) {
 							let id = item.id;

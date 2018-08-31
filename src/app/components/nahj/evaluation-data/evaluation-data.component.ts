@@ -104,6 +104,11 @@ export class EvaluationDataComponent implements OnInit {
 	// list functions
 	evaluationClicked($event){
 		this.selectedEvaluation = $event.id;
+		this.selectedQuestionGroup = undefined;
+		this.questGroupForm = this.fb.group({
+			name: [''],
+			weight: [''],
+		})
 		this.form = this.fb.group({
 			title: [$event.title],
 			shortTitle: [$event.shortTitle],
@@ -348,7 +353,7 @@ export class EvaluationDataComponent implements OnInit {
 				method: "GET",
 				url: this.url
 			}).subscribe(evals=>{
-				let evaluation = evals['data'].evaluations.filter(evaluation => evaluation.id == this.selectedEvaluation)
+				var evaluation = evals['data'].evaluations.filter(evaluation => evaluation.id == this.selectedEvaluation)
 				console.log("evaluation", evaluation)
 				
 				this.evaluation.service({
@@ -365,25 +370,16 @@ export class EvaluationDataComponent implements OnInit {
 					speciificContentLevelFourId: this.form.value.level4,
 					questionGroupName: "",
 					questionGroupWeight: "",
-					hadL1: evaluation.speciificContentLevel.speciificContentLevelOne?true:false,
-					hadL2: evaluation.speciificContentLevel.speciificContentLevelTwo?true:false,
-					hadL3: evaluation.speciificContentLevel.speciificContentLevelThree?true:false,
-					hadL4: evaluation.speciificContentLevel.speciificContentLevelFour?true:false
+					hadL1: evaluation[0].speciificContentLevel.speciificContentLevelOne  ?true:false,
+					hadL2: evaluation[0].speciificContentLevel.speciificContentLevelTwo  ?true:false,
+					hadL3: evaluation[0].speciificContentLevel.speciificContentLevelThree?true:false,
+					hadL4: evaluation[0]	.speciificContentLevel.speciificContentLevelFour ?true:false
 				}).subscribe(data=>{
 					console.log("edit", data)
 					this.EvalEdit = true;
 					this.updateFilter = true;
 				})
 			})
-			// console.log("selectedEval", this.selectedEvaluation)
-			// this.econtentOneService.service({
-			// 	method: 'GET',
-			// 	url: this.url
-			// }).subscribe(econtent1=>{
-			// 	console.log("cont1", econtent1)
-				
-				
-			// })
 		
 			this.updateFilter = false;
 		}
@@ -451,50 +447,22 @@ export class EvaluationDataComponent implements OnInit {
 	deleteQuestionGroup(){
 		console.log("dele g", this.selectedQuestionGroup)
 		if (this.selectedEvaluation && this.selectedQuestionGroup) {
-			this.econtentOneService.service({
-				method: 'GET',
-				url: this.url
-			}).subscribe(econtent1=>{
-				econtent1['data'].contentLevelOnes.filter(l1=> l1.name == this.form.value.level1).map(l1 => {
-					var l1ID = l1.id;
-					l1.contentLevelTwo.filter(l2 => l2.name == this.form.value.level2).map(l2=>{
-						var l2ID = l2.id
-						l2.contentLevelThree.filter(l3 => l3.name == this.form.value.level3).map(l3=>{
-							var l3ID = l3.id
-							l3.contentLevelFour.filter(l4 => l4.name == this.form.value.level4).map(l4=>{
-								var l4ID = l4.id
-								this.evaluation.service({
-									method: "POST",
-									url: this.url,
-									evaluationId:this.selectedEvaluation,
-									title: this.form.value.title,
-									shortTitle: this.form.value.shortTitle,
-									currentStatusId: this.form.value.currentStatus,
-									accountWayId: this.form.value.accountWay,
-									speciificContentLevelOneId: l1ID,
-									speciificContentLevelTwoId: l2ID,
-									speciificContentLevelThreeId: l3ID,
-									speciificContentLevelFourId: l4ID,
-									questionGroupName: "",
-									questionGroupWeight: ""
-								}).subscribe(data=>{
-									// console.log("data", data)
-									this.questionType.service({
-										method: "DELETE",
-										url: this.url,
-										Id:this.selectedQuestionGroup.id
-									}).subscribe(data => {
-										this.getQuestionGroups()
-									})
-									this.EvalEdit = true;
-									this.updateFilter = true;
-								})
-							})
-						})
-					})
+			this.questionType.service({
+				method: "DELETE",
+				url: this.url,
+				Id:this.selectedQuestionGroup.id
+			}).subscribe(data => {
+				this.selectedQuestionGroup = undefined;
+				
+				this.getQuestionGroups()
+				this.questGroupForm = this.fb.group({
+					name: [''],
+					weight: [''],
 				})
-				this.updateFilter = false;
 			})
+			this.EvalEdit = true;
+			this.updateFilter = true;
+			this.updateFilter = false;
 		}
 	}
 }

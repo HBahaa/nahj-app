@@ -2,6 +2,7 @@ import { evaluation } from './../../../services/MainAdminEvaluation/evaluation';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { questionDetails } from '../../../services/MainAdminEvaluation/questionsDetails';
+import { questionType } from '../../../services/MainAdminEvaluation/questionType';
 
 @Component({
   selector: 'app-evaluation-questions',
@@ -24,21 +25,22 @@ export class EvaluationQuestionsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private questionDetails: questionDetails,
-    private evaluation: evaluation
+    private evaluation: evaluation,
+    private questionType: questionType
   ) { }
 
   ngOnInit() {
     this.clearAllInputs();
   }
-  handleEditQuestionChanges(){
+  handleEditQuestionChanges() {
     this.edit = false;
   }
-  handleAddQuestionChanges(){
+  handleAddQuestionChanges() {
     this.add = false;
     this.clearAllInputs()
   }
 
-  clearAllInputs(){
+  clearAllInputs() {
     this.form = this.fb.group({
       questionGroup: ['', Validators.required],
       question: ['', Validators.required],
@@ -48,92 +50,89 @@ export class EvaluationQuestionsComponent implements OnInit {
       multiSelect: ['', Validators.required],
       isPercentage: [false, Validators.required],
       isEqualWeights: [false, Validators.required]
-		})
+    })
   }
   // list functions
-	evaluationClicked($event){
-    console.log("clk eval", $event)
-		this.selectedEvaluation = $event.id;
+  evaluationClicked($event) {
+    this.selectedEvaluation = $event.id;
     this.questionGroups = $event.questionGroup.filter(item => item.name != '');
-    this.getQuestions($event.id);
+    let arr = $event.questionGroup.map(item => item.id)
+    this.getQuestions(arr);
   }
-  getQuestions(id){ 
-    console.log("getQuestions", id)
-    this.evaluation.service({
+  getQuestions(id) {
+    this.questionType.service({
       method: "GET",
       url: this.url
-    }).subscribe(data=>{
-      console.log("data", data)
-      data['data'].evaluations.map((evaluations, index)=>{
-        if(!id && index==0){
-          this.questions = evaluations.questionGroup.questions;
-          console.log("quest 0", this.questions)
-        }else if(id == evaluations.id){
-          console.log("que", evaluations.questionGroup)
-          evaluations.questionGroup.map(questions=>{
-            this.questions.push(...questions.questions)
-            console.log("quest name", this.questions)
-          });
-          
-        }
+    }).subscribe(data => {
+      this.questions = data['data'].questionTypes.filter((item) => {
+        return id && item && item.id ? id.includes(item.id) : false
+      })
+        .reduce((questions, item) => {
+          questions.push(...item.questions)
+          return questions
+        }, []);
+      this.form = this.fb.group({
+        questionGroup: [this.form.value.questionGroup, Validators.required],
+        question: [this.questions && this.questions[0] && this.questions[0].question?this.questions[0].question : "", Validators.required],
+        details: [""],
+        enhancement: [""],
+        weight: [""],
+        multiSelect: [""],
+        isPercentage: [""],
+        isEqualWeights: [""]
       })
     })
   }
-  getQuestionDetails(question){
-    if(question){
-      this.selectedQuestion = question;
-      this.form = this.fb.group({
-        questionGroup: [this.form.value.questionGroup, Validators.required],
-        question: [question.question, Validators.required],
-        details: [question.details, Validators.required],
-        enhancement: [question.enhancement, Validators.required],
-        weight: [question.weight, Validators.required],
-        multiSelect: [question.multiSelect, Validators.required],
-        isPercentage: [question.isPercentage, Validators.required],
-        isEqualWeights: [question.isEqualWeights, Validators.required]
-      })
-    }
+  getQuestionDetails(question) {
+    this.selectedQuestion = question;
+    this.form = this.fb.group({
+      questionGroup: [this.form.value.questionGroup],
+      question: [question.question],
+      details: [question.details],
+      enhancement: [question.enhancement],
+      weight: [question.weight],
+      multiSelect: [question.multiSelect],
+      isPercentage: [question.isPercentage],
+      isEqualWeights: [question.isEqualWeights]
+    })
   }
-  getQuestionGroupDetails(question){
-		this.selectedQuestion = question;
-    console.log("question",question);
+  getQuestionGroupDetails(question) {
+    this.selectedQuestion = question;
     this.getQuestions('');
-		this.clearAllInputs();
-  }
-  
-  addNewQuestion(){
-    if (this.form.valid) {
-      this.questionDetails.service({
-        method: "PUT",
-        url: this.url,
-        question:this.form.value.question,
-        details:this.form.value.details,
-        enhancement:this.form.value.enhancement,
-        weight:this.form.value.weight,
-        multiSelect:this.form.value.multiSelect,
-        isPercentage:this.form.value.isPercentage,
-        isEqualWeights:this.form.value.isEqualWeights,
-        questionTypeId: this.form.value.questionGroup
-      }).subscribe(data => {
-        this.add = true;
-        this.getQuestions(this.form.value.questionGroup);
-      })
-    }
+    this.clearAllInputs();
   }
 
-  editQuestion(){
+  addNewQuestion() {
+    this.questionDetails.service({
+      method: "PUT",
+      url: this.url,
+      question: this.form.value.question,
+      details: this.form.value.details,
+      enhancement: this.form.value.enhancement,
+      weight: this.form.value.weight,
+      multiSelect: this.form.value.multiSelect,
+      isPercentage: this.form.value.isPercentage ? this.form.value.isPercentage : false,
+      isEqualWeights: this.form.value.isEqualWeights ? this.form.value.isEqualWeights : false,
+      questionTypeId: this.form.value.questionGroup
+    }).subscribe(data => {
+      this.add = true;
+      this.getQuestions(this.form.value.questionGroup);
+    })
+  }
+
+  editQuestion() {
     if (this.selectedQuestion) {
       this.questionDetails.service({
         method: "POST",
         url: this.url,
         Id: this.selectedQuestion.id,
-        question:this.form.value.question,
-        details:this.form.value.details,
-        enhancement:this.form.value.enhancement,
-        weight:this.form.value.weight,
-        multiSelect:this.form.value.multiSelect,
-        isPercentage:this.form.value.isPercentage,
-        isEqualWeights:this.form.value.isEqualWeights
+        question: this.form.value.question,
+        details: this.form.value.details,
+        enhancement: this.form.value.enhancement,
+        weight: this.form.value.weight,
+        multiSelect: this.form.value.multiSelect,
+        isPercentage: this.form.value.isPercentage,
+        isEqualWeights: this.form.value.isEqualWeights
       }).subscribe(data => {
         this.edit = true;
         this.getQuestions(this.selectedQuestion.questionGroup);
@@ -141,13 +140,14 @@ export class EvaluationQuestionsComponent implements OnInit {
     }
   }
 
-  deleteQuestion(){
+  deleteQuestion() {
     if (this.selectedQuestion) {
       this.questionDetails.service({
         method: "DELETE",
         url: this.url,
         Id: this.selectedQuestion.id
       }).subscribe(data => {
+        console.log("data", this.selectedQuestion)
         this.getQuestions(this.selectedQuestion.questionGroup);
         this.clearAllInputs();
       })

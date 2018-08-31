@@ -61,6 +61,8 @@ select[multiple], select[size]{
   font-size: 16px;
   padding: 0;
   border: 1px solid $color;
+  overflow-y: scroll;
+  // max-height: 120px;
 
   option{
     padding: 5px 10px;
