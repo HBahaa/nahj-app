@@ -11,6 +11,12 @@ export class evaluation {
   service(config) { ////method,url,name,cities,newName
     let query: string = "";
     let variable: object = {};
+
+    if(config.speciificContentLevelOneId == "") config.speciificContentLevelOneId = false;
+    if(config.speciificContentLevelTwoId == "") config.speciificContentLevelTwoId = false;
+    if(config.speciificContentLevelThreeId == "") config.speciificContentLevelThreeId = false;
+    if(config.speciificContentLevelFourId == "") config.speciificContentLevelFourId = false;
+    
     // console.log(config)
     let query1 = config.speciificContentLevelOneId ? `speciificContentLevelOne: { connect: { id: $speciificContentLevelOneId }}` 
                                                     : config.hadL1 ? "speciificContentLevelOne: { disconnect: true}" 
@@ -33,7 +39,6 @@ export class evaluation {
     
 
     switch (config.method) {
-
       case "POST": //update
 
 
@@ -283,6 +288,8 @@ export class evaluation {
     if (config.speciificContentLevelTwoId) variable["speciificContentLevelTwoId"] = config.speciificContentLevelTwoId;
     if (config.speciificContentLevelThreeId) variable["speciificContentLevelThreeId"] = config.speciificContentLevelThreeId;
     if (config.speciificContentLevelFourId) variable["speciificContentLevelFourId"] = config.speciificContentLevelFourId;
+    
+    // console.log("------------------->",query,variable)
 
     return this
       .http
