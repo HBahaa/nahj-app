@@ -56,7 +56,7 @@ export class EvaluationQuestionsComponent implements OnInit {
     this.questionGroups = $event.questionGroup.filter(item => item.name != '');
     this.getQuestions('');
   }
-  getQuestions(id){
+  getQuestions(id){ 
     console.log("getQuestions", id)
     this.evaluation.service({
       method: "GET",

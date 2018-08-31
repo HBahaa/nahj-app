@@ -55,18 +55,40 @@ export class LevelFilterComponent implements OnInit {
 			url: this.url
 		}).subscribe(data=>{
 			if (this.selectedLevel1) {
-				var evals = data['data'].evaluations.filter(evaluation => evaluation.speciificContentLevel.speciificContentLevelOne['name'] == this.selectedLevel1);
+				this.evaluations = data['data'].evaluations.filter(evaluation => evaluation.speciificContentLevel.speciificContentLevelOne['id'] == this.selectedLevel1);
 				if (this.selectedLevel2) {
-					evals = evals.filter(item => item.speciificContentLevel.speciificContentLevelTwo['name'] == this.selectedLevel2);
+					this.evaluations = this.evaluations.filter(item => {						
+						try{
+							return item.speciificContentLevel.speciificContentLevelTwo['id'] == this.selectedLevel2;
+						}catch(er){
+							return false
+						}
+					});
 					if (this.selectedLevel3) {
-						evals = evals.filter(item => item.speciificContentLevel.speciificContentLevelThree['name'] == this.selectedLevel3);
+						
+						this.evaluations = this.evaluations.filter(item => {
+							try{
+								return item.speciificContentLevel.speciificContentLevelThree['id'] == this.selectedLevel3;
+							}catch(er){
+								return false
+							}
+							
+						});
 						if (this.selectedLevel4) {
-							evals = evals.filter(item => item.speciificContentLevel.speciificContentLevelFour['name'] == this.selectedLevel4);
+							this.evaluations = this.evaluations.filter(item => {
+								try{
+									return item.speciificContentLevel.speciificContentLevelFour['id'] == this.selectedLevel4;
+								}catch(er){
+									return false
+								}
+								
+							});
 						}
 					}
 				}
+			}else {
+				this.evaluations = data['data'].evaluations;
 			}
-			this.evaluations = evals
 		})
 	}
 
@@ -77,119 +99,119 @@ export class LevelFilterComponent implements OnInit {
 		}).subscribe(econtent1=>{
 			this.level1 = econtent1['data'].contentLevelOnes.map((l1, index1)=> {
 				if (!name1 && index1 == 0) {
-					this.selectedLevel1 = l1.name;
+					// this.selectedLevel1 = l1.name;
 					this.level2 = l1.contentLevelTwo.map((l2, index2)=>{
 						if (!name2 && index2 == 0) {
-							this.selectedLevel2 = l2.name;
+							// this.selectedLevel2 = l2.name;
 							if (l2.contentLevelThree.length > 0) {
 								this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-									this.selectedLevel3=l3.name;
+									// this.selectedLevel3=l3.name;
 									if (!name3 && index3 == 0) {
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
 										}else{
 											this.level4 = [];
 										}
 									}else if (name3 == l3.name) {
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
 										}else{
 											this.level4 = [];
 										}
 									}
-									return l3.name;
+									return l3;
 								})
 							}else{
 								this.level3 = [];
 								this.level4 = [];
 							}
 						}else if (name2 == l2.name) {
-							this.selectedLevel2 = l2.name;
+							// this.selectedLevel2 = l2.name;
 							if (l2.contentLevelThree.length > 0) {
 								this.level3 =  l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
 									if (!name3 && index3 == 0) {
-										this.selectedLevel3=l3.name;
+										// this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
 										}else{
 											this.level4 = [];
 										}
 									}else if (name3 == l3.name) {
-										this.selectedLevel3=l3.name;
+										// this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
 										}else{
 											this.level4 = [];
 										}
 									}
-									return l3.name
+									return l3;
 								})
 							}else{
 								this.level3 = [];
 								this.level4 = [];
 							}
 						}
-						return l2.name;
+						return l2;
 					})
 				}else if (name1 == l1.name) {
-					this.selectedLevel1 = l1.name;
+					// this.selectedLevel1 = l1.name;
 					this.level2 = l1.contentLevelTwo.map((l2, index2)=>{
 						if (!name2 && index2 == 0) {
-							this.selectedLevel2 = l2.name;
+							// this.selectedLevel2 = l2.name;
 							if (l2.contentLevelThree.length > 0) {
 								this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
 									if (!name3 && index3 == 0) {
-										this.selectedLevel3=l3.name;
+										// this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
 										}else{
 											this.level4 = [];
 										}
 									}else if (name3 == l3.name) {
-										this.selectedLevel3=l3.name;
+										// this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
 										}else{
 											this.level4 = [];
 										}
 									}
-									return l3.name
+									return l3;
 								})
 							}else{
 								this.level3 = [];
 								this.level4 = [];
 							}
 						}else if (name2 == l2.name) {
-							this.selectedLevel2 = l2.name;
+							// this.selectedLevel2 = l2.name;
 							if (l2.contentLevelThree.length > 0) {
 								 this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
 									if (!name3 && index3 == 0) {
-										this.selectedLevel3=l3.name;
+										// this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
 										}else{
 											this.level4 = [];
 										}
 									}else if (name3 == l3.name) {
-										this.selectedLevel3=l3.name;
+										// this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" ).map(l3 => l3.name);
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
 										}else{
 											this.level4 = [];
 										}
 									}
-									return l3.name
+									return l3;
 								})
 							}else{
 								this.level3 = [];
 								this.level4 = [];
 							}
 						}
-						return l2.name
+						return l2;
 					})
 				}
 				// return (({id, name})=>({id, name}))(l1)
-				return l1.name
+				return l1;
 			});
 		})
 	}
