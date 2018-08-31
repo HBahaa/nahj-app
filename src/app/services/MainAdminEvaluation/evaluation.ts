@@ -12,10 +12,10 @@ export class evaluation {
     let query: string = "";
     let variable: object = {};
     // console.log(config)
-    let query1 = config.speciificContentLevelOneId ? `speciificContentLevelOne: { connect: { id: $speciificContentLevelOneId }}` : ""
-    let query2 = config.speciificContentLevelTwoId ? `speciificContentLevelTwo: { connect: { id: $speciificContentLevelTwoId } }` : ""
-    let query3 = config.speciificContentLevelThreeId ? `speciificContentLevelThree: { connect: { id: $speciificContentLevelThreeId } }` : ""
-    let query4 = config.speciificContentLevelFourId ? `speciificContentLevelFour: { connect: { id: $speciificContentLevelFourId } }` : ""
+    let query1 = config.speciificContentLevelOneId ? `speciificContentLevelOne: { connect: { id: $speciificContentLevelOneId }}` : "speciificContentLevelOne: { disconnect: true}" ;
+    let query2 = config.speciificContentLevelTwoId ? `speciificContentLevelTwo: { connect: { id: $speciificContentLevelTwoId } }` : "speciificContentLevelTwo: { disconnect: true}" ;
+    let query3 = config.speciificContentLevelThreeId ? `speciificContentLevelThree: { connect: { id: $speciificContentLevelThreeId } }` : "speciificContentLevelThree: { disconnect: true}" ;
+    let query4 = config.speciificContentLevelFourId ? `speciificContentLevelFour: { connect: { id: $speciificContentLevelFourId } }` : "speciificContentLevelFour: { disconnect: true}" ;
 
     let variable1 = config.speciificContentLevelOneId ? `$speciificContentLevelOneId: ID` : ""
     let variable2 = config.speciificContentLevelTwoId ? `$speciificContentLevelTwoId: ID` : ""
@@ -48,11 +48,10 @@ export class evaluation {
               accountWay: { connect: { id: $accountWayId } }
               speciificContentLevel: {
                 update: {
-                  ${query1 ? "speciificContentLevelOne: { connect: { id: $speciificContentLevelOneId }}" :  config.hadL1 ?  "speciificContentLevelOne: { disconnect: true}" : "" }
-                  ${query2 ? "speciificContentLevelTwo: { connect: { id: $speciificContentLevelTwoId }}" :  config.hadL2 ? "speciificContentLevelTwo: { disconnect: true}" :"" }
-                  ${query3 ? "speciificContentLevelThree: { connect: { id: $speciificContentLevelThreeId }}" : config.hadL3 ? "speciificContentLevelThree: { disconnect: true}" : "" }
-                  ${query4 ? "speciificContentLevelFour: { connect: { id: $speciificContentLevelFourId }}" : config.hadL4 ? "speciificContentLevelFour: { disconnect: true}" : ""}
-
+                  ${query1}
+                  ${query2}
+                  ${query3}
+                  ${query4}
                 }
               }
             }
