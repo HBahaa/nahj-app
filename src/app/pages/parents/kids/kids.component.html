@@ -1,93 +1,98 @@
 <div class="content">
 	<div class="container-fluid">
-		<form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+		<div class="row">
+			<h2 class="col-12">بيانات اﻷطفال</h2>
+		</div>
+		<form class="row" [formGroup]="form">
 			<div class="col-lg-4 col-md-6">
 				<div class="card">
 					<img src="./assets/images/students.png" class="card-img">
 					<div class="card-body">
-						<div class="form-group">
-							<label>إختيار الطفل</label>
-							<select class="form-control">
-								<option *ngFor="let name of data; index as i" value="{{i}}">{{name}}</option>
-							</select>
+						<h4 class="card-title text-center mb-3"> البيانات اﻷساسية</h4>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label">إختيار الطفل</label>
+							<div class="col-sm-8">
+								<select class="form-control">
+									<option *ngFor="let name of kids; index as i" value="{{i}}">{{name}}</option>
+								</select>
+							</div>
 						</div>
-						<div class="form-group">
-		                	<label>الفصل الدراسي</label>
-							<select class="form-control" >
-								<option selected>الفصل اﻷول - 2019/2018</option>
-							</select>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label">الأسم</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" />
+							</div>
 						</div>
-						<div class="form-group">
-		                	<label>الفصول</label>
-							<select class="form-control" >
-								<option selected>KG2 - D</option>
-								<option>KG2 - E</option>
-								<option>KG2 - F</option>
-							</select>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label">اﻷسم المختصر</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" formControlName="nickname" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label">تاريخ الميلاد</label>
+							<div class="col-sm-8">
+								<input type="date" class="form-control" formControlName="birthdate" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label">الجنسية</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" formControlName="nationality" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label">النوع</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" formControlName="type" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label">بيان إضافي</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" formControlName="moreData" />
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-6">
 				<div class="card">
-					<div class="card-body mt-5">
+					<div class="card-body mt-4">
+						<h4 class="card-title text-center mb-3">بيانات الحساب</h4>
 						<div class="form-group row">
-		                	<label class="col-sm-4 col-form-label">الأسم</label>
+		                	<label class="col-sm-4 col-form-label">الصورة</label>
 		                	<div class="col-sm-8">
-								<input type="text" class="form-control" />
+								<img id="img" src="./assets/images/profile.png" class="img-responsive ml-2" />
+
+								<label class="custom-file-upload">
+								    <input type="file" (change)="changeImage()" />
+								    <i class="fa fa-cloud-upload"></i> تغيير
+								</label>
 							</div>
 						</div>
 						<div class="form-group row">
-		                	<label class="col-sm-4 col-form-label">اﻷسم المختصر</label>
-		                	<div class="col-sm-8">
-								<input type="text" class="form-control" formControlName="nickname" />
+							<label class="col-sm-4 col-form-label">الفصل الدراسي</label>
+							<div class="col-sm-8">
+								<select class="form-control" >
+									<option selected>الفصل اﻷول - 2019/2018</option>
+								</select>
 							</div>
 						</div>
 						<div class="form-group row">
-		                	<label class="col-sm-4 col-form-label">تاريخ الميلاد</label>
-		                	<div class="col-sm-8">
-								<input type="date" class="form-control" formControlName="birthdate" />
-							</div>
-						</div>
-						<div class="form-group row">
-		                	<label class="col-sm-4 col-form-label">الجنسية</label>
-		                	<div class="col-sm-8">
-								<input type="text" class="form-control" formControlName="nationality" />
-							</div>
-						</div>
-						<div class="form-group row">
-		                	<label class="col-sm-4 col-form-label">النوع</label>
-		                	<div class="col-sm-8">
-								<input type="text" class="form-control" formControlName="type" />
+							<label class="col-sm-4 col-form-label">الفصول</label>
+							<div class="col-sm-8">
+								<select class="form-control" >
+									<option selected>KG2 - D</option>
+									<option>KG2 - E</option>
+									<option>KG2 - F</option>
+								</select>
 							</div>
 						</div>
 						<div class="form-group row">
 		                	<label class="col-sm-4 col-form-label">حالة الحساب</label>
 		                	<div class="col-sm-8">
 								<input type="text" class="form-control" value="مفعل" />
-							</div>
-						</div>
-						<div class="form-group row">
-		                	<label class="col-sm-4 col-form-label">بيان إضافي</label>
-		                	<div class="col-sm-8">
-								<input type="text" class="form-control" formControlName="moreData" />
-							</div>
-						</div>			
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-4 col-md-6">
-				<div class="card">
-					<div class="card-body mt-5">
-						<div class="form-group row">
-		                	<label class="col-sm-4 col-form-label">الصورة</label>
-		                	<div class="col-sm-8 text-center">
-								<img id="img" src="./assets/images/profile.png" class="img-responsive d-block mb-3" />
-
-								<label class="custom-file-upload">
-								    <input type="file" (change)="changeImage()" />
-								    <i class="fa fa-cloud-upload"></i> تغيير
-								</label>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -102,11 +107,26 @@
 								<input type="text" class="form-control" formControlName="password" />
 							</div>
 						</div>
+
+						<div class="card-footer text-left">
+							<button *ngIf="edit" class="btn btn-primary" type="button">
+								<i class="fa fa-edit fa-fw"></i>
+							</button>
+							<button *ngIf="!edit" class="btn btn-info" type="button">
+								<i  class="fa fa-save fa-fw"></i>
+							</button>
+							<button class="btn btn-danger mr-2" type="button" >
+								<i class="fa fa-close fa-fw"></i>
+							</button>
+							<button *ngIf="add" class="btn btn-success mr-2" type="button">
+								<i class="fa fa-plus fa-fw"></i>
+							</button>
+							<button *ngIf="!add" class="btn btn-info mr-2" type="button">
+								<i  class="fa fa-save fa-fw"></i>
+							</button>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-12 text-left">
-				<button class="btn btn-primary btn-lg mt-4" type="submit">حفـظ</button>
 			</div>
 		</form>
 	</div>

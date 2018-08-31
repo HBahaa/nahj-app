@@ -1,6 +1,7 @@
 <div class="content">
   <div class="container-fluid">
     <div class="row">
+      <h2 class="col-12">ثوابت النظام</h2>
       <div class="col-lg-3 col-md-4 col-sm-6">
         <app-card-list img="./assets/images/region.png" componentType="geo" [data]='geoArray' (listItems)="getCities($event)" (deleteButton)="deleteGeo($event)" (saveButton)="addNewGeo($event)" ></app-card-list>
       </div>

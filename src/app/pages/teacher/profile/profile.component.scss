@@ -30,7 +30,7 @@
 				margin-right: 1.5rem;
 			}
 			.custom-checkbox{
-				.custom-control-label::before{
+				.custom-control-label::before, .custom-control-label::after{
 					right: -1.5rem;
 			    	left: 0;
 				}

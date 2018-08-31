@@ -1,10 +1,14 @@
 <div class="content">
 	<div class="container-fluid">
+		<div class="row">
+			<h2 class="col-12">البيانات الشخصية</h2>
+		</div>
 		<form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
 			<div class="col-lg-4 col-sm-6">
 				<div class="card">
 					<img src="./assets/images/main_data.png" alt="">
 					<div class="card-body">
+						<h4 class="card-title text-center">البيانات اﻷساسية</h4>
 						<div class="form-group row">
 		                	<label class="col-md-4 col-form-label" for="">الأسم</label>
 		                	<div class="col-md-8">
@@ -63,6 +67,7 @@
 			<div class="col-lg-4 col-sm-6">
 				<div class="card">
 					<div class="card-body mt-5">
+						<h4 class="text-center card-title mb-4"> بيانات الحساب</h4>
 						<div class="form-group row">
 		                	<label class="col-md-4 col-form-label" for="">الفصل الدراسي</label>
 		                	<div class="col-md-8">
@@ -80,7 +85,7 @@
 						<div class="form-group row">
 		                	<label class="col-md-4 col-form-label">الفصول</label>
 		                	<div class="col-md-8">
-								<select class="form-control" [size]="5" formControlName="class" >
+								<select class="form-control" [size]="8" formControlName="class" >
 									<option>KG2 - D</option>
 									<option selected>KG2 - E</option>
 									<option>KG2 - F</option>

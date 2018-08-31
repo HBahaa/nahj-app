@@ -32,6 +32,14 @@
 			    cursor: pointer;
 			    background-color: #efefef;
 			}
+			.card-footer{
+				background-color: transparent;
+				border-top: 0px;
+				padding: .75rem 0;
+				.btn{
+					padding: .268rem .375rem;
+				}
+			}
 	    }
 	  }
 	@media (min-width: 1830px) {

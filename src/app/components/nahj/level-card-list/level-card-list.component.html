@@ -1,7 +1,7 @@
 <div class="card">
 	<img src="{{img}}" class="card-img" />
 	<div class="card-body" [ngClass]="img ? '' : 'mt-5'">
-		<h4 class="text-center mb-3">{{title}}</h4>
+		<h4 class="text-center card-title">{{title}}</h4>
 		<ul class="list-group">
 			<li class="list-group-item" [ngClass]="{'active': selectedItem == item}" (click)="listClick($event,type, item)" *ngFor="let item of data; index as i">{{item.name}}</li>
 		</ul>

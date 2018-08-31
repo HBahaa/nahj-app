@@ -1,7 +1,10 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 $color : #0eb6e2;
 $lightBlue : #99e9fd;
-/*@import url('/assets/fonts/');*/
+@font-face {
+  font-family: myFirstFont;
+  src: url(./assets/fonts/GE_Flow_Regular.otf);
+}
 
 html {
   height: 100%;
@@ -12,7 +15,8 @@ body{
 	background-position: top;
 	background-repeat: no-repeat;
 	background-size: cover;
-	height: 100%;
+  height: 100%;
+  font-family: myFirstFont;
 }
 
 .content{
@@ -23,6 +27,10 @@ body{
   left: 5%;
   /*padding-top: 30px;*/
   text-align: right;
+  h2{
+    font-size: 2.2rem;
+    color: #333;
+  }
 }
 select[multiple], select[size]{
   font-size: 18px;

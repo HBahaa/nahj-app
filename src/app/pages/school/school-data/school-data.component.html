@@ -1,7 +1,8 @@
 <div class="content">
   <div class="container-fluid">
-    <form class="row mt-4" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="col-12">
+    <form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <h2 class="col-12">بيانات المدرسة</h2>
+      <div class="col-12 mt-2">
         <ul class="nav nav-pills" id="pills-tab" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" id="pills-data-tab" data-toggle="pill" href="#pills-data" role="tab" aria-controls="pills-data" aria-selected="true">البيانات اﻷساسية</a>
@@ -21,7 +22,7 @@
                     <div class="card-body">
                       <div id="school-data">
                         <div class="form-group row">
-                          <label class="col-md-5 col-form-label" for="">اسم المدرسة</label>
+                          <label class="col-md-5 col-form-label">اسم المدرسة</label>
                           <div class="col-md-7">
                             <input type="text" class="form-control" />
                           </div>

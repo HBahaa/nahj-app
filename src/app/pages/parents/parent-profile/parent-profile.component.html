@@ -1,10 +1,14 @@
  <div class="content">
 	<div class="container-fluid">
-		<form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+		<div class="row">
+			<h2 class="col-12">البيانات الشخصية</h2>
+		</div>
+		<form class="row" [formGroup]="form">
 			<div class="col-lg-4 col-sm-6">
 				<div class="card">
 					<img src="./assets/images/main_data.png" alt="">
 					<div class="card-body">
+						<h4 class="card-title text-center">البيانات اﻷساسية</h4>
 						<div class="form-group row">
 		                	<label class="col-md-4 col-form-label" for="">الأسم</label>
 		                	<div class="col-md-8">
@@ -15,6 +19,14 @@
 		                	<label class="col-md-4 col-form-label" for="">اللقب</label>
 		                	<div class="col-md-8">
 								<select class="form-control" formControlName="nickname" >
+									<option selected></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-4 col-form-label" for="">الصلة بالطفل</label>
+							<div class="col-md-8">
+								<select class="form-control" formControlName="relation" >
 									<option selected></option>
 								</select>
 							</div>
@@ -38,31 +50,19 @@
 							</div>
 						</div>
 						<div class="form-group row">
-		                	<label class="col-md-4 col-form-label" for="">اسم المستخدم</label>
+		                	<label class="col-md-4 col-form-label" for="">الطلاب و الفصل الدراسي</label>
 		                	<div class="col-md-8">
-								<input type="text" class="form-control" formControlName="userName" />
+								<textarea disabled class="form-control" rows="3"></textarea>
 							</div>
-						</div>
-						<div class="form-group row">
-		                	<label class="col-md-4 col-form-label" for="">كلمة السر</label>
-		                	<div class="col-md-8">
-								<input type="text" class="form-control" formControlName="password" />
-							</div>
-						</div>						
+						</div>		
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-4 col-sm-6">
 				<div class="card">
 					<div class="card-body mt-4">
-						<div class="form-group row">
-		                	<label class="col-md-4 col-form-label" for="">الصلة بالطفل</label>
-		                	<div class="col-md-8">
-								<select class="form-control" formControlName="relation" >
-									<option selected></option>
-								</select>
-							</div>
-						</div>
+						<h4 class="card-title text-center">بيانات الحساب</h4>
+						
 						<div class="form-group row">
 		                	<label class="col-md-4 col-form-label" for="">الفصل الدراسي</label>
 		                	<div class="col-md-8">
@@ -75,12 +75,6 @@
 		                	<label class="col-md-4 col-form-label" for="">حالة الحساب</label>
 		                	<div class="col-md-8">
 								<input type="text" class="form-control" value="مفعل" />
-							</div>
-						</div>
-						<div class="form-group row">
-		                	<label class="col-md-4 col-form-label" for="">الطلاب و الفصل الدراسي</label>
-		                	<div class="col-md-8">
-								<textarea disabled class="form-control"></textarea>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -107,11 +101,37 @@
 								<input type="text" class="form-control" formControlName="more4" />
 							</div>
 						</div>
+						<div class="form-group row">
+							<label class="col-md-4 col-form-label" for="">اسم المستخدم</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" formControlName="userName" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-4 col-form-label" for="">كلمة السر</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" formControlName="password" />
+							</div>
+						</div>
+						<div class="card-footer text-left">
+							<button *ngIf="edit" class="btn btn-primary" type="button">
+								<i class="fa fa-edit fa-fw"></i>
+							</button>
+							<button *ngIf="!edit" class="btn btn-info" type="button">
+								<i  class="fa fa-save fa-fw"></i>
+							</button>
+							<button class="btn btn-danger mr-2" type="button" >
+								<i class="fa fa-close fa-fw"></i>
+							</button>
+							<button *ngIf="add" class="btn btn-success mr-2" type="button">
+								<i class="fa fa-plus fa-fw"></i>
+							</button>
+							<button *ngIf="!add" class="btn btn-info mr-2" type="button">
+								<i  class="fa fa-save fa-fw"></i>
+							</button>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-8 text-left">
-				<button class="btn btn-primary btn-lg mt-4" type="submit">حفـظ</button>
 			</div>
 		</form>
 	</div>

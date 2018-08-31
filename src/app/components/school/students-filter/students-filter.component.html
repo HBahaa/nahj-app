@@ -1,6 +1,8 @@
 <div class="card">
 	<img [src]="img" class="card-img" />
+	
 	<div class="card-body" [ngClass]="img ? '' : 'mt-5'">
+		<h4 class="text-center card-title">{{title}}</h4>
 		<div class="form-group row">
 			<label class="col-md-4 col-form-label" for="">المستوي اﻷول</label>
 			<div class="col-md-8">
@@ -32,7 +34,7 @@
 			<input type="text" class="form-control" placeholder="بحث باﻷسم" (change)="SearchByName($event.target.value)" />
 		</div>
 		<div>
-			<select class="form-control" size="6">
+			<select class="form-control" size="4">
 				<option selected>خديجة الجابر</option>
 				<option>أمل العيسي</option>
 			</select>

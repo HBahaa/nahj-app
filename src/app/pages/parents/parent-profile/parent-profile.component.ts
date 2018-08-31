@@ -9,6 +9,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class ParentProfileComponent implements OnInit {
 
 	form: FormGroup;
+	edit: boolean = true;
+	add: boolean = true;
 
 	constructor( private fb: FormBuilder ) {}
 

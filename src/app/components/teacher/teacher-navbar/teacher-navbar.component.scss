@@ -191,6 +191,8 @@ ul:not(.browser-default)>li {
 }
 .user-img img{
     border-radius: 50%;
+    width: 80px;
+    height: 80px;
 }
 @media (min-width: 1800px) {
     .user-img p{

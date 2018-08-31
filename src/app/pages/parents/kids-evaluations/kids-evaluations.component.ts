@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class KidsEvaluationsComponent implements OnInit {
 
 	form: FormGroup;
-
+	kids = ["محمد أحمد", "أحمد عبدالله"];
 	constructor( private fb: FormBuilder ) { }
 
 	ngOnInit() {

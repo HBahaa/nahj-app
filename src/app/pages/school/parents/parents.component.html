@@ -1,8 +1,11 @@
 <div class="content">
 	<div class="container-fluid">
 		<div class="row">
+			<h2 class="col-12">حسابات أوليتء الأمور</h2>
+		</div>
+		<div class="row">
 			<div class="col-lg-4 col-md-6">
-				<app-students-filter img="./assets/images/parents.png"></app-students-filter>
+				<app-students-filter title="اختيار ولي اﻷمر" img="./assets/images/parents.png"></app-students-filter>
 			</div>
 			<div class="col-lg-8">
 				<form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -10,13 +13,13 @@
 						<div class="card">
 							<div class="card-body mt-5">
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">الأسم</label>
+				                	<label class="col-md-4 col-form-label">الأسم</label>
 				                	<div class="col-md-8">
 										<input type="text" class="form-control" formControlName="name" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">اللقب</label>
+				                	<label class="col-md-4 col-form-label">اللقب</label>
 				                	<div class="col-md-8">
 										<select class="form-control" formControlName="nickname" >
 											<option selected></option>
@@ -24,7 +27,7 @@
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">الصلة بالطفل</label>
+				                	<label class="col-md-4 col-form-label">الصلة بالطفل</label>
 				                	<div class="col-md-8">
 										<select class="form-control" formControlName="relation" >
 											<option selected></option>
@@ -32,25 +35,25 @@
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">جوال 1 - اتصال</label>
+				                	<label class="col-md-4 col-form-label">جوال 1 - اتصال</label>
 				                	<div class="col-md-8">
 										<input type="text" class="form-control" formControlName="phone1" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">جوال 2 - واتس</label>
+				                	<label class="col-md-4 col-form-label">جوال 2 - واتس</label>
 				                	<div class="col-md-8">
 										<input type="text" class="form-control" formControlName="phone2" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">البريد اﻷلكتروني</label>
+				                	<label class="col-md-4 col-form-label">البريد اﻷلكتروني</label>
 				                	<div class="col-md-8">
 										<input type="email" class="form-control" formControlName="email" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">الفصل الدراسي</label>
+				                	<label class="col-md-4 col-form-label">الفصل الدراسي</label>
 				                	<div class="col-md-8">
 										<select class="form-control" formControlName="term" >
 											<option selected>الفصل اﻷول - 2019/2018</option>
@@ -58,7 +61,7 @@
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">الطلاب والفصل الدراسي</label>
+				                	<label class="col-md-4 col-form-label">الطلاب والفصل الدراسي</label>
 				                	<div class="col-md-8">
 										<textarea class="form-control" disabled formControlName="class"></textarea>
 									</div>
@@ -70,43 +73,43 @@
 						<div class="card">
 							<div class="card-body mt-5">
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">حالة الحساب</label>
+				                	<label class="col-md-4 col-form-label">حالة الحساب</label>
 				                	<div class="col-md-8">
 										<input type="text" class="form-control" formControlName="status" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">اسم المستخدم</label>
+				                	<label class="col-md-4 col-form-label">اسم المستخدم</label>
 				                	<div class="col-md-8">
 										<input type="text" class="form-control" formControlName="userName" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">كلمة السر</label>
+				                	<label class="col-md-4 col-form-label">كلمة السر</label>
 				                	<div class="col-md-8">
 										<input type="text" class="form-control" formControlName="password" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">بيان إضافي 1</label>
+				                	<label class="col-md-4 col-form-label">بيان إضافي 1</label>
 				                	<div class="col-md-8">
 										<input type="text" class="form-control" formControlName="data1" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">بيان إضافي 2</label>
+				                	<label class="col-md-4 col-form-label">بيان إضافي 2</label>
 				                	<div class="col-md-8">
 										<input type="text" class="form-control" formControlName="data2" />
 									</div>
 								</div>	
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">بيان إضافي 3</label>
+				                	<label class="col-md-4 col-form-label">بيان إضافي 3</label>
 				                	<div class="col-md-8">
 										<input type="text" class="form-control" formControlName="data3" />
 									</div>
 								</div>	
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label" for="">بيان إضافي 4</label>
+				                	<label class="col-md-4 col-form-label">بيان إضافي 4</label>
 				                	<div class="col-md-8">
 										<input type="text" class="form-control" formControlName="data4" />
 									</div>

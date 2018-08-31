@@ -57,6 +57,7 @@ import { ParentsNavbarComponent } from './components/parents/parents-navbar/pare
 import { LevelCardComponent } from './components/school/level-card/level-card.component';
 import { StudentsFilterComponent } from './components/school/students-filter/students-filter.component';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { QuestionsCardComponent } from './components/questions-card/questions-card.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
     ParentsNavbarComponent,
     LevelCardComponent,
     StudentsFilterComponent,
-    DialogComponent
+    DialogComponent,
+    QuestionsCardComponent
   ],
   imports: [
     

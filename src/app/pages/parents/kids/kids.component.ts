@@ -10,7 +10,9 @@ export class KidsComponent implements OnInit {
 	form: FormGroup;
 	image= "./assets/images/profile.png";
 
-	data = ["محمد أحمد", "أحمد عبدالله"];
+	kids = ["محمد أحمد", "أحمد عبدالله"];
+	edit: boolean = true;
+	add: boolean = true;
 
 	constructor( private fb: FormBuilder) { }
 
