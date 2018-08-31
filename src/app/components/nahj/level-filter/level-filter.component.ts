@@ -1,4 +1,3 @@
-import { map } from 'rxjs/operators';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { EcontentOneService } from '../../../services/econtent/econtent-one.service';
 import { EcontentTwoService } from '../../../services/econtent/econtent-two.service';

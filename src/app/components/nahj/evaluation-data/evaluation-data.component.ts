@@ -109,10 +109,10 @@ export class EvaluationDataComponent implements OnInit {
 			shortTitle: [$event.shortTitle],
 			currentStatus: [$event.currentStatus.id],
 			accountWay: [$event.accountWay.id],
-			level1: [$event.speciificContentLevel.speciificContentLevelOne['id']],
-			level2: [$event.speciificContentLevel.speciificContentLevelTwo['id']],
-			level3: [$event.speciificContentLevel.speciificContentLevelThree['id']],
-			level4: [$event.speciificContentLevel.speciificContentLevelFour['id']]
+			level1: [$event.speciificContentLevel.speciificContentLevelOne ? $event.speciificContentLevel.speciificContentLevelOne.id     :""],
+			level2: [$event.speciificContentLevel.speciificContentLevelTwo ? $event.speciificContentLevel.speciificContentLevelTwo.id     :""],
+			level3: [$event.speciificContentLevel.speciificContentLevelThree ? $event.speciificContentLevel.speciificContentLevelThree.id :""],
+			level4: [$event.speciificContentLevel.speciificContentLevelFour ? $event.speciificContentLevel.speciificContentLevelFour.id   :""],
 		});
 		this.getQuestionGroups()
 	}
@@ -348,40 +348,30 @@ export class EvaluationDataComponent implements OnInit {
 				method: 'GET',
 				url: this.url
 			}).subscribe(econtent1=>{
-				econtent1['data'].contentLevelOnes.filter(l1=> l1.name == this.form.value.level1).map(l1 => {
-					var l1ID = l1.id;
-					l1.contentLevelTwo.filter(l2 => l2.name == this.form.value.level2).map(l2=>{
-						var l2ID = l2.id
-						l2.contentLevelThree.filter(l3 => l3.name == this.form.value.level3).map(l3=>{
-							var l3ID = l3.id
-							l3.contentLevelFour.filter(l4 => l4.name == this.form.value.level4).map(l4=>{
-								var l4ID = l4.id
-								this.evaluation.service({
-									method: "POST",
-									url: this.url,
-									evaluationId:this.selectedEvaluation,
-									title: this.form.value.title,
-									shortTitle: this.form.value.shortTitle,
-									currentStatusId: this.form.value.currentStatus,
-									accountWayId: this.form.value.accountWay,
-									speciificContentLevelOneId: l1ID,
-									speciificContentLevelTwoId: l2ID,
-									speciificContentLevelThreeId: l3ID,
-									speciificContentLevelFourId: l4ID,
-									questionGroupName: "",
-									questionGroupWeight: ""
-								}).subscribe(data=>{
-									// console.log("data", data)
-									this.EvalEdit = true;
-									this.updateFilter = true;
-								})
-								
-							})
-						})
-					})
+				console.log("cont1", econtent1)
+				this.evaluation.service({
+					method: "POST",
+					url: this.url,
+					evaluationId:this.selectedEvaluation,
+					title: this.form.value.title,
+					shortTitle: this.form.value.shortTitle,
+					currentStatusId: this.form.value.currentStatus,
+					accountWayId: this.form.value.accountWay,
+					speciificContentLevelOneId: this.form.value.level1,
+					speciificContentLevelTwoId: this.form.value.level2,
+					speciificContentLevelThreeId: this.form.value.level3,
+					speciificContentLevelFourId: this.form.value.level4,
+					questionGroupName: "",
+					questionGroupWeight: ""
+				}).subscribe(data=>{
+					console.log("edit", data)
+					this.EvalEdit = true;
+					this.updateFilter = true;
 				})
-				this.updateFilter = false;
+				
 			})
+		
+			this.updateFilter = false;
 		}
 	}
 	EditQuestionGroup(){

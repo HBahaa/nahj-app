@@ -52,9 +52,10 @@ export class EvaluationQuestionsComponent implements OnInit {
   }
   // list functions
 	evaluationClicked($event){
+    console.log("clk eval", $event)
 		this.selectedEvaluation = $event.id;
     this.questionGroups = $event.questionGroup.filter(item => item.name != '');
-    this.getQuestions('');
+    this.getQuestions($event.id);
   }
   getQuestions(id){ 
     console.log("getQuestions", id)
@@ -68,8 +69,12 @@ export class EvaluationQuestionsComponent implements OnInit {
           this.questions = evaluations.questionGroup.questions;
           console.log("quest 0", this.questions)
         }else if(id == evaluations.id){
-          this.questions = evaluations.questionGroup.questions;
-          console.log("quest name", this.questions)
+          console.log("que", evaluations.questionGroup)
+          evaluations.questionGroup.map(questions=>{
+            this.questions.push(...questions.questions)
+            console.log("quest name", this.questions)
+          });
+          
         }
       })
     })
