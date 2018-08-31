@@ -48,10 +48,10 @@ export class evaluation {
               accountWay: { connect: { id: $accountWayId } }
               speciificContentLevel: {
                 update: {
-                  ${query1 ? "speciificContentLevelOne: { connect: { id: $speciificContentLevelOneId }}" : "speciificContentLevelOne: { disconnect: true}" }
-                  ${query2 ? "speciificContentLevelTwo: { connect: { id: $speciificContentLevelTwoId }}" : "speciificContentLevelTwo: { disconnect: true}" }
-                  ${query3 ? "speciificContentLevelThree: { connect: { id: $speciificContentLevelThreeId }}" : "speciificContentLevelThree: { disconnect: true}" }
-                  ${query4 ? "speciificContentLevelFour: { connect: { id: $speciificContentLevelFourId }}" : "speciificContentLevelFour: { disconnect: true}" }
+                  ${query1 ? "speciificContentLevelOne: { connect: { id: $speciificContentLevelOneId }}" :  config.hadL1 ?  "speciificContentLevelOne: { disconnect: true}" : "" }
+                  ${query2 ? "speciificContentLevelTwo: { connect: { id: $speciificContentLevelTwoId }}" :  config.hadL2 ? "speciificContentLevelTwo: { disconnect: true}" :"" }
+                  ${query3 ? "speciificContentLevelThree: { connect: { id: $speciificContentLevelThreeId }}" : config.hadL3 ? "speciificContentLevelThree: { disconnect: true}" : "" }
+                  ${query4 ? "speciificContentLevelFour: { connect: { id: $speciificContentLevelFourId }}" : config.hadL4 ? "speciificContentLevelFour: { disconnect: true}" : ""}
 
                 }
               }
