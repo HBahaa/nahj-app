@@ -150,6 +150,8 @@ export class SchoolFilterComponent implements OnInit {
 	}
 
 	handleChange(level, e){
+		this.level2 = []
+		this.level3 = []
 		this.getLevelData({'level': level, 'value': e.target.value })
 	}
 	addClicked(){

@@ -36,10 +36,13 @@ export class EntitiesComponent implements OnInit {
 		switch($event.componentType){
 			case "level1":
 				this.selectedLevel1 = $event.value;
+				this.level2 = [];
+				this.level3 = [];
 				this.getAllLevels($event.value, undefined);
 			break;
 			case "level2":
 				this.selectedLevel2 = $event.value;
+				this.level3 = [];
 				this.getAllLevels(this.selectedLevel1, this.selectedLevel2);
 			break;
 		}
@@ -151,9 +154,6 @@ export class EntitiesComponent implements OnInit {
 								newName1: $event.newValue,
 								newName2: ""
 							}).subscribe(data => {
-								// let index = this.level1.indexOf($event.value);
-								// this.level1.splice(index , 1);
-								// this.level1.splice(index , 0, data['data'].updateLevelOne.name);
 								this.getAllLevels(data['data']['updateLevelOne']['name'], undefined);
 								this.selectedLevel1 = data['data']['updateLevelOne']['name'];
 							});
@@ -217,13 +217,12 @@ export class EntitiesComponent implements OnInit {
 				if (level.name  == this.selectedLevel1) {
 					level['LevelTwo'].map(item =>{
 						if (item.name == this.selectedLevel2) {
-							let id = item.id;
 							switch ($event.eventType) {
 								case "add":
 									this.elevelsTwo.service({
 										method: 'POST',
 										url: this.url,
-										id: id,
+										id: item.id,
 										newName2: this.selectedLevel2,
 										newName3: $event.newValue
 									}).subscribe(data2 => {
@@ -233,11 +232,10 @@ export class EntitiesComponent implements OnInit {
 								case "update":
 									item['levelThree'].map(l3=>{
 										if (l3.name == $event.value) {
-											let id3 = l3.id
 											this.elevelsThree.service({
 												method: 'POST',
 												url: this.url,
-												id: id3,
+												id: l3.id,
 												newName3: $event.newValue
 											}).subscribe(data3 =>{
 												this.getAllLevels(this.selectedLevel1, this.selectedLevel2);
@@ -260,11 +258,10 @@ export class EntitiesComponent implements OnInit {
 		}).subscribe(data => {
 			data['data'].levelOnes.map(level=>{
 				if (level.name  == $event.value) {
-					let id = level.id;
 					this.elevelsOne.service({
 						method: 'DELETE',
 						url: this.url,
-						id: id
+						id: level.id
 					}).subscribe(resp => {
 						this.getAllLevels(undefined, undefined);
 					})
@@ -281,11 +278,10 @@ export class EntitiesComponent implements OnInit {
 			data['data'].levelOnes.map(level1=>{
 				level1['LevelTwo'].map(level2=>{
 					if (level2.name  == $event.value) {
-						let id = level2.id;
 						this.elevelsTwo.service({
 							method: 'DELETE',
 							url: this.url,
-							id: id
+							id: level2.id
 						}).subscribe(resp => {
 							this.getAllLevels(undefined, undefined);
 						})
@@ -304,11 +300,10 @@ export class EntitiesComponent implements OnInit {
 				level1['LevelTwo'].map(level2=>{
 					level2['levelThree'].map(level3 =>{
 						if (level3.name  == $event.value) {
-							let id = level3.id;
 							this.elevelsThree.service({
 								method: 'DELETE',
 								url: this.url,
-								id: id
+								id: level3.id
 							}).subscribe(resp => {
 								this.getAllLevels(undefined, undefined);
 							})

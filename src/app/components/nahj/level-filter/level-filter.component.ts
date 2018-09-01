@@ -215,6 +215,9 @@ export class LevelFilterComponent implements OnInit {
 		})
 	}
 	handleLevelChange(level, e){
+		// this.level2 = [];
+		// this.level3 = [];
+		// this.level4 = [];
 		this.getLevelData({'level': level, 'value': e.target.value })
 	}
 	getLevelData($event){
