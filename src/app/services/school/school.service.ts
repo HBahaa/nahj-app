@@ -296,10 +296,7 @@ export class SchoolService {
           $level3: ID
           $GeoAreaID: ID
           $cityID: ID
-          $contentLevel1: ID
-          $contentLevel2: ID
-          $contentLevel3: ID
-          $contentLevel4: ID
+					$arrayOfSpeciificContent:[SpeciificContentLevelCreateInput!]
         ) {
           createSchool(
             data: {
@@ -328,12 +325,7 @@ export class SchoolService {
                 }
               }
               speciificContentLevels: {
-                create: {
-                  speciificContentLevelOne: { connect: { id: $contentLevel1 } }
-                  speciificContentLevelTwo: { connect: { id: $contentLevel2 } }
-                  speciificContentLevelThree: { connect: { id: $contentLevel3 } }
-                  speciificContentLevelFour: { connect: { id: $contentLevel4 } }
-                }
+                create: $arrayOfSpeciificContent
               }
             }
           ) {
@@ -412,10 +404,7 @@ export class SchoolService {
   				level3: config.level3,
   				GeoAreaID: config.GeoAreaName,
           cityID: config.cityName,
-          contentLevel1:config.contentLevel1,
-          contentLevel2:config.contentLevel2,
-          contentLevel3:config.contentLevel3,
-          contentLevel4:config.contentLevel4
+          arrayOfSpeciificContent:config.arrayOfSpeciificContent
         }
 
       break;
