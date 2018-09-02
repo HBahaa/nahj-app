@@ -36,7 +36,7 @@ export class SchoolService {
           $level2: ID
           $level3: ID
           $GeoAreaID: ID!
-          $cityID: ID!
+          $cityName: String!
           $contentLevel1:ID,
           $contentLevel2:ID,
           $contentLevel3:ID,
@@ -72,7 +72,7 @@ export class SchoolService {
               speciificArea: {
                 update: {
                   speciificGeaoArea: { connect: { id: $GeoAreaID } }
-                  speciificCity: { connect: { id: $cityID } }
+                  speciificCity: { create: { name: $cityName } }
                 }
               }
               speciificContentLevels: {
@@ -295,8 +295,8 @@ export class SchoolService {
           $level2: ID
           $level3: ID
           $GeoAreaID: ID
-          $cityID: ID
-					$arrayOfSpeciificContent:[SpeciificContentLevelCreateInput!]
+          $cityName: String!
+          $arrayOfSpeciificContent: [SpeciificContentLevelCreateInput!]
         ) {
           createSchool(
             data: {
@@ -321,12 +321,10 @@ export class SchoolService {
               speciificArea: {
                 create: {
                   speciificGeaoArea: { connect: { id: $GeoAreaID } }
-                  speciificCity: { connect: { id: $cityID } }
+                  speciificCity: { create: { name: $cityName } }
                 }
               }
-              speciificContentLevels: {
-                create: $arrayOfSpeciificContent
-              }
+              speciificContentLevels: { create: $arrayOfSpeciificContent }
             }
           ) {
             id
@@ -380,7 +378,6 @@ export class SchoolService {
             }
           }
         }
-        
         `
         variable = {
           address:config.address,
@@ -403,7 +400,7 @@ export class SchoolService {
 					level2: config.level2,
   				level3: config.level3,
   				GeoAreaID: config.GeoAreaName,
-          cityID: config.cityName,
+          cityName: config.cityName,
           arrayOfSpeciificContent:config.arrayOfSpeciificContent
         }
 
