@@ -35,8 +35,14 @@ export class SchoolService {
           $level1: ID
           $level2: ID
           $level3: ID
-          $GeoAreaName: String!
-          $cityName: String!
+          $GeoAreaID: ID!
+          $cityID: ID!
+          $contentLevel1:ID,
+          $contentLevel2:ID,
+          $contentLevel3:ID,
+          $contentLevel4:ID,
+          $contentID:ID
+          
         ) {
           updateSchool(
             data: {
@@ -65,8 +71,19 @@ export class SchoolService {
               levelThree: { connect: { id: $level3 } }
               speciificArea: {
                 update: {
-                  speciificGeaoArea: { update: { name: $GeoAreaName } }
-                  speciificCity: { update: { name: $cityName } }
+                  speciificGeaoArea: { connect: { id: $GeoAreaID } }
+                  speciificCity: { connect: { id: $cityID } }
+                }
+              }
+              speciificContentLevels: {
+                update: {
+                  where: { id: $contentID }
+                  data: {
+                    speciificContentLevelOne: { connect: { id: $contentLevel1 } }
+                    speciificContentLevelTwo: { connect: { id: $contentLevel2 } }
+                    speciificContentLevelThree: { connect: { id: $contentLevel3 } }
+                    speciificContentLevelFour: { connect: { id: $contentLevel4 } }
+                  }
                 }
               }
             }
@@ -125,17 +142,36 @@ export class SchoolService {
             levels {
               id
               name
-              LevelTwo {
+            }
+            levelTwo{
+              id
+              name
+            }
+            levelThree{
+              id
+              name
+            }
+            speciificContentLevels{
+              id
+              speciificContentLevelOne{
                 id
                 name
-                levelThree {
-                  id
-                  name
-                }
+              }
+              speciificContentLevelTwo{
+                id
+                name
+              }
+              speciificContentLevelThree{
+                id
+                name
+              }
+              speciificContentLevelFour{
+                id
+                name
               }
             }
           }
-        }
+        }        
         `  
         variable = {
           address:config.address,
@@ -160,30 +196,52 @@ export class SchoolService {
 					level2: config.level2,
   				level3: config.level3,
   				schoolID: config.schoolID,
-  				GeoAreaName: config.GeoAreaName,
-  				cityName: config.cityName
+  				GeoAreaID: config.GeoAreaID,
+          cityID: config.cityID,
+          contentLevel1:config.contentLevel1,
+          contentLevel2:config.contentLevel2,
+          contentLevel3:config.contentLevel3,
+          contentLevel4:config.contentLevel4
         }       
       break;  
       case "GET": //read
         query = `{
-          schools {
-            id
-            address
-            admin {
-              id
-              name
-              job
-              type
-              phone
-              whatsApp
-              email
-              username
+          schools{
+            id,
+            address,
+            speciificArea{
+              speciificGeaoArea{
+                name
+                cities
+              }
+            }
+            admin{
+              id,
+              name,
+              job,
+              type,
+              phone,
+              whatsApp,
+              email,
+              username,
               password
             }
             gps
             phone
             fax
             district
+            levels{
+              id
+              name
+            }
+            levelTwo{
+              id
+              name
+            }
+            levelThree{
+              id
+              name
+            }
             adminNum
             studentsNum
             classesNum
@@ -191,31 +249,26 @@ export class SchoolService {
             StudyYears
             lowestStudyYear
             highestStudyYear
-            speciificArea {
-              id
-              speciificGeaoArea {
+            motherComp
+            speciificContentLevels{
+              id,
+              speciificContentLevelOne{
                 id
                 name
               }
-              speciificCity {
+              speciificContentLevelTwo{
+                id
+                name
+              }
+              speciificContentLevelThree{
+                id
+                name
+              }
+              speciificContentLevelFour{
                 id
                 name
               }
             }
-            name
-            motherComp
-            levels {
-              id
-              name
-              LevelTwo {
-                id
-                name
-                levelThree {
-                  id
-                  name
-                }
-              }
-            }        
           }
         }
         `;
@@ -241,14 +294,16 @@ export class SchoolService {
           $level1: ID
           $level2: ID
           $level3: ID
-          $GeoAreaName: String!
-          $cityName: String!
+          $GeoAreaID: ID
+          $cityID: ID
+          $contentLevel1: ID
+          $contentLevel2: ID
+          $contentLevel3: ID
+          $contentLevel4: ID
         ) {
           createSchool(
             data: {
-               admin:{
-                create:[$admin,$adminRes]
-              }
+              admin: { create: [$admin, $adminRes] }
               address: $address
               gps: $gps
               phone: $phone
@@ -268,8 +323,16 @@ export class SchoolService {
               levelThree: { connect: { id: $level3 } }
               speciificArea: {
                 create: {
-                  speciificGeaoArea: { create: { name: $GeoAreaName } }
-                  speciificCity: { create: { name: $cityName } }
+                  speciificGeaoArea: { connect: { id: $GeoAreaID } }
+                  speciificCity: { connect: { id: $cityID } }
+                }
+              }
+              speciificContentLevels: {
+                create: {
+                  speciificContentLevelOne: { connect: { id: $contentLevel1 } }
+                  speciificContentLevelTwo: { connect: { id: $contentLevel2 } }
+                  speciificContentLevelThree: { connect: { id: $contentLevel3 } }
+                  speciificContentLevelFour: { connect: { id: $contentLevel4 } }
                 }
               }
             }
@@ -325,6 +388,7 @@ export class SchoolService {
             }
           }
         }
+        
         `
         variable = {
           address:config.address,
@@ -346,19 +410,19 @@ export class SchoolService {
           level1:config.level1,
 					level2: config.level2,
   				level3: config.level3,
-  				GeoAreaName: config.GeoAreaName,
-  				cityName: config.cityName
+  				GeoAreaID: config.GeoAreaName,
+          cityID: config.cityName,
+          contentLevel1:config.contentLevel1,
+          contentLevel2:config.contentLevel2,
+          contentLevel3:config.contentLevel3,
+          contentLevel4:config.contentLevel4
         }
 
       break;
       case "DELETE": //delete
-        query = `mutation(
-          $id:ID!
-        ){
-          deleteSchool(where:{
-            id:$id
-          }){
-            id,
+        query = `mutation($id: ID!) {
+          deleteSchool(where: { id: $id }) {
+            id
             name
           }
         }`
