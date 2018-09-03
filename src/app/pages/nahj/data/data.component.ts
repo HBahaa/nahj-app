@@ -1,12 +1,12 @@
-import { map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from '../../../components/dialog/dialog.component';
-
 import { ELevelsOneService } from '../../../services/elevels/elevelsOne.service';
 import { GeoService } from '../../../services/geo/geo.service';
 import { SchoolService } from '../../../services/school/school.service';
+import { EcontentOneService } from '../../../services/econtent/econtent-one.service';
+
 
 @Component({
   selector: 'app-data',
@@ -22,26 +22,36 @@ export class DataComponent implements OnInit {
 	level1=[];
 	level2=[];
 	level3=[];
+	content1=[];
+	content2=[];
+	content3=[];
+	content4=[];
 	selectedLevel1;
 	selectedLevel2;
 	selectedLevel3;
+	selectedContent1;
+	selectedContent2;
+	selectedContent3;
+	selectedContent4;
 	geoArray;
 	citiesArray;
 	selectedGeo;
-
+	speciificContent = [];
 
 	constructor( 
 		private fb: FormBuilder,
 		private elevelsOne: ELevelsOneService,
 		private schoolService: SchoolService,
 		private geoService: GeoService,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		private econtentOneService: EcontentOneService
 	 ) { }
 
 	ngOnInit() {
 	
 		this.getAllLevels(undefined, undefined);
 		this.getGeoCityData(undefined)
+		this.getContentData(undefined, undefined, undefined, undefined);
 		this.form = this.fb.group({
 			schoolName: ['', Validators.required],
 			motherComp: ['', Validators.required],
@@ -63,6 +73,10 @@ export class DataComponent implements OnInit {
 			level1: ['', Validators.required],
 			level2: ['', Validators.required],
 			level3: ['', Validators.required],
+			content1: ['', Validators.required],
+			content2: ['', Validators.required],
+			content3: ['', Validators.required],
+			content4: ['', Validators.required],
 			adminName: ['', Validators.required],
 			adminEmail: ['', Validators.required],
 			adminPhone: ['', Validators.required],
@@ -80,6 +94,9 @@ export class DataComponent implements OnInit {
 	    });
 	}
 
+	handleContentChange(level, e){
+		this.getContent({'level': level, 'value': e.target.value })
+	}
 	
 	openDialog($event) {
 		const dialogRef = this.dialog.open(DialogComponent, {
@@ -148,20 +165,56 @@ export class DataComponent implements OnInit {
 		});
 	}
 
+	saveLContent(){
+		console.log("content1", this.form);
+		if (this.form.value.content1) {
+			let obj  = {}
+			if(this.form.value.content1){
+				obj["speciificContentLevelOne"] = {
+					connect:{
+						id:this.form.value.content1
+					}
+				}
+			}
+			if(this.form.value.content2){
+				obj["speciificContentLevelTwo"] = {
+					connect:{
+						id:this.form.value.content2
+					}
+				}
+			}
+			if(this.form.value.content3){
+				obj["speciificContentLevelThree"] = {
+					connect:{
+						id:this.form.value.content3
+					}
+				}
+			}
+			if(this.form.value.content4){
+				obj["speciificContentLevelFour"] = {
+					connect:{
+						id:this.form.value.content4
+					}
+				}
+			}
+			console.log(JSON.stringify(obj);
+			this.speciificContent.push(obj)
+			alert("added successfully")
+		};
+	}
 
 	getGeoCityData(name){//get geoDataCity
 		this.geoService.service({
 			method: "GET",
 			url: this.url
 		}).subscribe((data: any) => {
-			console.log("getGeoCityData", data)
 			this.geoArray = data.data.geoAreas.map((item, index) => {
 				if(!name && index == 0){
 					this.citiesArray = item["cities"];
 				}else if(item.name == name){
 					this.citiesArray =  item["cities"]
 				}
-				return item.name;
+				return item;
 			} );
 		});
 	}
@@ -183,6 +236,146 @@ export class DataComponent implements OnInit {
 		}
 		
 	}
+	getContent($event){
+		switch($event.level){
+			case "level1":
+				this.selectedContent1 = $event.value;
+				this.getContentData(this.selectedContent1, undefined, undefined, undefined);
+			break;
+			case "level2":
+				this.selectedContent2 = $event.value;
+				this.getContentData(this.selectedContent1, this.selectedContent2, undefined, undefined);
+			break;
+			case "level3":
+				this.selectedContent3 = $event.value;
+				this.getContentData(this.selectedContent3, this.selectedContent2,$event.value, undefined);
+			break;
+		}
+	}
+
+	getContentData(name1, name2, name3, name4){
+		this.econtentOneService.service({
+			method: 'GET',
+			url: this.url
+		}).subscribe(econtent1=>{
+			this.content1 = econtent1['data'].contentLevelOnes.map((l1, index1)=> {
+				if (!name1 && index1 == 0) {
+					this.selectedContent1 = l1.name;
+					this.content2 = l1.contentLevelTwo.map((l2, index2)=>{
+						if (!name2 && index2 == 0) {
+							this.selectedContent2 = l2.name;
+							if (l2.contentLevelThree.length > 0) {
+								this.content3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
+									this.selectedContent3=l3.name;
+									if (!name3 && index3 == 0) {
+										if (l3.contentLevelFour.length > 0) {
+											this.content4 = l3.contentLevelFour.filter(n => n.name != "" )
+										}else{
+											this.content4 = [];
+										}
+									}else if (name3 == l3.name) {
+										if (l3.contentLevelFour.length > 0) {
+											this.content4 = l3.contentLevelFour.filter(n => n.name != "" )
+										}else{
+											this.content4 = [];
+										}
+									}
+									return l3;
+								})
+							}else{
+								this.content3 = [];
+								this.content4 = [];
+							}
+						}else if (name2 == l2.name) {
+							this.selectedContent2 = l2.name;
+							if (l2.contentLevelThree.length > 0) {
+								this.content3 =  l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
+									if (!name3 && index3 == 0) {
+										this.selectedContent3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.content4 = l3.contentLevelFour.filter(n => n.name != "" )
+										}else{
+											this.content4 = [];
+										}
+									}else if (name3 == l3.name) {
+										this.selectedContent3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.content4 = l3.contentLevelFour.filter(n => n.name != "" )
+										}else{
+											this.content4 = [];
+										}
+									}
+									return l3
+								})
+							}else{
+								this.content3 = [];
+								this.content4 = [];
+							}
+						}
+						return l2;
+					})
+				}else if (name1 == l1.name) {
+					this.selectedContent1 = l1.name;
+					this.content2 = l1.contentLevelTwo.map((l2, index2)=>{
+						if (!name2 && index2 == 0) {
+							this.selectedContent2 = l2.name;
+							if (l2.contentLevelThree.length > 0) {
+								this.content3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
+									if (!name3 && index3 == 0) {
+										this.selectedContent3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.content4 = l3.contentLevelFour.filter(n => n.name != "" )
+										}else{
+											this.content4 = [];
+										}
+									}else if (name3 == l3.name) {
+										this.selectedContent3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.content4 = l3.contentLevelFour.filter(n => n.name != "" )
+										}else{
+											this.content4 = [];
+										}
+									}
+									return l3
+								})
+							}else{
+								this.content3 = [];
+								this.content4 = [];
+							}
+						}else if (name2 == l2.name) {
+							this.selectedContent2 = l2.name;
+							if (l2.contentLevelThree.length > 0) {
+								 this.content3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
+									if (!name3 && index3 == 0) {
+										this.selectedContent3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.content4 = l3.contentLevelFour.filter(n => n.name != "" )
+										}else{
+											this.content4 = [];
+										}
+									}else if (name3 == l3.name) {
+										this.selectedContent3=l3.name;
+										if (l3.contentLevelFour.length > 0) {
+											this.content4 = l3.contentLevelFour.filter(n => n.name != "" )
+										}else{
+											this.content4 = [];
+										}
+									}
+									return l3
+								})
+							}else{
+								this.content3 = [];
+								this.content4 = [];
+							}
+						}
+						return l2
+					})
+				}
+				return (({id, name})=>({id, name}))(l1)
+				// return l1.name
+			});
+		})
+	}
 
 	handleChange(level, e){
 		this.getLevelData({'level': level, 'value': e.target.value })
@@ -194,8 +387,10 @@ export class DataComponent implements OnInit {
 			let adminRes = res;
 			$event.admin.filter(admin => admin.type == 'admin').map(admin=>{
 				let nahjAdmin = admin;
-				let l2 = $event.levels.LevelTwo.filter(n => n.name != "" )[0].id
-				let l3 = $event.levels.LevelTwo.filter(n => n.name != "" )[0].levelThree.filter(n => n.name != "" )[0].id;
+				let l2 = $event['levelTwo'].id
+				let l3 = $event['levelThree'].id;
+				this.speciificContent = $event.licensedContent;
+				console.log("speciificContent", this.speciificContent)
 				this.form = this.fb.group({
 					schoolName: [$event.name],
 					motherComp: [$event.motherComp],
@@ -204,9 +399,9 @@ export class DataComponent implements OnInit {
 					gps: [$event.gps],
 					fax: [$event.fax],
 					address: [$event.address],
-					geo: [$event.speciificArea.speciificGeaoArea.name],
+					geo: [$event['speciificArea'].speciificGeaoArea.id],
 					district: [$event.district],
-					city: [$event.speciificArea.speciificCity.name],
+					city: [$event['speciificArea'].speciificCity.name],
 					studentsNum: [$event.studentsNum],
 					classesNum: [$event.classesNum],
 					teachersNum: [$event.teachersNum],
@@ -270,13 +465,17 @@ export class DataComponent implements OnInit {
 			nahjAdminJob: [''],
 			nahjAdminWhatsApp: [''],
 			nahjAdminUsername: [''],
-			nahjAdminPassword: ['']
+			nahjAdminPassword: [''],
+			content1:[''],
+			content2:[''],
+			content3:[''],
+			content4:['']
 		});
 	}
 
 	addSchool(){
-		console.log("form", this.form.value)
 		let config = this.form.value;
+		console.log("this.speciificContent", this.speciificContent)
 		this.schoolService.service({
 			method: 'PUT',
 			url: this.url,
@@ -319,11 +518,12 @@ export class DataComponent implements OnInit {
 			level2: config.level2,
 			level3: config.level3,
 			GeoAreaName: config.geo,
-			cityName: config.city
+			cityName: config.city,
+			arrayOfSpeciificContent: this.speciificContent.length > 0 ? this.speciificContent : ""
 		}).subscribe(data => {
-			console.log("data add", data);
 			this.form = this.fb.group({
-				schoolName: [''],motherComp: [''],
+				schoolName: [''],
+				motherComp: [''],
 				email: [''],
 				phone: [''],
 				gps: [''],
@@ -355,15 +555,21 @@ export class DataComponent implements OnInit {
 				nahjAdminJob: [''],
 				nahjAdminWhatsApp: [''],
 				nahjAdminUsername: [''],
-				nahjAdminPassword: ['']
+				nahjAdminPassword: [''],
+				content1: [''],
+				content2: [''],
+				content3: [''],
+				content4: ['']
 			});
 			this.updateChildData = true;
+			this.speciificContent = [];
 		})
 		this.updateChildData = false;
 	}
 	editSchool($event){
 		console.log("edit", $event)
 		let config = this.form.value;
+		console.log("config", config)
 		this.schoolService.service({
 			method: "GET",
 			url: this.url
@@ -371,9 +577,6 @@ export class DataComponent implements OnInit {
 			schools["data"].schools.map(school=>{
 				let adminId = $event.admin.filter(admin => admin.type == 'admin')[0].id;
 				let resId = $event.admin.filter(admin => admin.type == 'res')[0].id;
-				let l1ID = $event.levels.id;
-				let l2ID = $event.levels.LevelTwo.filter(n => n.name != "" )[0].id
-				let l3ID = $event.levels.LevelTwo.filter(n => n.name != "" )[0].levelThree.filter(n => n.name != "" )[0].id;
 				if(school.id == $event.id){
 					this.schoolService.service({
 						method: "POST",
@@ -414,14 +617,15 @@ export class DataComponent implements OnInit {
 						highestStudyYear:config.highestStudyYear,
 						name:config.schoolName,
 						motherComp:config.motherComp,
-						level1: l1ID,
-						level2: l2ID,
-						level3: l3ID,
-						GeoAreaName: config.geo,
+						level1: $event.levels.id,
+						level2: $event.levelTwo.id,
+						level3: $event.levelThree.id,
+						GeoAreaID: config.geo,
 						cityName: config.city,
 						adminId: adminId,
           				adminResID: resId
 					}) .subscribe(resp=>{
+						console.log("edit", resp)
 						this.updateChildData = true;
 					})
 				}

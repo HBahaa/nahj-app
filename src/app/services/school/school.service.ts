@@ -8,8 +8,25 @@ export class SchoolService {
 
   constructor(private http: HttpClient) { }
   service(config) { ////method,url,id,adminId,address,admin,gps,phone,fa,district,adminNum,studentsNum,classesNum ... , admin[Object of admin data check schema] 
+    console.log(config.arrayOfSpeciificContent)
     let query: string = "";
     let variable: object = {};
+    let linc = "";
+
+    // if
+
+    // licensedContent: {
+    //   update: {
+    //     where: { id: $contentID }
+    //     data: {
+    //       speciificContentLevelOne: { connect: { id: $contentLevel1 } }
+    //       speciificContentLevelTwo: { connect: { id: $contentLevel2 } }
+    //       speciificContentLevelThree: { connect: { id: $contentLevel3 } }
+    //       speciificContentLevelFour: { connect: { id: $contentLevel4 } }
+    //     }
+    //   }
+    // }
+
     switch(config.method){
       case "POST" : //update
         query = `mutation(
@@ -75,17 +92,7 @@ export class SchoolService {
                   speciificCity: { create: { name: $cityName } }
                 }
               }
-              speciificContentLevels: {
-                update: {
-                  where: { id: $contentID }
-                  data: {
-                    speciificContentLevelOne: { connect: { id: $contentLevel1 } }
-                    speciificContentLevelTwo: { connect: { id: $contentLevel2 } }
-                    speciificContentLevelThree: { connect: { id: $contentLevel3 } }
-                    speciificContentLevelFour: { connect: { id: $contentLevel4 } }
-                  }
-                }
-              }
+              ${linc}
             }
             where: { id: $schoolID }
           ) {
@@ -151,7 +158,7 @@ export class SchoolService {
               id
               name
             }
-            speciificContentLevels{
+            licensedContent{
               id
               speciificContentLevelOne{
                 id
@@ -197,7 +204,7 @@ export class SchoolService {
   				level3: config.level3,
   				schoolID: config.schoolID,
   				GeoAreaID: config.GeoAreaID,
-          cityID: config.cityID,
+          cityName: config.cityName,
           contentLevel1:config.contentLevel1,
           contentLevel2:config.contentLevel2,
           contentLevel3:config.contentLevel3,
@@ -208,11 +215,17 @@ export class SchoolService {
         query = `{
           schools{
             id,
+            name,
             address,
             speciificArea{
-              speciificGeaoArea{
+              id
+              speciificGeaoArea {
+                id
                 name
-                cities
+              }
+              speciificCity {
+                id
+                name
               }
             }
             admin{
@@ -250,7 +263,7 @@ export class SchoolService {
             lowestStudyYear
             highestStudyYear
             motherComp
-            speciificContentLevels{
+            licensedContent{
               id,
               speciificContentLevelOne{
                 id
@@ -296,7 +309,7 @@ export class SchoolService {
           $level3: ID
           $GeoAreaID: ID
           $cityName: String!
-          $arrayOfSpeciificContent: [SpeciificContentLevelCreateInput!]
+          $arrayOfSpeciificContent: [LicensedContentCreateInput!]
         ) {
           createSchool(
             data: {
@@ -324,7 +337,7 @@ export class SchoolService {
                   speciificCity: { create: { name: $cityName } }
                 }
               }
-              speciificContentLevels: { create: $arrayOfSpeciificContent }
+              licensedContent: { create: $arrayOfSpeciificContent }
             }
           ) {
             id

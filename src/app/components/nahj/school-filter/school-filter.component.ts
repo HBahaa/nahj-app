@@ -50,80 +50,60 @@ export class SchoolFilterComponent implements OnInit {
 	}
 
 	///   get data functions
-	getAllLevels(name1, name2) {
+	getAllLevels(id1, id2) {
 		this.elevelsOne.service({
 			method: 'GET',
 			url: this.url
 		}).subscribe(data => {
+			console.log("data", data);
 			this.level1 = data['data'].levelOnes.map((level1, index1)=>{
-				if (!name1 && index1 == 0) {
-					this.selectedLevel1 = level1.name;
-					this.schoolService.service({
-						method: 'GET',
-						url: this.url
-					}).subscribe(schools =>{
-						this.result = []
-						schools['data'].schools.map(data=> {
-							if(data.levels.name == level1.name){
-								this.result.push(data);
-							}
-						})
-					});
-					this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
+				if (!id1 && index1 == 0) {
+					this.selectedLevel1 = level1.id;
+					this.getSchool(level1.id)
+					this.level2 = level1['LevelTwo'].filter(n => n.id != "" ).map((level2, index2)=> {
 						if (index2 == 0) {
-							this.selectedLevel2 = level2['name'];
+							this.selectedLevel2 = level2['id'];
 							if (level2['levelThree']) {
-								this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
+								this.level3 = level2['levelThree'].filter(n => n.id != "" ).map((level3, index3)=> {
 									if(index3 == 0){
-										this.selectedLevel3 = level3['name']
+										this.selectedLevel3 = level3['id']
 									}
-									return level3.name;
+									return level3;
 								});
 							}
 						}
-						return level2.name
+						return level2;
 					});
-				}else if (name1 == level1.name) {
-					this.schoolService.service({
-						method: 'GET',
-						url: this.url
-					}).subscribe(schools =>{
-						this.result = []
-						schools['data'].schools.map(data=> {
-							if(data.levels.name == level1.name){								
-								this.result.push(data);
-							}
-						})
-					});
-					this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
-						if (!name2 && index2 == 0) {
-							this.selectedLevel2 = level2['name'];
+				}else if (id1 == level1.id) {
+					this.getSchool(level1.id)
+					this.level2 = level1['LevelTwo'].filter(n => n.id != "" ).map((level2, index2)=> {
+						if (!id2 && index2 == 0) {
+							this.selectedLevel2 = level2['id'];
 							if (level2['levelThree']) {
-								this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
+								this.level3 = level2['levelThree'].filter(n => n.id != "" ).map((level3, index3)=> {
 									if(index3 == 0){
-										this.selectedLevel3 = level3['name']
+										this.selectedLevel3 = level3['id']
 									}
-									return level3.name;
+									return level3;
 								});
 							}
-						}else if (name2 == level2.name) {
-							this.selectedLevel2 = level2['name'];
+						}else if (id2 == level2.id) {
+							this.selectedLevel2 = level2['id'];
+							this.getSchool(level1.id)
 							if (level2['levelThree']) {
-								this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
+								this.level3 = level2['levelThree'].filter(n => n.id != "" ).map((level3, index3)=> {
 									if(index3 == 0){
-										this.selectedLevel3 = level3['name']
+										this.selectedLevel3 = level3['id']
 									}
-									return level3.name;
+									return level3;
 								});
 							}
 						}
-						return level2.name;
+						return level2;
 					});
 				}
-				return level1.name;
-
+				return level1;
 			});
-			
 		});
 	}
 
@@ -131,10 +111,13 @@ export class SchoolFilterComponent implements OnInit {
 		switch($event.level){
 			case "level1":
 				this.selectedLevel1 = $event.value;
+				console.log("selectedlevel1", this.selectedLevel1)
 				this.getAllLevels($event.value, undefined);
 			break;
 			case "level2":
 				this.selectedLevel2 = $event.value;
+				console.log("selectedlevel1", this.selectedLevel1);
+				console.log("selectedlevel2", this.selectedLevel2);
 				this.getAllLevels(this.selectedLevel1, this.selectedLevel2);
 			break;
 		}
@@ -148,10 +131,30 @@ export class SchoolFilterComponent implements OnInit {
 	    this.selectedItem = item;
 		this.itemDetails.emit(item);
 	}
+	getSchool(name){
+		this.schoolService.service({
+			method: 'GET',
+			url: this.url
+		}).subscribe(schools =>{
+			this.result = []
+			schools['data'].schools.map(data=> {
+				if(data.levels.id == name){
+					this.result.push(data);
+				}
+			})
+		});
+	}
 
 	handleChange(level, e){
-		this.level2 = []
-		this.level3 = []
+		switch (level) {
+			case "level1":
+				this.level2 = []
+				this.level3 = []
+				break;
+			case "level2":
+				this.level3 = []
+				break;
+		}
 		this.getLevelData({'level': level, 'value': e.target.value })
 	}
 	addClicked(){

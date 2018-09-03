@@ -2,18 +2,18 @@
 	<img src="{{img}}" class="card-img" />
 	<div class="card-body" [ngClass]="img ? '' : 'mt-5'">
 		<div class="form-group">
-			<select (change)="handleChange('level1', $event)" class="form-control">
-				<option *ngFor="let item of level1; index as i" value="{{item}}">{{item}}</option>
+			<select (change)="handleChange('level1', $event)" class="form-control" [(ngModel)]="selectedLevel1">
+				<option *ngFor="let item of level1; index as i" value="{{item.id}}">{{item.name}}</option>
 			</select>
 		</div>
 		<div class="form-group">
-			<select (change)="handleChange('level2', $event)" class="form-control">
-				<option *ngFor="let item of level2; index as i" value="{{item}}">{{item}}</option>
+			<select (change)="handleChange('level2', $event)" class="form-control" [(ngModel)]="selectedLevel2">
+				<option *ngFor="let item of level2; index as i" value="{{item.id}}">{{item.name}}</option>
 			</select>
 		</div>
 		<div class="form-group">
-		 	<select (change)="handleChange('level3', $event)" class="form-control">
-				<option *ngFor="let item of level3; index as i" value="{{item}}">{{item}}</option>
+		 	<select (change)="handleChange('level3', $event)" class="form-control" [(ngModel)]="selectedLevel3">
+				<option *ngFor="let item of level3; index as i" value="{{item.id}}">{{item.name}}</option>
 			</select>
 		</div>
 		<div>
