@@ -133,11 +133,23 @@ export class SchoolFilterComponent implements OnInit {
 			method: 'GET',
 			url: this.url
 		}).subscribe(schools =>{
-			this.result = []
+			if (levelName == 'level1') {
+				this.result = []
+			}
+			
 			schools['data'].schools.map(data=> {
-				if(data.levels.id == id){
-					this.result.push(data);
+				if (levelName == 'level1') {
+					if(data.levels.id == id){
+						this.result.push(data);
+					}
 				}
+				if (levelName == 'level2') {
+					this.result = this.result.filter(item=> item.levelTwo.id == id)
+				}
+				if (levelName == 'level3') {
+					this.result = this.result.filter(item=> item.levelThree.id == id)
+				}
+				
 			})
 		});
 	}
