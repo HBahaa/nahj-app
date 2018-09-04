@@ -6,7 +6,6 @@ import { ELevelsOneService } from '../../../services/elevels/elevelsOne.service'
 import { GeoService } from '../../../services/geo/geo.service';
 import { SchoolService } from '../../../services/school/school.service';
 import { EcontentOneService } from '../../../services/econtent/econtent-one.service';
-import { connect } from 'http2';
 
 
 @Component({
@@ -204,15 +203,15 @@ export class DataComponent implements OnInit {
 		};
 	}
 
-	getGeoCityData(name){//get geoDataCity
+	getGeoCityData(id){//get geoDataCity
 		this.geoService.service({
 			method: "GET",
 			url: this.url
 		}).subscribe((data: any) => {
 			this.geoArray = data.data.geoAreas.map((item, index) => {
-				if(!name && index == 0){
+				if(!id && index == 0){
 					this.citiesArray = item["cities"];
-				}else if(item.name == name){
+				}else if(item.id == id){
 					this.citiesArray =  item["cities"]
 				}
 				return item;
@@ -474,7 +473,7 @@ export class DataComponent implements OnInit {
 		});
 	}
 
-	addSchool(conf =false,state = 0){
+	addSchool(conf,state = 0){
 		
 		let config = conf || this.form.value;
 		console.log("this.speciificContent", this.speciificContent)

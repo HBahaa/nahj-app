@@ -63,10 +63,12 @@ export class SchoolFilterComponent implements OnInit {
 					this.level2 = level1['LevelTwo'].filter(n => n.id != "" ).map((level2, index2)=> {
 						if (index2 == 0) {
 							this.selectedLevel2 = level2['id'];
+							this.getSchool('level2', level2.id)
 							if (level2['levelThree']) {
 								this.level3 = level2['levelThree'].filter(n => n.id != "" ).map((level3, index3)=> {
 									if(index3 == 0){
 										this.selectedLevel3 = level3['id']
+										this.getSchool('level3', level3.id)
 									}
 									return level3;
 								});
@@ -79,21 +81,24 @@ export class SchoolFilterComponent implements OnInit {
 					this.level2 = level1['LevelTwo'].filter(n => n.id != "" ).map((level2, index2)=> {
 						if (!id2 && index2 == 0) {
 							this.selectedLevel2 = level2['id'];
+							this.getSchool('level2', level2.id)
 							if (level2['levelThree']) {
 								this.level3 = level2['levelThree'].filter(n => n.id != "" ).map((level3, index3)=> {
 									if(index3 == 0){
 										this.selectedLevel3 = level3['id']
+										this.getSchool('level3', level3.id)
 									}
 									return level3;
 								});
 							}
 						}else if (id2 == level2.id) {
 							this.selectedLevel2 = level2['id'];
-							this.getSchool('level1' ,level1.id)
+							this.getSchool('level2' ,level2.id)
 							if (level2['levelThree']) {
 								this.level3 = level2['levelThree'].filter(n => n.id != "" ).map((level3, index3)=> {
 									if(index3 == 0){
 										this.selectedLevel3 = level3['id']
+										this.getSchool('level3', level3.id)
 									}
 									return level3;
 								});
