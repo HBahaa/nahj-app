@@ -21,7 +21,7 @@ export class SchoolService {
     if (config.contentLevel2) l2Content = `speciificContentLevelTwo: { connect: { id: $contentLevel2 } }`
     if (config.contentLevel3) l3Content = `speciificContentLevelThree: { connect: { id: $contentLevel3 } }`
     if (config.contentLevel4) l4Content = `speciificContentLevelFour: { connect: { id: $contentLevel4 } }`
-    if(config.contentID) linc = ` licensedContent: {
+    if (config.contentID) linc = ` licensedContent: {
          update: {
            where: { id: $contentID }
            data: {
@@ -60,15 +60,16 @@ export class SchoolService {
           $level3: ID
           $GeoAreaID: ID!
           $cityName: String!
-          $contentLevel1: ID
-          $contentLevel2: ID
-          $contentLevel3: ID
-          $contentLevel4: ID
+          ${config.contentID ? '$contentID:ID' : ""}
+          ${config.contentLevel1 ? '$contentLevel1:ID' : ''}
+          ${config.contentLevel2 ? '$contentLevel2:ID' : ''}
+          ${config.contentLevel3 ? '$contentLevel3:ID' : ''}
+          ${config.contentLevel4 ? '$contentLevel4:ID' : ''}
         ) {
           updateSchool(
             data: {
               admin: {
-                update: [
+                update: [ 
                   { where: { id: $adminId }, data: $admin }
                   { where: { id: $adminResID }, data: $adminRes }
                 ]
@@ -209,11 +210,15 @@ export class SchoolService {
           schoolID: config.schoolID,
           GeoAreaID: config.GeoAreaID,
           cityName: config.cityName,
-          contentLevel1:config.contentLevel1,
-          contentLevel2:config.contentLevel2,
-          contentLevel3:config.contentLevel3,
-          contentLevel4:config.contentLevel4
+
         }
+
+        if (config.contentID) variable['contentID'] = config.contentID
+        if (config.contentLevel1) variable['contentLevel1'] = config.contentLevel1
+        if (config.contentLevel2) variable['contentLevel2'] = config.contentLevel2
+        if (config.contentLevel3) variable['contentLevel3'] = config.contentLevel3
+        if (config.contentLevel4) variable['contentLevel4'] = config.contentLevel4
+
         break;
       case "GET": //read
         query = `{
