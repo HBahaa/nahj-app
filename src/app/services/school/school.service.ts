@@ -13,19 +13,6 @@ export class SchoolService {
     let variable: object = {};
     let linc = "";
 
-    // if
-
-    // licensedContent: {
-    //   update: {
-    //     where: { id: $contentID }
-    //     data: {
-    //       speciificContentLevelOne: { connect: { id: $contentLevel1 } }
-    //       speciificContentLevelTwo: { connect: { id: $contentLevel2 } }
-    //       speciificContentLevelThree: { connect: { id: $contentLevel3 } }
-    //       speciificContentLevelFour: { connect: { id: $contentLevel4 } }
-    //     }
-    //   }
-    // }
 
     switch(config.method){
       case "POST" : //update
@@ -92,7 +79,6 @@ export class SchoolService {
                   speciificCity: { create: { name: $cityName } }
                 }
               }
-              ${linc}
             }
             where: { id: $schoolID }
           ) {
