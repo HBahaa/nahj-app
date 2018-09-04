@@ -6,6 +6,7 @@ import { ELevelsOneService } from '../../../services/elevels/elevelsOne.service'
 import { GeoService } from '../../../services/geo/geo.service';
 import { SchoolService } from '../../../services/school/school.service';
 import { EcontentOneService } from '../../../services/econtent/econtent-one.service';
+import { connect } from 'http2';
 
 
 @Component({
@@ -197,7 +198,7 @@ export class DataComponent implements OnInit {
 					}
 				}
 			}
-			console.log(JSON.stringify(obj);
+			console.log(JSON.stringify(obj));
 			this.speciificContent.push(obj)
 			alert("added successfully")
 		};
@@ -473,8 +474,9 @@ export class DataComponent implements OnInit {
 		});
 	}
 
-	addSchool(){
-		let config = this.form.value;
+	addSchool(conf =false,state = 0){
+		
+		let config = conf || this.form.value;
 		console.log("this.speciificContent", this.speciificContent)
 		this.schoolService.service({
 			method: 'PUT',
@@ -519,8 +521,9 @@ export class DataComponent implements OnInit {
 			level3: config.level3,
 			GeoAreaName: config.geo,
 			cityName: config.city,
-			arrayOfSpeciificContent: this.speciificContent.length > 0 ? this.speciificContent : ""
+			arrayOfSpeciificContent: state ? conf.licensedContent  : (this.speciificContent.length > 0 ? this.speciificContent : "")
 		}).subscribe(data => {
+			console.log("add", data)
 			this.form = this.fb.group({
 				schoolName: [''],
 				motherComp: [''],
@@ -567,70 +570,117 @@ export class DataComponent implements OnInit {
 		this.updateChildData = false;
 	}
 	editSchool($event){
-		console.log("edit", $event)
+		console.log("edit", $event, "new data: ",this.form.value )
 		let config = this.form.value;
+		let arr = [];
+		if (config.licensedContent ) {
+			
+			for(let item of config.licensedContent){
+				let obj = {}
+				if(item.speciificContentLevelOne   )  obj['speciificContentLevelOne']={connect:{id:item.speciificContentLevelOne.id}}
+				if(item.speciificContentLevelTwo   )  obj['speciificContentLevelTwo']={connect:{id:item.speciificContentLevelTwo.id}}
+				if(item.speciificContentLevelThree )  obj['speciificContentLevelThree']={connect:{id:item.speciificContentLevelThree.id}}
+				if(item.speciificContentLevelFour  )  obj['speciificContentLevelFour']={connect:{id:item.speciificContentLevelFour.id}}
+				arr.push(obj);
+			}
+		}
+		else{
+			for(let item of $event.licensedContent){
+				let obj = {}
+				if(item.speciificContentLevelOne   )  obj['speciificContentLevelOne']={connect:{id:item.speciificContentLevelOne.id}}
+				if(item.speciificContentLevelTwo   )  obj['speciificContentLevelTwo']={connect:{id:item.speciificContentLevelTwo.id}}
+				if(item.speciificContentLevelThree )  obj['speciificContentLevelThree']={connect:{id:item.speciificContentLevelThree.id}}
+				if(item.speciificContentLevelFour  )  obj['speciificContentLevelFour']={connect:{id:item.speciificContentLevelFour.id}}
+				arr.push(obj);
+			}
+			
+		}
+		config.licensedContent = arr
+
+		
+
 		console.log("config", config)
+
+
 		this.schoolService.service({
 			method: "GET",
 			url: this.url
 		}).subscribe(schools =>{
 			schools["data"].schools.map(school=>{
-				let adminId = $event.admin.filter(admin => admin.type == 'admin')[0].id;
-				let resId = $event.admin.filter(admin => admin.type == 'res')[0].id;
-				if(school.id == $event.id){
+				if (school.id == $event.id) {
+					this.addSchool(config,1)
 					this.schoolService.service({
-						method: "POST",
+						method: "DELETE",
 						url: this.url,
-						schoolID: $event.id,
-						email:config.email,
-						address:config.address,
-						admin:{
-							name: config.nahjAdminName,
-							phone: config.nahjAdminPhone,
-							email: config.nahjAdminEmail,
-							job: config.nahjAdminJob,
-							whatsApp: config.nahjAdminWhatsApp,
-							type: 'admin',
-							password: config.nahjAdminPassword,
-							username: config.nahjAdminUsername
-						},
-						adminRes:{
-							name: config.adminName,
-							phone: config.adminPhone,
-							email: config.adminEmail,
-							job: config.adminJob,
-							whatsApp: config.adminWhatsApp,
-							type: 'res',
-							password: config.adminPassword,
-							username: config.adminUsername
-						},
-						gps:config.gps,
-						phone:config.phone,
-						fax:config.fax,
-						district:config.district,
-						adminNum:parseInt(config.adminsNum),
-						studentsNum:parseInt(config.studentsNum),
-						classesNum:parseInt(config.classesNum),
-						teachersNum:parseInt(config.teachersNum),
-						StudyYears:config.studyYears,
-						lowestStudyYear:config.lowestStudyYear,
-						highestStudyYear:config.highestStudyYear,
-						name:config.schoolName,
-						motherComp:config.motherComp,
-						level1: $event.levels.id,
-						level2: $event.levelTwo.id,
-						level3: $event.levelThree.id,
-						GeoAreaID: config.geo,
-						cityName: config.city,
-						adminId: adminId,
-          				adminResID: resId
+						id: $event.id
 					}) .subscribe(resp=>{
-						console.log("edit", resp)
-						this.updateChildData = true;
-					})
+						console.log("deleted", resp);
+						
+					});
 				}
 			})
 		})
+		// this.schoolService.service({
+		// 	method: "GET",
+		// 	url: this.url
+		// }).subscribe(schools =>{
+		// 	schools["data"].schools.map(school=>{
+		// 		let adminId = $event.admin.filter(admin => admin.type == 'admin')[0].id;
+		// 		let resId = $event.admin.filter(admin => admin.type == 'res')[0].id;
+		// 		if(school.id == $event.id){
+		// 			this.schoolService.service({
+		// 				method: "POST",
+		// 				url: this.url,
+		// 				schoolID: $event.id,
+		// 				email:config.email,
+		// 				address:config.address,
+		// 				admin:{
+		// 					name: config.nahjAdminName,
+		// 					phone: config.nahjAdminPhone,
+		// 					email: config.nahjAdminEmail,
+		// 					job: config.nahjAdminJob,
+		// 					whatsApp: config.nahjAdminWhatsApp,
+		// 					type: 'admin',
+		// 					password: config.nahjAdminPassword,
+		// 					username: config.nahjAdminUsername
+		// 				},
+		// 				adminRes:{
+		// 					name: config.adminName,
+		// 					phone: config.adminPhone,
+		// 					email: config.adminEmail,
+		// 					job: config.adminJob,
+		// 					whatsApp: config.adminWhatsApp,
+		// 					type: 'res',
+		// 					password: config.adminPassword,
+		// 					username: config.adminUsername
+		// 				},
+		// 				gps:config.gps,
+		// 				phone:config.phone,
+		// 				fax:config.fax,
+		// 				district:config.district,
+		// 				adminNum:parseInt(config.adminsNum),
+		// 				studentsNum:parseInt(config.studentsNum),
+		// 				classesNum:parseInt(config.classesNum),
+		// 				teachersNum:parseInt(config.teachersNum),
+		// 				StudyYears:config.studyYears,
+		// 				lowestStudyYear:config.lowestStudyYear,
+		// 				highestStudyYear:config.highestStudyYear,
+		// 				name:config.schoolName,
+		// 				motherComp:config.motherComp,
+		// 				level1: $event.levels.id,
+		// 				level2: $event.levelTwo.id,
+		// 				level3: $event.levelThree.id,
+		// 				GeoAreaID: config.geo,
+		// 				cityName: config.city,
+		// 				adminId: adminId,
+        //   				adminResID: resId
+		// 			}) .subscribe(resp=>{
+		// 				console.log("edit", resp)
+		// 				this.updateChildData = true;
+		// 			})
+		// 		}
+		// 	})
+		// })
 		this.updateChildData = false;
 	}
 	deleteSchool($event){

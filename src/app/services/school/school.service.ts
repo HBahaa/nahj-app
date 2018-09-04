@@ -423,8 +423,12 @@ export class SchoolService {
           level3: config.level3,
           GeoAreaID: config.GeoAreaName,
           cityName: config.cityName,
-          arrayOfSpeciificContent: config.arrayOfSpeciificContent
+          arrayOfSpeciificContent: config.arrayOfSpeciificContent 
         }
+
+        if(variable['arrayOfSpeciificContent'] == "")
+        delete variable['arrayOfSpeciificContent']
+
 
         break;
       case "DELETE": //delete
