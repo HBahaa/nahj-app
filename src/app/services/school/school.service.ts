@@ -11,24 +11,30 @@ export class SchoolService {
     console.log(config.arrayOfSpeciificContent)
     let query: string = "";
     let variable: object = {};
-    let linc = "";
+    let linc = undefined;
+    let l1Content = "";
+    let l2Content = "";
+    let l3Content = "";
+    let l4Content = "";
 
-    // if
+    if (config.contentLevel1) l1Content = `speciificContentLevelOne: { connect: { id: $contentLevel1 } }`
+    if (config.contentLevel2) l2Content = `speciificContentLevelTwo: { connect: { id: $contentLevel2 } }`
+    if (config.contentLevel3) l3Content = `speciificContentLevelThree: { connect: { id: $contentLevel3 } }`
+    if (config.contentLevel4) l4Content = `speciificContentLevelFour: { connect: { id: $contentLevel4 } }`
+    if(config.contentID) linc = ` licensedContent: {
+         update: {
+           where: { id: $contentID }
+           data: {
+            ${l1Content}
+            ${l2Content}
+            ${l3Content}
+            ${l4Content}            
+           }
+         }
+       }`
 
-    // licensedContent: {
-    //   update: {
-    //     where: { id: $contentID }
-    //     data: {
-    //       speciificContentLevelOne: { connect: { id: $contentLevel1 } }
-    //       speciificContentLevelTwo: { connect: { id: $contentLevel2 } }
-    //       speciificContentLevelThree: { connect: { id: $contentLevel3 } }
-    //       speciificContentLevelFour: { connect: { id: $contentLevel4 } }
-    //     }
-    //   }
-    // }
-
-    switch(config.method){
-      case "POST" : //update
+    switch (config.method) {
+      case "POST": //update
         query = `mutation(
           $schoolID: ID
           $admin: NahjAdminUpdateDataInput!
@@ -54,12 +60,10 @@ export class SchoolService {
           $level3: ID
           $GeoAreaID: ID!
           $cityName: String!
-          $contentLevel1:ID,
-          $contentLevel2:ID,
-          $contentLevel3:ID,
-          $contentLevel4:ID,
-          $contentID:ID
-          
+          $contentLevel1: ID
+          $contentLevel2: ID
+          $contentLevel3: ID
+          $contentLevel4: ID
         ) {
           updateSchool(
             data: {
@@ -179,38 +183,38 @@ export class SchoolService {
             }
           }
         }        
-        `  
+        `
         variable = {
-          address:config.address,
-          adminRes:config.adminRes,
-          admin:config.admin,
-          gps:config.gps,
-          phone:config.gps,
-          fax:config.fax,
-          district:config.district,
-          adminNum:config.adminNum,
-          studentsNum:config.studentsNum,
-          teachersNum:config.teachersNum,
-          classesNum:config.classesNum,
-          StudyYears:config.StudyYears,
-          lowestStudyYear:config.lowestStudyYear,
-          highestStudyYear:config.highestStudyYear,
-          name:config.name,
-          motherComp:config.motherComp,
-          level1:config.level1,
+          address: config.address,
+          adminRes: config.adminRes,
+          admin: config.admin,
+          gps: config.gps,
+          phone: config.gps,
+          fax: config.fax,
+          district: config.district,
+          adminNum: config.adminNum,
+          studentsNum: config.studentsNum,
+          teachersNum: config.teachersNum,
+          classesNum: config.classesNum,
+          StudyYears: config.StudyYears,
+          lowestStudyYear: config.lowestStudyYear,
+          highestStudyYear: config.highestStudyYear,
+          name: config.name,
+          motherComp: config.motherComp,
+          level1: config.level1,
           adminId: config.adminId,
           adminResID: config.adminResID,
-					level2: config.level2,
-  				level3: config.level3,
-  				schoolID: config.schoolID,
-  				GeoAreaID: config.GeoAreaID,
+          level2: config.level2,
+          level3: config.level3,
+          schoolID: config.schoolID,
+          GeoAreaID: config.GeoAreaID,
           cityName: config.cityName,
           contentLevel1:config.contentLevel1,
           contentLevel2:config.contentLevel2,
           contentLevel3:config.contentLevel3,
           contentLevel4:config.contentLevel4
-        }       
-      break;  
+        }
+        break;
       case "GET": //read
         query = `{
           schools{
@@ -285,7 +289,7 @@ export class SchoolService {
           }
         }
         `;
-      break;
+        break;
       case "PUT"://create
         query = `mutation(
           $admin: NahjAdminCreateInput!
@@ -393,31 +397,31 @@ export class SchoolService {
         }
         `
         variable = {
-          address:config.address,
-          adminRes:config.adminRes,
-          admin:config.admin,
-          gps:config.gps,
-          phone:config.gps,
-          fax:config.fax,
-          district:config.district,
-          adminNum:config.adminNum,
-          studentsNum:config.studentsNum,
-          teachersNum:config.teachersNum,
-          classesNum:config.classesNum,
-          StudyYears:config.StudyYears,
-          lowestStudyYear:config.lowestStudyYear,
-          highestStudyYear:config.highestStudyYear,
-          name:config.name,
-          motherComp:config.motherComp,
-          level1:config.level1,
-					level2: config.level2,
-  				level3: config.level3,
-  				GeoAreaID: config.GeoAreaName,
+          address: config.address,
+          adminRes: config.adminRes,
+          admin: config.admin,
+          gps: config.gps,
+          phone: config.gps,
+          fax: config.fax,
+          district: config.district,
+          adminNum: config.adminNum,
+          studentsNum: config.studentsNum,
+          teachersNum: config.teachersNum,
+          classesNum: config.classesNum,
+          StudyYears: config.StudyYears,
+          lowestStudyYear: config.lowestStudyYear,
+          highestStudyYear: config.highestStudyYear,
+          name: config.name,
+          motherComp: config.motherComp,
+          level1: config.level1,
+          level2: config.level2,
+          level3: config.level3,
+          GeoAreaID: config.GeoAreaName,
           cityName: config.cityName,
-          arrayOfSpeciificContent:config.arrayOfSpeciificContent
+          arrayOfSpeciificContent: config.arrayOfSpeciificContent
         }
 
-      break;
+        break;
       case "DELETE": //delete
         query = `mutation($id: ID!) {
           deleteSchool(where: { id: $id }) {
@@ -426,16 +430,16 @@ export class SchoolService {
           }
         }`
         variable = {
-          id:config.id
+          id: config.id
         }
-      break;
-      
-}
+        break;
+
+    }
     return this
       .http
       .post(`${config.url}`, {
-          "query": query,
-          "variables": variable
+        "query": query,
+        "variables": variable
       });
   }
 }
