@@ -8,7 +8,6 @@ export class SchoolService {
 
   constructor(private http: HttpClient) { }
   service(config) { ////method,url,id,adminId,address,admin,gps,phone,fa,district,adminNum,studentsNum,classesNum ... , admin[Object of admin data check schema] 
-    console.log(config.arrayOfSpeciificContent)
     let query: string = "";
     let variable: object = {};
     let linc = undefined;

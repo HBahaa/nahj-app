@@ -33,6 +33,7 @@ export class DataComponent implements OnInit {
 	selectedContent2;
 	selectedContent3;
 	selectedContent4;
+	selectedSchool;
 	geoArray;
 	citiesArray;
 	selectedGeo;
@@ -166,7 +167,6 @@ export class DataComponent implements OnInit {
 	}
 
 	saveLContent(){
-		console.log("content1", this.form);
 		if (this.form.value.content1) {
 			let obj  = {}
 			if(this.form.value.content1){
@@ -196,8 +196,7 @@ export class DataComponent implements OnInit {
 						id:this.form.value.content4
 					}
 				}
-			}
-			console.log(JSON.stringify(obj));
+			}	
 			this.speciificContent.push(obj)
 			alert("added successfully")
 		};
@@ -382,7 +381,7 @@ export class DataComponent implements OnInit {
 	}
 
 	getItemDetails($event){
-		console.log("clicked", $event)
+		this.selectedSchool= $event;
 		$event.admin.filter(admin => admin.type == 'res').map(res => {
 			let adminRes = res;
 			$event.admin.filter(admin => admin.type == 'admin').map(admin=>{
@@ -390,7 +389,6 @@ export class DataComponent implements OnInit {
 				let l2 = $event['levelTwo'].id
 				let l3 = $event['levelThree'].id;
 				this.speciificContent = $event.licensedContent;
-				console.log("speciificContent", this.speciificContent)
 				this.form = this.fb.group({
 					schoolName: [$event.name],
 					motherComp: [$event.motherComp],
@@ -425,7 +423,11 @@ export class DataComponent implements OnInit {
 					nahjAdminJob: [nahjAdmin.job],
 					nahjAdminWhatsApp: [nahjAdmin.whatsApp],
 					nahjAdminUsername: [nahjAdmin.username],
-					nahjAdminPassword: [nahjAdmin.password]
+					nahjAdminPassword: [nahjAdmin.password],
+					content1: '',
+					content2: '',
+					content3: '',
+					content4: ''
 				});
 			})
 		})	
@@ -474,9 +476,7 @@ export class DataComponent implements OnInit {
 	}
 
 	addSchool(conf,state = 0){
-		
 		let config = conf || this.form.value;
-		console.log("this.speciificContent", this.speciificContent)
 		this.schoolService.service({
 			method: 'PUT',
 			url: this.url,
@@ -522,7 +522,6 @@ export class DataComponent implements OnInit {
 			cityName: config.city,
 			arrayOfSpeciificContent: state ? conf.licensedContent  : (this.speciificContent.length > 0 ? this.speciificContent : "")
 		}).subscribe(data => {
-			console.log("add", data)
 			this.form = this.fb.group({
 				schoolName: [''],
 				motherComp: [''],
@@ -569,37 +568,38 @@ export class DataComponent implements OnInit {
 		this.updateChildData = false;
 	}
 	editSchool($event){
-		console.log("edit", $event, "new data: ",this.form.value )
 		let config = this.form.value;
 		let arr = [];
 		if (config.licensedContent ) {
-			
 			for(let item of config.licensedContent){
 				let obj = {}
-				if(item.speciificContentLevelOne   )  obj['speciificContentLevelOne']={connect:{id:item.speciificContentLevelOne.id}}
-				if(item.speciificContentLevelTwo   )  obj['speciificContentLevelTwo']={connect:{id:item.speciificContentLevelTwo.id}}
-				if(item.speciificContentLevelThree )  obj['speciificContentLevelThree']={connect:{id:item.speciificContentLevelThree.id}}
-				if(item.speciificContentLevelFour  )  obj['speciificContentLevelFour']={connect:{id:item.speciificContentLevelFour.id}}
+				if(item.speciificContentLevelOne   )  
+					obj['speciificContentLevelOne']={connect:{id:item.speciificContentLevelOne.id}}
+				if(item.speciificContentLevelTwo   )  
+					obj['speciificContentLevelTwo']={connect:{id:item.speciificContentLevelTwo.id}}
+				if(item.speciificContentLevelThree )  
+					obj['speciificContentLevelThree']={connect:{id:item.speciificContentLevelThree.id}}
+				if(item.speciificContentLevelFour  )  
+					obj['speciificContentLevelFour']={connect:{id:item.speciificContentLevelFour.id}}
 				arr.push(obj);
 			}
 		}
 		else{
 			for(let item of $event.licensedContent){
 				let obj = {}
-				if(item.speciificContentLevelOne   )  obj['speciificContentLevelOne']={connect:{id:item.speciificContentLevelOne.id}}
-				if(item.speciificContentLevelTwo   )  obj['speciificContentLevelTwo']={connect:{id:item.speciificContentLevelTwo.id}}
-				if(item.speciificContentLevelThree )  obj['speciificContentLevelThree']={connect:{id:item.speciificContentLevelThree.id}}
-				if(item.speciificContentLevelFour  )  obj['speciificContentLevelFour']={connect:{id:item.speciificContentLevelFour.id}}
+				if(item.speciificContentLevelOne   )  
+					obj['speciificContentLevelOne']= item.speciificContentLevelOne.connect? item.speciificContentLevelOne : {connect:{id:item.speciificContentLevelOne.id}}
+				if(item.speciificContentLevelTwo   )  
+					obj['speciificContentLevelTwo']=item.speciificContentLevelTwo.connect? item.speciificContentLevelTwo : {connect:{id:item.speciificContentLevelTwo.id}}
+				if(item.speciificContentLevelThree )  
+					obj['speciificContentLevelThree']=item.speciificContentLevelThree.connect? item.speciificContentLevelThree : {connect:{id:item.speciificContentLevelThree.id}}
+				if(item.speciificContentLevelFour  )  
+					obj['speciificContentLevelFour']=item.speciificContentLevelFour.connect? item.speciificContentLevelFour : {connect:{id:item.speciificContentLevelFour.id}}
 				arr.push(obj);
 			}
 			
 		}
-		config.licensedContent = arr
-
-		
-
-		console.log("config", config)
-
+		config.licensedContent = arr;
 
 		this.schoolService.service({
 			method: "GET",
@@ -614,11 +614,11 @@ export class DataComponent implements OnInit {
 						id: $event.id
 					}) .subscribe(resp=>{
 						console.log("deleted", resp);
-						
 					});
 				}
 			})
-		})
+		});
+
 		// this.schoolService.service({
 		// 	method: "GET",
 		// 	url: this.url
@@ -736,6 +736,22 @@ export class DataComponent implements OnInit {
 			})
 		})
 		this.updateChildData = false;
+	}
+
+	deleteContent($event){
+		var index = $event.target.id;
+		const dialogRef = this.dialog.open(DialogComponent, {
+			width: '500px'
+		  });
+		  dialogRef.afterClosed().subscribe(result => {
+			  if(result){
+				  this.speciificContent.splice(index, 1);
+				  this.selectedSchool.licensedContent = this.speciificContent
+				  this.editSchool(this.selectedSchool)
+			  }else{
+				  console.log("thanks")
+			  }
+		  });
 	}
 
 }

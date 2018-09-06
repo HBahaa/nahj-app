@@ -172,8 +172,8 @@
               <div class="form-group">
                 <h5>المحتوي المرخص</h5>
                 <div class="content-list" style="min-height: 120px;max-height: 120px;">
-                  <ul *ngFor="let content of speciificContent">
-                  <li>  {{ content && content.speciificContentLevelOne ? content.speciificContentLevelOne.name : "" }} 
+                  <ul *ngFor="let content of speciificContent; let i = index">
+                  <li id="{{i}}" (click)="deleteContent($event)">  {{ content && content.speciificContentLevelOne ? content.speciificContentLevelOne.name : "" }} 
                     <ul *ngIf="content && content.speciificContentLevelTwo">
                       <li>
                           {{ content && content.speciificContentLevelTwo ? content.speciificContentLevelTwo.name : "" }}
