@@ -44,7 +44,7 @@ export class studyLevelsThree {
             break;
             case "DELETE" : //Delete
                   query=`mutation($levelThreeId: ID!) {
-                    deleteStudyLevelTwo(where: { id: $levelThreeId }) {
+                    deleteStudyLevelThree(where: { id: $levelThreeId }) {
                       id
                     }
                   }`

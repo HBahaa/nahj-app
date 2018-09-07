@@ -84,6 +84,9 @@ export class studyLevelsOne {
                     }
                   }
                   `
+                  variable = {
+                    schoolId:config.schoolId
+                  }
             break;
         }
 

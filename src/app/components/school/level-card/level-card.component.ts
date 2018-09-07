@@ -27,6 +27,14 @@ export class LevelCardComponent implements OnInit {
 	}
 
 	handleClick(event, componentType, item){
+		console.log("item item", item)
+		this.selectedItem = item;
+	    this.newValue = item.name;
+	    this.listItems.emit({componentType: this.componentType, value: item,newValue:null,eventType:"click"});
+	    this.show = true;
+	}
+
+	saveChanges(event, componentType, item){
 		this.saveButton.emit({
 			value: this.selectedItem,
 			newValue: this.newValue,
@@ -43,6 +51,7 @@ export class LevelCardComponent implements OnInit {
 
 	handleChanges(){
 		this.show = ! this.show;
+		this.edit = true;
 	}
 
 	addItem(){

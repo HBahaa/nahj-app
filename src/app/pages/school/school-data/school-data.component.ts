@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { GeoService } from '../../../services/geo/geo.service';
 import { updateSchool } from '../../../services/schoolAdmin/updateSchool';
+import { studyLevelsOne } from '../../../services/schoolAdmin/studyLevelsOne';
+import { studyLevelsTwo } from '../../../services/schoolAdmin/studyLevelsTwo';
+import { studyLevelsThree } from '../../../services/schoolAdmin/studyLevelsThree';
 
 @Component({
   selector: 'app-school-data',
@@ -22,13 +25,23 @@ export class SchoolDataComponent implements OnInit {
 	adminResID ;
 	adminNahjID ;
 	schoolID;
+	selectedStudyLevel1;
+	selectedStudyLevel2;
+	selectedStudyLevel3;
+
+	studyLevel1 =[];
+	studyLevel2 =[];
+	studyLevel3 =[];
 	
 	constructor( private fb: FormBuilder, private geoService: GeoService,
-				 private getMySchool: getMySchool, private updateSchool: updateSchool ) {}
+				 private getMySchool: getMySchool, private updateSchool: updateSchool,
+				private studyLevelsOne: studyLevelsOne, private studyLevelsTwo: studyLevelsTwo,
+				private studyLevelsThree: studyLevelsThree ) {}
 
 	ngOnInit() {
 		this.getMySchoolData();
-		this.getGeoData(undefined)
+		this.getGeoData(undefined);
+		
 		this.form = this.fb.group({
 	    	schoolName: [''],
 			motherComp: [''],
@@ -65,9 +78,23 @@ export class SchoolDataComponent implements OnInit {
 	    });
 	}
 
-	handleChanges(){
-		this.show = ! this.show;
-		this.edit = true;
+
+	//list functions
+
+	listStudyLevelOne($event){
+		this.selectedStudyLevel1 = $event.value;
+		this.studyLevel2 = $event.value.studyLevelTwo;
+		this.studyLevel3 = [];
+	}
+
+	listStudyLevelTwo($event){
+		this.selectedStudyLevel2 = $event.value;	
+		this.studyLevel3 = $event.value.studylevelThree;
+	}
+
+	listStudyLevelThree($event){
+		console.log("list 3", $event)
+		this.selectedStudyLevel3 = $event.value;
 	}
 
 	// get functions
@@ -79,6 +106,9 @@ export class SchoolDataComponent implements OnInit {
 			console.log("data", data)
 			this.mySchool = data['data'].schools[0]
 			this.schoolID = data['data'].schools[0].id;
+
+			this.getStudyLevelData(undefined); 
+
 			this.mySchool['admin'].filter(admin => admin.type == 'res').map(res => {
 				let adminRes = res;
 				this.adminResID = res.id
@@ -144,7 +174,130 @@ export class SchoolDataComponent implements OnInit {
 		this.selectedGeo = $event.target.value;
 	}
 
+	getLevelData($event){
+		switch($event.componentType){
+			case "level1":
+				this.selectedStudyLevel1 = $event.value;
+				this.studyLevel2 = [];
+				this.studyLevel3 = [];
+			//	this.getStudyLevelData($event.value, undefined);
+			break;
+			case "level2":
+				this.selectedStudyLevel2 = $event.value;
+				this.studyLevel3 = [];
+			//	this.getStudyLevelData(this.selectedStudyLevel1, this.selectedStudyLevel2);
+			break;
+		}
+	}
+
+	getStudyLevelData(name1){
+		this.studyLevelsOne.service({
+			method:"GET",
+			url: this.url,
+			schoolId: this.schoolID
+		}).subscribe(data=>{
+			this.studyLevel1 = data['data'].school.specificStudyLevels
+				.filter(item1 => item1.studyLevelOne != null)
+				.map((item1, index1) => {
+					if (!name1 && index1 == 0) {
+						this.studyLevel2 = item1.studyLevelTwo
+						return item1.studyLevelOne;
+					}else if (name1 == item1.name) {
+						this.studyLevel2 = item1.studyLevelTwo
+						return item1.studyLevelOne;
+					}
+					return item1.studyLevelOne;
+				});
+		})
+	}
+
 	//edit function
+	addStudyLevelOne($event){
+		console.log("add 1", $event)
+		switch ($event.eventType) {
+			case "add":
+				this.studyLevelsOne.service({
+					method:"PUT",
+					url: this.url,
+					schoolId: this.schoolID,
+					levelOneName: $event.newValue
+				}).subscribe(data=>{
+					this.getStudyLevelData(undefined);
+				})
+				break;
+			case 'update':
+				this.studyLevelsOne.service({
+					method:"POST",
+					url: this.url,
+					levelOneId: this.selectedStudyLevel1.id,
+					levelOneName: $event.newValue
+				}).subscribe(data=>{
+					console.log("update 3", data)
+					this.getStudyLevelData(this.selectedStudyLevel1.name);
+				})
+			break;
+			
+		}
+	}
+
+	addStudyLevelTwo($event){
+		console.log("add 2", $event)
+		console.log("selected 1", this.selectedStudyLevel1.id)
+		console.log("selected 2", this.selectedStudyLevel2)
+		switch ($event.eventType) {
+			case "add":
+				this.studyLevelsTwo.service({
+					method:"PUT",
+					url: this.url,
+					levelOneId: this.selectedStudyLevel1.id,
+					levelTwoName: $event.newValue
+				}).subscribe(data=>{
+					this.getStudyLevelData(this.selectedStudyLevel1.name);
+				})
+				break;
+			case 'update':
+				this.studyLevelsTwo.service({
+					method:"POST",
+					url: this.url,
+					levelTwoId: this.selectedStudyLevel2.id,
+					levelTwoName: $event.newValue
+				}).subscribe(data=>{
+					console.log("update 2", data)
+					this.getStudyLevelData(this.selectedStudyLevel1.name);
+				})
+			break;
+			
+		}
+	}
+
+	addStudyLevelThree($event){
+		console.log("add 3", $event)
+		console.log("seleced3", this.selectedStudyLevel3)
+		switch ($event.eventType) {
+			case "add":
+				this.studyLevelsThree.service({
+					method:"PUT",
+					url: this.url,
+					levelTwoId: this.selectedStudyLevel2.id,
+					levelThreeName: $event.newValue
+				}).subscribe(data=>{
+					this.getStudyLevelData(this.selectedStudyLevel1.name);
+				})
+			break;
+			case 'update':
+				this.studyLevelsThree.service({
+					method:"POST",
+					url: this.url,
+					levelThreeId: this.selectedStudyLevel3.id,
+					levelThreeName: $event.newValue
+				}).subscribe(data=>{
+					console.log("update 3", data)
+					this.getStudyLevelData(this.selectedStudyLevel1.name);
+				})
+			break;
+		}
+	}
+
 	updateSchoolData(){
 		let adminNahj = {
 			name: this.form.value.nahjAdminName,
@@ -180,5 +333,42 @@ export class SchoolDataComponent implements OnInit {
 		this.updateSchool.service(config).subscribe((data: any) => {
 			console.log("data", data)
 		});
+	}
+
+	// delete functions
+	deleteStudyLevelOne($event){
+		this.studyLevelsOne.service({
+			method:"DELETE",
+			url: this.url,
+			levelOneId: $event.value.id
+		}).subscribe(data=>{
+			console.log("delete 1", data)
+			this.selectedStudyLevel1 = undefined;
+			this.getStudyLevelData(undefined);
+		})
+	}
+
+	deleteStudyLevelTwo($event){
+		this.studyLevelsTwo.service({
+			method:"DELETE",
+			url: this.url,
+			levelTwoId: $event.value.id
+		}).subscribe(data=>{
+			this.selectedStudyLevel2 = undefined;
+			this.getStudyLevelData(this.selectedStudyLevel1);
+		})
+	}
+
+	deleteStudyLevelThree($event){
+		console.log("event delete 3", $event)
+		this.studyLevelsThree.service({
+			method:"DELETE",
+			url: this.url,
+			levelThreeId: $event.value.id
+		}).subscribe(data=>{
+			console.log("delete 3", data)
+			this.selectedStudyLevel3 = undefined;
+			this.getStudyLevelData(this.selectedStudyLevel1);
+		})
 	}
 }

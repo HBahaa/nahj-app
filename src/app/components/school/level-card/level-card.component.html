@@ -3,10 +3,10 @@
 	<div class="card-body" [ngClass]="img ? '' : 'mt-5'">
 		<h4 class="text-center mb-3">{{title}}</h4>
 		<ul class="list-group">
-			<li class="list-group-item" [ngClass]="{'active': selectedItem == item}" (click)="listClick($event, item)" *ngFor="let item of data; index as i">{{item}}</li>
+			<li class="list-group-item" [ngClass]="{'active': selectedItem == item}" (click)="handleClick($event, type, item)" *ngFor="let item of data; index as i">{{item.name}}</li>
 		</ul>
 		<div class="input-group">
-			<input type="text" class="form-control text-right" [disabled]="show" placeholder="{{data[0]}}">
+			<input type="text" class="form-control text-right" #inputVal [disabled]="show" [(ngModel)]="newValue" >
 			<span class="input-group-btn">
 				<button *ngIf="show" class="btn btn-primary" (click)="handleChanges()" type="button">
 					<i class="fa fa-edit"></i>
