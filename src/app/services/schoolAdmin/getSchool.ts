@@ -9,63 +9,63 @@ export class getMySchool {
     constructor(private http: HttpClient) { }
 
     service(config) {
-        let query: string = `query {
-                                schools {
-                                id
-                                address
-                                speciificArea {
-                                    id
-                                    speciificGeaoArea {
-                                    id
-                                    name
-                                    }
-                                    speciificCity {
-                                    id
-                                    name
-                                    }
-                                }
-                                gps
-                                phone
-                                admin{
-                                    id
-                                    name
-                                    job
-                                    type
-                                    phone
-                                    whatsApp
-                                    email
-                                    username
-                                    password
-                                }
-                                fax
-                                district
-                                adminNum
-                                studentsNum
-                                classesNum
-                                teachersNum
-                                StudyYears
-                                lowestStudyYear
-                                highestStudyYear
-                                name
-                                motherComp
-                                specificStudyLevels {
-                                    id
-                                    speciificLevelOne {
-                                    name
-                                    id
-                                    }
-                                    speciificLevelTwo {
-                                    id
-                                    name
-                                    }
-                                    speciificLevelThree {
-                                    id
-                                    name
-                                    }
-                                }
-                                }
-                            }
-                            `;
+        let query: string = `{
+            schools {
+              id
+              address
+              speciificArea {
+                id
+                speciificGeaoArea {
+                  id
+                  name
+                }
+                speciificCity {
+                  id
+                  name
+                }
+              }
+              gps
+              phone
+              admin {
+                id
+                name
+                job
+                type
+                phone
+                whatsApp
+                email
+                username
+                password
+              }
+              fax
+              district
+              adminNum
+              studentsNum
+              classesNum
+              teachersNum
+              StudyYears
+              lowestStudyYear
+              highestStudyYear
+              name
+              motherComp
+              specificStudyLevels {
+                id
+                 studyLevelOne{
+                  name
+                  id
+                }
+                studyLevelTwo {
+                  id
+                  name
+                }
+                studylevelThree {
+                  id
+                  name
+                }
+              }
+            }
+          }
+         `;
         let variable: object = {};
 
         return this

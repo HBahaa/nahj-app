@@ -96,22 +96,22 @@ export class updateSchool {
             case "GET":
             query= `query {
                 schools {
-                id
-                address
-                speciificArea {
+                  id
+                  address
+                  speciificArea {
                     id
                     speciificGeaoArea {
-                    id
-                    name
+                      id
+                      name
                     }
                     speciificCity {
-                    id
-                    name
+                      id
+                      name
                     }
-                }
-                gps
-                phone
-                admin{
+                  }
+                  gps
+                  phone
+                  admin {
                     id
                     name
                     job
@@ -121,35 +121,20 @@ export class updateSchool {
                     email
                     username
                     password
+                  }
+                  fax
+                  district
+                  adminNum
+                  studentsNum
+                  classesNum
+                  teachersNum
+                  StudyYears
+                  lowestStudyYear
+                  highestStudyYear
+                  name
+                  motherComp
                 }
-                fax
-                district
-                adminNum
-                studentsNum
-                classesNum
-                teachersNum
-                StudyYears
-                lowestStudyYear
-                highestStudyYear
-                name
-                motherComp
-                specificStudyLevels {
-                    id
-                    speciificLevelOne {
-                    name
-                    id
-                    }
-                    speciificLevelTwo {
-                    id
-                    name
-                    }
-                    speciificLevelThree {
-                    id
-                    name
-                    }
-                }
-                }
-            }`
+              }`
             break;
         }
 
