@@ -7,12 +7,13 @@ import { HttpClient } from '@angular/common/http';
 export class updateSchool {
     
     constructor(private http: HttpClient) { }
-    createVariable(variable,config){
+    createVariable(config){
+        let newVar = {};
         for (let key in config){
-            if(this.fields.includes(key))
-                variable[key] = config[key]
+            if(this.fields.includes(key) && config[key])
+                newVar[key] = config[key]
         }
-        return variable
+        return newVar
     }
     fields  = ['address','gps','phone','fax','StudyYears','lowestStudyYear','highestStudyYear','name','motherComp','district','adminNum','studentsNum','classesNum','teachersNum','speciificCity','speciificGeaoArea','admin1ID','admin2ID','admin1','admin2','schoolId']
     renderSpecificArea(config){
@@ -92,7 +93,7 @@ export class updateSchool {
                         }
                     }
                 `
-                variable = this.createVariable(variable,config);
+                variable = this.createVariable(config);
             break;
             case "GET":
             query= `query {
