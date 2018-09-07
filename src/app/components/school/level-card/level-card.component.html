@@ -8,14 +8,17 @@
 		<div class="input-group">
 			<input type="text" class="form-control text-right" [disabled]="show" placeholder="{{data[0]}}">
 			<span class="input-group-btn">
-				<button [ngClass]="show ? 'btn-primary' : ' btn-info' " class="btn" (click)="handleChanges()" type="button">
-					<i [ngClass]="show ? ' fa-edit' : '  fa-save' "  class="fa"></i>
+				<button *ngIf="show" class="btn btn-primary" (click)="handleChanges()" type="button">
+					<i class="fa fa-edit"></i>
+				</button>
+				<button *ngIf="!show" class="btn btn-info" (click)="saveChanges(type, inputVal.value)" type="button">
+					<i  class="fa fa-save"></i>
 				</button>
 			</span>
 	    </div>
 		<div class="card-footer text-left">
-			<button class="btn btn-danger mr-2" type="button"><i class="fa fa-close fa-fw"></i></button>
-			<button class="btn btn-success mr-2" type="button"><i class="fa fa-plus fa-fw"></i></button>
+			<button class="btn btn-danger mr-2" type="button" (click)="deleteItem(type)"><i class="fa fa-close fa-fw"></i></button>
+			<button class="btn btn-success mr-2" type="button" (click)="addItem()"><i class="fa fa-plus fa-fw"></i></button>
 		</div>
 	</div>
 </div>

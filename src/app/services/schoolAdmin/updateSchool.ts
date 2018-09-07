@@ -39,6 +39,7 @@ export class updateSchool {
             return ``
     }
     service(config) {
+        console.log("config", config)
         let query: string = ``
         let variable: object = {};
         switch (config.method) {
@@ -85,7 +86,7 @@ export class updateSchool {
                             ${this.renderSpecificArea(config)}
                             ${this.renderAdmin(config)}
                         }
-                        ${config.$schoolId?"where: { id: $schoolId }":""} 
+                        ${config.schoolId?"where: { id: $schoolId }":""} 
                         ) {
                         id
                         }

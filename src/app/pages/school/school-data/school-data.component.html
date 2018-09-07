@@ -1,6 +1,6 @@
 <div class="content">
   <div class="container-fluid">
-    <form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
       <h2 class="col-12">بيانات المدرسة</h2>
       <div class="col-12 mt-2">
         <ul class="nav nav-pills" id="pills-tab" role="tablist">
@@ -15,7 +15,7 @@
       <div class="col-12">
         <div class="tab-content" id="pills-tabContent">
           <div class="tab-pane fade show active" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab">
-            <div class="row">
+            <form [formGroup]="form" (ngSubmit)="updateSchoolData()" class="row">
               <div class="col-lg-4 col-md-6">
                 <div class="card">
                   <img class="card-img" src="./assets/images/data.png" alt="">
@@ -24,60 +24,62 @@
                         <div class="form-group row">
                           <label class="col-md-5 col-form-label">اسم المدرسة</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" />
+                            <input type="text" class="form-control" formControlName="schoolName"/>
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label class="col-md-5 col-form-label" for="">الشركة اﻷم</label>
+                          <label class="col-md-5 col-form-label">الشركة اﻷم</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" />
+                            <input type="text" class="form-control" formControlName="motherComp" disabled/>
                           </div>
                         </div>
                         <!-- <h6>بيانات المدرسة</h6> -->
                         <div class="form-group row">
-                          <label class="col-md-5 col-form-label" for="">المنطقة</label>
+                          <label class="col-md-5 col-form-label">المنطقة</label>
                           <div class="col-md-7">
-                            <select class="form-control">
-                              <option value="">المنطقة</option>
+                            <select class="form-control" (change)="getCities($event)" formControlName="geo" disabled>
+                                <option value="">اختر عنصر</option>
+                              <option *ngFor="let geo of geoArray" [value]="geo.id">{{ geo.name }}</option>
                             </select>
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label class="col-md-5 col-form-label" for="">المدينة</label>
+                          <label class="col-md-5 col-form-label">المدينة</label>
                           <div class="col-md-7">
-                            <select class="form-control">
-                              <option value="">المدينة</option>
+                            <select class="form-control" formControlName="city" disabled>
+                              <option value="">اختر عنصر</option>
+                              <option *ngFor="let city of citiesArray" [value]="city">{{ city }}</option>
                             </select>
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label class="col-md-5 col-form-label" for="">الحي</label>
+                          <label class="col-md-5 col-form-label">الحي</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" placeholder="الحي">
+                            <input type="text" formControlName="district" class="form-control" placeholder="الحي" disabled>
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label class="col-md-5 col-form-label" for="">إجمالي عدد الطلاب</label>
+                          <label class="col-md-5 col-form-label">إجمالي عدد الطلاب</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" placeholder="إجمالي عدد الطلاب">
+                            <input type="text" class="form-control" formControlName="studentsNum" placeholder="إجمالي عدد الطلاب" disabled>
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label class="col-md-5 col-form-label" for="">عدد الفصول الدراسية</label>
+                          <label class="col-md-5 col-form-label">عدد الفصول الدراسية</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" placeholder="عدد الفصول الدراسية">
+                            <input type="text" class="form-control" formControlName="classesNum" placeholder="عدد الفصول الدراسية" disabled>
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label class="col-md-5 col-form-label" for="">السنة الدراسية اﻷدني</label>
+                          <label class="col-md-5 col-form-label">السنة الدراسية اﻷدني</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" placeholder="السنة الدراسية اﻷدني">
+                            <input type="text" class="form-control" formControlName="lowestStudyYear" placeholder="السنة الدراسية اﻷدني" disabled>
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label class="col-md-5 col-form-label" for="">السنة الدراسية اﻷعلي</label>
+                          <label class="col-md-5 col-form-label">السنة الدراسية اﻷعلي</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" placeholder="السنة الدراسية اﻷعلي">
+                            <input type="text" class="form-control" formControlName="highestStudyYear" placeholder="السنة الدراسية اﻷعلي" disabled>
                           </div>
                         </div>
                       </div>
@@ -88,7 +90,7 @@
                 <div class="card">
                   <div class="card-body mt-3">
                     <div class="form-group">
-                      <label for="">الفصل الدراسي</label>
+                      <label>الفصل الدراسي</label>
                       <select class="form-control" formControlName="term">
                         <option value="">الفصل الأول 2018\2019</option>
                       </select>
@@ -97,19 +99,19 @@
                       <h6 class="mt-4">بيانات الإتصال</h6>
                       <ul class="list-group">
                         <li class="list-group-item">
-                          <input type="text" class="form-control" placeholder="الموفع اﻹلكتروني">
+                          <input type="text" class="form-control" formControlName="email" placeholder="الموفع اﻹلكتروني">
                         </li>
                         <li class="list-group-item">
-                          <input type="text" class="form-control" placeholder="العنوان">
+                          <input type="text" class="form-control" formControlName="address" placeholder="العنوان">
                         </li>
                         <li class="list-group-item">
-                          <input type="text" class="form-control" placeholder="GPS الموقع">
+                          <input type="text" class="form-control" formControlName="gps" placeholder="GPS الموقع">
                         </li>
                         <li class="list-group-item">
-                          <input type="text" class="form-control" placeholder="التلفون">
+                          <input type="text" class="form-control" formControlName="phone" placeholder="التلفون">
                         </li>
                         <li class="list-group-item">
-                          <input type="text" class="form-control" placeholder="الفاكس">
+                          <input type="text" class="form-control" formControlName="fax" placeholder="الفاكس">
                         </li>
                       </ul>
                     </div>
@@ -117,16 +119,16 @@
                       <h6>بيانات الرخصة</h6>
                       <ul class="list-group">
                         <li class="list-group-item">
-                          <input type="text" class="form-control" placeholder="عدد الطلاب">
+                          <input type="text" class="form-control" formControlName="studentsNum" placeholder="عدد الطلاب" disabled>
                         </li>
                         <li class="list-group-item">
-                          <input type="text" class="form-control" placeholder="عدد الفصول">
+                          <input type="text" class="form-control" formControlName="classesNum" placeholder="عدد الفصول" disabled>
                         </li>
                         <li class="list-group-item">
-                          <input type="text" class="form-control" placeholder="عدد المعلمات">
+                          <input type="text" class="form-control" formControlName="teachersNum" placeholder="عدد المعلمات" disabled>
                         </li>
                         <li class="list-group-item">
-                          <input type="text" class="form-control" placeholder="عدد اﻷدمن">
+                          <input type="text" class="form-control" formControlName="adminsNum" placeholder="عدد اﻷدمن" disabled>
                         </li>
                       </ul>
                     </div>
@@ -141,57 +143,57 @@
                       <ul class="list-group">
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">الأسم</label>
+                            <label class="col-md-4 col-form-label">الأسم</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" formControlName="manager_name" />
+                              <input type="text" class="form-control" formControlName="adminName" />
                             </div>
                           </div>
                         </li>
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">الوظيفة</label>
+                            <label class="col-md-4 col-form-label">الوظيفة</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" formControlName="manager_job" >
+                              <input type="text" class="form-control" formControlName="adminJob" >
                             </div>
                           </div>
                         </li>
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">جوال 1 - اتصال</label>
+                            <label class="col-md-4 col-form-label">جوال 1 - اتصال</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" formControlName="manager_phone1" />
+                              <input type="text" class="form-control" formControlName="adminPhone" />
                             </div>
                           </div>
                         </li>
                         <li>
                         <div class="form-group row">
-                          <label class="col-md-4 col-form-label" for="">جوال 2 - واتس</label>
+                          <label class="col-md-4 col-form-label">جوال 2 - واتس</label>
                           <div class="col-md-8">
-                            <input type="text" class="form-control" formControlName="manager_phone2" />
+                            <input type="text" class="form-control" formControlName="adminWhatsApp" />
                           </div>
                         </div>
                         </li>
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">البريد اﻷلكتروني</label>
+                            <label class="col-md-4 col-form-label">البريد اﻷلكتروني</label>
                             <div class="col-md-8">
-                              <input type="email" class="form-control" formControlName="manager_email" />
+                              <input type="email" class="form-control" formControlName="adminEmail" />
                             </div>
                           </div>
                         </li>
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">اسم المستخدم</label>
+                            <label class="col-md-4 col-form-label">اسم المستخدم</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" formControlName="manager_userName" />
+                              <input type="text" class="form-control" formControlName="adminUsername" />
                             </div>
                           </div>
                         </li>
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">كلمة السر</label>
+                            <label class="col-md-4 col-form-label">كلمة السر</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" formControlName="manager_password" />
+                              <input type="text" class="form-control" formControlName="adminPassword" />
                             </div>
                           </div>
                         </li>
@@ -202,57 +204,57 @@
                       <ul class="list-group">
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">الأسم</label>
+                            <label class="col-md-4 col-form-label">الأسم</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" formControlName="admin_name" />
+                              <input type="text" class="form-control" formControlName="nahjAdminName" />
                             </div>
                           </div>
                         </li>
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">الوظيفة</label>
+                            <label class="col-md-4 col-form-label">الوظيفة</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" formControlName="admin_job" >
+                              <input type="text" class="form-control" formControlName="nahjAdminJob" >
                             </div>
                           </div>
                         </li>
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">جوال 1 - اتصال</label>
+                            <label class="col-md-4 col-form-label">جوال 1 - اتصال</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" formControlName="admin_phone1" />
+                              <input type="text" class="form-control" formControlName="nahjAdminPhone" />
                             </div>
                           </div>
                         </li>
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">جوال 2 - واتس</label>
+                            <label class="col-md-4 col-form-label">جوال 2 - واتس</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" formControlName="admin_phone2" />
+                              <input type="text" class="form-control" formControlName="nahjAdminWhatsApp" />
                             </div>
                           </div>
                         </li>
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">البريد اﻷلكتروني</label>
+                            <label class="col-md-4 col-form-label">البريد اﻷلكتروني</label>
                             <div class="col-md-8">
-                              <input type="email" class="form-control" formControlName="admin_email" />
+                              <input type="email" class="form-control" formControlName="nahjAdminEmail" />
                             </div>
                           </div>
                         </li>
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">اسم المستخدم</label>
+                            <label class="col-md-4 col-form-label">اسم المستخدم</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" formControlName="admin_userName" />
+                              <input type="text" class="form-control" formControlName="nahjAdminUsername" />
                             </div>
                           </div>
                         </li>
                         <li>
                           <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="">كلمة السر</label>
+                            <label class="col-md-4 col-form-label">كلمة السر</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" formControlName="admin_password" />
+                              <input type="text" class="form-control" formControlName="nahjAdminPassword" />
                             </div>
                           </div>
                         </li>
@@ -264,12 +266,12 @@
               <div class="col-12 text-left">
                 <button type="submit" class="btn btn-primary btn-lg mt-3">حفــظ</button>
               </div>
-            </div>
+            </form>
           </div>
           <div class="tab-pane fade" id="pills-class" role="tabpanel" aria-labelledby="pills-profile-tab">
             <div class="row">
               <div class="col-lg-4 col-md-6">
-                <app-level-card [data]='level1' title="المستوي اﻷول" img="./assets/images/class.png"></app-level-card>
+                <app-level-card [data]='level1' componentType="class1" [data]='geoArray' (listItems)="list($event)" (deleteButton)="deleteGeo($event)" (saveButton)="addNewGeo($event)" title="المستوي اﻷول" img="./assets/images/class.png"></app-level-card>
               </div>
               <div class="col-lg-4 col-md-6">
                 <app-level-card [data]='level1' title="المستوي الثاني"></app-level-card>
@@ -281,6 +283,6 @@
           </div>
         </div>
       </div>
-    </form>
+    </div>
   </div>
 </div>
