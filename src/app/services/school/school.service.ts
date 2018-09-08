@@ -45,6 +45,7 @@ export class SchoolService {
           $gps: String
           $phone: String
           $fax: String
+          $email:String
           $district: String
           $adminNum: Int
           $studentsNum: Int
@@ -79,6 +80,7 @@ export class SchoolService {
               phone: $phone
               fax: $fax
               district: $district
+              email:$email
               adminNum: $adminNum
               studentsNum: $studentsNum
               classesNum: $classesNum
@@ -118,6 +120,7 @@ export class SchoolService {
             fax
             district
             adminNum
+            email
             studentsNum
             classesNum
             teachersNum
@@ -190,6 +193,7 @@ export class SchoolService {
           admin: config.admin,
           gps: config.gps,
           phone: config.gps,
+          email:config.email,
           fax: config.fax,
           district: config.district,
           adminNum: config.adminNum,
@@ -250,6 +254,7 @@ export class SchoolService {
             gps
             phone
             fax
+            email
             district
             levels{
               id
@@ -302,6 +307,7 @@ export class SchoolService {
           $gps: String!
           $phone: String!
           $fax: String!
+          $email:String
           $district: String!
           $adminNum: Int!
           $studentsNum: Int!
@@ -328,6 +334,7 @@ export class SchoolService {
               fax: $fax
               district: $district
               adminNum: $adminNum
+              email:$email
               studentsNum: $studentsNum
               classesNum: $classesNum
               teachersNum: $teachersNum
@@ -405,6 +412,7 @@ export class SchoolService {
           adminRes: config.adminRes,
           admin: config.admin,
           gps: config.gps,
+          email:config.email,
           phone: config.gps,
           fax: config.fax,
           district: config.district,
