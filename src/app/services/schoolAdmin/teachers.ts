@@ -1,4 +1,3 @@
-import { TeachersComponent } from '../../pages/school/teachers/teachers.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
