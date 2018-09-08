@@ -271,13 +271,13 @@
           <div class="tab-pane fade" id="pills-class" role="tabpanel" aria-labelledby="pills-profile-tab">
             <div class="row">
               <div class="col-lg-4 col-md-6">
-                <app-level-card [data]='studyLevel1' componentType="studyLevel1" (listItems)="listStudyLevelOne($event)" (deleteButton)="deleteStudyLevelOne($event)" (saveButton)="addStudyLevelOne($event)" title="المستوي اﻷول" img="./assets/images/class.png"></app-level-card>
+                <app-level-card [data]='studyLevel1' componentType="studyLevel1" (listItems)="listStudyLevelOne($event.value)" (deleteButton)="deleteStudyLevelOne($event)" (saveButton)="addStudyLevelOne($event)" title="المستوي اﻷول" img="./assets/images/class.png"></app-level-card>
               </div>
               <div class="col-lg-4 col-md-6">
-                <app-level-card [data]='studyLevel2' componentType="studyLevel2" (listItems)="listStudyLevelTwo($event)" (deleteButton)="deleteStudyLevelTwo($event)" (saveButton)="addStudyLevelTwo($event)" title="المستوي الثاني"></app-level-card>
+                <app-level-card [data]='studyLevel2' componentType="studyLevel2" (listItems)="listStudyLevelTwo($event.value)" (deleteButton)="deleteStudyLevelTwo($event)" (saveButton)="addStudyLevelTwo($event)" title="المستوي الثاني"></app-level-card>
               </div>
               <div class="col-lg-4 col-md-6">
-                <app-level-card [data]='studyLevel3' componentType="studyLevel3" (listItems)="listStudyLevelThree($event)" (deleteButton)="deleteStudyLevelThree($event)" (saveButton)="addStudyLevelThree($event)" title="المستوي الثالث (الفصول)"></app-level-card>
+                <app-level-card [data]='studyLevel3' componentType="studyLevel3" (listItems)="listStudyLevelThree($event.value)" (deleteButton)="deleteStudyLevelThree($event)" (saveButton)="addStudyLevelThree($event)" title="المستوي الثالث (الفصول)"></app-level-card>
               </div>
             </div>
           </div>
