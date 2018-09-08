@@ -32,7 +32,7 @@ export class SchoolFilterComponent implements OnInit {
 	@Output() editButton = new EventEmitter();
 	@Output() addButton = new EventEmitter();
 	@Output() clearFormFields = new EventEmitter();
-
+	@Output() addContentFlag = new EventEmitter()
 
 	constructor(
 		private elevelsOne: ELevelsOneService,
@@ -173,16 +173,20 @@ export class SchoolFilterComponent implements OnInit {
 	}
 	addClicked(){
 		this.add = false;
+		this.addContentFlag.emit({show: false});
 		this.clearFormFields.emit();
 	}
 	editClicked(){
+		this.addContentFlag.emit({show: false});
 		this.edit = false;
 	}
 	addSchool(){
+		this.addContentFlag.emit({show: true})
 		this.addButton.emit();
 		this.add = true;
 	}
 	editSchool(){
+		this.addContentFlag.emit({show: true})
 		this.editButton.emit(this.selectedItem);
 		this.edit = true;
 	}

@@ -16,6 +16,7 @@ import { EcontentOneService } from '../../../services/econtent/econtent-one.serv
 export class DataComponent implements OnInit {
 
 	title:string = "فلتر تقسيمات المدارس";
+	show: boolean = true;
 	updateChildData = false
 	url = 'http://localhost:4466';
 	form: FormGroup;
@@ -48,8 +49,7 @@ export class DataComponent implements OnInit {
 		private econtentOneService: EcontentOneService
 	 ) { }
 
-	ngOnInit() {
-	
+	ngOnInit() {	
 		this.getAllLevels(undefined, undefined);
 		this.getGeoCityData(undefined)
 		this.getContentData(undefined, undefined, undefined, undefined);
@@ -92,9 +92,11 @@ export class DataComponent implements OnInit {
 			nahjAdminWhatsApp: ['', Validators.required],
 			nahjAdminUsername: ['', Validators.required],
 			nahjAdminPassword: ['', Validators.required]
-	    });
+		});
 	}
-
+	setContentFlag(e){
+		this.show = e.show;
+	}
 	handleContentChange(level, e){
 		this.getContent({'level': level, 'value': e.target.value })
 	}
@@ -476,6 +478,7 @@ export class DataComponent implements OnInit {
 	}
 
 	addSchool(conf,state = 0){
+		console.log("add scool", state, conf)
 		let config = conf || this.form.value;
 		this.schoolService.service({
 			method: 'PUT',
@@ -522,6 +525,7 @@ export class DataComponent implements OnInit {
 			cityName: config.city,
 			arrayOfSpeciificContent: state ? conf.licensedContent  : (this.speciificContent.length > 0 ? this.speciificContent : "")
 		}).subscribe(data => {
+			console.log("add school", data)
 			this.form = this.fb.group({
 				schoolName: [''],
 				motherComp: [''],
@@ -618,68 +622,6 @@ export class DataComponent implements OnInit {
 				}
 			})
 		});
-
-		// this.schoolService.service({
-		// 	method: "GET",
-		// 	url: this.url
-		// }).subscribe(schools =>{
-		// 	schools["data"].schools.map(school=>{
-		// 		let adminId = $event.admin.filter(admin => admin.type == 'admin')[0].id;
-		// 		let resId = $event.admin.filter(admin => admin.type == 'res')[0].id;
-		// 		if(school.id == $event.id){
-		// 			this.schoolService.service({
-		// 				method: "POST",
-		// 				url: this.url,
-		// 				schoolID: $event.id,
-		// 				email:config.email,
-		// 				address:config.address,
-		// 				admin:{
-		// 					name: config.nahjAdminName,
-		// 					phone: config.nahjAdminPhone,
-		// 					email: config.nahjAdminEmail,
-		// 					job: config.nahjAdminJob,
-		// 					whatsApp: config.nahjAdminWhatsApp,
-		// 					type: 'admin',
-		// 					password: config.nahjAdminPassword,
-		// 					username: config.nahjAdminUsername
-		// 				},
-		// 				adminRes:{
-		// 					name: config.adminName,
-		// 					phone: config.adminPhone,
-		// 					email: config.adminEmail,
-		// 					job: config.adminJob,
-		// 					whatsApp: config.adminWhatsApp,
-		// 					type: 'res',
-		// 					password: config.adminPassword,
-		// 					username: config.adminUsername
-		// 				},
-		// 				gps:config.gps,
-		// 				phone:config.phone,
-		// 				fax:config.fax,
-		// 				district:config.district,
-		// 				adminNum:parseInt(config.adminsNum),
-		// 				studentsNum:parseInt(config.studentsNum),
-		// 				classesNum:parseInt(config.classesNum),
-		// 				teachersNum:parseInt(config.teachersNum),
-		// 				StudyYears:config.studyYears,
-		// 				lowestStudyYear:config.lowestStudyYear,
-		// 				highestStudyYear:config.highestStudyYear,
-		// 				name:config.schoolName,
-		// 				motherComp:config.motherComp,
-		// 				level1: $event.levels.id,
-		// 				level2: $event.levelTwo.id,
-		// 				level3: $event.levelThree.id,
-		// 				GeoAreaID: config.geo,
-		// 				cityName: config.city,
-		// 				adminId: adminId,
-        //   				adminResID: resId
-		// 			}) .subscribe(resp=>{
-		// 				console.log("edit", resp)
-		// 				this.updateChildData = true;
-		// 			})
-		// 		}
-		// 	})
-		// })
 		this.updateChildData = false;
 	}
 	deleteSchool($event){

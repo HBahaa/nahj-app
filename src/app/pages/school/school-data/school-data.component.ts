@@ -6,6 +6,7 @@ import { updateSchool } from '../../../services/schoolAdmin/updateSchool';
 import { studyLevelsOne } from '../../../services/schoolAdmin/studyLevelsOne';
 import { studyLevelsTwo } from '../../../services/schoolAdmin/studyLevelsTwo';
 import { studyLevelsThree } from '../../../services/schoolAdmin/studyLevelsThree';
+import { classes } from '../../../services/schoolAdmin/class';
 
 @Component({
 	selector: 'app-school-data',
@@ -15,8 +16,6 @@ import { studyLevelsThree } from '../../../services/schoolAdmin/studyLevelsThree
 export class SchoolDataComponent implements OnInit {
 
 	form: FormGroup;
-	level1 = ["المدارس اﻷهلية", "المدارس اﻷهلية", "المدارس اﻷهلية", "المدارس اﻷهلية", "المدارس اﻷهلية", "المدارس اﻷهلية", "المدارس اﻷهلية"];
-
 	url = 'http://localhost:4466';
 	geoArray = [];
 	citiesArray = [];
@@ -36,7 +35,7 @@ export class SchoolDataComponent implements OnInit {
 	constructor(private fb: FormBuilder, private geoService: GeoService,
 		private getMySchool: getMySchool, private updateSchool: updateSchool,
 		private studyLevelsOne: studyLevelsOne, private studyLevelsTwo: studyLevelsTwo,
-		private studyLevelsThree: studyLevelsThree) { }
+		private studyLevelsThree: studyLevelsThree, private classes: classes) { }
 
 	ngOnInit() {
 		this.getMySchoolData();
@@ -91,6 +90,7 @@ export class SchoolDataComponent implements OnInit {
 		console.log("value 2 --------", value)
 		this.selectedStudyLevel2 = value;
 		this.studyLevel3 =  value.studylevelThree ?  value.studylevelThree : value[0].studylevelThree;
+		console.log("studyLevel3", this.studyLevel3)
 	}
 
 	listStudyLevelThree(value) {
@@ -106,7 +106,8 @@ export class SchoolDataComponent implements OnInit {
 			this.mySchool = data['data'].schools[0]
 			this.schoolID = data['data'].schools[0].id;
 
-			this.getStudyLevelData(undefined);
+			localStorage.setItem("schoolID", this.schoolID);
+			this.getStudyLevelData(undefined, undefined);
 
 			this.mySchool['admin'].filter(admin => admin.type == 'res').map(res => {
 				let adminRes = res;
@@ -172,7 +173,7 @@ export class SchoolDataComponent implements OnInit {
 		this.selectedGeo = $event.target.value;
 	}
 
-	getStudyLevelData(name1) {
+	getStudyLevelData(name1, addClass) {
 		this.studyLevelsOne.service({
 			method: "GET",
 			url: this.url,
@@ -189,6 +190,17 @@ export class SchoolDataComponent implements OnInit {
 						this.listStudyLevelOne(this.selectedStudyLevel1);
 						this.selectedStudyLevel2 = item1.studyLevelOne.studyLevelTwo;
 						this.listStudyLevelTwo(this.selectedStudyLevel2);
+
+						if(addClass){
+							let l3 = this.selectedStudyLevel2[0].studylevelThree.filter(item => item.name == addClass);
+							
+							this.addClass(
+								this.selectedStudyLevel1.studyLevelOne.id,
+								this.selectedStudyLevel2[0].id,
+								l3[0].id,
+								this.schoolID
+							)
+						}
 						return item1.studyLevelOne;
 					}
 					return item1.studyLevelOne;
@@ -207,7 +219,7 @@ export class SchoolDataComponent implements OnInit {
 					schoolId: this.schoolID,
 					levelOneName: $event.newValue
 				}).subscribe(data => {
-					this.getStudyLevelData(undefined);
+					this.getStudyLevelData(undefined, undefined);
 				})
 				break;
 			case 'update':
@@ -217,7 +229,7 @@ export class SchoolDataComponent implements OnInit {
 					levelOneId: this.selectedStudyLevel1.id,
 					levelOneName: $event.newValue
 				}).subscribe(data => {
-					this.getStudyLevelData(this.selectedStudyLevel1.name);
+					this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 				})
 				break;
 
@@ -233,7 +245,7 @@ export class SchoolDataComponent implements OnInit {
 					levelOneId: this.selectedStudyLevel1.id,
 					levelTwoName: $event.newValue
 				}).subscribe(data => {
-					this.getStudyLevelData(this.selectedStudyLevel1.name);
+					this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 				})
 				break;
 			case 'update':
@@ -243,7 +255,7 @@ export class SchoolDataComponent implements OnInit {
 					levelTwoId: this.selectedStudyLevel2.id,
 					levelTwoName: $event.newValue
 				}).subscribe(data => {
-					this.getStudyLevelData(this.selectedStudyLevel1.name);
+					this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 				})
 				break;
 
@@ -259,7 +271,7 @@ export class SchoolDataComponent implements OnInit {
 					levelTwoId: this.selectedStudyLevel2.id,
 					levelThreeName: $event.newValue
 				}).subscribe(data => {
-					this.getStudyLevelData(this.selectedStudyLevel1.name);
+					this.getStudyLevelData(this.selectedStudyLevel1.name, $event.newValue);
 				})
 				break;
 			case 'update':
@@ -269,10 +281,23 @@ export class SchoolDataComponent implements OnInit {
 					levelThreeId: this.selectedStudyLevel3.id,
 					levelThreeName: $event.newValue
 				}).subscribe(data => {
-					this.getStudyLevelData(this.selectedStudyLevel1.name);
+					this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 				})
 				break;
 		}
+	}
+
+	addClass(id1, id2, id3, schoolId){
+		this.classes.service({
+			method: "PUT",
+			url: this.url,
+			studyLevelOne: id1,
+			studyLevelTwo: id2,
+			studyLevelThree: id3,
+		 	schoolId: schoolId
+		}).subscribe(data=>{
+			console.log("data", data)
+		})
 	}
 
 	updateSchoolData() {
@@ -320,7 +345,7 @@ export class SchoolDataComponent implements OnInit {
 			levelOneId: $event.value.id
 		}).subscribe(data => {
 			this.selectedStudyLevel1 = undefined;
-			this.getStudyLevelData(undefined);
+			this.getStudyLevelData(undefined, undefined);
 		})
 	}
 
@@ -331,7 +356,7 @@ export class SchoolDataComponent implements OnInit {
 			levelTwoId: $event.value.id
 		}).subscribe(data => {
 			this.selectedStudyLevel2 = undefined;
-			this.getStudyLevelData(this.selectedStudyLevel1.name);
+			this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 		})
 	}
 
@@ -342,7 +367,7 @@ export class SchoolDataComponent implements OnInit {
 			levelThreeId: $event.value.id
 		}).subscribe(data => {
 			this.selectedStudyLevel3 = undefined;
-			this.getStudyLevelData(this.selectedStudyLevel1.name);
+			this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 		})
 	}
 }

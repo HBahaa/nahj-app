@@ -307,7 +307,7 @@ export class SchoolService {
           $gps: String!
           $phone: String!
           $fax: String!
-          $email:String
+          $email:String!
           $district: String!
           $adminNum: Int!
           $studentsNum: Int!

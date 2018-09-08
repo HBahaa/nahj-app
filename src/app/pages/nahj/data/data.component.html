@@ -8,7 +8,7 @@
       </div>
       <div class="row mt-4">
         <div class="col-lg-3 col-sm-6">
-          <app-school-filter (itemDetails)="getItemDetails($event)" (filterChange)="filterSchoolList($event)" (addButton)="addSchool()" (editButton)="editSchool($event)" [update]="updateChildData" (deleteButton)="openDialog($event)" (clearFormFields)="clearFields()"></app-school-filter>
+          <app-school-filter (itemDetails)="getItemDetails($event)" (filterChange)="filterSchoolList($event)" (addButton)="addSchool()" (editButton)="editSchool($event)" [update]="updateChildData" (deleteButton)="openDialog($event)" (clearFormFields)="clearFields()" (addContentFlag)="setContentFlag($event)"></app-school-filter>
         </div>
         <div class="col-md-3 col-sm-6">
           <div class="card">
@@ -21,12 +21,14 @@
               </div>
               <div class="form-group">
                 <select class="form-control" (change)="getCities($event)" formControlName="geo">
+                    <option value="">اخنر عنصر</option>
                   <option *ngFor="let geo of geoArray" value="{{geo.id}}">{{geo.name}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <select class="form-control" formControlName="city">
-                  <option  *ngFor="let city of citiesArray" value="{{city.id}}">{{city}}</option>
+                  <option value="">اخنر عنصر</option>
+                  <option *ngFor="let city of citiesArray" value="{{city}}">{{city}}</option>
                 </select>
               </div>
               <h5>بيانات المدرسة</h5>
@@ -73,7 +75,7 @@
         <div class="col-md-3 col-sm-6">
           <div class="card">
             <div class="card-body">
-            <h5>الموقع في التقسيم الشجري</h5>
+              <h5>الموقع في التقسيم الشجري</h5>
               <div class="form-group">
                 <select (change)="handleChange('level1', $event)" class="form-control" formControlName="level1">
                   <option value="">اختر عنصر</option>
@@ -193,8 +195,8 @@
                 </ul>
                 </div>
               </div>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                إضافة محتوي
+              <button type="button" class="btn btn-primary float-left add-content" [disabled]="show" data-toggle="modal" data-target="#myModal">
+                <i class="fa fa-plus"></i>
               </button>
             </div>
           </div>
