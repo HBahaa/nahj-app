@@ -21,7 +21,27 @@ export class classes {
         let variable: object = {};
         switch (config.method) {
             case "POST": //update
-                query=``
+                query=`query(
+                  $studyLevelOne:ID!
+                  $studyLevelTwo:ID!
+                  $studyLevelThree:ID!
+                ){
+                  specificStudyLevels(
+                    where:{
+                      studyLevelOne:{
+                        id:$studyLevelOne
+                      }
+                      studyLevelTwo:{
+                        id:$studyLevelTwo
+                      }
+                      studylevelThree:{
+                        id:$studyLevelThree
+                      }
+                    }
+                  ){
+                    id
+                  }
+                }`
                 variable = this.createVariable(config);
             break;
             case "PUT" : //Create
