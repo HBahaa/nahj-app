@@ -153,7 +153,9 @@
               <div class="form-group">
                 <label>الفصل الدراسي</label>
                 <select class="form-control" formControlName="studyYears">
-                  <option>اﻷول 2018 / 2019</option>
+                  <option value="">اختر عنصر</option>
+                  <option value="">{{studyYears}}</option>
+                  <option *ngFor="let studyYear of studyYears" [value]="studyYear.id">{{ studyYear.name }}</option>
                 </select>
               </div>
               <h5>بيانات الرخصة</h5>

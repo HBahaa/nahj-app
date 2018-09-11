@@ -25,6 +25,7 @@ export class SchoolFilterComponent implements OnInit {
 	selectedItemName;
 	add: boolean = true;
 	edit: boolean = true;
+	schoolName = '';
 
 	@Output() filterChange = new EventEmitter();
 	@Output() itemDetails = new EventEmitter();
@@ -47,6 +48,10 @@ export class SchoolFilterComponent implements OnInit {
 	ngOnChanges(){
 		//when update input changes this function runs
 		this.getAllLevels(undefined, undefined);
+	}
+
+	searchBySchoolName(){
+
 	}
 
 	///   get data functions
@@ -92,6 +97,7 @@ export class SchoolFilterComponent implements OnInit {
 								});
 							}
 						}else if (id2 == level2.id) {
+							console.log("level 2", level2)
 							this.selectedLevel2 = level2['id'];
 							this.getSchool('level2' ,level2.id)
 							if (level2['levelThree']) {

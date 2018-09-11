@@ -6,6 +6,7 @@ import { ELevelsOneService } from '../../../services/elevels/elevelsOne.service'
 import { GeoService } from '../../../services/geo/geo.service';
 import { SchoolService } from '../../../services/school/school.service';
 import { EcontentOneService } from '../../../services/econtent/econtent-one.service';
+import { StudyYearsService } from '../../../services/studyYears/study-years.service';
 
 
 @Component({
@@ -46,13 +47,15 @@ export class DataComponent implements OnInit {
 		private schoolService: SchoolService,
 		private geoService: GeoService,
 		public dialog: MatDialog,
-		private econtentOneService: EcontentOneService
+		private econtentOneService: EcontentOneService,
+		private studyYearsService:StudyYearsService
 	 ) { }
 
 	ngOnInit() {	
 		this.getAllLevels(undefined, undefined);
 		this.getGeoCityData(undefined)
 		this.getContentData(undefined, undefined, undefined, undefined);
+		this.getStudyYear();
 		this.form = this.fb.group({
 			schoolName: ['', Validators.required],
 			motherComp: ['', Validators.required],
@@ -99,6 +102,18 @@ export class DataComponent implements OnInit {
 	}
 	handleContentChange(level, e){
 		this.getContent({'level': level, 'value': e.target.value })
+	}
+
+	getStudyYear(){
+		this.studyYearsService.service({
+			method: "GET",
+			url: this.url
+		}).subscribe(terms=>{
+			console.log("terms", terms);
+			console.log("form value", this.form.value)
+			this.form.value.studyYears = terms['data']['studyYears'];
+			console.log("form value", this.form.value)
+		})
 	}
 	
 	openDialog($event) {

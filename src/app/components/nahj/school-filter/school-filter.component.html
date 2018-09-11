@@ -16,10 +16,13 @@
 				<option *ngFor="let item of level3; index as i" value="{{item.id}}">{{item.name}}</option>
 			</select>
 		</div>
+		<div class="form-group">
+		   <input type="text" class="form-control" placeholder="بحث باﻷسم" [(ngModel)]="searchName" (change)="searchBySchoolName()" />
+	    </div>
 		<div>
 			<label for="">المدارس</label>
 			<select class="form-control" size="7">
-				<option (click)="itemClicked(item)" *ngFor="let item of result; index as i" value="{{i}}">{{item.name}}</option>
+				<option (click)="itemClicked(item)" *ngFor="let item of result; index as i | filter: searchName" value="{{i}}">{{item.name}}</option>
 			</select>
 		</div>
 
