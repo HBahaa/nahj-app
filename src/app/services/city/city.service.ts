@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class GeoService {
+export class CityService {
   constructor(private http: HttpClient) { }
 
   service(config) { ////method,url,name,cities,newName
@@ -14,8 +14,8 @@ export class GeoService {
     // console.log(config)
     switch(config.method){
       case "POST" : //update
-        query = `mutation($name:String!,$id:ID!){
-          updateGeoArea(
+        query = `mutation($name:String!,$id:ID!) {
+          updateCity(
             data:{
               name:$name
             }
@@ -45,23 +45,23 @@ export class GeoService {
         }`;
       break;
       case "PUT"://create
-        query = `mutation($name:String!){
-          createGeoArea(
-            data:{
-              name:$name
-            }
-          ){
+        query = `mutation($name:String!,$id:ID!) {
+          updateGeoArea(data: {cities:{create:{name:$name}}}, where: { id: $id }) {
             id
-            name
+            cities {
+              id
+              name
+            }
           }
         }`
         variable = {
-          name:config.name
+          name:config.name,
+          id:config.id
         }
       break;
       case "DELETE": //delete
-        query = `mutation($id:ID!){
-          deleteGeoArea(where:{id:$id}){id}
+        query = `mutation($id:ID!) {
+          deleteCity(where:{id:$id}){id}
         }`
         variable = {
           id:config.id
