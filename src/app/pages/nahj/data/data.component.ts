@@ -1,3 +1,4 @@
+import { ConfigService } from './../../../services/config';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -8,7 +9,6 @@ import { SchoolService } from '../../../services/school/school.service';
 import { EcontentOneService } from '../../../services/econtent/econtent-one.service';
 import { StudyYearsService } from '../../../services/studyYears/study-years.service';
 
-
 @Component({
   selector: 'app-data',
   templateUrl: './data.component.html',
@@ -18,8 +18,8 @@ export class DataComponent implements OnInit {
 
 	title:string = "فلتر تقسيمات المدارس";
 	show: boolean = true;
-	updateChildData = false
-	url = 'http://localhost:4466';
+	updateChildData = false;
+	url: string;
 	form: FormGroup;
 	level1=[];
 	level2=[];
@@ -40,6 +40,7 @@ export class DataComponent implements OnInit {
 	citiesArray;
 	selectedGeo;
 	speciificContent = [];
+	terms = [];
 
 	constructor( 
 		private fb: FormBuilder,
@@ -48,8 +49,12 @@ export class DataComponent implements OnInit {
 		private geoService: GeoService,
 		public dialog: MatDialog,
 		private econtentOneService: EcontentOneService,
-		private studyYearsService:StudyYearsService
-	 ) { }
+		private studyYearsService:StudyYearsService,
+		private configService: ConfigService
+	 ) {
+		 
+		this.url = this.configService.url;
+	 }
 
 	ngOnInit() {	
 		this.getAllLevels(undefined, undefined);
@@ -109,10 +114,7 @@ export class DataComponent implements OnInit {
 			method: "GET",
 			url: this.url
 		}).subscribe(terms=>{
-			console.log("terms", terms);
-			console.log("form value", this.form.value)
-			this.form.value.studyYears = terms['data']['studyYears'];
-			console.log("form value", this.form.value)
+			this.terms = terms['data']['studyYears'];
 		})
 	}
 	
@@ -217,7 +219,7 @@ export class DataComponent implements OnInit {
 			this.speciificContent.push(obj)
 			alert("added successfully")
 		};
-	}
+	} 
 
 	getGeoCityData(id){//get geoDataCity
 		this.geoService.service({
@@ -490,10 +492,9 @@ export class DataComponent implements OnInit {
 			content3:[''],
 			content4:['']
 		});
-	}
+	} 
 
 	addSchool(conf,state = 0){
-		console.log("add scool", state, conf)
 		let config = conf || this.form.value;
 		this.schoolService.service({
 			method: 'PUT',

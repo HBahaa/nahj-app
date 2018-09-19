@@ -262,6 +262,7 @@ export class LevelsComponent implements OnInit {
 		}).subscribe(data1=>{
 			data1['data'].contentLevelOnes.map(l1=> {
 				if (l1.name == this.selectedContent1) {
+					console.log("add l2", this.selectedContent1, $event.newValue1, this.selectedParcentage1, $event.newValue2)
 					switch ($event.eventType) {
 						case "add":
 							this.econtentOneService.service({

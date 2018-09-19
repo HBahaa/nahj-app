@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GeoService } from '../../../services/geo/geo.service';
 import { EvalutionStatusService } from '../../../services/evaluationStatus/evalution-status.service';
 import { StudyYearsService } from '../../../services/studyYears/study-years.service';
-import {map} from 'rxjs/operators';
+import { ConfigService } from '../../../services/config';
+import { CityService } from '../../../services/city/city.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,7 @@ import {map} from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
 
-	url : string = "http://localhost:4466";
+	url : string;
 	geoArray : any = [];
 	citiesArray : any = [];
 	termArray = [];
@@ -24,8 +25,13 @@ export class HomeComponent implements OnInit {
 
 	constructor(
 		private geoService: GeoService,
+		private cityService: CityService,
 		private evaluationService: EvalutionStatusService,
-		private studyYearService: StudyYearsService) { }
+		private studyYearService: StudyYearsService,
+		private configService: ConfigService) {
+
+			this.url = this.configService.url;
+		}
 
  
 	ngOnInit() {
@@ -37,25 +43,31 @@ export class HomeComponent implements OnInit {
 
 	//get data functions
 
-	getGeoCityData(name){//get geoDataCity
+	getGeoCityData(id){//get geoDataCity
 		this.geoService.service({
 			method: "GET",
 			url: this.url
 		}).subscribe((data: any) => {
-			this.geoArray = data.data.geoAreas.map((item, index) => {
-				if(!name && index == 0){
-					this.citiesArray = item["cities"]
-				}else if(item.name == name){
-					this.citiesArray =  item["cities"]
-				}
-				return item.name;
-			} );
+			console.log("get geo city", data)
+			if (data.data) {
+				this.geoArray = data.data.geoAreas.map((item, index) => {
+					if(!name && index == 0){
+						this.citiesArray = item["cities"]
+					}else if(item.id == id){
+						this.citiesArray =  item["cities"]
+					}
+					this.selectedCity = undefined;
+					return item;
+				} );
+			}
 		});
 	}
 
 	getCities($event){
-		this.getGeoCityData($event.value || undefined);
-		this.selectedGeo = $event.value 
+		console.log("list", $event)
+		this.getGeoCityData($event.value.id || undefined);
+		this.selectedGeo = $event.value;
+		this.selectedCity = undefined;		
 	}
 	getStudyYears(){
 		this.studyYearService.service({
@@ -63,7 +75,7 @@ export class HomeComponent implements OnInit {
 			url: this.url
 		}).subscribe(data => {
 			this.termArray = data["data"].studyYears.map(styYear =>{
-				return styYear.name;
+				return styYear;
 			})
 
 		})
@@ -74,7 +86,7 @@ export class HomeComponent implements OnInit {
 			method: "GET",
 			url: this.url
 		}).subscribe((data: any) => {
-			this.evaluationStatus = data.data.evaluationStatuses.map(item => item.name);
+			this.evaluationStatus = data.data.evaluationStatuses;
 		})
 	}
 
@@ -88,115 +100,52 @@ export class HomeComponent implements OnInit {
 					name: $event.newValue
 				}).subscribe((data: any) => {
 					this.getGeoCityData($event.newValue);
-					this.selectedGeo = $event.newValue;
-				});
-			
+					// this.selectedGeo = $event.newValue;
+				});			
 			break;
 			case "update" :
 				this.geoService.service({
 					url:this.url,
-					method: 'GET',
+					method: 'POST',
+					newName:$event.newValue,
+					name:$event.value,
+					id:this.selectedGeo['id']
 				}).subscribe((data:any)=>{
-					data.data.geoAreas.map((item)=>{
-						if(item.name === $event.value){
-							this.geoService.service({
-								url:this.url,
-								method: 'POST',
-								newName:$event.newValue,
-								name:$event.value,
-								cities:item.cities
-							}).subscribe((data:any)=>{
-								this.getGeoCityData($event.newValue)
-								this.geoService.service({
-									method: 'DELETE',
-									url: this.url,
-									name: $event.value
-								}).subscribe((data: any)=>{
-									this.getGeoCityData($event.newValue)
-								})
-							})					
-						}
-					})
+					this.getGeoCityData($event.newValue)
 				})
 			break;
 		}
 	}
 
 	addNewCity($event){
-		console.log("add city", $event)
 		switch ($event.eventType) {
 			case "add":
-				this.geoService.cities({
+				this.cityService.service({
+					method: "PUT",
 					url: this.url,
-					name: this.selectedGeo
-				}).subscribe(data => {
-					let oldCities = data["data"]["geoAreas"][0]["cities"];
-					let newCities = oldCities
-					console.log("old city", oldCities)
-					newCities.push($event.newValue);
-					console.log("new city", newCities)
-
-					this.geoService.service({
-						method: 'GET',
-						url: this.url
-					}).subscribe(geos=>{
-						geos['data'].geoAreas.filter(geo=>geo.name == this.selectedGeo).map(geo=>{
-							this.geoService.service({
-								method: "DELETE",
-								url: this.url,
-								Id: geo.id
-							}).subscribe(data =>{
-								this.geoService.service({
-									method: 'PUT',
-									url: this.url,
-									name: this.selectedGeo,
-									cities: newCities
-								}).subscribe((data: any) => {
-									this.citiesArray= data["data"]["createGeoArea"]["cities"];
-									this.selectedCity = $event.newValue;
-								});
-							})
-						})
-					})
-				});
-				break;
+					name: $event.newValue,
+					id: this.selectedGeo['id']
+				}).subscribe(cities => {
+					console.log("cities", cities)
+					this.getGeoCityData(this.selectedGeo['id'])
+				})
+			break;
 
 			case "update":
-				this.geoService.cities({
+				this.cityService.service({
+					method: "POST",
 					url: this.url,
-					name: this.selectedGeo
-				}).subscribe(data => {
-					let cities = data["data"]["geoAreas"][0]["cities"];
-					let index = cities.indexOf($event.value);
-					cities.splice(index , 1);
-					cities.push($event.newValue);
-					this.geoService.service({
-						method: 'GET',
-						url: this.url
-					}).subscribe(geos=>{
-						geos['data'].geoAreas.filter(geo=>geo.name == this.selectedGeo).map(geo=>{
-							this.geoService.service({
-								method: "DELETE",
-								url: this.url,
-								Id: geo.id
-							}).subscribe(data =>{
-								this.geoService.service({
-									method: 'PUT',
-									url: this.url,
-									name: this.selectedGeo,
-									cities: cities
-								}).subscribe((data: any) => {
-									this.citiesArray= data["data"]["createGeoArea"]["cities"];
-									this.selectedCity = $event.newValue;
-								});
-							})
-						})
-					})
-				});
-				break;
+					name: $event.newValue,
+					id: this.selectedCity['id']
+				}).subscribe(cities => {
+					this.getGeoCityData(this.selectedGeo['id'])
+				})
+			break;
 		}
 	}
 	addNewEvaluation($event){
+		console.log("add eval", $event)
+		console.log("selected eval", this.selectedEval)
 		switch ($event.eventType) {
 			case "add":
 				this.evaluationService.service({
@@ -205,28 +154,19 @@ export class HomeComponent implements OnInit {
 					name: $event.newValue
 				}).subscribe((data: any) => {
 					this.getEvaluationStatusData();
-					this.selectedEval = $event.newValue;
 				});
-				break;
+			break;
 		
 			case "update":
 				this.evaluationService.service({
-					method: "GET",
-					url: this.url
+					method: "POST",
+					url: this.url,
+					name: $event.newValue,
+					id: this.selectedEval['id']
 				}).subscribe((data: any) => {
-					data.data.evaluationStatuses.filter(item => item.name == $event.value ).map(item => {
-						this.evaluationService.service({
-							method: "POST",
-							url: this.url,
-							name: $event.newValue,
-							id: item.id
-						}).subscribe((data: any) => {
-							this.getEvaluationStatusData();
-							this.selectedEval = $event.newValue;
-						});
-					});
-				})
-				break;
+					this.getEvaluationStatusData();
+				});
+			break;
 		}
 	}
 	addNewStudyYear($event){
@@ -238,26 +178,17 @@ export class HomeComponent implements OnInit {
 					name: $event.newValue, 
 				}).subscribe(data=>{
 					this.getStudyYears();
-					this.selectedTerm  =  $event.newValue;
 				});
 			break;
 			case "update":
-			this.studyYearService.service({
-				method: "GET",
-				url: this.url 
-			}).subscribe(data=>{
-				data['data'].studyYears.filter(studyYear=> studyYear.name == $event.value).map(resp=>{
-					this.studyYearService.service({
-						method: "POST",
-						url: this.url,
-						name: $event.newValue,
-						Id: resp.id 
-					}).subscribe(data=>{
-						this.getStudyYears();
-						this.selectedTerm  =  $event.newValue;
-					});
-				})
-			});
+				this.studyYearService.service({
+					method: "POST",
+					url: this.url,
+					name: $event.newValue,
+					Id: this.selectedTerm['id'] 
+				}).subscribe(data=>{
+					this.getStudyYears();
+				});
 			break;
 		}
 	}
@@ -265,50 +196,24 @@ export class HomeComponent implements OnInit {
 	//delete data functions
 	deleteGeo($event){
 		this.geoService.service({
-			method: 'GET',
-			url: this.url
-		}).subscribe(geos=>{
-			geos['data'].geoAreas.map(geo=>{
-				if (geo.name == $event.value) {
-					this.geoService.service({
-						method: 'DELETE',
-						url: this.url,
-						Id: geo.id
-					}).subscribe((data:any)=> {
-						this.getGeoCityData(undefined);
-						this.selectedGeo = undefined;
-					})
-				}
-			})
-		})
+			method: 'DELETE',
+			url: this.url,
+			id: this.selectedGeo['id']
+		}).subscribe((data:any)=> {
+			this.getGeoCityData(undefined);
+			this.selectedGeo = undefined;
+		})	
 	}
 
 	deleteCity($event){
-		this.geoService.service({
-			method: 'GET',
-			url: this.url
-		}).subscribe(data=>{
-			data['data'].geoAreas.filter(geo=>geo.name == this.selectedGeo).map(geo=>{
-				let cities = geo["cities"];
-				let index = cities.indexOf($event.value);
-				cities.splice(index , 1);
-				this.geoService.service({
-					method: "DELETE",
-					url: this.url,
-					Id: geo.id
-				}).subscribe(data =>{
-					this.geoService.service({
-						method: 'PUT',
-						url: this.url,
-						name: this.selectedGeo,
-						cities: cities
-					}).subscribe((data: any) => {
-						this.citiesArray= data["data"]["createGeoArea"]["cities"];
-						this.selectedCity = $event.newValue;
-					});
-				})
-			})
-		})
+		this.cityService.service({
+			method: 'DELETE',
+			url: this.url,
+			id: this.selectedCity['id']
+		}).subscribe((data:any)=> {
+			this.getGeoCityData(this.selectedGeo['id']);
+			this.selectedCity = undefined;
+		})	
 	}
 
 	deleteEvaluation($event){
@@ -346,12 +251,5 @@ export class HomeComponent implements OnInit {
 				});
 			})
 		});
-		// this.studyYearService.service({
-		// 	method: "DELETE",
-		// 	url: this.url
-		// }).subscribe(data =>{
-		// 	this.termArray = []
-		// 	this.selectedTerm = undefined;
-		// })
 	}
 }

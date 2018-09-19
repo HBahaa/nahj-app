@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ConfigService } from '../../../services/config';
 
 @Component({
   selector: 'app-childern',
@@ -9,7 +10,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class ChildernComponent implements OnInit {
 	
 	form: FormGroup;
-	constructor( private fb: FormBuilder ) {}
+	url: string;
+	
+	constructor( private fb: FormBuilder, private configService: ConfigService ) {
+		this.url = this.configService.url;
+	}
 
 	ngOnInit() {
 		this.form = this.fb.group({
@@ -18,6 +23,8 @@ export class ChildernComponent implements OnInit {
 			parent: ['', Validators.required],
 			nationality: ['', Validators.required],
 			type: ['', Validators.required],
+			term: ['', Validators.required],
+			class: ['', Validators.required],
 			job: ['', Validators.required],
 			birthday: ['', Validators.required],
 			id: ['', Validators.required],

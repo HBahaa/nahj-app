@@ -26,8 +26,8 @@ export class CardListComponent implements OnInit {
 	}
 
 	listClick(event, componentType, item) {
-	    this.selectedItem = item;
-	    this.newValue = item;
+	    this.selectedItem = item.name;
+	    this.newValue = item.name;
 	    this.listItems.emit({componentType: this.componentType, value: item,newValue:null,eventType:"click"});
 	    this.show = true;
 	}
