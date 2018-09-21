@@ -126,7 +126,7 @@ export class HomeComponent implements OnInit {
 		console.log("add city", $event)
 		switch ($event.eventType) {
 			case "add":
-				this.geoService.cities({
+				this.geoService.service({
 					url: this.url,
 					name: this.selectedGeo
 				}).subscribe(data => {
@@ -162,7 +162,7 @@ export class HomeComponent implements OnInit {
 				break;
 
 			case "update":
-				this.geoService.cities({
+				this.geoService.service({
 					url: this.url,
 					name: this.selectedGeo
 				}).subscribe(data => {
