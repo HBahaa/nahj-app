@@ -195,6 +195,9 @@ export class SchoolService {
         }`;
         break;
       case "PUT"://create
+        console.log("config", config);
+        console.log("config", config.geoArea);
+
         query = `mutation(
           ${config.hasOwnProperty('address') ? '$address: String' : ''}
           ${config.hasOwnProperty('gps') ? '$gps: String' : ''}
@@ -281,6 +284,7 @@ export class SchoolService {
   }
 
   CreateAdmin(config) {
+    console.log("config.admin", config.admin)
     if (config.admin && config.admin.length > 0) {
       return config.admin.map((item) => {
         let a = {
@@ -291,7 +295,9 @@ export class SchoolService {
           whatsApp: item.whatsApp || "",
           username: item.username || "",
           password: item.password || "",
+          email: item.email || "",
         }
+        console.log("a", a)
         return a
       })
     } else {
@@ -394,6 +400,7 @@ method:""
   [required]  whatsApp   'value' || ""
   [required]  username   'value' || ""
   [required]  password   'value' || ""
+  [required]  email      'value' || ""
   }]
 [optional]  content:[{
     [optional] id       'value' || ""

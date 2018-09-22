@@ -21,13 +21,13 @@
               </div>
               <div class="form-group">
                 <select class="form-control" (change)="getCities($event)" formControlName="geo">
-                    <option value="">اخنر عنصر</option>
+                    <option>اخنر عنصر</option>
                   <option *ngFor="let geo of geoArray" value="{{geo.id}}">{{geo.name}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <select class="form-control" formControlName="city">
-                  <option value="">اخنر عنصر</option>
+                  <option>اخنر عنصر</option>
                   <option *ngFor="let city of citiesArray" value="{{city.id}}">{{city.name}}</option>
                 </select>
               </div>
@@ -78,19 +78,19 @@
               <h5>الموقع في التقسيم الشجري</h5>
               <div class="form-group">
                 <select (change)="handleChange('level1', $event)" class="form-control" formControlName="level1">
-                  <option value="">اختر عنصر</option>
+                  <option>اختر عنصر</option>
                   <option *ngFor="let item of level1; index as i" value="{{item.id}}">{{item.name}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <select (change)="handleChange('level2', $event)" class="form-control" formControlName="level2">
-                  <option value="">اختر عنصر</option>
+                  <option>اختر عنصر</option>
                   <option *ngFor="let item of level2; index as i" value="{{item.id}}">{{item.name}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <select (change)="handleChange('level3', $event)" class="form-control" formControlName="level3">
-                  <option value="">اختر عنصر</option>
+                  <option>اختر عنصر</option>
                   <option *ngFor="let item of level3; index as i" value="{{item.id}}">{{item.name}}</option>
                 </select>
               </div>
@@ -152,29 +152,29 @@
               
               <div class="form-group">
                 <label>الفصل الدراسي</label>
-                <select class="form-control" formControlName="studyYears">
-                  <option value="">اختر عنصر</option>
+                <select class="form-control" (change)="handleStudyYearChange($event.target.value)" formControlName="studyYears">
+                  <option>اختر عنصر</option>
                   <option *ngFor="let term of terms" [value]="term.id">{{ term.name }}</option>
                 </select>
               </div>
               <h5>بيانات الرخصة</h5>
 
               <div class="form-group">
-                <input type="number" class="form-control" formControlName="studentsNum" placeholder="عدد الطلاب">
+                <input type="number" class="form-control" formControlName="lstudentsNum" placeholder="عدد الطلاب">
               </div>
               <div class="form-group">
-                <input type="number" class="form-control" formControlName="classesNum" placeholder="عدد الفصول">
+                <input type="number" class="form-control" formControlName="lclassesNum" placeholder="عدد الفصول">
               </div>
               <div class="form-group">
-                <input type="number" class="form-control" formControlName="teachersNum" placeholder="عدد المدرسات/ المشرفات">
+                <input type="number" class="form-control" formControlName="lteachersNum" placeholder="عدد المدرسات/ المشرفات">
               </div>
               <div class="form-group">
-                <input type="number" class="form-control" formControlName="adminsNum" placeholder="عدد اﻷدمن">
+                <input type="number" class="form-control" formControlName="ladminsNum" placeholder="عدد اﻷدمن">
               </div>
               
               <div class="form-group">
                 <h5>المحتوي المرخص</h5>
-                <div class="content-list" style="min-height: 120px;max-height: 120px;">
+                <div class="content-list" style="min-height: 80px;max-height: 80px;">
                   <ul *ngFor="let content of speciificContent; let i = index">
                   <li id="{{i}}" (click)="deleteContent($event)">  {{ content && content.speciificContentLevelOne ? content.speciificContentLevelOne.name : "" }} 
                     <ul *ngIf="content && content.speciificContentLevelTwo">
@@ -195,10 +195,19 @@
                   </li>
                 </ul>
                 </div>
+                <button type="button" class="btn btn-primary add-content mt-1" [disabled]="show" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button>
               </div>
-              <button type="button" class="btn btn-primary float-left add-content" [disabled]="show" data-toggle="modal" data-target="#myModal">
-                <i class="fa fa-plus"></i>
-              </button>
+              <div class="text-left card-footer">
+                <button *ngIf="add" class="btn btn-success ml-2" (click)="addTermClicked()" type="button">
+                  <i class="fa fa-fw fa-plus"></i>
+                </button>
+                <button *ngIf="!add" class="btn btn-success ml-2" (click)="addTerm()" type="button">
+                  <i class="fa fa-fw fa-save"></i> 
+                </button>
+                <button class="btn btn-danger" (click)="deleteTerm(item)" type="button">
+                  <i class="fa fa-fw fa-close"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -212,7 +221,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <h5 class="modal-title">إضافة محتوي جديد</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -220,32 +229,32 @@
         <div class="modal-body">
           <div class="form-group">
             <select (change)="handleContentChange('content1', $event)" class="form-control" formControlName="content1">
-              <option value="">اختر عنصر</option>
+              <option>اختر عنصر</option>
               <option *ngFor="let item of content1; index as i" value="{{item.id}}">{{item.name}}</option>
             </select>
           </div>
           <div class="form-group">
             <select (change)="handleContentChange('content2', $event)" class="form-control" formControlName="content2">
-              <option value="">اختر عنصر</option>
+              <option>اختر عنصر</option>
               <option *ngFor="let item of content2; index as i" value="{{item.id}}">{{item.name}}</option>
             </select>
           </div>
           <div class="form-group">
             <select (change)="handleContentChange('content3', $event)" class="form-control" formControlName="content3">
-              <option value="">اختر عنصر</option>
+              <option>اختر عنصر</option>
               <option *ngFor="let item of content3; index as i" value="{{item.id}}">{{item.name}}</option>
             </select>
           </div>
           <div class="form-group">
             <select (change)="handleContentChange('content4', $event)" class="form-control" formControlName="content4">
-              <option value="">اختر عنصر</option>
+              <option>اختر عنصر</option>
               <option *ngFor="let item of content4; index as i" value="{{item.id}}">{{item.name}}</option>
             </select>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button"  class="btn btn-primary" id="save" (click)="saveLContent()" >Save</button>
+          <button type="button"  class="btn btn-primary ml-1" id="save" (click)="saveLContent()" >حفظ</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
         </div>
       </div>
     </div>

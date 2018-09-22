@@ -67,6 +67,7 @@ export class evaluation {
         }`;
         break;
       case "PUT"://create
+      console.log("config", config)
         query = `mutation {
             ${config.levelName}(
               data: {
@@ -77,7 +78,7 @@ export class evaluation {
                     ${config.hasOwnProperty('currentStatus') ? `currentStatus: { connect: { id: ${config.id} } }`:'' }
                   }
                 }
-              }
+              } 
               where: { id: ${config.id} }
             ) {
               id

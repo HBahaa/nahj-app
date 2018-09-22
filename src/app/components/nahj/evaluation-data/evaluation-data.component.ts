@@ -133,7 +133,6 @@ export class EvaluationDataComponent implements OnInit {
 		})
 	}
 	/// get Functions
-
 	getEvaluationStatus(){
 		this.evalutionStatusService.service({
 			method: "GET",
@@ -162,108 +161,21 @@ export class EvaluationDataComponent implements OnInit {
 			})
 		})
 	}
-	getContentData(name1, name2, name3, name4){
+	getContentData(id1, id2, id3, id4){
 		this.econtentOneService.service({
 			method: 'GET',
 			url: this.url
 		}).subscribe(econtent1=>{
 			this.level1 = econtent1['data'].contentLevelOnes.map((l1, index1)=> {
-				if (!name1 && index1 == 0) {
-					this.selectedLevel1 = l1.name;
+				if (id1 == l1.id) {
+					// this.selectedLevel1 = l1.name;
 					this.level2 = l1.contentLevelTwo.map((l2, index2)=>{
-						if (!name2 && index2 == 0) {
-							this.selectedLevel2 = l2.name;
-							if (l2.contentLevelThree.length > 0) {
-								this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-									this.selectedLevel3=l3.name;
-									if (!name3 && index3 == 0) {
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" )
-										}else{
-											this.level4 = [];
-										}
-									}else if (name3 == l3.name) {
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" )
-										}else{
-											this.level4 = [];
-										}
-									}
-									return l3;
-								})
-							}else{
-								this.level3 = [];
-								this.level4 = [];
-							}
-						}else if (name2 == l2.name) {
-							this.selectedLevel2 = l2.name;
-							if (l2.contentLevelThree.length > 0) {
-								this.level3 =  l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-									if (!name3 && index3 == 0) {
-										this.selectedLevel3=l3.name;
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" )
-										}else{
-											this.level4 = [];
-										}
-									}else if (name3 == l3.name) {
-										this.selectedLevel3=l3.name;
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" )
-										}else{
-											this.level4 = [];
-										}
-									}
-									return l3
-								})
-							}else{
-								this.level3 = [];
-								this.level4 = [];
-							}
-						}
-						return l2;
-					})
-				}else if (name1 == l1.name) {
-					this.selectedLevel1 = l1.name;
-					this.level2 = l1.contentLevelTwo.map((l2, index2)=>{
-						if (!name2 && index2 == 0) {
-							this.selectedLevel2 = l2.name;
-							if (l2.contentLevelThree.length > 0) {
-								this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-									if (!name3 && index3 == 0) {
-										this.selectedLevel3=l3.name;
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" )
-										}else{
-											this.level4 = [];
-										}
-									}else if (name3 == l3.name) {
-										this.selectedLevel3=l3.name;
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" )
-										}else{
-											this.level4 = [];
-										}
-									}
-									return l3
-								})
-							}else{
-								this.level3 = [];
-								this.level4 = [];
-							}
-						}else if (name2 == l2.name) {
-							this.selectedLevel2 = l2.name;
+						if (id2 == l2.id) {
+							// this.selectedLevel2 = l2.name;
 							if (l2.contentLevelThree.length > 0) {
 								 this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-									if (!name3 && index3 == 0) {
-										this.selectedLevel3=l3.name;
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" )
-										}else{
-											this.level4 = [];
-										}
-									}else if (name3 == l3.name) {
-										this.selectedLevel3=l3.name;
+									if (id3 == l3.id) {
+										// this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
 											this.level4 = l3.contentLevelFour.filter(n => n.name != "" )
 										}else{
@@ -308,28 +220,54 @@ export class EvaluationDataComponent implements OnInit {
 
 	//add functions
 	addNewEvaluation(){
-		this.econtentOneService.service({
-			method: 'GET',
-			url: this.url
-		}).subscribe(econtent1=>{
+		// this.econtentOneService.service({
+		// 	method: 'GET',
+		// 	url: this.url
+		// }).subscribe(econtent1=>{
+			console.log("this.form.value", this.form.value)
+			var levelName , levelId;
+			// = this.form.value.level4 ? 'updateContentLevelFour' : this.form.value.level3 ? 'updateContentLevelThree' : this.form.value.level2 ? 'updateContentLevelTwo' : this.form.value.level1 ? 'updateContentLevelOne' : undefined
+
+			if (this.form.value.level4) {
+				levelName = 'updateContentLevelFour'
+				levelId = this.form.value.level4
+			}
+			else if (this.form.value.level3) {
+				levelName = 'updateContentLevelThree'
+				levelId = this.form.value.level3
+			}
+			else if (this.form.value.level2) {
+				levelName = 'updateContentLevelTwo'
+				levelId = this.form.value.level2
+			}
+			else if (this.form.value.level1) {
+				levelName = 'updateContentLevelOne'
+				levelId = this.form.value.level1
+			}
+
+			console.log("levelId", levelId)
+			console.log("levelName", levelName)
 			this.evaluation.service({
 				method: "PUT",
 				url: this.url,
 				title: this.form.value.title,
 				shortTitle: this.form.value.shortTitle,
-				currentStatusId: this.form.value.currentStatus,
-				accountWayId: this.form.value.accountWay,
-				speciificContentLevelOneId: this.form.value.level1 ,
-				speciificContentLevelTwoId: this.form.value.level2 || undefined,
-				speciificContentLevelThreeId: this.form.value.level3 || undefined,
-				speciificContentLevelFourId: this.form.value.level4 || undefined,
-				questionGroupName: "",
-				questionGroupWeight: ""
+				currentStatus: this.form.value.currentStatus,
+				// accountWayId: this.form.value.accountWay,
+				levelName: levelName,
+				id: levelId
+				// speciificContentLevelOneId: this.form.value.level1 ,
+				// speciificContentLevelTwoId: this.form.value.level2 || undefined,
+				// speciificContentLevelThreeId: this.form.value.level3 || undefined,
+				// speciificContentLevelFourId: this.form.value.level4 || undefined,
+				// questionGroupName: "",
+				// questionGroupWeight: ""
 			}).subscribe(data=>{
+				console.log("data", data)
 				this.EvalAdd = true;
 				this.updateFilter = true;
 			})
-		})
+		// })
 		this.updateFilter = false;
 	}
 	addNewQuestionGroup(){
