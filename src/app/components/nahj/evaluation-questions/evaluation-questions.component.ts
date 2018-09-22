@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { questionDetails } from '../../../services/MainAdminEvaluation/questionsDetails';
 import { questionType } from '../../../services/MainAdminEvaluation/questionType';
-import { ConfigService } from '../../../services/config';
 
 @Component({
   selector: 'app-evaluation-questions',
@@ -20,18 +19,15 @@ export class EvaluationQuestionsComponent implements OnInit {
   edit = true;
   add = true;
 
-  url: string;
+  url: string = 'http://localhost:4466';
   form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private questionDetails: questionDetails,
     private evaluation: evaluation,
-    private questionType: questionType,
-    private configService: ConfigService
-  ) {
-    this.url = this.configService.url;
-  }
+    private questionType: questionType
+  ) { }
 
   ngOnInit() {
     this.clearAllInputs();

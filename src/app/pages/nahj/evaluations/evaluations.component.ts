@@ -1,7 +1,6 @@
 import { map } from 'rxjs/operators';
 import { Component, OnInit, Input } from '@angular/core';
 import { EvaluationSchema } from '../../../services/MainAdminEvaluation/evaluationSchema';
-import { ConfigService } from '../../../services/config';
 
 @Component({
   selector: 'app-evaluations',
@@ -12,15 +11,12 @@ export class EvaluationsComponent implements OnInit {
 
 	@Input() options = [];	
 	@Input() grades = [];
-	url : string;
+	url : string = "http://localhost:4466";
 	selectedEvaluationOption : string;
 
 	constructor(
-		private evaluationSchema: EvaluationSchema,
-		private configService: ConfigService
-	) {  
-		this.url = this.configService.url;
-	}
+		private evaluationSchema: EvaluationSchema
+	) { }
 
 	ngOnInit() {
 		this.getEvaluationOptions(undefined);

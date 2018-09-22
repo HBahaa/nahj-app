@@ -22,7 +22,7 @@
 		<div>
 			<label for="">المدارس</label>
 			<select class="form-control" size="7">
-				<option (click)="itemClicked(item)" *ngFor="let item of result | filter: searchName; index as i" value="{{i}}">{{item.name}}</option>
+				<option (click)="itemClicked(item)" *ngFor="let item of result; index as i" value="{{i}}">{{item.name}}</option>
 			</select>
 		</div>
 

@@ -9,7 +9,7 @@
         <app-card-list img="./assets/images/level2.png" [data]='level2' componentType="level2" (listItems)="getLevelData($event)" (saveButton)="addLevelTwo($event)" (deleteButton)="deleteLevelTwo($event)"></app-card-list>
       </div>
       <div class="col-lg-3 col-sm-6">
-        <app-card-list img="./assets/images/level3.png" [data]='level3' componentType="level3" (listItems)="selectedLevel3 =$event.value" (saveButton)="addLevelThree($event)" (deleteButton)="deleteLevelThree($event)"></app-card-list>
+        <app-card-list img="./assets/images/level3.png" [data]='level3' componentType="level3" (saveButton)="addLevelThree($event)" (deleteButton)="deleteLevelThree($event)"></app-card-list>
       </div>
     </div>
   </div>
