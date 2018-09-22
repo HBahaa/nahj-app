@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { studyLevelsOne } from '../../../services/schoolAdmin/studyLevelsOne';
 import { teachers } from '../../../services/schoolAdmin/teachers';
 import { classes } from '../../../services/schoolAdmin/class';
+import { ConfigService } from '../../../services/config';
 
 @Component({
   selector: 'app-teachers',
@@ -12,7 +13,7 @@ import { classes } from '../../../services/schoolAdmin/class';
 export class TeachersComponent implements OnInit {
 
 	// form: FormGroup;
-	url = 'http://localhost:4466';
+	url : string;
 
 	schoolID;
 	selectedStudyLevel1;
@@ -42,8 +43,9 @@ export class TeachersComponent implements OnInit {
 	studyLevel3 = [];
 
 
-	constructor( private teachers: teachers,
+	constructor( private teachers: teachers, private configService: ConfigService,
 				private studyLevelsOne: studyLevelsOne, private classesService: classes ) {
+		this.url = this.configService.url;
 		this.schoolID = localStorage.getItem("schoolID");
 	}
 

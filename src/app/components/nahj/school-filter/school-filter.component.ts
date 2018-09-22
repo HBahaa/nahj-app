@@ -50,10 +50,6 @@ export class SchoolFilterComponent implements OnInit {
 		this.getAllLevels(undefined, undefined);
 	}
 
-	searchBySchoolName(){
-
-	}
-
 	///   get data functions
 	getAllLevels(id1, id2) {
 		this.elevelsOne.service({

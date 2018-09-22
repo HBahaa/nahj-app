@@ -8,6 +8,7 @@ import { EcontentFourService } from '../../../services/econtent/econtent-four.se
 import { EvalutionStatusService } from '../../../services/evaluationStatus/evalution-status.service';
 import { questionType } from './../../../services/MainAdminEvaluation/questionType';
 import { EvaluationSchema } from '../../../services/MainAdminEvaluation/evaluationSchema';
+import { ConfigService } from '../../../services/config';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class EvaluationDataComponent implements OnInit {
 	updateFilter: boolean = false;
 	form: FormGroup;
 	questGroupForm: FormGroup;
-	url: string = 'http://localhost:4466';
+	url: string;
 	level1 = [];
 	level2 = [];
 	level3 = [];
@@ -48,8 +49,11 @@ export class EvaluationDataComponent implements OnInit {
 		private econtentThreeService: EcontentThreeService,
 		private econtentFourService: EcontentFourService,
 		private evalutionStatusService: EvalutionStatusService,
-		private evaluationSchema: EvaluationSchema
-	) {}
+		private evaluationSchema: EvaluationSchema,
+		private configService: ConfigService
+	) {
+		this.url = this.configService.url;
+	}
  
 	ngOnInit() {
 		this.form = this.fb.group({

@@ -23,8 +23,5 @@ export class StudentsFilterComponent implements OnInit {
 	handleLevel3Change(level3){
 
 	}
-	SearchByName(name){
-
-	}
 
 }
