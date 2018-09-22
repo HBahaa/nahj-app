@@ -12,26 +12,80 @@ export class EcontentFourService {
     let variable: object = {};
     switch (config.method) {
       case "PUT": //create
-        query = ``
+        query = `mutation($name: String!, $percentage: Int, $id: ID!) {
+          updateContentLevelThree(
+            data: {
+              contentLevelFour: {
+                create: { name: $name, relativePercentage: $percentage }
+              }
+            }
+            where: { id: $id }
+          ) {
+            id
+            contentLevelFour {
+              id
+              name
+              relativePercentage
+            }
+          }
+        }`
         variable = {
+          id:config.id,
+          name:config.name,
+          percentage:config.percentage
         }
         break;
       case "GET": //read
-        query = `{ contentLevelOnes { id name relativePercentage contentLevelTwo { id name relativePercentage contentLevelThree { id name relativePercentage contentLevelFour { id name relativePercentage } } } } }
-        variables	{}`;
+        query = `query {
+          contentLevelOnes {
+            id
+            name
+            relativePercentage
+            contentLevelTwo {
+              id
+              name
+              relativePercentage
+              contentLevelThree {
+                id
+                name
+                relativePercentage
+                contentLevelFour {
+                  id
+                  name
+                  relativePercentage
+                }
+              }
+            }
+          }
+        }`;
         break;
       case "POST"://update
-        query = `mutation ($namel4: String!, $relativePercentagel4: Int!, $Id: ID!) { updateContentLevelFour(data: {name: $namel4, relativePercentage: $relativePercentagel4}, where: {id: $Id}) { id name relativePercentage } }`
+        query = `mutation($name: String!, $percentage: Int, $id: ID!) {
+          updateContentLevelFour(
+            data: { name: $name, relativePercentage: $percentage }
+            where: { id: $id }
+          ) {
+            id
+            name
+            relativePercentage
+          }
+        }`
         variable = {
-          namel4:config.namel4,
-          relativePercentagel4: config.relativePercentagel4,
-          Id:config.Id
+          id:config.id,
+          name:config.name,
+          percentage:config.percentage
         }
         break;
       case "DELETE": //delete
-        query = `mutation ($Id: ID!) { deleteContentLevelFour(where: {id: $Id}) { id name relativePercentage } }`
+        query = `mutation($id: ID!) {
+          deleteContentLevelFour(where: { id: $id }) {
+            id
+            name
+            relativePercentage
+          }
+        }`
         variable = {
-          Id:config.Id
+          id:config.id
         }
         break;
     }

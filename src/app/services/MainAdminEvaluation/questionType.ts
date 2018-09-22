@@ -1,4 +1,3 @@
-import { evaluation } from './evaluation';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -15,91 +14,110 @@ export class questionType {
         // console.log(config)
         switch (config.method) {
             case "POST": //update
-                query = `mutation($name:String!,$weight:String!,$id:ID) {
-            updateQuestionType(
-              data: {
-                name: $name
-                weight: $weight
-              }
-              where: { id: $id }
-            ) {
-              id
-              name
-              weight
-            }
-          }`
-                variable = {
-                    name: config.name,
-                    weight: config.weight,
-                    id: config.id
-                }
+                query = `mutation{
+                  updateQuestionType(
+                    data:{
+                      ${config.hasOwnProperty('name') ? `name: ${config.name}` : '' }
+                      ${config.hasOwnProperty('weight') ? `weight: ${config.weight}` : '' }
+                      ${config.hasOwnProperty('accountWay') ? `${ config.accountWay == false ? `accountWay: {disconnect:true}` : `accountWay: {connect:{id:${config.accountWay}}}` }` : ''}
+                    }
+                    where:{
+                      id:${config.id}
+                    }
+                  ){
+                    id
+                  }
+                }`
                 break;
             case "GET": //read
-                query = `{
-                    questionTypes {
+                query = `query{
+                  contentLevelOnes{
+                    evaluation{
                       id
-                      name
-                      weight
-                      questions {
+                      title
+                      shortTitle
+                      currentStatus{
                         id
-                        question
-                        details
-                        enhancement
-                        weight
-                        multiSelect
-                        isPercentage
-                        isEqualWeights
+                        name
+                      }
+                      questionGroup{
+                        id
+                        name
                       }
                     }
-                  }`;
+                  }
+                  contentLevelTwoes{
+                    evaluation{
+                      id
+                      title
+                      shortTitle
+                      currentStatus{
+                        id
+                        name
+                      }
+                      questionGroup{
+                        id
+                        name
+                      }
+                    }
+                  }
+                  contentLevelThrees{
+                    evaluation{
+                      id
+                      title
+                      shortTitle
+                      currentStatus{
+                        id
+                        name
+                      }
+                      questionGroup{
+                        id
+                        name
+                      }
+                    }
+                  }
+                  contentLevelFours{
+                    evaluation{
+                      id
+                      title
+                      shortTitle
+                      currentStatus{
+                        id
+                        name
+                      }
+                      questionGroup{
+                        id
+                        name
+                      }
+                    }
+                  }
+                }`;
                 break;
             case "PUT"://create
-                query = `mutation($name:String!,$weight:String!,$evaluationId:ID){
-            updateEvaluation(
-              data:{
-                questionGroup:{
-                  create:{
-                    name:$name,
-                    weight:$weight
+                query = `mutation{
+                  updateEvaluation(
+                    data:{
+                      questionGroup:{
+                        create:{
+                          ${config.hasOwnProperty('name') ? `name: ${config.name}` : '' }
+                          ${config.hasOwnProperty('weight') ? `weight: ${config.weight}` : '' }
+                          ${config.hasOwnProperty('accountWay') ? `accountWay:{connect:{id:""}}`:'' }
+                        }
+                      }
+                    }
+                    where:{
+                      id:${config.id}
+                    }
+                  ){
+                    id
                   }
-                }
-              },
-              where:{
-                id:$evaluationId
-              }
-            ){
-              id,
-              title
-              questionGroup{
-                id,
-                name,
-                weight
-              }
-            }
-          }`
-                variable = {
-                    name: config.name,
-                    weight: config.weight,
-                    evaluationId: config.evaluationId
-                }
+                }`
                 break;
             case "DELETE": //delete
-                query = `mutation($Id:ID!){
-                    deleteQuestionType(
-                      where:{
-                        id:$Id
-                      }
-                    ){
-                          id,
-                      name,
-                      weight
-                      }
-                  }`
-                variable = {
-                    Id: config.Id
-                }
+                query = `mutation{
+                  deleteQuestionType(where:{id:${config.id}}){id}
+                }`
                 break;
-
         }
         return this
             .http
@@ -110,3 +128,12 @@ export class questionType {
     }
 
 }
+
+/*
+  config:{
+    method:'',
+    name:'',
+    accountWay:'ID'
+    id:'id'
+  }
+*/

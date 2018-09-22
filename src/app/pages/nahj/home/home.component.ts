@@ -134,6 +134,7 @@ export class HomeComponent implements OnInit {
 			case "update":
 				this.cityService.service({
 					method: "POST",
+
 					url: this.url,
 					name: $event.newValue,
 					id: this.selectedCity['id']
