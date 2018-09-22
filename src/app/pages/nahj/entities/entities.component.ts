@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ELevelsOneService } from '../../../services/elevels/elevelsOne.service';
 import { ELevelsTwoService } from '../../../services/elevels/elevelsTwo.service';
 import { ELevelsThreeService } from '../../../services/elevels/elevelsThree.service';
-import { ConfigService } from '../../../services/config';
 
 @Component({
   selector: 'app-entities',
@@ -11,7 +10,7 @@ import { ConfigService } from '../../../services/config';
 })
 export class EntitiesComponent implements OnInit {
 
-	url : string;
+	url = 'http://localhost:4466';
 	selectedLevel1;
 	selectedLevel2;
 	selectedLevel3;
@@ -20,11 +19,8 @@ export class EntitiesComponent implements OnInit {
 	constructor(
 		private elevelsOne: ELevelsOneService,
 		private elevelsTwo: ELevelsTwoService,
-		private elevelsThree: ELevelsThreeService,
-		private configService: ConfigService
-	) {
-		this.url = this.configService.url;
-	}
+		private elevelsThree: ELevelsThreeService
+	) { }
 
 	ngOnInit() {
 		this.getAllLevels(undefined, undefined);
@@ -42,33 +38,41 @@ export class EntitiesComponent implements OnInit {
 				this.selectedLevel1 = $event.value;
 				this.level2 = [];
 				this.level3 = [];
-				this.getAllLevels($event.value['id'], undefined);
+				this.getAllLevels($event.value, undefined);
 			break;
 			case "level2":
 				this.selectedLevel2 = $event.value;
 				this.level3 = [];
-				this.getAllLevels(this.selectedLevel1['id'], this.selectedLevel2['id']);
+				this.getAllLevels(this.selectedLevel1, this.selectedLevel2);
 			break;
 		}
 	}
 
 	/////   get data functions
-	getAllLevels(id1, id2) {
+	getAllLevels(name1, name2) {
 		this.elevelsOne.service({
 			method: 'GET',
 			url: this.url
 		}).subscribe(data => {
 			this.level1 = data['data'].levelOnes.map((level1, index1)=>{
-				if (!id1 && index1 == 0) {
+				if (!name1 && index1 == 0) {
+					this.selectedLevel1 = level1.name;
 					if(level1['LevelTwo'].length > 0){ 
 						this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
 							if (index2 == 0) {
-								this.selectedLevel2 = level2;
+								this.selectedLevel2 = level2['name'];
 								if (level2['levelThree']) {
-									this.level3 = level2['levelThree'].filter(n => n.name != "" );
+									this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
+										if(index3 == 0){
+											this.selectedLevel3 = level3['name']
+										}
+										return level3.name;
+									});
+								}else{
+									this.level3 = undefined
 								}
 							}
-							return level2
+							return level2.name
 						});
 					}else{
 						this.selectedLevel2 = undefined;
@@ -76,19 +80,35 @@ export class EntitiesComponent implements OnInit {
 						this.level2 = [];
 						this.level3 = [];
 					}
-				}else if (id1 == level1.id) {
+				}else if (name1 == level1.name) {
 					if(level1['LevelTwo'].length > 0){
 						this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
-							if (!id2 && index2 == 0) {
+							if (!name2 && index2 == 0) {
+								this.selectedLevel2 = level2['name'];
 								if (level2['levelThree']) {
-									this.level3 = level2['levelThree'].filter(n => n.name != "" )
+									this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
+										if(index3 == 0){
+											this.selectedLevel3 = level3['name']
+										}
+										return level3.name;
+									});
+								}else{
+									this.selectedLevel3 = undefined;
 								}
-							}else if (id2 == level2.id) {
+							}else if (name2 == level2.name) {
+								this.selectedLevel2 = level2['name'];
 								if (level2['levelThree']) {
-									this.level3 = level2['levelThree'].filter(n => n.name != "" )
+									this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
+										if(index3 == 0){
+											this.selectedLevel3 = level3['name']
+										}
+										return level3.name;
+									});
+								}else{
+									this.level3 = undefined
 								}
 							}
-							return level2;
+							return level2.name;
 						});
 					}
 					else{
@@ -98,8 +118,10 @@ export class EntitiesComponent implements OnInit {
 						this.level3 = []
 					}
 				}
-				return level1;
+				return level1.name;
+
 			});
+			
 		});
 	}
 
@@ -113,113 +135,182 @@ export class EntitiesComponent implements OnInit {
 					url: this.url,
 					newName1: $event.newValue
 				}).subscribe(data => {
-					console.log("data['data']['createLevelOne']"), data['data']['createLevelOne']
-					this.getAllLevels(data['data']['createLevelOne']['id'], undefined);
-					// this.selectedLevel1 = data['data']['createLevelOne']['name'];
+					this.getAllLevels(data['data']['createLevelOne']['name'], undefined);
+					this.selectedLevel1 = data['data']['createLevelOne']['name'];
 				});
 			break;
 			case 'update':
 				this.elevelsOne.service({
-					method: 'POST',
-					url: this.url,
-					id: this.selectedLevel1['id'],
-					newName1: $event.newValue,
-					newName2: ""
+					method: 'GET',
+					url: this.url
 				}).subscribe(data => {
-					this.getAllLevels(data['data']['updateLevelOne']['id'], undefined);
-					// this.selectedLevel1 = data['data']['updateLevelOne']['name'];
-				});
+					data['data'].levelOnes.map(level=>{
+						if (level.name  == $event.value) {
+							let id = level.id;
+							this.elevelsOne.service({
+								method: 'POST',
+								url: this.url,
+								id: id,
+								newName1: $event.newValue,
+								newName2: ""
+							}).subscribe(data => {
+								this.getAllLevels(data['data']['updateLevelOne']['name'], undefined);
+								this.selectedLevel1 = data['data']['updateLevelOne']['name'];
+							});
+
+						}
+					});
+
+				});	
 			break;
 		}
 	}
 	addLevelTwo($event){
-		switch ($event.eventType) {
-			case "add":
-				this.elevelsOne.service({
-					method: 'POST',
-					url: this.url,
-					id: this.selectedLevel1['id'],
-					newName1: this.selectedLevel1['name'],
-					newName2: $event.newValue
-				}).subscribe(data => {
-					// this.selectedLevel2 = $event.newValue;
-					this.level2 =data['data'].updateLevelOne.LevelTwo.filter(l2=> l2.name != "");
-					this.getAllLevels(this.selectedLevel1['id'], undefined);
-				});
-			break;
-			case "update":
-				this.elevelsTwo.service({
-					method: 'POST',
-					url: this.url,
-					id: this.selectedLevel2['id'],
-					newName2: $event.newValue,
-					newName3: ""
-				}).subscribe(resp=>{
-					this.getAllLevels(this.selectedLevel1['id'], undefined);
-				})
-			break;
-		}
+		this.elevelsOne.service({
+			method: 'GET',
+			url: this.url
+		}).subscribe(data => {
+			data['data'].levelOnes.map((level, i)=>{
+				if (level.name  == this.selectedLevel1) {
+					let id = level.id;
+					switch ($event.eventType) {
+						case "add":
+							this.elevelsOne.service({
+								method: 'POST',
+								url: this.url,
+								id: id,
+								newName1: this.selectedLevel1,
+								newName2: $event.newValue
+							}).subscribe(data => {
+								this.selectedLevel2 = $event.newValue;
+								this.getAllLevels(this.selectedLevel1, $event.newValue);
+							});
+						break;
+						case "update":
+							level['LevelTwo'].map(item =>{
+								if (item.name == $event.value) {
+									let id2 = item.id;
+									this.elevelsTwo.service({
+										method: 'POST',
+										url: this.url,
+										id: id2,
+										newName2: $event.newValue,
+										newName3: ""
+									}).subscribe(resp=>{
+										this.selectedLevel2 = $event.newValue;
+										this.getAllLevels(this.selectedLevel1, $event.newValue);
+									})
+								}
+							})
+						break;
+					}
+				}
+			});
+		})
 	}
 	addLevelThree($event){
-		switch ($event.eventType) {
-			case "add":
-			this.elevelsTwo.service({
-				method: 'POST',
-				url: this.url,
-				id: this.selectedLevel2['id'],
-				newName2: this.selectedLevel2['name'],
-				newName3: $event.newValue
-			}).subscribe(data2 => {
-				this.getAllLevels(this.selectedLevel1['id'], this.selectedLevel2['id']);
+		this.elevelsOne.service({
+			method: 'GET',
+			url: this.url
+		}).subscribe(data => {
+			data['data'].levelOnes.map((level, i)=>{
+				if (level.name  == this.selectedLevel1) {
+					level['LevelTwo'].map(item =>{
+						if (item.name == this.selectedLevel2) {
+							switch ($event.eventType) {
+								case "add":
+									this.elevelsTwo.service({
+										method: 'POST',
+										url: this.url,
+										id: item.id,
+										newName2: this.selectedLevel2,
+										newName3: $event.newValue
+									}).subscribe(data2 => {
+										this.getAllLevels(this.selectedLevel1, this.selectedLevel2);
+									});
+								break;
+								case "update":
+									item['levelThree'].map(l3=>{
+										if (l3.name == $event.value) {
+											this.elevelsThree.service({
+												method: 'POST',
+												url: this.url,
+												id: l3.id,
+												newName3: $event.newValue
+											}).subscribe(data3 =>{
+												this.getAllLevels(this.selectedLevel1, this.selectedLevel2);
+											})
+										}
+									})
+								break;
+							}
+						}
+					})
+				}
 			});
-			break;
-			case "update":
-				this.elevelsThree.service({
-					method: 'POST',
-					url: this.url,
-					id: this.selectedLevel3['id'],
-					newName3: $event.newValue
-				}).subscribe(data3 =>{
-					this.getAllLevels(this.selectedLevel1['id'], this.selectedLevel2['id']);
-				})
-			break;
-		}
+		})
 	}
 	/// delete functions
 	deleteLevelOne($event){
 		this.elevelsOne.service({
-			method: 'DELETE',
-			url: this.url,
-			id: this.selectedLevel1['id']
-		}).subscribe(resp => {
-			this.getAllLevels(undefined, undefined);
-			this.selectedLevel1 = undefined
-			this.selectedLevel2=undefined
-			this.selectedLevel3=undefined
+			method: 'GET',
+			url: this.url
+		}).subscribe(data => {
+			data['data'].levelOnes.map(level=>{
+				if (level.name  == $event.value) {
+					this.elevelsOne.service({
+						method: 'DELETE',
+						url: this.url,
+						id: level.id
+					}).subscribe(resp => {
+						this.getAllLevels(undefined, undefined);
+					})
+				}
+			});
 		})
-				
 	}
 
 	deleteLevelTwo($event){
-		this.elevelsTwo.service({
-			method: 'DELETE',
-			url: this.url,
-			id: this.selectedLevel2['id']
-		}).subscribe(resp => {
-			this.getAllLevels(undefined, undefined);
-			this.selectedLevel2=undefined
-			this.selectedLevel3=undefined
-		})				
+		this.elevelsOne.service({
+			method: 'GET',
+			url: this.url
+		}).subscribe(data => {
+			data['data'].levelOnes.map(level1=>{
+				level1['LevelTwo'].map(level2=>{
+					if (level2.name  == $event.value) {
+						this.elevelsTwo.service({
+							method: 'DELETE',
+							url: this.url,
+							id: level2.id
+						}).subscribe(resp => {
+							this.getAllLevels(undefined, undefined);
+						})
+					}
+				})
+			});
+		})
 	}
 
 	deleteLevelThree($event){
-		this.elevelsThree.service({
-			method: 'DELETE',
-			url: this.url,
-			id: this.selectedLevel3['id']
-		}).subscribe(resp => {
-			this.getAllLevels(undefined, undefined);
-			this.selectedLevel3=undefined
-		})
-	}			
+		this.elevelsOne.service({
+			method: 'GET',
+			url: this.url
+		}).subscribe(data => {
+			data['data'].levelOnes.map(level1=>{
+				level1['LevelTwo'].map(level2=>{
+					level2['levelThree'].map(level3 =>{
+						if (level3.name  == $event.value) {
+							this.elevelsThree.service({
+								method: 'DELETE',
+								url: this.url,
+								id: level3.id
+							}).subscribe(resp => {
+								this.getAllLevels(undefined, undefined);
+							})
+						}
+					})
+				})
+			});
+		});
+	}
 }

@@ -58,7 +58,6 @@ import { LevelCardComponent } from './components/school/level-card/level-card.co
 import { StudentsFilterComponent } from './components/school/students-filter/students-filter.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { QuestionsCardComponent } from './components/questions-card/questions-card.component';
-import { FilterPipe } from './pipes/filter/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -96,8 +95,7 @@ import { FilterPipe } from './pipes/filter/filter.pipe';
     LevelCardComponent,
     StudentsFilterComponent,
     DialogComponent,
-    QuestionsCardComponent,
-    FilterPipe
+    QuestionsCardComponent
   ],
   imports: [
     
