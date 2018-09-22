@@ -28,7 +28,7 @@
               <div class="form-group">
                 <select class="form-control" formControlName="city">
                   <option value="">اخنر عنصر</option>
-                  <option *ngFor="let city of citiesArray" value="{{city}}">{{city}}</option>
+                  <option *ngFor="let city of citiesArray" value="{{city.id}}">{{city.name}}</option>
                 </select>
               </div>
               <h5>بيانات المدرسة</h5>
@@ -154,8 +154,7 @@
                 <label>الفصل الدراسي</label>
                 <select class="form-control" formControlName="studyYears">
                   <option value="">اختر عنصر</option>
-                  <option value="">{{studyYears}}</option>
-                  <option *ngFor="let studyYear of studyYears" [value]="studyYear.id">{{ studyYear.name }}</option>
+                  <option *ngFor="let term of terms" [value]="term.id">{{ term.name }}</option>
                 </select>
               </div>
               <h5>بيانات الرخصة</h5>

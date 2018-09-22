@@ -12,75 +12,22 @@ export class EcontentTwoService {
     let variable: object = {};
     switch (config.method) {
       case "PUT": //create
-        query = `mutation($name:String!,$percentage:Int,$id:ID!){
-          updateContentLevelOne(
-            data:{
-              contentLevelTwo:{
-                create:{
-                  name:$name
-                  relativePercentage:$percentage
-                }
-              }
-            }
-            where:{
-              id:$id
-            }
-          ){
-            id
-            contentLevelTwo{
-              id
-              name
-              relativePercentage
-            }
-          }
-        }`
+        query = ``
         variable = {
-          id:config.id,
-          name:config.name,
-          percentage:config.percentage
         }
         break;
       case "GET": //read
-        query = `query {
-          contentLevelOnes {
-            id
-            name
-            relativePercentage
-            contentLevelTwo {
-              id
-              name
-              relativePercentage
-              contentLevelThree {
-                id
-                name
-                relativePercentage
-                contentLevelFour {
-                  id
-                  name
-                  relativePercentage
-                }
-              }
-            }
-          }
-        }`;
+        query = `{ contentLevelOnes { id name relativePercentage contentLevelTwo { id name relativePercentage contentLevelThree { id name relativePercentage contentLevelFour { id name relativePercentage } } } } }
+        variables	{}`;
         break;
       case "POST"://update
-        query = `
-        mutation($name: String!, $percentage: Int, $id: ID!) {
-          updateContentLevelTwo(
-            data: { name: $name, relativePercentage: $percentage }
-            where: { id: $id }
-          ) {
-            id
-            name
-            relativePercentage
-          }
-        }
-        `
+        query = `mutation ($namel2: String!, $namel3: String!, $relativePercentagel2: Int!, $relativePercentagel3: Int!, $Id: ID!) { updateContentLevelTwo(data: {name: $namel2, relativePercentage: $relativePercentagel2, contentLevelThree: {create: {name: $namel3, relativePercentage: $relativePercentagel3}}}, where: {id: $Id}) { id name relativePercentage contentLevelThree { id name relativePercentage } } } `
         variable = {
-          id:config.id,
-          name:config.name,
-          percentage:config.percentage
+          namel2:config.namel2,
+          namel3:config.namel3,
+          relativePercentagel2: config.relativePercentagel2,
+          relativePercentagel3: config.relativePercentagel3,
+          Id:config.Id
         }
         break;
       case "DELETE": //delete
