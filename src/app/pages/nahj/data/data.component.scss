@@ -23,6 +23,14 @@ h2{
 		select[size]{
 			background: #fafafa;
 		}
+		.card-footer{
+			background-color: transparent;
+			border-top: 0px;
+			padding: 0;
+			.btn{
+				padding: .268rem .375rem;
+			}
+		}
 
 		.list-group{
 			padding-right: 0px;
@@ -76,3 +84,6 @@ h2{
     }
 }
 
+.modal-header .close {
+    margin: -1rem auto -1rem -1em;
+}

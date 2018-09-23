@@ -53,8 +53,9 @@ export class LevelFilterComponent implements OnInit {
 			method: 'GET',
 			url: this.url
 		}).subscribe(data=>{
+			console.log("data", data)
 			if (this.selectedLevel1) {
-				this.evaluations = data['data'].evaluations.filter(evaluation => evaluation.speciificContentLevel.speciificContentLevelOne['id'] == this.selectedLevel1);
+				this.evaluations = data['data'].contentLevelOnes.evaluations.filter(evaluation => evaluation.speciificContentLevel.speciificContentLevelOne['id'] == this.selectedLevel1);
 				if (this.selectedLevel2) {
 					this.evaluations = this.evaluations.filter(item => {						
 						try{
@@ -91,133 +92,49 @@ export class LevelFilterComponent implements OnInit {
 		})
 	}
 
-	getContentData(name1, name2, name3, name4){
+	getContentData(id1, id2, id3, id4){
 		this.econtentOneService.service({
 			method: 'GET',
 			url: this.url
 		}).subscribe(econtent1=>{
 			this.level1 = econtent1['data'].contentLevelOnes.map((l1, index1)=> {
-				if (!name1 && index1 == 0) {
+				if (id1 == l1.id) {
 					// this.selectedLevel1 = l1.name;
 					this.level2 = l1.contentLevelTwo.map((l2, index2)=>{
-						if (!name2 && index2 == 0) {
-							// this.selectedLevel2 = l2.name;
-							if (l2.contentLevelThree.length > 0) {
-								this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-									// this.selectedLevel3=l3.name;
-									if (!name3 && index3 == 0) {
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
-										}else{
-											this.level4 = [];
-										}
-									}else if (name3 == l3.name) {
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
-										}else{
-											this.level4 = [];
-										}
-									}
-									return l3;
-								})
-							}else{
-								this.level3 = [];
-								this.level4 = [];
-							}
-						}else if (name2 == l2.name) {
-							// this.selectedLevel2 = l2.name;
-							if (l2.contentLevelThree.length > 0) {
-								this.level3 =  l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-									if (!name3 && index3 == 0) {
-										// this.selectedLevel3=l3.name;
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
-										}else{
-											this.level4 = [];
-										}
-									}else if (name3 == l3.name) {
-										// this.selectedLevel3=l3.name;
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
-										}else{
-											this.level4 = [];
-										}
-									}
-									return l3;
-								})
-							}else{
-								this.level3 = [];
-								this.level4 = [];
-							}
-						}
-						return l2;
-					})
-				}else if (name1 == l1.name) {
-					// this.selectedLevel1 = l1.name;
-					this.level2 = l1.contentLevelTwo.map((l2, index2)=>{
-						if (!name2 && index2 == 0) {
-							// this.selectedLevel2 = l2.name;
-							if (l2.contentLevelThree.length > 0) {
-								this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-									if (!name3 && index3 == 0) {
-										// this.selectedLevel3=l3.name;
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
-										}else{
-											this.level4 = [];
-										}
-									}else if (name3 == l3.name) {
-										// this.selectedLevel3=l3.name;
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
-										}else{
-											this.level4 = [];
-										}
-									}
-									return l3;
-								})
-							}else{
-								this.level3 = [];
-								this.level4 = [];
-							}
-						}else if (name2 == l2.name) {
+						if (id2 == l2.id) {
 							// this.selectedLevel2 = l2.name;
 							if (l2.contentLevelThree.length > 0) {
 								 this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-									if (!name3 && index3 == 0) {
+									if (id3 == l3.id) {
 										// this.selectedLevel3=l3.name;
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
-										}else{
-											this.level4 = [];
-										}
-									}else if (name3 == l3.name) {
-										// this.selectedLevel3=l3.name;
-										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" );
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "" )
 										}else{
 											this.level4 = [];
 										}
 									}
-									return l3;
+									return l3
 								})
 							}else{
 								this.level3 = [];
 								this.level4 = [];
 							}
 						}
-						return l2;
+						return l2
 					})
 				}
-				// return (({id, name})=>({id, name}))(l1)
-				return l1;
+				return (({id, name})=>({id, name}))(l1)
+				// return l1.name
 			});
 		})
 	}
+
 	handleLevelChange(level, e){
+		console.log("e", e.target.value)
 		this.getLevelData({'level': level, 'value': e.target.value })
 	}
 	getLevelData($event){
+		console.log("$event.value", $event.value)
 		switch($event.level){
 			case "level1":
 				this.selectedLevel1 = $event.value;

@@ -300,6 +300,9 @@ export class SchoolService {
         `;
         break;
       case "PUT"://create
+        console.log("config", config);
+        console.log("config", config.geoArea);
+
         query = `mutation(
           $admin: NahjAdminCreateInput!
           $adminRes: NahjAdminCreateInput!
@@ -458,4 +461,134 @@ export class SchoolService {
         "variables": variable
       });
   }
+
+  CreateAdmin(config) {
+    console.log("config.admin", config.admin)
+    if (config.admin && config.admin.length > 0) {
+      return config.admin.map((item) => {
+        let a = {
+          name: item.name || "",
+          job: item.job || "",
+          type: item.type || "",
+          phone: item.phone || "",
+          whatsApp: item.whatsApp || "",
+          username: item.username || "",
+          password: item.password || "",
+          email: item.email || "",
+        }
+        console.log("a", a)
+        return a
+      })
+    } else {
+      return '';
+    }
+  }
+
+  CreateContentLevel(config) {
+    if (config.content && config.content.length > 0) {
+      return (config.content
+        .map((item) => {
+          let a = {}
+          if (item.speciificContentLevelOne) a['speciificContentLevelOne'] = { connect: { id: item.speciificContentLevelOne } }
+          if (item.speciificContentLevelTwo) a['speciificContentLevelTwo'] = { connect: { id: item.speciificContentLevelTwo } }
+          if (item.speciificContentLevelThree) a['speciificContentLevelThree'] = { connect: { id: item.speciificContentLevelThree } }
+          if (item.speciificContentLevelFour) a['speciificContentLevelFour'] = { connect: { id: item.speciificContentLevelFour } }
+          return a;
+        })
+      )
+    } else {
+      return '';
+    }
+  }
+
+  updateAdmin(config) {
+    if (config.admin && config.admin.length > 1)
+      return config.admin.map(item => {
+        return {
+          where: {
+            id: item.id
+          },
+          data: {
+            name: item.name || "",
+            job: item.job || "",
+            type: item.type || "",
+            phone: item.phone || "",
+            whatsApp: item.whatsApp || "",
+            username: item.username || "",
+            password: item.password || "",
+          }
+        }
+      })
+    else{
+      return ''
+    }
+  }
+
+  updatelicenceContent(config) {
+    return config.content.map((item) => {
+    let a =  {
+        where:{
+          id:item.id
+        },
+        data:{
+          
+        }
+      }
+      if (item.hasOwnProperty('speciificContentLevelOne')) item.speciificContentLevelOne == false?  a.data['speciificContentLevelOne'] = { disconnect: true} :  a.data['speciificContentLevelOne'] = { connect: { id: item.speciificContentLevelOne } }
+      if (item.hasOwnProperty('speciificContentLevelTwo')) item.speciificContentLevelTwo == false?  a.data['speciificContentLevelTwo'] = { disconnect: true} :  a.data['speciificContentLevelTwo'] = { connect: { id: item.speciificContentLevelTwo } }
+      if (item.hasOwnProperty('speciificContentLevelThree')) item.speciificContentLevelThree == false?  a.data['speciificContentLevelThree'] = { disconnect: true} :  a.data['speciificContentLevelThree'] = { connect: { id: item.speciificContentLevelThree } }
+      if (item.hasOwnProperty('speciificContentLevelFour')) item.speciificContentLevelFour == false?  a.data['speciificContentLevelFour'] = { disconnect: true} :  a.data['speciificContentLevelFour'] = { connect: { id: item.speciificContentLevelFour } }  
+
+    return a;
+    })
+  }
 }
+
+`
+config = {
+method:""
+[optional]  id :"",
+[optional]  address:"",
+[optional]  gps:"",
+[optional]  email:"",
+[optional]  phone:"",
+[optional]  fax:"",
+[optional]  district:"",
+[optional]  studentsNum:"",
+[optional]  classesNum:"",
+[optional]  lowestStudyYear:"",
+[optional]  highestStudyYear:"",
+[optional]  name:"",
+[optional]  motherComp:"",
+[optional]  geoArea:     'ID' || false --> for disconnect ,
+[optional]  city:        'ID' || false --> for disconnect ,
+[optional]  levels:      'ID' || false --> for disconnect ,
+[optional]  levelTwo:    'ID' || false --> for disconnect ,
+[optional]  levelThree:  'ID' || false --> for disconnect ,
+[optional]  ladminNum:"",
+[optional]  lstudentsNum:"",
+[optional]  lclassesNum:"",
+[optional]  lteachersNum:"",
+[optional]  lstudyYear:  'ID' || false --> for disconnect,
+[optional]  admin : [{
+  [optional]  id         'value' || ""
+  [required]  name       'value' || ""
+  [required]  job        'value' || ""
+  [required]  type       'value' || ""
+  [required]  phone      'value' || ""
+  [required]  whatsApp   'value' || ""
+  [required]  username   'value' || ""
+  [required]  password   'value' || ""
+  [required]  email      'value' || ""
+  }]
+[optional]  content:[{
+    [optional] id       'value' || ""
+    [optional] speciificContentLevelOne:"ID"   || false --> for disconnect
+    [optional] speciificContentLevelTwo:"ID"   || false --> for disconnect
+    [optional] speciificContentLevelThree:"ID" || false --> for disconnect
+    [optional] speciificContentLevelFour:"ID"  || false --> for disconnect
+  }]
+
+[optional] licencedTermId: 'ID' || ''
+}
+`

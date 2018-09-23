@@ -182,73 +182,20 @@ export class evaluation {
                   }`;
         break;
       case "PUT"://create
-        query = ` mutation(
-          $title: String!
-                  $shortTitle: String!
-                  $currentStatusId: ID!
-                  $accountWayId: ID!
-                  ${variable1}
-                  ${variable2}
-                  ${variable3}
-                  ${variable4}
-                  $questionGroupName: String!
-                  $questionGroupWeight: String!
-        ) {
-          createEvaluation(
-            data: {
-              title: $title
-                      shortTitle: $shortTitle
-                      currentStatus: { connect: { id: $currentStatusId } }
-                      accountWay: { connect: { id: $accountWayId } }
-                      speciificContentLevel: {
-                create: {
-                  ${query1}
-                  ${query2}
-                  ${query3}
-                  ${query4}
+      console.log("config", config)
+        query = `mutation {
+            ${config.levelName}(
+              data: {
+                evaluation: {
+                  create: {
+                    ${config.hasOwnProperty('title') ? `title: ${config.title}` : '' }
+                    ${config.hasOwnProperty('shortTitle') ? `shortTitle: ${config.shortTitle}` : '' }
+                    ${config.hasOwnProperty('currentStatus') ? `currentStatus: { connect: { id: ${config.id} } }`:'' }
+                  }
                 }
-              }
-                      questionGroup: {
-                create: { name: $questionGroupName, weight: $questionGroupWeight }
-              }
-            }
-          ) {
-            id
-            title
-            shortTitle
-            currentStatus {
-              id
-              name
-            }
-            accountWay {
-              id
-              name
-              grades {
-                id
-                grade
-                weight
-              }
-            }
-            speciificContentLevel {
-              id
-              speciificContentLevelOne {
-                id
-                name
-              }
-              speciificContentLevelTwo {
-                id
-                name
-              }
-              speciificContentLevelThree {
-                id
-                name
-              }
-              speciificContentLevelFour {
-                id
-                name
-              }
-            }
-            questionGroup {
+              } 
+              where: { id: ${config.id} }
+            ) {
               id
               name
               weight
