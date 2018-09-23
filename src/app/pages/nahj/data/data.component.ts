@@ -426,29 +426,28 @@ export class DataComponent implements OnInit {
 			url: this.url,
 			email: config.email,
 			address: config.address,
-			admin:
-			{
-				name: config.nahjAdminName,
-				phone: config.nahjAdminPhone,
-				email: config.nahjAdminEmail,
-				job: config.nahjAdminJob,
-				whatsApp: config.nahjAdminWhatsApp,
-				type: 'admin',
-				password: config.nahjAdminPassword,
-				username: config.nahjAdminUsername
-			},
-			// admin:
-			// 	{
-			// 		name: config.adminName,
-			// 		phone: config.adminPhone,
-			// 		email: config.adminEmail,
-			// 		job: config.adminJob,
-			// 		whatsApp: config.adminWhatsApp,
-			// 		type: 'res',
-			// 		password: config.adminPassword,
-			// 		username: config.adminUsername
-			// 	}
-			// ,
+			admin:[
+				{
+					name: config.nahjAdminName,
+					phone: config.nahjAdminPhone,
+					email: config.nahjAdminEmail,
+					job: config.nahjAdminJob,
+					whatsApp: config.nahjAdminWhatsApp,
+					type: 'admin',
+					password: config.nahjAdminPassword,
+					username: config.nahjAdminUsername
+				},
+				{
+					name: config.adminName,
+					phone: config.adminPhone,
+					email: config.adminEmail,
+					job: config.adminJob,
+					whatsApp: config.adminWhatsApp,
+					type: 'res',
+					password: config.adminPassword,
+					username: config.adminUsername
+				}
+			],
 			gps: config.gps,
 			phone: config.phone,
 			fax: config.fax,
