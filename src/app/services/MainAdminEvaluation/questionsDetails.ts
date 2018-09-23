@@ -11,133 +11,76 @@ export class questionDetails {
   service(config) { ////method,url,name,cities,newName
     let query: string = "";
     let variable: object = {};
-    // console.log(config)
     switch(config.method){
       case "POST" : //update
-        query = `mutation(
-          $Id: ID!
-          $question: String!
-          $details: String!
-          $enhancement: String!
-          $weight: String!
-          $multiSelect: String!
-          $isPercentage: Boolean!
-          $isEqualWeights: Boolean!
-        ) {
+        query = `mutation{
           updateQuestion(
-            data: {
-              question: $question
-              details: $details
-              enhancement: $enhancement
-              weight: $weight
-              multiSelect: $multiSelect
-              isPercentage: $isPercentage
-              isEqualWeights: $isEqualWeights
+            data:{
+              ${config.hasOwnProperty('question') ? `question: ${config.question}` : '' }
+              ${config.hasOwnProperty('details') ? `details: ${config.details}` : '' }
+              ${config.hasOwnProperty('enhancement') ? `enhancement: ${config.enhancement}` : '' }
+              ${config.hasOwnProperty('weight') ? `weight: ${config.weight}` : '' }
+              ${config.hasOwnProperty('multiSelect') ? `multiSelect: ${config.multiSelect}` : '' }
+              isPercentage:${config.isPercentage ? 'true' : 'false'}
+              isEqualWeights:${config.isPercentage ? 'true' : 'false'}
             }
-            where: { id: $Id }
-          ) {
+            where:{
+              id:${config.id}
+            }
+          ){
             id
-            question
-            details
-            enhancement
-            weight
-            multiSelect
-            isPercentage
-            isEqualWeights
           }
         }` 
-        variable = {
-          Id:config.Id,
-          question:config.question,
-          details:config.details,
-          enhancement:config.enhancement,
-          weight:config.weight,
-          multiSelect:config.multiSelect,
-          isPercentage:config.isPercentage,
-          isEqualWeights:config.isEqualWeights
-        }       
       break;
       case "GET": //read
-        query = `query {
-          questions {
-            id
-            question
-            details
-            enhancement
-            weight
-            multiSelect
-            isPercentage
-            isEqualWeights
+        query = `query{
+          evaluations{
+            questionGroup{
+              id
+              questions{
+                id
+                question
+                details
+                enhancement
+                weight
+                multiSelect
+                isPercentage
+                isEqualWeights
+              }
+            }
           }
         }`;
       break;
       case "PUT"://create
-        query = `mutation(
-          $questionTypeId: ID!
-          $question: String!
-          $details: String!
-          $enhancement: String!
-          $weight: String!
-          $multiSelect: String!
-          $isPercentage: Boolean!
-          $isEqualWeights: Boolean!
-        ) {
+        query = `mutation{
           updateQuestionType(
-            data: {
-              questions: {
-                create: {
-                  question: $question
-                  details: $details
-                  enhancement: $enhancement
-                  weight: $weight
-                  multiSelect: $multiSelect
-                  isPercentage: $isPercentage
-                  isEqualWeights: $isEqualWeights
+            data:{
+              questions:{
+                create:{
+                  ${config.hasOwnProperty('question') ? `question: ${config.question}` : '' }
+                  ${config.hasOwnProperty('details') ? `details: ${config.details}` : '' }
+                  ${config.hasOwnProperty('enhancement') ? `enhancement: ${config.enhancement}` : '' }
+                  ${config.hasOwnProperty('weight') ? `weight: ${config.weight}` : '' }
+                  ${config.hasOwnProperty('multiSelect') ? `multiSelect: ${config.multiSelect}` : '' }
+                  isPercentage:${config.isPercentage ? 'true' : 'false'}
+                  isEqualWeights:${config.isPercentage ? 'true' : 'false'}
                 }
               }
             }
-            where: { id: $questionTypeId }
-          ) {
-            questions {
-              id
-              question
-              details
-              enhancement
-              weight
-              multiSelect
-              isPercentage
-              isEqualWeights
+            where:{
+              id:${config.id}
             }
+          ){
+            id
           }
         }`
-        variable = {
-          questionTypeId:config.questionTypeId,
-          question:config.question,
-          details:config.details,
-          enhancement:config.enhancement,
-          weight:config.weight,
-          multiSelect:config.multiSelect,
-          isPercentage:config.isPercentage,
-          isEqualWeights:config.isEqualWeights
-        }
+        
       break;
       case "DELETE": //delete
-        query = `mutation($Id:ID!) {
-          deleteQuestion(where: { id: $Id }) {
-            id
-            question
-            details
-            enhancement
-            weight
-            multiSelect
-            isPercentage
-            isEqualWeights
-          }
-        }
-        `
-        variable = {
-            Id:config.Id
-        }
+        query = `mutation{
+          deleteQuestion(where:{id:${config.id}}){id}
+        }`
+        
       break;
       
     }
@@ -150,3 +93,13 @@ export class questionDetails {
   }
 
 }
+/**
+ * question
+ * details
+ * enhancement
+ * weight
+ * multiselect
+ * isPercentage =-> true/false
+ * isEqualWeights =-> true/false
+ * id
+ */

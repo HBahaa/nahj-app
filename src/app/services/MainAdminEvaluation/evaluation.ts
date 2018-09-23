@@ -7,179 +7,64 @@ import { HttpClient } from '@angular/common/http';
 })
 export class evaluation {
   constructor(private http: HttpClient) { }
-
-  service(config) { ////method,url,name,cities,newName
+  
+  service(config) { 
     let query: string = "";
     let variable: object = {};
 
-    if(config.speciificContentLevelOneId == "") config.speciificContentLevelOneId = false;
-    if(config.speciificContentLevelTwoId == "") config.speciificContentLevelTwoId = false;
-    if(config.speciificContentLevelThreeId == "") config.speciificContentLevelThreeId = false;
-    if(config.speciificContentLevelFourId == "") config.speciificContentLevelFourId = false;
-    
-    // console.log(config)
-    let query1 = config.speciificContentLevelOneId ? `speciificContentLevelOne: { connect: { id: $speciificContentLevelOneId }}` 
-                                                    : config.hadL1 ? "speciificContentLevelOne: { disconnect: true}" 
-                                                    : "" ;
-    let query2 = config.speciificContentLevelTwoId ? `speciificContentLevelTwo: { connect: { id: $speciificContentLevelTwoId } }` 
-                                                    : config.hadL2 ? "speciificContentLevelTwo: { disconnect: true}" 
-                                                    : "" ;
-    let query3 = config.speciificContentLevelThreeId ? `speciificContentLevelThree: { connect: { id: $speciificContentLevelThreeId } }` 
-                                                    : config.hadL3 ? "speciificContentLevelThree: { disconnect: true}" 
-                                                    : "" ;
-    let query4 = config.speciificContentLevelFourId ? `speciificContentLevelFour: { connect: { id: $speciificContentLevelFourId } }` 
-                                                    : config.hadL4 ? "speciificContentLevelFour: { disconnect: true}" 
-                                                    :""; 
-
-    let variable1 = config.speciificContentLevelOneId ? `$speciificContentLevelOneId: ID` : ""
-    let variable2 = config.speciificContentLevelTwoId ? `$speciificContentLevelTwoId: ID` : ""
-    let variable3 = config.speciificContentLevelThreeId ? `$speciificContentLevelThreeId: ID` : ""
-    let variable4 = config.speciificContentLevelFourId ? `$speciificContentLevelFourId: ID` : ""
-
-    
-
     switch (config.method) {
       case "POST": //update
-
-
-        query = `mutation(
-          $title: String!
-          $shortTitle: String!
-          $currentStatusId: ID!
-          $accountWayId: ID!
-          ${variable1}
-          ${variable2}
-          ${variable3}
-          ${variable4}
-          $evaluationId:ID!
-        ) {
+        query = `mutation{
           updateEvaluation(
-            data: {
-              title: $title
-              shortTitle: $shortTitle
-              currentStatus: { connect: { id: $currentStatusId } }
-              accountWay: { connect: { id: $accountWayId } }
-              speciificContentLevel: {
-                update: {
-                  ${query1}
-                  ${query2}
-                  ${query3}
-                  ${query4}
-                }
-              }
+            data:{
+              ${config.hasOwnProperty('title')  ? `title: ${config.title}`:`` }
+              ${config.hasOwnProperty('shortTitle')  ? `shortTitle: ${config.shortTitle}`:`` }
+              ${config.hasOwnProperty('currentStatus') ? `${ config.currentStatus == false ? `currentStatus: {disconnect:true}` : `currentStatus: {connect:{id:${config.currentStatus}}}` }` : ''}
             }
-            where: { id: $evaluationId }
-          ) {
+            where:{
+              id:${config.id}
+            }
+          ){
             id
-            title
-            shortTitle
-            currentStatus {
-              id
-              name
-            }
-            accountWay {
-              id
-              name
-              grades {
-                id
-                grade
-                weight
-              }
-            }
-            speciificContentLevel {
-              id
-              speciificContentLevelOne {
-                id
-                name
-              }
-              speciificContentLevelTwo {
-                id
-                name
-              }
-              speciificContentLevelThree {
-                id
-                name
-              }
-              speciificContentLevelFour {
-                id
-                name
-              }
-            }
-            questionGroup {
-              id
-              name
-              weight
-            }
           }
         }
         `
-        variable = {
-          title: config.title,
-          shortTitle: config.shortTitle,
-          currentStatusId: config.currentStatusId,
-          accountWayId: config.accountWayId,
-          evaluationId: config.evaluationId
-        }
         break;
       case "GET": //read
-        query = `{
-                    evaluations{
-                      id,
-                      title,
-                      shortTitle,
-                      currentStatus{
-                          id,
-                        name
-                      },
-                      accountWay{
-                        id,
-                        name,
-                        grades{
-                          id,
-                          grade,
-                          weight
-                        }
-                      },
-                      speciificContentLevel{
-                        id,
-                        speciificContentLevelOne{
-                          id,
-                          name,
-                          relativePercentage
-                        }
-                        speciificContentLevelTwo{
-                          id,
-                          name,
-                          relativePercentage
-                        }
-                        speciificContentLevelThree{
-                          id,
-                          relativePercentage,
-                          name
-                        }
-                        speciificContentLevelFour{
-                          id,
-                          relativePercentage
-                          name
-                        }
-                      },
-                      questionGroup{
-                        id,
-                        name,
-                        weight,
-                        questions{
-                          id,
-                          question,
-                          details,
-                          enhancement,
-                          weight,
-                          multiSelect,
-                          isPercentage,
-                          isEqualWeights
-                        }
-                      }
-                    }
-                  }`;
+        query = `query{
+          contentLevelOnes{
+            evaluation{
+              id
+              title
+              shortTitle
+              currentStatus{id,name}
+            }
+          }
+          contentLevelTwoes{
+            evaluation{
+              id
+              title
+              shortTitle
+              currentStatus{id,name}
+            }
+          }
+          contentLevelThrees{
+            evaluation{
+              id
+              title
+              shortTitle
+              currentStatus{id,name}
+            }
+          }
+          contentLevelFours{
+            evaluation{
+              id
+              title
+              shortTitle
+              currentStatus{id,name}
+            }
+          }
+        }`;
         break;
       case "PUT"://create
       console.log("config", config)
@@ -197,47 +82,16 @@ export class evaluation {
               where: { id: ${config.id} }
             ) {
               id
-              name
-              weight
             }
-          }
-        }
-        `
-        variable = {
-          title: config.title,
-          shortTitle: config.shortTitle,
-          currentStatusId: config.currentStatusId,
-          accountWayId: config.accountWayId,
-          questionGroupName: config.questionGroupName,
-          questionGroupWeight: config.questionGroupWeight
-        }
-
+          }`
         break;
       case "DELETE": //delete
-        query = `mutation($id: ID!){
-          deleteEvaluation(
-            where: {
-              id: $id
-            }
-          ){
-            id,
-              title,
-              shortTitle
-          }
-        } `
-        variable = {
-          id: config.id
-        }
+        query = `mutation{
+          deleteEvaluation(where:{id:${config.id}}){id}
+        }`
+        
         break;
     }
-
-    if (config.speciificContentLevelOneId) variable["speciificContentLevelOneId"] = config.speciificContentLevelOneId;
-    if (config.speciificContentLevelTwoId) variable["speciificContentLevelTwoId"] = config.speciificContentLevelTwoId;
-    if (config.speciificContentLevelThreeId) variable["speciificContentLevelThreeId"] = config.speciificContentLevelThreeId;
-    if (config.speciificContentLevelFourId) variable["speciificContentLevelFourId"] = config.speciificContentLevelFourId;
-    
-    // console.log("------------------->",query,variable)
-
     return this
       .http
       .post(`${config.url} `, {
@@ -247,3 +101,15 @@ export class evaluation {
   }
 
 }
+
+
+`
+config:{
+  method: "",
+  levelName: options --> updateContentLevelOne | updateContentLevelTwo | updateContentLevelThree | updateContentLevelFour (only in create)
+  title :""
+  shortTitle: ""
+  currentStatus: 'ID'
+  id: "ID"  --> id of content level(create evaluation) or id of evaluation(update or delete)
+}
+`
