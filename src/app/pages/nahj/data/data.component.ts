@@ -284,28 +284,21 @@ export class DataComponent implements OnInit {
 	///   get data functions
 	saveLContent() {
 		console.log("saveLContent", this.contentForm.value.content1)
+		console.log("this.speciificContent", this.speciificContent)
 		if (this.contentForm.value.content1) {
 			let obj = {}
 			if (this.contentForm.value.content1) {
 				obj["speciificContentLevelOne"] =this.contentForm.value.content1
-				// obj["speciificContentLevelOne"] = 
-				// {
-				// 	connect: {
-				// 		id: this.contentForm.value.content1
-				// 	}
-				// }
-			}else{
-				obj["speciificContentLevelOne"] = false
 			}
 			this.contentForm.value.content2 ? obj["speciificContentLevelTwo"] = this.contentForm.value.content2 : 
-			obj["speciificContentLevelTwo"] = false
+			''
 
 			this.contentForm.value.content3 ? obj["speciificContentLevelThree"] = this.contentForm.value.content3
-			: obj["speciificContentLevelThree"] = false
-
+			: ''
 			this.contentForm.value.content4 ? obj["speciificContentLevelFour"] = this.contentForm.value.content4
-			: obj["speciificContentLevelFour"] = false
+			: ''
 			
+			console.log("obj save content", obj)
 			this.speciificContent.push(obj)
 			alert("added successfully")
 		};
@@ -331,6 +324,10 @@ export class DataComponent implements OnInit {
 		this.licensedTerm = $event.licensedTerm;
 
 		this.terms = $event.licensedTerm.map(term => term.studyYear);
+
+		this.speciificContent = $event.content ? $event.content : [];
+
+		console.log("this.speciificContent ===== ", this.speciificContent)
 
 		this.form = this.fb.group({
 			schoolName: $event.name ? $event.name : undefined,
@@ -495,60 +492,105 @@ export class DataComponent implements OnInit {
 	editSchool($event) {
 		console.log("event", $event)
 		console.log("this.form.value", this.form.value)
+		console.log("this.contentForm.value", this.contentForm.value)
 		let config = this.form.value;
 		let arr = [];
 
-		// if (config.licensedContent) {
-		// 	for (let item of config.licensedContent) {
-		// 		let obj = {}
-		// 		if (item.speciificContentLevelOne)
-		// 			obj['speciificContentLevelOne'] = { connect: { id: item.speciificContentLevelOne.id } }
-		// 		if (item.speciificContentLevelTwo)
-		// 			obj['speciificContentLevelTwo'] = { connect: { id: item.speciificContentLevelTwo.id } }
-		// 		if (item.speciificContentLevelThree)
-		// 			obj['speciificContentLevelThree'] = { connect: { id: item.speciificContentLevelThree.id } }
-		// 		if (item.speciificContentLevelFour)
-		// 			obj['speciificContentLevelFour'] = { connect: { id: item.speciificContentLevelFour.id } }
-		// 		arr.push(obj);
-		// 	}
-		// }
-		// else 
-		if($event.licensedContent){
+		if (this.contentForm.value.content) {
+			for (let item of this.contentForm.value.content) {
+				let obj = {}
+				if (item.speciificContentLevelOne)
+					obj['speciificContentLevelOne'] = item.speciificContentLevelOne.id
+				if (item.speciificContentLevelTwo)
+					obj['speciificContentLevelTwo'] =  item.speciificContentLevelTwo.id
+				if (item.speciificContentLevelThree)
+					obj['speciificContentLevelThree'] = item.speciificContentLevelThree.id
+				if (item.speciificContentLevelFour)
+					obj['speciificContentLevelFour'] = item.speciificContentLevelFour.id
+				
+				arr.push(obj);
+			}
+		}
+		else 
+		if($event.content){
 			for (let item of $event.content) {
 				let obj = {}
 				if (item.speciificContentLevelOne)
 					obj['speciificContentLevelOne'] = item.speciificContentLevelOne ? item.speciificContentLevelOne : item.speciificContentLevelOne.id
+
 				if (item.speciificContentLevelTwo)
-					obj['speciificContentLevelTwo'] = item.speciificContentLevelTwo ? item.speciificContentLevelTwo :item.speciificContentLevelTwo.id
+					obj['speciificContentLevelTwo'] = item.speciificContentLevelTwo ? item.speciificContentLevelTwo : item.speciificContentLevelTwo.id
+
 				if (item.speciificContentLevelThree)
-					obj['speciificContentLevelThree'] = item.speciificContentLevelThree ? item.speciificContentLevelThree :item.speciificContentLevelThree.id
+					obj['speciificContentLevelThree'] = item.speciificContentLevelThree ? item.speciificContentLevelThree : item.speciificContentLevelThree.id
+
 				if (item.speciificContentLevelFour)
-					obj['speciificContentLevelFour'] = item.speciificContentLevelFour ? item.speciificContentLevelFour :item.speciificContentLevelFour.id
+					obj['speciificContentLevelFour'] = item.speciificContentLevelFour ? item.speciificContentLevelFour : item.speciificContentLevelFour.id
+
 				arr.push(obj);
 			}
 
 		}
+
+		console.log("arr ******** ", arr)
 		config.content = arr;
 
 		this.schoolService.service({
-			method: "GET",
-			url: this.url
-		}).subscribe(schools => {
-			schools["data"].schools.map(school => {
-				if (school.id == $event.id) {
-					this.addSchool(config, 1)
-					this.schoolService.service({
-						method: "DELETE",
-						url: this.url,
-						id: $event.id
-					}).subscribe(resp => {
-						console.log("deleted", resp);
-					});
+			method: "POST",
+			url: this.url,
+			email: config.email,
+			address: config.address,
+			admin:[
+				{
+					name: config.nahjAdminName,
+					phone: config.nahjAdminPhone,
+					email: config.nahjAdminEmail,
+					job: config.nahjAdminJob,
+					whatsApp: config.nahjAdminWhatsApp,
+					type: 'admin',
+					password: config.nahjAdminPassword,
+					username: config.nahjAdminUsername
+				},
+				{
+					name: config.adminName,
+					phone: config.adminPhone,
+					email: config.adminEmail,
+					job: config.adminJob,
+					whatsApp: config.adminWhatsApp,
+					type: 'res',
+					password: config.adminPassword,
+					username: config.adminUsername
 				}
-			})
+			],
+			gps: config.gps,
+			phone: config.phone,
+			fax: config.fax,
+			district: config.district,
+			ladminNum: parseInt(config.ladminsNum),
+			studentsNum: parseInt(config.studentsNum),
+			classesNum: parseInt(config.classesNum),
+			lstudentsNum: parseInt(config.lstudentsNum),
+			lclassesNum: parseInt(config.lclassesNum),
+			lteachersNum: parseInt(config.lteachersNum),
+			lstudyYear: config.studyYears,
+			lowestStudyYear: config.lowestStudyYear,
+			highestStudyYear: config.highestStudyYear,
+			name: config.schoolName,
+			motherComp: config.motherComp,
+			levels: config.level1,
+			levelTwo: config.level2,
+			levelThree: config.level3,
+			geoArea: config.geo,
+			city: config.city,
+			content:this.speciificContent
+		}).subscribe(data => {
+			console.log("school edited", data)
+			this.updateChildData = true;
+			this.clearFields()
 		});
 		this.updateChildData = false;
 	}
+
 	deleteSchool($event) {
 		this.schoolService.service({
 			method: "DELETE",
@@ -556,7 +598,8 @@ export class DataComponent implements OnInit {
 			id: $event.id
 		}).subscribe(resp => {
 			this.updateChildData = true;
-			this.clearFields()
+			this.clearFields();
+			this.speciificContent = [];
 		})
 				
 		this.updateChildData = false;
