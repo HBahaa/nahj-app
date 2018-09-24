@@ -537,7 +537,7 @@ export class DataComponent implements OnInit {
 		console.log("arr ******** ", arr)
 		config.content = arr;
 
-		this.schoolService.service({
+		var myObj = {
 			method: "POST",
 			url: this.url,
 			email: config.email,
@@ -585,7 +585,11 @@ export class DataComponent implements OnInit {
 			geoArea: config.geo,
 			city: config.city,
 			content:this.speciificContent
-		}).subscribe(data => {
+		};
+
+		Object.keys(myObj).forEach((key) => (myObj[key] == "") && delete myObj[key]);
+
+		this.schoolService.service(myObj).subscribe(data => {
 			console.log("school edited", data)
 			this.updateChildData = true;
 			this.clearFields()
