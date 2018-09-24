@@ -73,7 +73,7 @@ export class SchoolService {
               ${config.hasOwnProperty('levelThree') ? (config.levelThree == false ? 'levelThree:   {disconnect:true}' : 'levelThree:{connect:{id:$levelThree}}') : ''}
               
               admin:{
-                update:[${this.updateAdmin(config)}]
+                update:${ this.CreateAdmin(config) ? "["+this.updateAdmin(config)+"]" : '[]'} 
               }
               ${config.hasOwnProperty('licencedTermId') ? `
                 licensedTerm:{
@@ -238,7 +238,7 @@ export class SchoolService {
               ${config.hasOwnProperty('levelTwo') ? 'levelTwo: { connect: { id: $levelTwo } }' : ''}
               ${config.hasOwnProperty('levelThree') ? 'levelThree: { connect: { id: $levelThree } }' : ''}
               
-              admin: { create: [${this.CreateAdmin(config)}] }
+              admin: { create: ${ this.CreateAdmin(config) ? "["+this.CreateAdmin(config)+"]" : '[]'} }
               licensedTerm: {
                 create: {
                   ${config.hasOwnProperty('ladminNum') ? 'adminNum: $ladminNum' : ''}
@@ -246,7 +246,7 @@ export class SchoolService {
                   ${config.hasOwnProperty('lteachersNum') ? 'teachersNum: $lteachersNum' : ''}
                   ${config.hasOwnProperty('lclassesNum') ? 'classesNum: $lclassesNum' : ''}
                   ${config.hasOwnProperty('lstudyYear') ? 'studyYear: { connect: { id: $lstudyYear } }' : ''}
-                  licensedContent: { create: [${this.CreateContentLevel(config)}] }
+                  licensedContent: { create: ${this.CreateContentLevel(config) ? '[' + this.CreateContentLevel(config) + ']' : '[]'} }
                 }
               }
             }
@@ -272,22 +272,23 @@ export class SchoolService {
   }
 
   CreateAdmin(config) {
-    console.log("config.admin", config.admin)
     if (config.admin && config.admin.length > 0) {
-      return config.admin.map((item) => {
-        let a = {
-          name: item.name || "",
-          job: item.job || "",
-          type: item.type || "",
-          phone: item.phone || "",
-          whatsApp: item.whatsApp || "",
-          username: item.username || "",
-          password: item.password || "",
-          email: item.email || "",
-        }
-        console.log("a", a)
-        return a
-      })
+      return config.admin.reduce((admin,item) => {
+        let a = `{
+          name: "${item.name || ""}",
+          job:  "${item.job  || ""}",
+          type: "${item.type || ""}",
+          phone:"${item.phone || ""}",
+          whatsApp: "${item.whatsApp || ""}",
+          username: "${item.username || ""}",
+          password: "${item.password || ""}",
+          email: "${item.email || ""}",
+        }`
+        a = a.replace(/\r?\n|\r/g,'')
+        admin += a;
+        console.log("a", admin)
+        return admin
+      },'')
     } else {
       return '';
     }
@@ -296,14 +297,14 @@ export class SchoolService {
   CreateContentLevel(config) {
     if (config.content && config.content.length > 0) {
       return (config.content
-        .map((item) => {
+        .reduce((content,item) => {
           let a = {}
           if (item.speciificContentLevelOne) a['speciificContentLevelOne'] = { connect: { id: item.speciificContentLevelOne } }
           if (item.speciificContentLevelTwo) a['speciificContentLevelTwo'] = { connect: { id: item.speciificContentLevelTwo } }
           if (item.speciificContentLevelThree) a['speciificContentLevelThree'] = { connect: { id: item.speciificContentLevelThree } }
           if (item.speciificContentLevelFour) a['speciificContentLevelFour'] = { connect: { id: item.speciificContentLevelFour } }
           return a;
-        })
+        },'')
       )
     } else {
       return '';
@@ -312,22 +313,22 @@ export class SchoolService {
 
   updateAdmin(config) {
     if (config.admin && config.admin.length > 1)
-      return config.admin.map(item => {
-        return {
+      return config.admin.reduce((admin,item) => {
+        return admin+=`{
           where: {
-            id: item.id
+            id: "${item.id}"
           },
           data: {
-            name: item.name || "",
-            job: item.job || "",
-            type: item.type || "",
-            phone: item.phone || "",
-            whatsApp: item.whatsApp || "",
-            username: item.username || "",
-            password: item.password || "",
+            name: "${item.name || ""}",
+            job: "${item.job || ""}",
+            type: "${item.type || ""}",
+            phone: "${item.phone || ""}",
+            whatsApp: "${item.whatsApp || ""}",
+            username: "${item.username || ""}",
+            password: "${item.password || ""}",
           }
-        }
-      })
+        }`
+      },'')
     else{
       return ''
     }
