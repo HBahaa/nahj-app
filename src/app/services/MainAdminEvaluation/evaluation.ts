@@ -98,7 +98,7 @@ export class evaluation {
                   create: {
                     ${config.hasOwnProperty('title') ? `title: "${config.title}"` : '' }
                     ${config.hasOwnProperty('shortTitle') ? `shortTitle: "${config.shortTitle}"` : '' }
-                    ${config.hasOwnProperty('currentStatus') ? `currentStatus: { connect: { id: "${config.id}" } }`:'' }
+                    ${config.hasOwnProperty('currentStatus') ? `currentStatus: { connect: { id: "${config.currentStatus}" } }`:'' }
                   }
                 }
               } 
