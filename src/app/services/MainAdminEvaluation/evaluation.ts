@@ -19,12 +19,12 @@ export class evaluation {
         query = `mutation{
           updateEvaluation(
             data:{
-              ${config.hasOwnProperty('title')  ? `title: ${config.title}`:`` }
-              ${config.hasOwnProperty('shortTitle')  ? `shortTitle: ${config.shortTitle}`:`` }
-              ${config.hasOwnProperty('currentStatus') ? `${ config.currentStatus == false ? `currentStatus: {disconnect:true}` : `currentStatus: {connect:{id:${config.currentStatus}}}` }` : ''}
+              ${config.hasOwnProperty('title')  ? `title: "${config.title}"`:`` }
+              ${config.hasOwnProperty('shortTitle')  ? `shortTitle: "${config.shortTitle}"`:`` }
+              ${config.hasOwnProperty('currentStatus') ? `${ config.currentStatus == false ? `currentStatus: {disconnect:true}` : `currentStatus: {connect:{id:"${config.currentStatus}"}}` }` : ''}
             }
             where:{
-              id:${config.id}
+              id:"${config.id}"
             }
           ){
             id
@@ -33,40 +33,61 @@ export class evaluation {
         `
         break;
       case "GET": //read
-        query = `query{
-          contentLevelOnes{
-            evaluation{
+        query = `query {
+          contentLevelOnes {
+            id
+            name
+            evaluation {
               id
               title
               shortTitle
-              currentStatus{id,name}
+              currentStatus {
+                id
+                name
+              }
             }
-          }
-          contentLevelTwoes{
-            evaluation{
+            contentLevelTwo{
               id
-              title
-              shortTitle
-              currentStatus{id,name}
+              name
+              evaluation{
+                id
+                title
+                shortTitle
+                currentStatus{
+                  id
+                  name
+                }
+              }
+              contentLevelThree{
+                id
+                name
+                evaluation{
+                  id
+                  title
+                  shortTitle
+                  currentStatus{
+                    id
+                    name
+                  }
+                }
+                contentLevelFour{
+                  id
+                  name
+                  evaluation{
+                    id
+                    title
+                    shortTitle
+                    currentStatus{
+                      id
+                      name
+                    }
+                  }
+                }
+              }
             }
           }
-          contentLevelThrees{
-            evaluation{
-              id
-              title
-              shortTitle
-              currentStatus{id,name}
-            }
-          }
-          contentLevelFours{
-            evaluation{
-              id
-              title
-              shortTitle
-              currentStatus{id,name}
-            }
-          }
-        }`;
+        }
+        `;
         break;
       case "PUT"://create
       console.log("config", config)
@@ -75,13 +96,13 @@ export class evaluation {
               data: {
                 evaluation: {
                   create: {
-                    ${config.hasOwnProperty('title') ? `title: ${config.title}` : '' }
-                    ${config.hasOwnProperty('shortTitle') ? `shortTitle: ${config.shortTitle}` : '' }
-                    ${config.hasOwnProperty('currentStatus') ? `currentStatus: { connect: { id: ${config.id} } }`:'' }
+                    ${config.hasOwnProperty('title') ? `title: "${config.title}"` : '' }
+                    ${config.hasOwnProperty('shortTitle') ? `shortTitle: "${config.shortTitle}"` : '' }
+                    ${config.hasOwnProperty('currentStatus') ? `currentStatus: { connect: { id: "${config.id}" } }`:'' }
                   }
                 }
               } 
-              where: { id: ${config.id} }
+              where: { id: "${config.id}" }
             ) {
               id
             }
