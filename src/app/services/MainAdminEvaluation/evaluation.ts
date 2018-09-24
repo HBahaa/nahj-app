@@ -12,6 +12,8 @@ export class evaluation {
     let query: string = "";
     let variable: object = {};
 
+    console.log("eval config", config)
+
     switch (config.method) {
       case "POST": //update
         query = `mutation{
