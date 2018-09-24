@@ -258,7 +258,7 @@ export class EvaluationDataComponent implements OnInit {
 				id: levelId
 				// speciificContentLevelOneId: this.form.value.level1 ,
 				// speciificContentLevelTwoId: this.form.value.level2 || undefined,
-				// speciificContentLevelThreeId: this.form.value.level3 || undefined,
+				// speciificContentLevelThaddNewreeId: this.form.value.level3 || undefined,
 				// speciificContentLevelFourId: this.form.value.level4 || undefined,
 				// questionGroupName: "",
 				// questionGroupWeight: ""
@@ -297,7 +297,7 @@ export class EvaluationDataComponent implements OnInit {
 			}).subscribe(evals=>{
 				var evaluation = evals['data'].evaluations.filter(evaluation => evaluation.id == this.selectedEvaluation)
 				console.log("evaluation", evaluation)
-				
+
 				this.evaluation.service({
 					method: "POST",
 					url: this.url,
@@ -314,8 +314,8 @@ export class EvaluationDataComponent implements OnInit {
 					questionGroupWeight: "",
 					hadL1: evaluation[0].speciificContentLevel.speciificContentLevelOne  ?true:false,
 					hadL2: evaluation[0].speciificContentLevel.speciificContentLevelTwo  ?true:false,
-					hadL3: evaluation[0].speciificContentLevel.speciificContentLevelThree?true:false,
-					hadL4: evaluation[0]	.speciificContentLevel.speciificContentLevelFour ?true:false
+					hadL3: evaluation[0].speciificContentLevel.speciificContentLevelThree ?true:false,
+					hadL4: evaluation[0].speciificContentLevel.speciificContentLevelFour ?true:false
 				}).subscribe(data=>{
 					console.log("edit", data)
 					this.EvalEdit = true;

@@ -8,6 +8,7 @@ import { GeoService } from '../../../services/geo/geo.service';
 import { SchoolService } from '../../../services/school/school.service';
 import { EcontentOneService } from '../../../services/econtent/econtent-one.service';
 import { StudyYearsService } from '../../../services/studyYears/study-years.service';
+import { licencedTermService } from '../../../services/school/licencedTerm.service';
 
 @Component({
 	selector: 'app-data',
@@ -18,9 +19,11 @@ export class DataComponent implements OnInit {
 
 	title: string = "فلتر تقسيمات المدارس";
 	show: boolean = true;
+	add: boolean = false;
 	updateChildData = false;
 	url: string;
 	form: FormGroup;
+	contentForm: FormGroup;
 	level1 = [];
 	level2 = [];
 	level3 = [];
@@ -51,7 +54,8 @@ export class DataComponent implements OnInit {
 		public dialog: MatDialog,
 		private econtentOneService: EcontentOneService,
 		private studyYearsService: StudyYearsService,
-		private configService: ConfigService
+		private configService: ConfigService,
+		private licencedTermService: licencedTermService
 	) {
 
 		this.url = this.configService.url;
@@ -85,10 +89,6 @@ export class DataComponent implements OnInit {
 			level1: ['', Validators.required],
 			level2: ['', Validators.required],
 			level3: ['', Validators.required],
-			content1: ['', Validators.required],
-			content2: ['', Validators.required],
-			content3: ['', Validators.required],
-			content4: ['', Validators.required],
 			adminName: ['', Validators.required],
 			adminEmail: ['', Validators.required],
 			adminPhone: ['', Validators.required],
@@ -104,6 +104,13 @@ export class DataComponent implements OnInit {
 			nahjAdminUsername: ['', Validators.required],
 			nahjAdminPassword: ['', Validators.required]
 		});
+
+		this.contentForm = this.fb.group({
+			content1: ['', Validators.required],
+			content2: ['', Validators.required],
+			content3: ['', Validators.required],
+			content4: ['', Validators.required]
+		})
 	}
 
 	// get functions
@@ -170,15 +177,15 @@ export class DataComponent implements OnInit {
 	getContent($event) {
 		console.log("$event", $event )
 		switch ($event.level) {
-			case "level1":
+			case "content1":
 				this.selectedContent1 = $event.value;
 				this.getContentData(this.selectedContent1, undefined, undefined, undefined);
 				break;
-			case "level2":
+			case "content2":
 				this.selectedContent2 = $event.value;
 				this.getContentData(this.selectedContent1, this.selectedContent2, undefined, undefined);
 				break;
-			case "level3":
+			case "content3":
 				this.selectedContent3 = $event.value;
 				this.getContentData(this.selectedContent3, this.selectedContent2, $event.value, undefined);
 				break;
@@ -186,12 +193,15 @@ export class DataComponent implements OnInit {
 	}
 
 	getContentData(id1, id2, id3, id4) {
-		console.log("id1", id1)
+		console.log("getContentData")
 		this.econtentOneService.service({
 			method: 'GET',
 			url: this.url
 		}).subscribe(econtent1 => {
+			console.log("econtent1", econtent1)
 			this.content1 = econtent1['data'].contentLevelOnes.map((l1, index1) => {
+				console.log("id", id1)
+				console.log("l1.id", l1.id)
 				if (id1 == l1.id) {
 					this.content2 = l1.contentLevelTwo.map((l2, index2) => {
 						if (!id2 && index2 == 0) {
@@ -220,9 +230,11 @@ export class DataComponent implements OnInit {
 						}
 						return l2
 					})
+					console.log("content2", this.content2)
 				}
-				return (({ id, name }) => ({ id, name }))(l1)
+				// return (({ id, name }) => ({ id, name }))(l1)
 				// return l1.name
+				return l1
 			});
 		})
 	}
@@ -230,10 +242,18 @@ export class DataComponent implements OnInit {
 	// term functions
 
 	addTermClicked() {
-
+		console.log("addTermClicked")
+		this.add = true
 	}
 	addTerm() {
+		console.log("addTerm")
+		// this.licencedTermService.service({
+		// 	method: 'PUT',
+		// 	url: this.url,
+		// 	// ladminNum: 
+		// })
 
+		this.add = false
 	}
 	deleteTerm() {
 
@@ -244,6 +264,7 @@ export class DataComponent implements OnInit {
 		this.show = e.show;
 	}
 	handleContentChange(level, e) {
+		console.log("handleContentChange", level, e)
 		this.getContent({ 'level': level, 'value': e.target.value })
 	}
 
@@ -262,36 +283,29 @@ export class DataComponent implements OnInit {
 
 	///   get data functions
 	saveLContent() {
-		if (this.form.value.content1) {
+		console.log("saveLContent", this.contentForm.value.content1)
+		if (this.contentForm.value.content1) {
 			let obj = {}
-			if (this.form.value.content1) {
-				obj["speciificContentLevelOne"] = {
-					connect: {
-						id: this.form.value.content1
-					}
-				}
+			if (this.contentForm.value.content1) {
+				obj["speciificContentLevelOne"] =this.contentForm.value.content1
+				// obj["speciificContentLevelOne"] = 
+				// {
+				// 	connect: {
+				// 		id: this.contentForm.value.content1
+				// 	}
+				// }
+			}else{
+				obj["speciificContentLevelOne"] = false
 			}
-			if (this.form.value.content2) {
-				obj["speciificContentLevelTwo"] = {
-					connect: {
-						id: this.form.value.content2
-					}
-				}
-			}
-			if (this.form.value.content3) {
-				obj["speciificContentLevelThree"] = {
-					connect: {
-						id: this.form.value.content3
-					}
-				}
-			}
-			if (this.form.value.content4) {
-				obj["speciificContentLevelFour"] = {
-					connect: {
-						id: this.form.value.content4
-					}
-				}
-			}
+			this.contentForm.value.content2 ? obj["speciificContentLevelTwo"] = this.contentForm.value.content2 : 
+			obj["speciificContentLevelTwo"] = false
+
+			this.contentForm.value.content3 ? obj["speciificContentLevelThree"] = this.contentForm.value.content3
+			: obj["speciificContentLevelThree"] = false
+
+			this.contentForm.value.content4 ? obj["speciificContentLevelFour"] = this.contentForm.value.content4
+			: obj["speciificContentLevelFour"] = false
+			
 			this.speciificContent.push(obj)
 			alert("added successfully")
 		};
@@ -468,7 +482,8 @@ export class DataComponent implements OnInit {
 			levelThree: config.level3,
 			geoArea: config.geo,
 			city: config.city,
-			arrayOfSpeciificContent: state ? conf.licensedContent : (this.speciificContent.length > 0 ? this.speciificContent : "")
+			content:this.speciificContent
+			// arrayOfSpeciificContent: state ? conf.licensedContent : (this.speciificContent.length > 0 ? this.speciificContent : "")
 		}).subscribe(data => {
 			console.log("add school", data)
 			this.clearFields();
@@ -478,38 +493,42 @@ export class DataComponent implements OnInit {
 		this.updateChildData = false;
 	}
 	editSchool($event) {
+		console.log("event", $event)
+		console.log("this.form.value", this.form.value)
 		let config = this.form.value;
 		let arr = [];
-		if (config.licensedContent) {
-			for (let item of config.licensedContent) {
+
+		// if (config.licensedContent) {
+		// 	for (let item of config.licensedContent) {
+		// 		let obj = {}
+		// 		if (item.speciificContentLevelOne)
+		// 			obj['speciificContentLevelOne'] = { connect: { id: item.speciificContentLevelOne.id } }
+		// 		if (item.speciificContentLevelTwo)
+		// 			obj['speciificContentLevelTwo'] = { connect: { id: item.speciificContentLevelTwo.id } }
+		// 		if (item.speciificContentLevelThree)
+		// 			obj['speciificContentLevelThree'] = { connect: { id: item.speciificContentLevelThree.id } }
+		// 		if (item.speciificContentLevelFour)
+		// 			obj['speciificContentLevelFour'] = { connect: { id: item.speciificContentLevelFour.id } }
+		// 		arr.push(obj);
+		// 	}
+		// }
+		// else 
+		if($event.licensedContent){
+			for (let item of $event.content) {
 				let obj = {}
 				if (item.speciificContentLevelOne)
-					obj['speciificContentLevelOne'] = { connect: { id: item.speciificContentLevelOne.id } }
+					obj['speciificContentLevelOne'] = item.speciificContentLevelOne ? item.speciificContentLevelOne : item.speciificContentLevelOne.id
 				if (item.speciificContentLevelTwo)
-					obj['speciificContentLevelTwo'] = { connect: { id: item.speciificContentLevelTwo.id } }
+					obj['speciificContentLevelTwo'] = item.speciificContentLevelTwo ? item.speciificContentLevelTwo :item.speciificContentLevelTwo.id
 				if (item.speciificContentLevelThree)
-					obj['speciificContentLevelThree'] = { connect: { id: item.speciificContentLevelThree.id } }
+					obj['speciificContentLevelThree'] = item.speciificContentLevelThree ? item.speciificContentLevelThree :item.speciificContentLevelThree.id
 				if (item.speciificContentLevelFour)
-					obj['speciificContentLevelFour'] = { connect: { id: item.speciificContentLevelFour.id } }
-				arr.push(obj);
-			}
-		}
-		else {
-			for (let item of $event.licensedContent) {
-				let obj = {}
-				if (item.speciificContentLevelOne)
-					obj['speciificContentLevelOne'] = item.speciificContentLevelOne.connect ? item.speciificContentLevelOne : { connect: { id: item.speciificContentLevelOne.id } }
-				if (item.speciificContentLevelTwo)
-					obj['speciificContentLevelTwo'] = item.speciificContentLevelTwo.connect ? item.speciificContentLevelTwo : { connect: { id: item.speciificContentLevelTwo.id } }
-				if (item.speciificContentLevelThree)
-					obj['speciificContentLevelThree'] = item.speciificContentLevelThree.connect ? item.speciificContentLevelThree : { connect: { id: item.speciificContentLevelThree.id } }
-				if (item.speciificContentLevelFour)
-					obj['speciificContentLevelFour'] = item.speciificContentLevelFour.connect ? item.speciificContentLevelFour : { connect: { id: item.speciificContentLevelFour.id } }
+					obj['speciificContentLevelFour'] = item.speciificContentLevelFour ? item.speciificContentLevelFour :item.speciificContentLevelFour.id
 				arr.push(obj);
 			}
 
 		}
-		config.licensedContent = arr;
+		config.content = arr;
 
 		this.schoolService.service({
 			method: "GET",
@@ -532,57 +551,14 @@ export class DataComponent implements OnInit {
 	}
 	deleteSchool($event) {
 		this.schoolService.service({
-			method: "GET",
-			url: this.url
-		}).subscribe(schools => {
-			schools["data"].schools.map(school => {
-				if (school.id == $event.id) {
-					this.schoolService.service({
-						method: "DELETE",
-						url: this.url,
-						id: $event.id
-					}).subscribe(resp => {
-						this.updateChildData = true;
-						this.form = this.fb.group({
-							schoolName: [''],
-							motherComp: [''],
-							email: [''],
-							phone: [''],
-							gps: [''],
-							fax: [''],
-							address: [''],
-							geo: [''],
-							district: [''],
-							city: [''],
-							studentsNum: [''],
-							classesNum: [''],
-							teachersNum: [''],
-							adminsNum: [''],
-							lowestStudyYear: [''],
-							highestStudyYear: [''],
-							studyYears: [''],
-							level1: [''],
-							level2: [''],
-							level3: [''],
-							adminName: [''],
-							adminEmail: [''],
-							adminPhone: [''],
-							adminJob: [''],
-							adminWhatsApp: [''],
-							adminUsername: [''],
-							adminPassword: [''],
-							nahjAdminName: [''],
-							nahjAdminEmail: [''],
-							nahjAdminPhone: [''],
-							nahjAdminJob: [''],
-							nahjAdminWhatsApp: [''],
-							nahjAdminUsername: [''],
-							nahjAdminPassword: ['']
-						});
-					})
-				}
-			})
+			method: "DELETE",
+			url: this.url,
+			id: $event.id
+		}).subscribe(resp => {
+			this.updateChildData = true;
+			this.clearFields()
 		})
+				
 		this.updateChildData = false;
 	}
 
@@ -594,7 +570,7 @@ export class DataComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
 				this.speciificContent.splice(index, 1);
-				this.selectedSchool.licensedContent = this.speciificContent
+				this.selectedSchool.content = this.speciificContent
 				this.editSchool(this.selectedSchool)
 			} else {
 				console.log("thanks")

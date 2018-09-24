@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<div>
 
 
   <div class="content">
@@ -6,7 +6,7 @@
       <div class="row">
         <h2 class="col-12">بيانات الجهات و رخص الأستخدام</h2>
       </div>
-      <div class="row mt-4">
+      <form [formGroup]="form" class="row mt-4">
         <div class="col-lg-3 col-sm-6">
           <app-school-filter (itemDetails)="getItemDetails($event)" (filterChange)="filterSchoolList($event)" (addButton)="addSchool()" (editButton)="editSchool($event)" [update]="updateChildData" (deleteButton)="openDialog($event)" (clearFormFields)="clearFields()" (addContentFlag)="setContentFlag($event)"></app-school-filter>
         </div>
@@ -198,10 +198,10 @@
                 <button type="button" class="btn btn-primary add-content mt-1" [disabled]="show" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button>
               </div>
               <div class="text-left card-footer">
-                <button *ngIf="add" class="btn btn-success ml-2" (click)="addTermClicked()" type="button">
+                <button *ngIf="!add" class="btn btn-success ml-2" (click)="addTermClicked()" type="button">
                   <i class="fa fa-fw fa-plus"></i>
                 </button>
-                <button *ngIf="!add" class="btn btn-success ml-2" (click)="addTerm()" type="button">
+                <button *ngIf="add" class="btn btn-success ml-2" (click)="addTerm()" type="button">
                   <i class="fa fa-fw fa-save"></i> 
                 </button>
                 <button class="btn btn-danger" (click)="deleteTerm(item)" type="button">
@@ -211,7 +211,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 
@@ -227,30 +227,33 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="form-group">
-            <select (change)="handleContentChange('content1', $event)" class="form-control" formControlName="content1">
-              <option>اختر عنصر</option>
-              <option *ngFor="let item of content1; index as i" value="{{item.id}}">{{item.name}}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <select (change)="handleContentChange('content2', $event)" class="form-control" formControlName="content2">
-              <option>اختر عنصر</option>
-              <option *ngFor="let item of content2; index as i" value="{{item.id}}">{{item.name}}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <select (change)="handleContentChange('content3', $event)" class="form-control" formControlName="content3">
-              <option>اختر عنصر</option>
-              <option *ngFor="let item of content3; index as i" value="{{item.id}}">{{item.name}}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <select (change)="handleContentChange('content4', $event)" class="form-control" formControlName="content4">
-              <option>اختر عنصر</option>
-              <option *ngFor="let item of content4; index as i" value="{{item.id}}">{{item.name}}</option>
-            </select>
-          </div>
+          <form [formGroup]="contentForm">
+            <div class="form-group">
+              <select (change)="handleContentChange('content1', $event)" class="form-control" formControlName="content1">
+                <option>اختر عنصر</option>
+                <option *ngFor="let item of content1; index as i" value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <select (change)="handleContentChange('content2', $event)" class="form-control" formControlName="content2">
+                <option>اختر عنصر</option>
+                <option *ngFor="let item of content2; index as i" value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <select (change)="handleContentChange('content3', $event)" class="form-control" formControlName="content3">
+                <option>اختر عنصر</option>
+                <option *ngFor="let item of content3; index as i" value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <select (change)="handleContentChange('content4', $event)" class="form-control" formControlName="content4">
+                <option>اختر عنصر</option>
+                <option *ngFor="let item of content4; index as i" value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </div>
+          </form>
+          
         </div>
         <div class="modal-footer">
           <button type="button"  class="btn btn-primary ml-1" id="save" (click)="saveLContent()" >حفظ</button>
@@ -259,4 +262,4 @@
       </div>
     </div>
   </div>
-</form>
+</div>

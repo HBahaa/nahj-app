@@ -22,7 +22,7 @@ export class SchoolService {
     let query: string = "";
     let variable: object = {};
 
-
+    console.log("config", config)
     switch (config.method) {
       case "POST": //update
         query = `mutation(
@@ -188,7 +188,6 @@ export class SchoolService {
         break;
       case "PUT"://create
         console.log("config", config);
-        console.log("config", config.geoArea);
 
         query = `mutation(
           ${config.hasOwnProperty('address') ? '$address: String' : ''}
@@ -237,6 +236,7 @@ export class SchoolService {
               ${config.hasOwnProperty('levels') ? 'levels: { connect: { id: $levels } }' : ''}
               ${config.hasOwnProperty('levelTwo') ? 'levelTwo: { connect: { id: $levelTwo } }' : ''}
               ${config.hasOwnProperty('levelThree') ? 'levelThree: { connect: { id: $levelThree } }' : ''}
+             
               
               admin: { create: [${this.CreateAdmin(config)}] }
               licensedTerm: {
@@ -255,11 +255,20 @@ export class SchoolService {
           }
         }`
         variable = this.createVariable(config);
+        console.log("variable", variable)
         break;
       case "DELETE": //delete
-        query = `mutation{
-          deleteSchool(where:{id:${config.id}}){id}
+        // query = `mutation{
+        //   deleteSchool(where:{id:${config.id}}){id}
+        // }`
+
+        // *****heba
+        query = `mutation($id:ID!) {
+          deleteSchool(where:{id:$id}){id}
         }`
+        variable = {
+          id:config.id
+        }
         break;
 
     }
