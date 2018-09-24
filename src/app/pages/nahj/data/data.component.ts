@@ -187,21 +187,22 @@ export class DataComponent implements OnInit {
 				break;
 			case "content3":
 				this.selectedContent3 = $event.value;
-				this.getContentData(this.selectedContent3, this.selectedContent2, $event.value, undefined);
+				this.getContentData(this.selectedContent1, this.selectedContent2, $event.value, undefined);
 				break;
+			case "content4":
+				this.selectedContent4 = $event.value;
+				this.getContentData(this.selectedContent1, this.selectedContent2, this.selectedContent3, $event.value);
+				break;
+
 		}
 	}
 
 	getContentData(id1, id2, id3, id4) {
-		console.log("getContentData")
 		this.econtentOneService.service({
 			method: 'GET',
 			url: this.url
 		}).subscribe(econtent1 => {
-			console.log("econtent1", econtent1)
 			this.content1 = econtent1['data'].contentLevelOnes.map((l1, index1) => {
-				console.log("id", id1)
-				console.log("l1.id", l1.id)
 				if (id1 == l1.id) {
 					this.content2 = l1.contentLevelTwo.map((l2, index2) => {
 						if (!id2 && index2 == 0) {
@@ -230,10 +231,7 @@ export class DataComponent implements OnInit {
 						}
 						return l2
 					})
-					console.log("content2", this.content2)
 				}
-				// return (({ id, name }) => ({ id, name }))(l1)
-				// return l1.name
 				return l1
 			});
 		})
@@ -432,7 +430,8 @@ export class DataComponent implements OnInit {
 
 	addSchool(conf, state = 0) {
 		let config = conf || this.form.value;
-		this.schoolService.service({
+
+		var myObj = {
 			method: 'PUT',
 			url: this.url,
 			email: config.email,
@@ -480,8 +479,11 @@ export class DataComponent implements OnInit {
 			geoArea: config.geo,
 			city: config.city,
 			content:this.speciificContent
-			// arrayOfSpeciificContent: state ? conf.licensedContent : (this.speciificContent.length > 0 ? this.speciificContent : "")
-		}).subscribe(data => {
+		}
+
+		Object.keys(myObj).forEach((key) => (myObj[key] == "") && delete myObj[key]);
+
+		this.schoolService.service(myObj).subscribe(data => {
 			console.log("add school", data)
 			this.clearFields();
 			this.updateChildData = true;
