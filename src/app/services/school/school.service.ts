@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class SchoolService {
 
   constructor(private http: HttpClient) { }
-  fields = ['address', 'gps', 'email', 'phone', 'fax', 'district', 'studentsNum', 'classesNum', 'ladminNum', 'lstudentsNum', 'lclassesNum', 'lteachersNum', 'lowestStudyYear', 'highestStudyYear', 'name', 'motherComp', 'city', 'levels', 'levelTwo', 'levelThree', 'lstudyYear', 'geoArea','id'];
+  fields = ['address', 'gps', 'email', 'phone', 'fax', 'district', 'studentsNum', 'classesNum', 'ladminNum', 'lstudentsNum', 'lclassesNum', 'lteachersNum', 'lowestStudyYear', 'highestStudyYear', 'name', 'motherComp', 'city', 'levels', 'levelTwo', 'levelThree', 'lstudyYear', 'geoArea', 'id'];
 
   createVariable(config) {
     let newVar = {};
@@ -73,7 +73,7 @@ export class SchoolService {
               ${config.hasOwnProperty('levelThree') ? (config.levelThree == false ? 'levelThree:   {disconnect:true}' : 'levelThree:{connect:{id:$levelThree}}') : ''}
               
               admin:{
-                update:${ this.CreateAdmin(config) ? "["+this.updateAdmin(config)+"]" : '[]'} 
+                update:${ this.CreateAdmin(config) ? "[" + this.updateAdmin(config) + "]" : '[]'} 
               }
               ${config.hasOwnProperty('licencedTermId') ? `
                 licensedTerm:{
@@ -103,7 +103,7 @@ export class SchoolService {
             id
           }
         }`
-        
+
         variable = this.createVariable(config);
         break;
       case "GET": //read
@@ -238,7 +238,7 @@ export class SchoolService {
               ${config.hasOwnProperty('levelThree') ? 'levelThree: { connect: { id: $levelThree } }' : ''}
              
               
-              admin: { create: ${ this.CreateAdmin(config) ? "["+this.CreateAdmin(config)+"]" : '[]'} }
+              admin: { create: ${ this.CreateAdmin(config) ? "[" + this.CreateAdmin(config) + "]" : '[]'} }
               licensedTerm: {
                 create: {
                   ${config.hasOwnProperty('ladminNum') ? 'adminNum: $ladminNum' : ''}
@@ -267,7 +267,7 @@ export class SchoolService {
           deleteSchool(where:{id:$id}){id}
         }`
         variable = {
-          id:config.id
+          id: config.id
         }
         break;
 
@@ -281,11 +281,11 @@ export class SchoolService {
   }
 
   CreateAdmin(config) {
-    if (config.admin && config.admin.length > 0) {
-      return config.admin.reduce((admin,item) => {
+    if (config.admin && config.admin.length > 1) {
+      return config.admin.reduce((admin, item) => {
         let a = `{
           name: "${item.name || ""}",
-          job:  "${item.job  || ""}",
+          job:  "${item.job || ""}",
           type: "${item.type || ""}",
           phone:"${item.phone || ""}",
           whatsApp: "${item.whatsApp || ""}",
@@ -293,11 +293,10 @@ export class SchoolService {
           password: "${item.password || ""}",
           email: "${item.email || ""}",
         }`
-        a = a.replace(/\r?\n|\r/g,'')
+        a = a.replace(/\r?\n|\r/g, '')
         admin += a;
-        console.log("a", admin)
         return admin
-      },'')
+      }, '')
     } else {
       return '';
     }
@@ -306,14 +305,17 @@ export class SchoolService {
   CreateContentLevel(config) {
     if (config.content && config.content.length > 0) {
       return (config.content
-        .reduce((content,item) => {
-          let a = {}
-          if (item.speciificContentLevelOne) a['speciificContentLevelOne'] = { connect: { id: item.speciificContentLevelOne } }
-          if (item.speciificContentLevelTwo) a['speciificContentLevelTwo'] = { connect: { id: item.speciificContentLevelTwo } }
-          if (item.speciificContentLevelThree) a['speciificContentLevelThree'] = { connect: { id: item.speciificContentLevelThree } }
-          if (item.speciificContentLevelFour) a['speciificContentLevelFour'] = { connect: { id: item.speciificContentLevelFour } }
-          return a;
-        },'')
+        .reduce((content, item) => {
+          let a = `{
+            ${(item.speciificContentLevelOne) ? `speciificContentLevelOne : { connect: { id: "${item.speciificContentLevelOne}" } }` : ''}
+            ${(item.speciificContentLevelTwo) ? `speciificContentLevelTwo : { connect: { id: "${item.speciificContentLevelTwo}" } }` : ''}
+            ${(item.speciificContentLevelThree) ? `speciificContentLevelThree : { connect: { id: "${item.speciificContentLevelThree}" } }` : ''}
+            ${(item.speciificContentLevelFour) ? `speciificContentLevelFour : { connect: { id: "${item.speciificContentLevelFour}" } }` : ''}
+          }`
+          a = a.replace(/\r?\n|\r/g, '')
+          content += a
+          return content;
+        }, '')
       )
     } else {
       return '';
@@ -322,8 +324,8 @@ export class SchoolService {
 
   updateAdmin(config) {
     if (config.admin && config.admin.length > 1)
-      return config.admin.reduce((admin,item) => {
-        return admin+=`{
+      return config.admin.reduce((admin, item) => {
+        return admin += `{
           where: {
             id: "${item.id}"
           },
@@ -337,28 +339,28 @@ export class SchoolService {
             password: "${item.password || ""}",
           }
         }`
-      },'')
-    else{
+      }, '').replace(/\r?\n|\r/g, '')
+    else {
       return ''
     }
   }
 
   updatelicenceContent(config) {
-    return config.content.map((item) => {
-    let a =  {
-        where:{
-          id:item.id
+    return config.content.reduce((content,item) => {
+      let a = `{
+        where: {
+          id: "${item.id}"
         },
-        data:{
-          
+        data: {
+          ${item.hasOwnProperty('speciificContentLevelOne') ? `${ item.speciificContentLevelOne == false ? `speciificContentLevelOne : { disconnect: true }` :`speciificContentLevelOne : { connect: { id: "${item.speciificContentLevelOne}" } }` } `:""}
+          ${item.hasOwnProperty('speciificContentLevelTwo') ? `${ item.speciificContentLevelTwo == false ? `speciificContentLevelTwo : { disconnect: true }` :`speciificContentLevelTwo : { connect: { id: "${item.speciificContentLevelTwo}" } }` } `:""}
+          ${item.hasOwnProperty('speciificContentLevelThree') ? `${ item.speciificContentLevelThree == false ? `speciificContentLevelThree : { disconnect: true }` :`speciificContentLevelThree : { connect: { id: "${item.speciificContentLevelThree}" } }` } `:""}
+          ${item.hasOwnProperty('speciificContentLevelFour') ? `${ item.speciificContentLevelFour == false ? `speciificContentLevelFour : { disconnect: true }` :`speciificContentLevelFour : { connect: { id: "${item.speciificContentLevelFour}" } }` } `:""}
         }
-      }
-      if (item.hasOwnProperty('speciificContentLevelOne')) item.speciificContentLevelOne == false?  a.data['speciificContentLevelOne'] = { disconnect: true} :  a.data['speciificContentLevelOne'] = { connect: { id: item.speciificContentLevelOne } }
-      if (item.hasOwnProperty('speciificContentLevelTwo')) item.speciificContentLevelTwo == false?  a.data['speciificContentLevelTwo'] = { disconnect: true} :  a.data['speciificContentLevelTwo'] = { connect: { id: item.speciificContentLevelTwo } }
-      if (item.hasOwnProperty('speciificContentLevelThree')) item.speciificContentLevelThree == false?  a.data['speciificContentLevelThree'] = { disconnect: true} :  a.data['speciificContentLevelThree'] = { connect: { id: item.speciificContentLevelThree } }
-      if (item.hasOwnProperty('speciificContentLevelFour')) item.speciificContentLevelFour == false?  a.data['speciificContentLevelFour'] = { disconnect: true} :  a.data['speciificContentLevelFour'] = { connect: { id: item.speciificContentLevelFour } }  
-
-    return a;
+      }`
+      a = a.replace(/\r?\n|\r/g, '')
+      content += a;
+      return content;
     })
   }
 }
