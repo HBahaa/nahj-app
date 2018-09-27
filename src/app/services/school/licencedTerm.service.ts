@@ -35,7 +35,7 @@ export class licencedTermService {
                                 ${config.hasOwnProperty('lteachersNum') ? 'teachersNum: $lteachersNum' : ''}
                                 ${config.hasOwnProperty('lclassesNum') ? 'classesNum: $lclassesNum' : ''}
                                 ${config.hasOwnProperty('lstudyYear') ? 'studyYear: { connect: { id: $lstudyYear } }' : ''}
-                                licensedContent: { create: [${this.CreateContentLevel(config)}] }
+                                licensedContent: { create: [ ${this.CreateContentLevel(config)} ] }
                             }
                           }
                         }

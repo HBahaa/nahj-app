@@ -22,7 +22,7 @@ export class SchoolService {
     let query: string = "";
     let variable: object = {};
 
-    console.log("config", config)
+    console.log("config service===", config)
     switch (config.method) {
       case "POST": //update
         query = `mutation(

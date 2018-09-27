@@ -114,6 +114,37 @@ export class DataComponent implements OnInit {
 		})
 	}
 
+	openDialog($event) {
+		const dialogRef = this.dialog.open(DialogComponent, {
+			width: '500px'
+		});
+		dialogRef.afterClosed().subscribe(result => {
+			if (result) {
+				this.deleteSchool($event);
+			} else {
+				console.log("thanks")
+			}
+		});
+	}
+
+	getGeoCityData(id) {//get geoDataCity
+		this.geoService.service({
+			method: "GET",
+			url: this.url
+		}).subscribe((data: any) => {
+			this.geoArray = data.data.geoAreas.map((item, index) => {
+				if (item.id == id) {
+					this.citiesArray = item["cities"]
+				}
+				return item;
+			});
+		});
+	}
+
+	getCities($event) {
+		this.getGeoCityData($event.target.value || undefined);
+		this.selectedGeo = $event.target.value
+	}
 	// get functions
 	getStudyYear() {
 		this.studyYearsService.service({
@@ -123,7 +154,10 @@ export class DataComponent implements OnInit {
 			this.terms = terms['data']['studyYears'];
 		})
 	}
-
+	//handle level function
+	handleChange(level, e) {
+		this.getLevelData({ 'level': level, 'value': e.target.value })
+	}
 	getAllLevels(id1, id2) {
 		this.elevelsOne.service({
 			method: 'GET',
@@ -144,23 +178,6 @@ export class DataComponent implements OnInit {
 			});
 		});
 	}
-	getGeoCityData(id) {//get geoDataCity
-		this.geoService.service({
-			method: "GET",
-			url: this.url
-		}).subscribe((data: any) => {
-			this.geoArray = data.data.geoAreas.map((item, index) => {
-				if (item.id == id) {
-					this.citiesArray = item["cities"]
-				}
-				return item;
-			});
-		});
-	}
-	getCities($event) {
-		this.getGeoCityData($event.target.value || undefined);
-		this.selectedGeo = $event.target.value
-	}
 
 	getLevelData($event) {
 		switch ($event.level) {
@@ -175,6 +192,12 @@ export class DataComponent implements OnInit {
 		}
 
 	}
+
+	handleContentChange(level, e) {
+		console.log("handleContentChange", level, e)
+		this.getContent({ 'level': level, 'value': e.target.value })
+	}
+
 	getContent($event) {
 		switch ($event.level) {
 			case "content1":
@@ -240,7 +263,17 @@ export class DataComponent implements OnInit {
 	// term functions
 
 	addTermClicked() {
-		this.add = true
+		this.add = true;
+		this.show = true;
+		this.form = this.fb.group({
+			studyYears:'',
+			lstudentsNum: '',
+			lclassesNum: '',
+			lteachersNum: '',
+			ladminsNum: '',
+		})
+		this.speciificContent = []
+		this.getStudyYear()
 	}
 	addTerm() {
 		let config = this.form.value;
@@ -267,23 +300,6 @@ export class DataComponent implements OnInit {
 	setContentFlag(e) {
 		this.show = e.show;
 	}
-	handleContentChange(level, e) {
-		console.log("handleContentChange", level, e)
-		this.getContent({ 'level': level, 'value': e.target.value })
-	}
-
-	openDialog($event) {
-		const dialogRef = this.dialog.open(DialogComponent, {
-			width: '500px'
-		});
-		dialogRef.afterClosed().subscribe(result => {
-			if (result) {
-				this.deleteSchool($event);
-			} else {
-				console.log("thanks")
-			}
-		});
-	}
 
 	///   get data functions
 	saveLContent() {
@@ -308,74 +324,62 @@ export class DataComponent implements OnInit {
 		};
 	}
 
-
-
-	//handle level function
-
-	handleChange(level, e) {
-		this.getLevelData({ 'level': level, 'value': e.target.value })
-	}
-
 	getItemDetails($event) {
 		this.selectedSchool = $event;
+
 		// this condition to get cities of a selected geo and set selected city
 		$event['geoArea'] ? this.getGeoCityData($event['geoArea'].id) : ''
 		$event['levels'] ? $event['levelTwo'] ? this.getAllLevels($event['levels'].id, $event['levelTwo'].id) : this.getAllLevels($event['levels'].id, undefined) : undefined
 
 		this.licensedTerm = $event.licensedTerm;
-
 		this.terms = $event.licensedTerm.map(term => term.studyYear );
 
+		var admin  = $event.admin.filter(item=> item.type == 'admin');
+		var res  = $event.admin.filter(item=> item.type == 'res');
+
 		this.handleStudyYearChange(undefined)
-		console.log("term=====", this.terms)
-		for(let item of $event.admin){
-			console.log("item", item)
-			this.form = this.fb.group({
-				schoolName: $event.name ? $event.name : undefined,
-				motherComp: $event.motherComp ? $event.motherComp : undefined,
-				email: $event.email ? $event.email : undefined,
-				phone: $event.phone ? $event.phone : undefined,
-				gps: $event.gps ? $event.gps : undefined,
-				fax: $event.fax ? $event.fax : undefined,
-				address: $event.address ? $event.address : undefined,
-				district: $event.district ? $event.district : undefined,
-				geo: $event['geoArea'] ? $event['geoArea'].id : undefined,
-				city: $event['city'] ? $event['city'].id : undefined,
-				lowestStudyYear: $event.lowestStudyYear ? $event.lowestStudyYear : undefined,
-				highestStudyYear: $event.highestStudyYear ? $event.highestStudyYear : undefined,
-				studentsNum: $event.studentsNum ? $event.studentsNum : undefined,
-				classesNum: $event.classesNum ? $event.classesNum : undefined,
-	
-				studyYears: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].studyYear.id : undefined,
-				lstudentsNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].studentsNum : undefined,
-				lclassesNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].classesNum : undefined,
-				lteachersNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].teachersNum : undefined,
-				ladminsNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].adminNum : undefined,
 
-				level1: $event.levels ? $event.levels.id : undefined,
-				level2: $event['levelTwo'] ? $event['levelTwo'].id : undefined,
-				level3: $event['levelThree'] ? $event['levelThree'].id : undefined,
+		this.form = this.fb.group({
+			schoolName: $event.name ? $event.name : undefined,
+			motherComp: $event.motherComp ? $event.motherComp : undefined,
+			email: $event.email ? $event.email : undefined,
+			phone: $event.phone ? $event.phone : undefined,
+			gps: $event.gps ? $event.gps : undefined,
+			fax: $event.fax ? $event.fax : undefined,
+			address: $event.address ? $event.address : undefined,
+			district: $event.district ? $event.district : undefined,
+			geo: $event['geoArea'] ? $event['geoArea'].id : undefined,
+			city: $event['city'] ? $event['city'].id : undefined,
+			lowestStudyYear: $event.lowestStudyYear ? $event.lowestStudyYear : undefined,
+			highestStudyYear: $event.highestStudyYear ? $event.highestStudyYear : undefined,
+			studentsNum: $event.studentsNum ? $event.studentsNum : undefined,
+			classesNum: $event.classesNum ? $event.classesNum : undefined,
 
-				nahjAdminName : item.type == "admin" ? item.name : undefined,
-				nahjAdminEmail : item.type == 'admin' ? item.email : undefined,
-				nahjAdminPhone : item.type == 'admin' ? item.phone : undefined,
-				nahjAdminJob : item.type == 'admin' ? item.job : undefined,
-				nahjAdminWhatsApp : item.type == 'admin' ? item.whatsApp : undefined,
-				nahjAdminUsername : item.type == 'admin' ? item.username : undefined,
+			studyYears: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].studyYear.id : undefined,
+			lstudentsNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].studentsNum : undefined,
+			lclassesNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].classesNum : undefined,
+			lteachersNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].teachersNum : undefined,
+			ladminsNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].adminNum : undefined,
 
-				adminName : item.type == 'res' ? item.name : undefined,
-				adminEmail : item.type == 'res' ? item.email : undefined,
-				adminPhone : item.type == 'res' ? item.phone : undefined,
-				adminJob : item.type == 'res' ? item.job : undefined,
-				adminWhatsApp : item.type == 'res' ? item.whatsApp : undefined,
-				adminUsername : item.type == 'res' ? item.username : undefined
-				
-			});	
-		}
+			level1: $event.levels ? $event.levels.id : undefined,
+			level2: $event['levelTwo'] ? $event['levelTwo'].id : undefined,
+			level3: $event['levelThree'] ? $event['levelThree'].id : undefined,
 
-		
+			nahjAdminName : admin[0].name,
+			nahjAdminEmail : admin[0].email,
+			nahjAdminPhone : admin[0].phone,
+			nahjAdminJob : admin[0].job,
+			nahjAdminWhatsApp : admin[0].whatsApp,
+			nahjAdminUsername : admin[0].username,
 
-		
+			adminName : res[0].name,
+			adminEmail : res[0].email,
+			adminPhone : res[0].phone,
+			adminJob : res[0].job,
+			adminWhatsApp : res[0].whatsApp,
+			adminUsername : res[0].username
+			
+		});				
 	}
 
 	handleStudyYearChange(id) {
@@ -514,51 +518,12 @@ export class DataComponent implements OnInit {
 		})
 		this.updateChildData = false;
 	}
+
 	editSchool($event) {
 		console.log("event", $event)
 		console.log("this.form.value", this.form.value)
 		console.log("this.contentForm.value", this.contentForm.value)
 		let config = this.form.value;
-		let arr = [];
-
-		if (this.contentForm.value.content) {
-			for (let item of this.contentForm.value.content) {
-				let obj = {}
-				if (item.speciificContentLevelOne)
-					obj['speciificContentLevelOne'] = item.speciificContentLevelOne.id
-				if (item.speciificContentLevelTwo)
-					obj['speciificContentLevelTwo'] =  item.speciificContentLevelTwo.id
-				if (item.speciificContentLevelThree)
-					obj['speciificContentLevelThree'] = item.speciificContentLevelThree.id
-				if (item.speciificContentLevelFour)
-					obj['speciificContentLevelFour'] = item.speciificContentLevelFour.id
-				
-				arr.push(obj);
-			}
-		}
-		else 
-		if($event.content){
-			for (let item of $event.content) {
-				let obj = {}
-				if (item.speciificContentLevelOne)
-					obj['speciificContentLevelOne'] = item.speciificContentLevelOne ? item.speciificContentLevelOne : item.speciificContentLevelOne.id
-
-				if (item.speciificContentLevelTwo)
-					obj['speciificContentLevelTwo'] = item.speciificContentLevelTwo ? item.speciificContentLevelTwo : item.speciificContentLevelTwo.id
-
-				if (item.speciificContentLevelThree)
-					obj['speciificContentLevelThree'] = item.speciificContentLevelThree ? item.speciificContentLevelThree : item.speciificContentLevelThree.id
-
-				if (item.speciificContentLevelFour)
-					obj['speciificContentLevelFour'] = item.speciificContentLevelFour ? item.speciificContentLevelFour : item.speciificContentLevelFour.id
-
-				arr.push(obj);
-			}
-
-		}
-
-		console.log("arr ******** ", arr)
-		config.content = arr;
 
 		var myObj = {
 			method: "POST",
@@ -613,7 +578,10 @@ export class DataComponent implements OnInit {
 
 		Object.keys(myObj).forEach((key) => (myObj[key] == "") && delete myObj[key]);
 
-		this.schoolService.service(myObj).subscribe(data => {
+		console.log("obj+***", myObj)
+
+		this.schoolService.service(myObj)
+		.subscribe(data => {
 			console.log("school edited", data)
 			this.updateChildData = true;
 			this.clearFields()
@@ -636,6 +604,8 @@ export class DataComponent implements OnInit {
 	}
 
 	deleteContent($event) {
+		console.log("event", $event.target.id)
+		console.log("speciificContent", this.speciificContent)
 		var index = $event.target.id;
 		const dialogRef = this.dialog.open(DialogComponent, {
 			width: '500px'
@@ -644,7 +614,8 @@ export class DataComponent implements OnInit {
 			if (result) {
 				this.speciificContent.splice(index, 1);
 				console.log("sep----", this.speciificContent)
-				this.selectedSchool.content = this.speciificContent
+				this.selectedSchool.licensedTerm.licensedContent = this.speciificContent
+				console.log("selectedSchool", this.selectedSchool)
 				this.editSchool(this.selectedSchool)
 			} else {
 				console.log("thanks")
