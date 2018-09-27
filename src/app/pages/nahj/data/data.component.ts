@@ -46,6 +46,8 @@ export class DataComponent implements OnInit {
 	terms = [];
 	licensedTerm = [];
 	selectedStudyYear;
+	admin;
+	res;
 
 	constructor(
 		private fb: FormBuilder,
@@ -334,8 +336,8 @@ export class DataComponent implements OnInit {
 		this.licensedTerm = $event.licensedTerm;
 		this.terms = $event.licensedTerm.map(term => term.studyYear );
 
-		var admin  = $event.admin.filter(item=> item.type == 'admin');
-		var res  = $event.admin.filter(item=> item.type == 'res');
+		this.admin  = $event.admin.filter(item=> item.type == 'admin');
+		this.res  = $event.admin.filter(item=> item.type == 'res');
 
 		this.handleStudyYearChange(undefined)
 
@@ -365,19 +367,19 @@ export class DataComponent implements OnInit {
 			level2: $event['levelTwo'] ? $event['levelTwo'].id : undefined,
 			level3: $event['levelThree'] ? $event['levelThree'].id : undefined,
 
-			nahjAdminName : admin[0].name,
-			nahjAdminEmail : admin[0].email,
-			nahjAdminPhone : admin[0].phone,
-			nahjAdminJob : admin[0].job,
-			nahjAdminWhatsApp : admin[0].whatsApp,
-			nahjAdminUsername : admin[0].username,
+			nahjAdminName : this.admin[0].name,
+			nahjAdminEmail : this.admin[0].email,
+			nahjAdminPhone : this.admin[0].phone,
+			nahjAdminJob : this.admin[0].job,
+			nahjAdminWhatsApp : this.admin[0].whatsApp,
+			nahjAdminUsername : this.admin[0].username,
 
-			adminName : res[0].name,
-			adminEmail : res[0].email,
-			adminPhone : res[0].phone,
-			adminJob : res[0].job,
-			adminWhatsApp : res[0].whatsApp,
-			adminUsername : res[0].username
+			adminName : this.res[0].name,
+			adminEmail : this.res[0].email,
+			adminPhone : this.res[0].phone,
+			adminJob : this.res[0].job,
+			adminWhatsApp : this.res[0].whatsApp,
+			adminUsername : this.res[0].username
 			
 		});				
 	}
@@ -528,53 +530,28 @@ export class DataComponent implements OnInit {
 		var myObj = {
 			method: "POST",
 			url: this.url,
-			email: config.email,
-			address: config.address,
-			admin:[
-				{
-					name: config.nahjAdminName,
-					phone: config.nahjAdminPhone,
-					email: config.nahjAdminEmail,
-					job: config.nahjAdminJob,
-					whatsApp: config.nahjAdminWhatsApp,
-					type: 'admin',
-					password: config.nahjAdminPassword,
-					username: config.nahjAdminUsername
-				},
-				{
-					name: config.adminName,
-					phone: config.adminPhone,
-					email: config.adminEmail,
-					job: config.adminJob,
-					whatsApp: config.adminWhatsApp,
-					type: 'res',
-					password: config.adminPassword,
-					username: config.adminUsername
-				}
-			],
-			gps: config.gps,
-			phone: config.phone,
-			fax: config.fax,
-			district: config.district,
-			ladminNum: parseInt(config.ladminsNum),
-			studentsNum: parseInt(config.studentsNum),
-			classesNum: parseInt(config.classesNum),
-			lstudentsNum: parseInt(config.lstudentsNum),
-			lclassesNum: parseInt(config.lclassesNum),
-			lteachersNum: parseInt(config.lteachersNum),
-			lstudyYear: config.studyYears,
-			lowestStudyYear: config.lowestStudyYear,
-			highestStudyYear: config.highestStudyYear,
-			name: config.schoolName,
-			motherComp: config.motherComp,
-			levels: config.level1,
-			levelTwo: config.level2,
-			levelThree: config.level3,
-			geoArea: config.geo,
-			city: config.city,
-			content:this.speciificContent,
 			id: this.selectedSchool.id
 		};
+		
+		config.district != $event.district ? myObj['district'] = config.district : ''
+		config.phone != $event.phone ? myObj['phone'] = config.phone : ''
+		config.gps != $event.gps ? myObj['gps'] = config.gps : ''
+		config.fax != $event.fax ? myObj['fax'] = config.fax : ''
+		config.address != $event.address ? myObj['address'] = config.address : ''
+		config.schoolName != $event.name ? myObj['name'] = config.schoolName : ''
+
+		config.motherComp != $event.motherComp ? myObj['motherComp'] = config.motherComp : ''
+		config.classesNum != $event.classesNum ? myObj['classesNum'] = config.classesNum: ''
+		config.classesNum != $event.classesNum ? myObj['classesNum'] = config.classesNum: ''
+		config.studentsNum != $event.studentsNum ? myObj['studentsNum'] = config.studentsNum: ''
+
+		config.level1 != $event.levels.id ? myObj["levels"]=config.level1 :''
+		config.level2 != $event.levelTwo.id ? myObj["levelTwo"]=config.level2 :''
+		config.level3 != $event.levelThree.id ? myObj["levelThree"]=config.level3 :''
+
+
+		config.geo != $event.geoArea.id ? myObj["geoArea"]=config.geo :''
+		config.city != $event.city.id ? myObj["city"]=config.city :''
 
 		Object.keys(myObj).forEach((key) => (myObj[key] == "") && delete myObj[key]);
 

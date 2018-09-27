@@ -8,26 +8,29 @@ import { GeoService } from '../../../services/geo/geo.service';
 import { SchoolService } from '../../../services/school/school.service';
 import { EcontentOneService } from '../../../services/econtent/econtent-one.service';
 import { StudyYearsService } from '../../../services/studyYears/study-years.service';
+import { licencedTermService } from '../../../services/school/licencedTerm.service';
 
 @Component({
-  selector: 'app-data',
-  templateUrl: './data.component.html',
-  styleUrls: ['./data.component.scss']
+	selector: 'app-data',
+	templateUrl: './data.component.html',
+	styleUrls: ['./data.component.scss']
 })
 export class DataComponent implements OnInit {
 
-	title:string = "فلتر تقسيمات المدارس";
+	title: string = "فلتر تقسيمات المدارس";
 	show: boolean = true;
+	add: boolean = false;
 	updateChildData = false;
 	url: string;
 	form: FormGroup;
-	level1=[];
-	level2=[];
-	level3=[];
-	content1=[];
-	content2=[];
-	content3=[];
-	content4=[];
+	contentForm: FormGroup;
+	level1 = [];
+	level2 = [];
+	level3 = [];
+	content1 = [];
+	content2 = [];
+	content3 = [];
+	content4 = [];
 	selectedLevel1;
 	selectedLevel2;
 	selectedLevel3;
@@ -41,22 +44,27 @@ export class DataComponent implements OnInit {
 	selectedGeo;
 	speciificContent = [];
 	terms = [];
+	licensedTerm = [];
+	selectedStudyYear;
+	admin;
+	res;
 
-	constructor( 
+	constructor(
 		private fb: FormBuilder,
 		private elevelsOne: ELevelsOneService,
 		private schoolService: SchoolService,
 		private geoService: GeoService,
 		public dialog: MatDialog,
 		private econtentOneService: EcontentOneService,
-		private studyYearsService:StudyYearsService,
-		private configService: ConfigService
-	 ) {
-		 
-		this.url = this.configService.url;
-	 }
+		private studyYearsService: StudyYearsService,
+		private configService: ConfigService,
+		private licencedTermService: licencedTermService
+	) {
 
-	ngOnInit() {	
+		this.url = this.configService.url;
+	}
+
+	ngOnInit() {
 		this.getAllLevels(undefined, undefined);
 		this.getGeoCityData(undefined)
 		this.getContentData(undefined, undefined, undefined, undefined);
@@ -84,10 +92,6 @@ export class DataComponent implements OnInit {
 			level1: ['', Validators.required],
 			level2: ['', Validators.required],
 			level3: ['', Validators.required],
-			content1: ['', Validators.required],
-			content2: ['', Validators.required],
-			content3: ['', Validators.required],
-			content4: ['', Validators.required],
 			adminName: ['', Validators.required],
 			adminEmail: ['', Validators.required],
 			adminPhone: ['', Validators.required],
@@ -103,37 +107,72 @@ export class DataComponent implements OnInit {
 			nahjAdminUsername: ['', Validators.required],
 			nahjAdminPassword: ['', Validators.required]
 		});
-	}
 
-	// get functions
-	getStudyYear(){
-		this.studyYearsService.service({
-			method: "GET",
-			url: this.url
-		}).subscribe(terms=>{
-			this.terms = terms['data']['studyYears'];
+		this.contentForm = this.fb.group({
+			content1: ['', Validators.required],
+			content2: ['', Validators.required],
+			content3: ['', Validators.required],
+			content4: ['', Validators.required]
 		})
 	}
 
+	openDialog($event) {
+		const dialogRef = this.dialog.open(DialogComponent, {
+			width: '500px'
+		});
+		dialogRef.afterClosed().subscribe(result => {
+			if (result) {
+				this.deleteSchool($event);
+			} else {
+				console.log("thanks")
+			}
+		});
+	}
+
+	getGeoCityData(id) {//get geoDataCity
+		this.geoService.service({
+			method: "GET",
+			url: this.url
+		}).subscribe((data: any) => {
+			this.geoArray = data.data.geoAreas.map((item, index) => {
+				if (item.id == id) {
+					this.citiesArray = item["cities"]
+				}
+				return item;
+			});
+		});
+	}
+
+	getCities($event) {
+		this.getGeoCityData($event.target.value || undefined);
+		this.selectedGeo = $event.target.value
+	}
+	// get functions
+	getStudyYear() {
+		this.studyYearsService.service({
+			method: "GET",
+			url: this.url
+		}).subscribe(terms => {
+			this.terms = terms['data']['studyYears'];
+		})
+	}
+	//handle level function
+	handleChange(level, e) {
+		this.getLevelData({ 'level': level, 'value': e.target.value })
+	}
 	getAllLevels(id1, id2) {
 		this.elevelsOne.service({
 			method: 'GET',
 			url: this.url
 		}).subscribe(data => {
-			this.level1 = data['data'].levelOnes.filter(n => n.name != "" ).map(object=> (({name, id, levelTwo})=>({id,name}))(object));
-			data['data'].levelOnes.map((level1, index1)=>{
+			this.level1 = data['data'].levelOnes.filter(n => n.name != "").map(object => (({ name, id, levelTwo }) => ({ id, name }))(object));
+			data['data'].levelOnes.map((level1, index1) => {
 				if (id1 == level1.id) {
-					this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map(object=> (({name, id, levelThree})=>({id,name}))(object)); 
-					level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
+					this.level2 = level1['LevelTwo'].filter(n => n.name != "").map(object => (({ name, id, levelThree }) => ({ id, name }))(object));
+					level1['LevelTwo'].filter(n => n.name != "").map((level2, index2) => {
 						if (id2 == level2.id) {
-							// this.selectedLevel2 = level2['name'];
 							if (level2['levelThree']) {
-								this.level3 = level2['levelThree'].filter(n => n.name != "" ).map(object=> (({name, id})=>({id,name}))(object));
-								// level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
-								// 	if(index3 == 0){
-								// 		this.selectedLevel3 = level3['name']
-								// 	}
-								// });
+								this.level3 = level2['levelThree'].filter(n => n.name != "").map(object => (({ name, id }) => ({ id, name }))(object));
 							}
 						}
 					});
@@ -141,85 +180,76 @@ export class DataComponent implements OnInit {
 			});
 		});
 	}
-	getGeoCityData(id){//get geoDataCity
-		this.geoService.service({
-			method: "GET",
-			url: this.url
-		}).subscribe((data: any) => {
-			this.geoArray = data.data.geoAreas.map((item, index) => {
-				if(!id && index == 0){
-					// this.citiesArray = item["cities"];
-					this.citiesArray = [];
-				}else if(item.id == id){
-					this.citiesArray =  item["cities"]
-				}
-				return item;
-			} );
-		});
-	}
-	getCities($event){
-		this.getGeoCityData($event.target.value || undefined);
-		this.selectedGeo = $event.target.value
-	}
 
-	getLevelData($event){
-		switch($event.level){
+	getLevelData($event) {
+		switch ($event.level) {
 			case "level1":
 				this.selectedLevel1 = $event.value;
 				this.getAllLevels($event.value, undefined);
-			break;
+				break;
 			case "level2":
 				this.selectedLevel2 = $event.value;
 				this.getAllLevels(this.selectedLevel1, this.selectedLevel2);
-			break;
+				break;
 		}
-		
+
 	}
-	getContent($event){
-		switch($event.level){
-			case "level1":
+
+	handleContentChange(level, e) {
+		console.log("handleContentChange", level, e)
+		this.getContent({ 'level': level, 'value': e.target.value })
+	}
+
+	getContent($event) {
+		switch ($event.level) {
+			case "content1":
 				this.selectedContent1 = $event.value;
 				this.getContentData(this.selectedContent1, undefined, undefined, undefined);
-			break;
-			case "level2":
+				break;
+			case "content2":
 				this.selectedContent2 = $event.value;
 				this.getContentData(this.selectedContent1, this.selectedContent2, undefined, undefined);
-			break;
-			case "level3":
+				break;
+			case "content3":
 				this.selectedContent3 = $event.value;
-				this.getContentData(this.selectedContent3, this.selectedContent2,$event.value, undefined);
-			break;
+				this.getContentData(this.selectedContent1, this.selectedContent2, $event.value, undefined);
+				break;
+			case "content4":
+				this.selectedContent4 = $event.value;
+				this.getContentData(this.selectedContent1, this.selectedContent2, this.selectedContent3, $event.value);
+				break;
+
 		}
 	}
 
-	getContentData(name1, name2, name3, name4){
+	getContentData(id1, id2, id3, id4) {
 		this.econtentOneService.service({
 			method: 'GET',
 			url: this.url
-		}).subscribe(econtent1=>{
-			this.content1 = econtent1['data'].contentLevelOnes.map((l1, index1)=> {
-				if (name1 == l1.name) {
-					this.content2 = l1.contentLevelTwo.map((l2, index2)=>{
-						if (!name2 && index2 == 0) {
+		}).subscribe(econtent1 => {
+			this.content1 = econtent1['data'].contentLevelOnes.map((l1, index1) => {
+				if (id1 == l1.id) {
+					this.content2 = l1.contentLevelTwo.map((l2, index2) => {
+						if (!id2 && index2 == 0) {
 							if (l2.contentLevelThree.length > 0) {
 								this.content3 = [];
 								this.content4 = [];
 							}
-						}else if (name2 == l2.name) {
+						} else if (id2 == l2.id) {
 							if (l2.contentLevelThree.length > 0) {
-								 this.content3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
-									if (!name3 && index3 == 0) {
+								this.content3 = l2.contentLevelThree.filter(n => n.name != "").map((l3, index3) => {
+									if (!id3 && index3 == 0) {
 										this.content4 = [];
-									}else if (name3 == l3.name) {
+									} else if (id3 == l3.id) {
 										if (l3.contentLevelFour.length > 0) {
-											this.content4 = l3.contentLevelFour.filter(n => n.name != "" )
-										}else{
+											this.content4 = l3.contentLevelFour.filter(n => n.name != "")
+										} else {
 											this.content4 = [];
 										}
 									}
 									return l3
 								})
-							}else{
+							} else {
 								this.content3 = [];
 								this.content4 = [];
 							}
@@ -227,95 +257,89 @@ export class DataComponent implements OnInit {
 						return l2
 					})
 				}
-				return (({id, name})=>({id, name}))(l1)
-				// return l1.name
+				return l1
 			});
 		})
 	}
 
 	// term functions
 
-	addTermClicked(){
-
+	addTermClicked() {
+		this.add = true;
+		this.show = true;
+		this.form = this.fb.group({
+			studyYears: '',
+			lstudentsNum: '',
+			lclassesNum: '',
+			lteachersNum: '',
+			ladminsNum: '',
+		})
+		this.speciificContent = []
+		this.getStudyYear()
 	}
-	addTerm(){
-
+	addTerm() {
+		let config = this.form.value;
+		console.log("addTerm", config)
+		this.licencedTermService.service({
+			method: 'PUT',
+			url: this.url,
+			id: this.selectedSchool.id,
+			ladminNum: config.ladminsNum,
+			lstudentsNum: config.lstudentsNum,
+			lteachersNum: config.lteachersNum,
+			lclassesNum: config.lclassesNum,
+			lstudyYear: config.studyYears
+		}).subscribe(data => {
+			console.log("data =-=-=-=", data)
+		})
+		this.add = false
 	}
-	deleteTerm(){
+	deleteTerm() {
 
 	}
 
 	/// 
-	setContentFlag(e){
+	setContentFlag(e) {
 		this.show = e.show;
-	}
-	handleContentChange(level, e){
-		this.getContent({'level': level, 'value': e.target.value })
-	}
-
-	openDialog($event) {
-		const dialogRef = this.dialog.open(DialogComponent, {
-		  width: '500px'
-		});
-		dialogRef.afterClosed().subscribe(result => {
-			if(result){
-				this.deleteSchool($event);
-			}else{
-				console.log("thanks")
-			}
-		});
 	}
 
 	///   get data functions
-	saveLContent(){
-		if (this.form.value.content1) {
-			let obj  = {}
-			if(this.form.value.content1){
-				obj["speciificContentLevelOne"] = {
-					connect:{
-						id:this.form.value.content1
-					}
-				}
+	saveLContent() {
+		console.log("saveLContent", this.contentForm.value.content1)
+		console.log("this.speciificContent", this.speciificContent)
+		if (this.contentForm.value.content1) {
+			let obj = {}
+			if (this.contentForm.value.content1) {
+				obj["speciificContentLevelOne"] = this.contentForm.value.content1
 			}
-			if(this.form.value.content2){
-				obj["speciificContentLevelTwo"] = {
-					connect:{
-						id:this.form.value.content2
-					}
-				}
-			}
-			if(this.form.value.content3){
-				obj["speciificContentLevelThree"] = {
-					connect:{
-						id:this.form.value.content3
-					}
-				}
-			}
-			if(this.form.value.content4){
-				obj["speciificContentLevelFour"] = {
-					connect:{
-						id:this.form.value.content4
-					}
-				}
-			}	
+			this.contentForm.value.content2 ? obj["speciificContentLevelTwo"] = this.contentForm.value.content2 :
+				''
+
+			this.contentForm.value.content3 ? obj["speciificContentLevelThree"] = this.contentForm.value.content3
+				: ''
+			this.contentForm.value.content4 ? obj["speciificContentLevelFour"] = this.contentForm.value.content4
+				: ''
+
+			console.log("obj save content", obj)
 			this.speciificContent.push(obj)
 			alert("added successfully")
 		};
-	} 
-
-
-
-	//handle level function
-
-	handleChange(level, e){
-		this.getLevelData({'level': level, 'value': e.target.value })
 	}
 
-	getItemDetails($event){
-		console.log("getItemDetails", $event)
-		this.selectedSchool= $event;
+	getItemDetails($event) {
+		this.selectedSchool = $event;
 
+		// this condition to get cities of a selected geo and set selected city
+		$event['geoArea'] ? this.getGeoCityData($event['geoArea'].id) : ''
+		$event['levels'] ? $event['levelTwo'] ? this.getAllLevels($event['levels'].id, $event['levelTwo'].id) : this.getAllLevels($event['levels'].id, undefined) : undefined
 
+		this.licensedTerm = $event.licensedTerm;
+		this.terms = $event.licensedTerm.map(term => term.studyYear);
+
+		this.admin = $event.admin.filter(item => item.type == 'admin');
+		this.res = $event.admin.filter(item => item.type == 'res');
+
+		this.handleStudyYearChange(undefined)
 
 		this.form = this.fb.group({
 			schoolName: $event.name ? $event.name : undefined,
@@ -324,51 +348,74 @@ export class DataComponent implements OnInit {
 			phone: $event.phone ? $event.phone : undefined,
 			gps: $event.gps ? $event.gps : undefined,
 			fax: $event.fax ? $event.fax : undefined,
-			address: $event.address ? $event.address: undefined,
+			address: $event.address ? $event.address : undefined,
+			district: $event.district ? $event.district : undefined,
 			geo: $event['geoArea'] ? $event['geoArea'].id : undefined,
-			district: $event.district ? $event.district: undefined,
 			city: $event['city'] ? $event['city'].id : undefined,
-			studentsNum: $event.studentsNum ? $event.studentsNum: undefined,
-			classesNum: $event.classesNum ? $event.classesNum: undefined,
-			lstudentsNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0]: undefined,
-			lclassesNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0]: undefined,
-			lteachersNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0]: undefined,
-			ladminsNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0]: undefined,
-			lowestStudyYear: $event.lowestStudyYear ? $event.lowestStudyYear: undefined,
-			highestStudyYear: $event.highestStudyYear ? $event.highestStudyYear: undefined,
-			studyYears: $event.StudyYears ? $event.StudyYears: undefined,
-			level1: $event.levels ? $event.levels.id: undefined,
-			level2: $event['levelTwo'] ? $event['levelTwo'].id: undefined,
-			level3: $event['levelThree'] ? $event['levelThree'].id: undefined,
-			adminName: $event.admin && $event.admin.type == 'res' ? $event.admin.name: undefined,
-			adminEmail: $event.admin && $event.admin.type == 'res' ? $event.admin.email: undefined,
-			adminPhone: $event.admin && $event.admin.type == 'res' ? $event.admin.phone: undefined,
-			adminJob: $event.admin && $event.admin.type == 'res' ? $event.admin.job: undefined,
-			adminWhatsApp: $event.admin && $event.admin.type == 'res' ? $event.admin.whatsApp: undefined,
-			adminUsername: $event.admin && $event.admin.type == 'res' ? $event.admin.username: undefined,
-			adminPassword: $event.admin && $event.admin.type == 'res' ? $event.admin.password: undefined,
+			lowestStudyYear: $event.lowestStudyYear ? $event.lowestStudyYear : undefined,
+			highestStudyYear: $event.highestStudyYear ? $event.highestStudyYear : undefined,
+			studentsNum: $event.studentsNum ? $event.studentsNum : undefined,
+			classesNum: $event.classesNum ? $event.classesNum : undefined,
 
-			nahjAdminName: $event.admin && $event.admin.type == 'admin' ? $event.admin.name: undefined,
-			nahjAdminEmail: $event.admin && $event.admin.type == 'admin' ? $event.admin.email: undefined,
-			nahjAdminPhone: $event.admin && $event.admin.type == 'admin' ? $event.admin.phone: undefined,
-			nahjAdminJob: $event.admin && $event.admin.type == 'admin' ? $event.admin.job: undefined,
-			nahjAdminWhatsApp: $event.admin && $event.admin.type == 'admin' ? $event.admin.whatsApp: undefined,
-			nahjAdminUsername: $event.admin && $event.admin.type == 'admin' ? $event.admin.username: undefined,
-			nahjAdminPassword: $event.admin && $event.admin.type == 'admin' ? $event.admin.password: undefined,
-			// content1: '',
-			// content2: '',
-			// content3: '',
-			// content4: ''
+			studyYears: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].studyYear.id : undefined,
+			lstudentsNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].studentsNum : undefined,
+			lclassesNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].classesNum : undefined,
+			lteachersNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].teachersNum : undefined,
+			ladminsNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].adminNum : undefined,
+
+			level1: $event.levels ? $event.levels.id : undefined,
+			level2: $event['levelTwo'] ? $event['levelTwo'].id : undefined,
+			level3: $event['levelThree'] ? $event['levelThree'].id : undefined,
+
+			nahjAdminName: this.admin[0].name,
+			nahjAdminEmail: this.admin[0].email,
+			nahjAdminPhone: this.admin[0].phone,
+			nahjAdminJob: this.admin[0].job,
+			nahjAdminWhatsApp: this.admin[0].whatsApp,
+			nahjAdminUsername: this.admin[0].username,
+
+			adminName: this.res[0].name,
+			adminEmail: this.res[0].email,
+			adminPhone: this.res[0].phone,
+			adminJob: this.res[0].job,
+			adminWhatsApp: this.res[0].whatsApp,
+			adminUsername: this.res[0].username
+
 		});
 	}
 
-	handleStudyYearChange(){
+	handleStudyYearChange(id) {
+		this.licensedTerm.map((term, i) => {
+			console.log("term i", i, term)
+			if (id == term.id) {
+				console.log("id == term.id", id == term.id)
+				this.form = this.fb.group({
+					studyYears: term.studyYear.id,
+					lstudentsNum: term.studentsNum,
+					lclassesNum: term.classesNum,
+					lteachersNum: term.teachersNum,
+					ladminsNum: term.adminNum
+				})
+				this.speciificContent = term.licensedContent
+			} else if (i == 0 && !id) {
+				// console.log("term.studyYear.id", term.studyYear.id )
+				// this.form = this.fb.group({
+				// 	studyYears: term.studyYear.id,
+				// 	lstudentsNum: term.studentsNum,
+				// 	lclassesNum: term.classesNum,
+				// 	lteachersNum: term.teachersNum,
+				// 	ladminsNum: term.adminNum
+				// })
+				this.speciificContent = term.licensedContent
+			}
+			console.log("speciificContent", this.speciificContent)
 
+		})
 	}
 
-	clearFields(){
+	clearFields() {
 		this.form = this.fb.group({
-			schoolName: [''],motherComp: [''],
+			schoolName: [''], motherComp: [''],
 			email: [''],
 			phone: [''],
 			gps: [''],
@@ -403,21 +450,22 @@ export class DataComponent implements OnInit {
 			nahjAdminWhatsApp: [''],
 			nahjAdminUsername: [''],
 			nahjAdminPassword: [''],
-			content1:[''],
-			content2:[''],
-			content3:[''],
-			content4:['']
+			content1: [''],
+			content2: [''],
+			content3: [''],
+			content4: ['']
 		});
-	} 
+		this.speciificContent = [];
+	}
 
-	addSchool(conf,state = 0){
+	addSchool(conf, state = 0) {
 		let config = conf || this.form.value;
-		this.schoolService.service({
+		var myObj = {
 			method: 'PUT',
 			url: this.url,
-			email:config.email,
-			address:config.address,
-			admin:
+			email: config.email,
+			address: config.address,
+			admin: [
 				{
 					name: config.nahjAdminName,
 					phone: config.nahjAdminPhone,
@@ -428,40 +476,43 @@ export class DataComponent implements OnInit {
 					password: config.nahjAdminPassword,
 					username: config.nahjAdminUsername
 				},
-			// admin:
-			// 	{
-			// 		name: config.adminName,
-			// 		phone: config.adminPhone,
-			// 		email: config.adminEmail,
-			// 		job: config.adminJob,
-			// 		whatsApp: config.adminWhatsApp,
-			// 		type: 'res',
-			// 		password: config.adminPassword,
-			// 		username: config.adminUsername
-			// 	}
-			// ,
-			gps:config.gps,
-			phone:config.phone,
-			fax:config.fax,
-			district:config.district,
-			ladminNum:parseInt(config.ladminsNum),
-			studentsNum:parseInt(config.studentsNum),
-			classesNum:parseInt(config.classesNum),
-			lstudentsNum:parseInt(config.lstudentsNum),
-			lclassesNum:parseInt(config.lclassesNum),
-			lteachersNum:parseInt(config.lteachersNum),
-			lstudyYear:config.studyYears,
-			lowestStudyYear:config.lowestStudyYear,
-			highestStudyYear:config.highestStudyYear,
-			name:config.schoolName,
-			motherComp:config.motherComp,
+				{
+					name: config.adminName,
+					phone: config.adminPhone,
+					email: config.adminEmail,
+					job: config.adminJob,
+					whatsApp: config.adminWhatsApp,
+					type: 'res',
+					password: config.adminPassword,
+					username: config.adminUsername
+				}
+			],
+			gps: config.gps,
+			phone: config.phone,
+			fax: config.fax,
+			district: config.district,
+			ladminNum: parseInt(config.ladminsNum),
+			studentsNum: parseInt(config.studentsNum),
+			classesNum: parseInt(config.classesNum),
+			lstudentsNum: parseInt(config.lstudentsNum),
+			lclassesNum: parseInt(config.lclassesNum),
+			lteachersNum: parseInt(config.lteachersNum),
+			lstudyYear: config.studyYears,
+			lowestStudyYear: config.lowestStudyYear,
+			highestStudyYear: config.highestStudyYear,
+			name: config.schoolName,
+			motherComp: config.motherComp,
 			levels: config.level1,
 			levelTwo: config.level2,
 			levelThree: config.level3,
 			geoArea: config.geo,
 			city: config.city,
-			arrayOfSpeciificContent: state ? conf.licensedContent  : (this.speciificContent.length > 0 ? this.speciificContent : "")
-		}).subscribe(data => {
+			content: this.speciificContent
+		}
+
+		Object.keys(myObj).forEach((key) => (myObj[key] == "") && delete myObj[key]);
+
+		this.schoolService.service(myObj).subscribe(data => {
 			console.log("add school", data)
 			this.clearFields();
 			this.updateChildData = true;
@@ -469,129 +520,108 @@ export class DataComponent implements OnInit {
 		})
 		this.updateChildData = false;
 	}
-	editSchool($event){
+
+	editSchool($event) {
+		console.log("event", $event)
+		console.log("this.form.value", this.form.value)
 		let config = this.form.value;
-		let arr = [];
-		if (config.licensedContent ) {
-			for(let item of config.licensedContent){
-				let obj = {}
-				if(item.speciificContentLevelOne   )  
-					obj['speciificContentLevelOne']={connect:{id:item.speciificContentLevelOne.id}}
-				if(item.speciificContentLevelTwo   )  
-					obj['speciificContentLevelTwo']={connect:{id:item.speciificContentLevelTwo.id}}
-				if(item.speciificContentLevelThree )  
-					obj['speciificContentLevelThree']={connect:{id:item.speciificContentLevelThree.id}}
-				if(item.speciificContentLevelFour  )  
-					obj['speciificContentLevelFour']={connect:{id:item.speciificContentLevelFour.id}}
-				arr.push(obj);
-			}
-		}
-		else{
-			for(let item of $event.licensedContent){
-				let obj = {}
-				if(item.speciificContentLevelOne   )  
-					obj['speciificContentLevelOne']= item.speciificContentLevelOne.connect? item.speciificContentLevelOne : {connect:{id:item.speciificContentLevelOne.id}}
-				if(item.speciificContentLevelTwo   )  
-					obj['speciificContentLevelTwo']=item.speciificContentLevelTwo.connect? item.speciificContentLevelTwo : {connect:{id:item.speciificContentLevelTwo.id}}
-				if(item.speciificContentLevelThree )  
-					obj['speciificContentLevelThree']=item.speciificContentLevelThree.connect? item.speciificContentLevelThree : {connect:{id:item.speciificContentLevelThree.id}}
-				if(item.speciificContentLevelFour  )  
-					obj['speciificContentLevelFour']=item.speciificContentLevelFour.connect? item.speciificContentLevelFour : {connect:{id:item.speciificContentLevelFour.id}}
-				arr.push(obj);
-			}
-			
-		}
-		config.licensedContent = arr;
-
-		this.schoolService.service({
-			method: "GET",
-			url: this.url
-		}).subscribe(schools =>{
-			schools["data"].schools.map(school=>{
-				if (school.id == $event.id) {
-					this.addSchool(config,1)
-					this.schoolService.service({
-						method: "DELETE",
-						url: this.url,
-						id: $event.id
-					}) .subscribe(resp=>{
-						console.log("deleted", resp);
-					});
+		var myObj = {
+			method: "POST",
+			url: this.url,
+			email: config.email,
+			address: config.address,
+			admin: [
+				{
+					id: this.admin[0].id,
+					name: config.nahjAdminName,
+					phone: config.nahjAdminPhone,
+					email: config.nahjAdminEmail,
+					job: config.nahjAdminJob,
+					whatsApp: config.nahjAdminWhatsApp,
+					type: 'admin',
+					password: config.nahjAdminPassword,
+					username: config.nahjAdminUsername
+				},
+				{
+					id: this.res[0].id,
+					name: config.adminName,
+					phone: config.adminPhone,
+					email: config.adminEmail,
+					job: config.adminJob,
+					whatsApp: config.adminWhatsApp,
+					type: 'res',
+					password: config.adminPassword,
+					username: config.adminUsername
 				}
-			})
-		});
+			],
+			licencedTermId: $event.licensedTerm.id,
+			gps: config.gps,
+			phone: config.phone,
+			fax: config.fax,
+			district: config.district,
+			ladminNum: parseInt(config.ladminsNum),
+			studentsNum: parseInt(config.studentsNum),
+			classesNum: parseInt(config.classesNum),
+			lstudentsNum: parseInt(config.lstudentsNum),
+			lclassesNum: parseInt(config.lclassesNum),
+			lteachersNum: parseInt(config.lteachersNum),
+			lstudyYear: config.studyYears,
+			lowestStudyYear: config.lowestStudyYear,
+			highestStudyYear: config.highestStudyYear,
+			name: config.schoolName,
+			motherComp: config.motherComp,
+			levels: config.level1,
+			levelTwo: config.level2,
+			levelThree: config.level3,
+			geoArea: config.geo,
+			city: config.city,
+			content: this.speciificContent,
+			id: this.selectedSchool.id
+		};
+
+		Object.keys(myObj).forEach((key) => (myObj[key] == "") && delete myObj[key]);
+
+		this.schoolService.service(myObj)
+			.subscribe(data => {
+				console.log("school edited", data)
+				this.updateChildData = true;
+				this.clearFields()
+			});
 		this.updateChildData = false;
 	}
-	deleteSchool($event){
+
+	deleteSchool($event) {
 		this.schoolService.service({
-			method: "GET",
-			url: this.url
-		}).subscribe(schools =>{
-			schools["data"].schools.map(school=>{
-				if(school.id == $event.id){
-					this.schoolService.service({
-						method: "DELETE",
-						url: this.url,
-						id: $event.id
-					}) .subscribe(resp=>{
-						this.updateChildData = true;
-						this.form = this.fb.group({
-							schoolName: [''],
-							motherComp: [''],
-							email: [''],
-							phone: [''],
-							gps: [''],
-							fax: [''],
-							address: [''],
-							geo: [''],
-							district: [''],
-							city: [''],
-							studentsNum: [''],
-							classesNum: [''],
-							teachersNum: [''],
-							adminsNum: [''],
-							lowestStudyYear: [''],
-							highestStudyYear: [''],
-							studyYears: [''],
-							level1: [''],
-							level2: [''],
-							level3: [''],
-							adminName: [''],
-							adminEmail: [''],
-							adminPhone: [''],
-							adminJob: [''],
-							adminWhatsApp: [''],
-							adminUsername: [''],
-							adminPassword: [''],
-							nahjAdminName: [''],
-							nahjAdminEmail: [''],
-							nahjAdminPhone: [''],
-							nahjAdminJob: [''],
-							nahjAdminWhatsApp: [''],
-							nahjAdminUsername: [''],
-							nahjAdminPassword: ['']
-						});
-					})
-				}
-			})
+			method: "DELETE",
+			url: this.url,
+			id: $event.id
+		}).subscribe(resp => {
+			this.updateChildData = true;
+			this.clearFields();
+			this.speciificContent = [];
 		})
+
 		this.updateChildData = false;
 	}
 
-	deleteContent($event){
+	deleteContent($event) {
+		console.log("event", $event.target.id)
+		console.log("speciificContent", this.speciificContent)
 		var index = $event.target.id;
 		const dialogRef = this.dialog.open(DialogComponent, {
 			width: '500px'
-		  });
-		  dialogRef.afterClosed().subscribe(result => {
-			  if(result){
-				  this.speciificContent.splice(index, 1);
-				  this.selectedSchool.licensedContent = this.speciificContent
-				  this.editSchool(this.selectedSchool)
-			  }else{
-				  console.log("thanks")
-			  }
-		  });
+		});
+		dialogRef.afterClosed().subscribe(result => {
+			if (result) {
+				this.speciificContent.splice(index, 1);
+				console.log("sep----", this.speciificContent)
+				this.selectedSchool.licensedTerm.licensedContent = this.speciificContent
+				console.log("selectedSchool", this.selectedSchool)
+				this.editSchool(this.selectedSchool)
+			} else {
+				console.log("thanks")
+			}
+		});
 	}
 
 }
