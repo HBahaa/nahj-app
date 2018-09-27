@@ -323,6 +323,7 @@ export class SchoolService {
   }
 
   updateAdmin(config) {
+    console.log(config.admin.length)
     if (config.admin && config.admin.length > 1)
       return config.admin.reduce((admin, item) => {
         return admin += `{
@@ -365,8 +366,8 @@ export class SchoolService {
   }
 }
 
-`
-config = {
+
+`config = {
 method:""
 [optional]  id :"",
 [optional]  address:"",
@@ -381,11 +382,12 @@ method:""
 [optional]  highestStudyYear:"",
 [optional]  name:"",
 [optional]  motherComp:"",
-[optional]  geoArea:     'ID' || false --> for disconnect ,
-[optional]  city:        'ID' || false --> for disconnect ,
-[optional]  levels:      'ID' || false --> for disconnect ,
-[optional]  levelTwo:    'ID' || false --> for disconnect ,
-[optional]  levelThree:  'ID' || false --> for disconnect ,
+[optional]  geoArea:        'ID' || false --> for disconnect ,
+[optional]  city:           'ID' || false --> for disconnect ,
+[optional]  levels:         'ID' || false --> for disconnect ,
+[optional]  levelTwo:       'ID' || false --> for disconnect ,
+[optional]  levelThree:     'ID' || false --> for disconnect ,
+[optional]  licencedTermId: 'ID' || false --> for disconnect,
 [optional]  ladminNum:"",
 [optional]  lstudentsNum:"",
 [optional]  lclassesNum:"",
@@ -403,12 +405,10 @@ method:""
   [required]  email      'value' || ""
   }]
 [optional]  content:[{
-    [optional] id       'value' || ""
-    [optional] speciificContentLevelOne:"ID"   || false --> for disconnect
-    [optional] speciificContentLevelTwo:"ID"   || false --> for disconnect
-    [optional] speciificContentLevelThree:"ID" || false --> for disconnect
-    [optional] speciificContentLevelFour:"ID"  || false --> for disconnect
+    [optional] speciificContentLevelOne:    "ID"   
+    [optional] speciificContentLevelTwo:    "ID"  
+    [optional] speciificContentLevelThree:  "ID"
+    [optional] speciificContentLevelFour:   "ID" 
   }]
-[optional] licencedTermId: 'ID' || ''
-}
-`
+[optional]  content_to_delete:[id]
+}`
