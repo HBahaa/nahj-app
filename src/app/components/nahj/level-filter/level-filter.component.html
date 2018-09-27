@@ -29,7 +29,7 @@
 		<div>
 			<label for="result">التقييمات</label>
 			<select id="result" class="form-control" size="4">
-				<option (click)="handleItemClicked(eval)" *ngFor="let eval of evaluations" [value]="eval.id">{{eval.title}}</option>
+				<option (click)="handleItemClicked(eval)" *ngFor="let eval of evaluations" [value]="eval['evaluation'].id">{{eval['evaluation'].title}}</option>
 			</select>
 		</div>
 	</div>

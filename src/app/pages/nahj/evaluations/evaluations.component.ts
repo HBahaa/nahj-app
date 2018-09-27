@@ -34,12 +34,7 @@ export class EvaluationsComponent implements OnInit {
 		}).subscribe((data: any) => {
 			console.log("data['data'].evaluationOptionses", data['data'].evaluationOptionses)
 			this.options = data['data'].evaluationOptionses.map((option, index) =>{
-				// if(!id && index == 0){
-				// 	// this.selectedEvaluationOption = option.name;
-				// 	this.grades = option.grades.filter(n => n.grade != "" ).map(object=> (({grade, id, weight})=>({name:grade, relativePercentage:weight}))(object));
-				// }else 
 				if(option.id == id){
-					// this.selectedEvaluationOption = option.name;
 					this.grades = option.grades.filter(n => n.grade != "" ).map(object=> (({grade, id, weight})=>({name:grade, relativePercentage:weight}))(object));
 				}
 				return option;
