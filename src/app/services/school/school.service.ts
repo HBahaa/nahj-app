@@ -19,6 +19,7 @@ export class SchoolService {
   }
 
   service(config) { ////method,url,id,adminId,address,admin,gps,phone,fa,district,adminNum,studentsNum,classesNum ... , admin[Object of admin data check schema] 
+    console.log(config)
     let query: string = "";
     let variable: object = {};
 
@@ -38,10 +39,12 @@ export class SchoolService {
           ${config.hasOwnProperty('motherComp') ? '$motherComp: String' : ''}
           ${config.hasOwnProperty('studentsNum') ? '$studentsNum: Int' : ''}
           ${config.hasOwnProperty('classesNum') ? '$classesNum: Int' : ''}
-          ${config.hasOwnProperty('ladminNum') ? '$ladminNum: Int' : ''}
-          ${config.hasOwnProperty('lstudentsNum') ? '$lstudentsNum: Int' : ''}
-          ${config.hasOwnProperty('lclassesNum') ? '$lclassesNum: Int' : ''}
-          ${config.hasOwnProperty('lteachersNum') ? '$lteachersNum: Int' : ''}
+          
+          ${config.hasOwnProperty('ladminNum')    && config.hasOwnProperty('licencedTermId') ? '$ladminNum: Int' : ''}
+          ${config.hasOwnProperty('lstudentsNum') && config.hasOwnProperty('licencedTermId') ? '$lstudentsNum: Int' : ''}
+          ${config.hasOwnProperty('lclassesNum')  && config.hasOwnProperty('licencedTermId') ? '$lclassesNum: Int' : ''}
+          ${config.hasOwnProperty('lteachersNum') && config.hasOwnProperty('licencedTermId') ? '$lteachersNum: Int' : ''}
+          
           ${config.hasOwnProperty('geoArea') ? '$geoArea:ID!' : ''}
           ${config.hasOwnProperty('city') ? '$city: ID' : ''}
           ${config.hasOwnProperty('levels') ? '$levels: ID' : ''}
@@ -78,16 +81,19 @@ export class SchoolService {
               ${config.hasOwnProperty('licencedTermId') ? `
                 licensedTerm:{
                   update:{
-                    where:{ id:${config.licencedTermId} }
+                    where:{ id:"${config.licencedTermId}" }
                     data:{
-                      ${config.hasOwnProperty('ladminNum') ? 'adminNum: $ladminNum' : ''}
+                      ${config.hasOwnProperty('ladminNum')    ? 'adminNum: $ladminNum' : ''}
                       ${config.hasOwnProperty('lstudentsNum') ? 'studentsNum: $lstudentsNum' : ''}
                       ${config.hasOwnProperty('lteachersNum') ? 'teachersNum: $lteachersNum' : ''}
-                      ${config.hasOwnProperty('lclassesNum') ? 'classesNum: $lclassesNum' : ''}
-                      ${config.hasOwnProperty('lstudyYear') ? (config.lstudyYear == false ? 'studyYear:   {disconnect:true}' : 'studyYear:{connect:{id:$lstudyYear}}') : ''}
+                      ${config.hasOwnProperty('lclassesNum')  ? 'classesNum: $lclassesNum' : ''}
+                      ${config.hasOwnProperty('lstudyYear')   ? (config.lstudyYear == false ? 'studyYear:   {disconnect:true}' : 'studyYear:{connect:{id:$lstudyYear}}') : ''}
                       licensedContent:{
-                        update:[
-                          ${this.updatelicenceContent(config)}
+                        create:[
+                          ${this.CreateContentLevel(config) ? '[' + this.CreateContentLevel(config) + ']' : '[]'}
+                        ]
+                        delete:[
+                          ${this.deleteContentLevel(config)}
                         ]
                       }
                     }
@@ -97,7 +103,7 @@ export class SchoolService {
               
             }
             where:{
-              id:${config.id}
+              id:"${config.id}"
             }
           ){
             id
@@ -346,23 +352,13 @@ export class SchoolService {
     }
   }
 
-  updatelicenceContent(config) {
-    return config.content.reduce((content,item) => {
-      let a = `{
-        where: {
-          id: "${item.id}"
-        },
-        data: {
-          ${item.hasOwnProperty('speciificContentLevelOne') ? `${ item.speciificContentLevelOne == false ? `speciificContentLevelOne : { disconnect: true }` :`speciificContentLevelOne : { connect: { id: "${item.speciificContentLevelOne}" } }` } `:""}
-          ${item.hasOwnProperty('speciificContentLevelTwo') ? `${ item.speciificContentLevelTwo == false ? `speciificContentLevelTwo : { disconnect: true }` :`speciificContentLevelTwo : { connect: { id: "${item.speciificContentLevelTwo}" } }` } `:""}
-          ${item.hasOwnProperty('speciificContentLevelThree') ? `${ item.speciificContentLevelThree == false ? `speciificContentLevelThree : { disconnect: true }` :`speciificContentLevelThree : { connect: { id: "${item.speciificContentLevelThree}" } }` } `:""}
-          ${item.hasOwnProperty('speciificContentLevelFour') ? `${ item.speciificContentLevelFour == false ? `speciificContentLevelFour : { disconnect: true }` :`speciificContentLevelFour : { connect: { id: "${item.speciificContentLevelFour}" } }` } `:""}
-        }
-      }`
-      a = a.replace(/\r?\n|\r/g, '')
-      content += a;
-      return content;
-    })
+  deleteContentLevel(config) {
+    let str = '';
+    if(!config.content_to_delete || config.content_to_delete.length < 1) return str;
+    str = config.content_to_delete.reduce((strI,id) =>{
+     return strI+=`{id:"${id}"}`
+    },str)
+    return str;
   }
 }
 
