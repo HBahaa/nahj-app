@@ -339,11 +339,11 @@ export class DataComponent implements OnInit {
 
 		// $event.licensedTerm ? this.terms = $event.licensedTerm.map(term => term.studyYear ) : this.terms= [];
 
-		this.admin  = $event.admin.filter(item=> item.type == 'admin');
-		this.res  = $event.admin.filter(item=> item.type == 'res');
+		this.admin  = $event.admin.filter(item=> item.type == 'admin')[0];
+		this.res  = $event.admin.filter(item=> item.type == 'res')[0];
 
 		this.handleStudyYearChange(undefined)
-        console.log("this.admin", this.admin)
+        console.log("this.admin///////////////", this.admin)
 		this.form = this.fb.group({
 			schoolName: $event.name ? $event.name : undefined,
 			motherComp: $event.motherComp ? $event.motherComp : undefined,
@@ -370,19 +370,19 @@ export class DataComponent implements OnInit {
 			level2: $event['levelTwo'] ? $event['levelTwo'].id : undefined,
 			level3: $event['levelThree'] ? $event['levelThree'].id : undefined,
 
-			nahjAdminName : this.admin.length > 0 ? this.admin[0].name : undefined,
-			nahjAdminEmail : this.admin.length > 0 ? this.admin[0].email : undefined,
-			nahjAdminPhone : this.admin.length > 0 ? this.admin[0].phone : undefined,
-			nahjAdminJob : this.admin.length > 0 ? this.admin[0].job : undefined,
-			nahjAdminWhatsApp : this.admin.length > 0 ? this.admin[0].whatsApp : undefined,
-			nahjAdminUsername : this.admin.length > 0 ? this.admin[0].username : undefined,
+			nahjAdminName : this.admin ? this.admin.name : undefined,
+			nahjAdminEmail : this.admin ? this.admin.email : undefined,
+			nahjAdminPhone : this.admin ? this.admin.phone : undefined,
+			nahjAdminJob : this.admin ? this.admin.job : undefined,
+			nahjAdminWhatsApp : this.admin ? this.admin.whatsApp : undefined,
+			nahjAdminUsername : this.admin ? this.admin.username : undefined,
 
-			adminName : this.res.length > 0 ? this.res[0].name : undefined,
-			adminEmail : this.res.length > 0 ? this.res[0].email : undefined,
-			adminPhone : this.res.length > 0 ? this.res[0].phone : undefined,
-			adminJob : this.res.length > 0 ? this.res[0].job : undefined,
-			adminWhatsApp : this.res.length > 0 ? this.res[0].whatsApp : undefined,
-			adminUsername : this.res.length > 0 ? this.res[0].username : undefined
+			adminName : this.res ? this.res.name : undefined,
+			adminEmail : this.res ? this.res.email : undefined,
+			adminPhone : this.res ? this.res.phone : undefined,
+			adminJob : this.res ? this.res.job : undefined,
+			adminWhatsApp : this.res ? this.res.whatsApp : undefined,
+			adminUsername : this.res ? this.res.username : undefined
 			
 		});				
 	}
@@ -467,33 +467,52 @@ export class DataComponent implements OnInit {
 		var admin; var res;
 		var myObj = {
 			method: 'PUT',
-			url: this.url
+			url: this.url,
+			admin:[
+				{
+					name:config.adminName,
+					email:config.adminEmail,
+					password:config.adminPassword,
+					job:config.adminJob,
+					whatsApp:config.adminWhatsApp,
+					phone:config.adminPhone,
+					username:config.adminUsername,
+					type:"res"
+				},
+				{
+					name:config.nahjAdminName,
+					email:config.nahjAdminEmail,
+					password:config.nahjAdminPassword,
+					job:config.nahjAdminJob,
+					whatsApp:config.nahjAdminWhatsApp,
+					phone:config.nahjAdminPhone,
+					username:config.nahjAdminUsername,
+					type:"admin"
+				}
+			]
 		}
-
-		console.log("this.speciificContent this.speciificContent", this.speciificContent)
 		console.log("config", config)
-		console.log("levels", config.level1, config.level2, config.level3)
 
 		this.speciificContent != [] ? myObj['content']=this.speciificContent: ''
 		
-		config.adminName ?  res['name'] = config.adminName : ""
-		config.adminEmail ?  res['email'] = config.adminEmail : ""
-		config.adminPhone ?  res['phone'] = config.adminPhone : ""
-		config.adminJob ?  res['job'] = config.adminJob : ""
-		config.adminUsername ?  res['userUadminUsername'] = config.adminName : ""
-		config.adminPassword ?  res['password'] = config.adminPassword : ""
-		config.adminWhatsApp ?  res['whatsApp'] = config.adminWhatsApp : ""
+		// config.adminName ?  res['name'] = config.adminName : ""
+		// config.adminEmail ?  res['email'] = config.adminEmail : ""
+		// config.adminPhone ?  res['phone'] = config.adminPhone : ""
+		// config.adminJob ?  res['job'] = config.adminJob : ""
+		// config.adminUsername ?  res['userUadminUsername'] = config.adminName : ""
+		// config.adminPassword ?  res['password'] = config.adminPassword : ""
+		// config.adminWhatsApp ?  res['whatsApp'] = config.adminWhatsApp : ""
 
-		config.nahjAdminName ?  admin['name'] = config.nahjAdminName : ""
-		config.nahjAdminEmail ?  admin['email'] = config.nahjAdminEmail : ""
-		config.nahjAdminPhone ?  admin['phone'] = config.nahjAdminPhone : ""
-		config.nahjAdminJob ?  admin['job'] = config.nahjAdminJob : ""
-		config.nahjAdminUsername ?  admin['userUadminUsername'] = config.nahjAdminName : ""
-		config.nahjAdminPassword ?  admin['password'] = config.nahjAdminPassword : ""
-		config.nahjAdminWhatsApp ?  admin['whatsApp'] = config.nahjAdminWhatsApp : ""
+		// config.nahjAdminName ?  admin['name'] = config.nahjAdminName : ""
+		// config.nahjAdminEmail ?  admin['email'] = config.nahjAdminEmail : ""
+		// config.nahjAdminPhone ?  admin['phone'] = config.nahjAdminPhone : ""
+		// config.nahjAdminJob ?  admin['job'] = config.nahjAdminJob : ""
+		// config.nahjAdminUsername ?  admin['userUadminUsername'] = config.nahjAdminName : ""
+		// config.nahjAdminPassword ?  admin['password'] = config.nahjAdminPassword : ""
+		// config.nahjAdminWhatsApp ?  admin['whatsApp'] = config.nahjAdminWhatsApp : ""
 
-		res ? myObj['admin'] = [res] :  '';
-		admin ? myObj['admin'].length > 0 ? myObj['admin'].push(admin) : myObj['admin'] = [admin] :  '';
+		// res ? myObj['admin'] = [res] :  '';
+		// admin ? myObj['admin'].length > 0 ? myObj['admin'].push(admin) : myObj['admin'] = [admin] :  '';
 
 		config.schoolName ? myObj['name'] = config.schoolName: '';
 		config.district ? myObj['district'] = config.district: '';
@@ -562,45 +581,58 @@ export class DataComponent implements OnInit {
 		$event.geoArea ? config.geo != $event.geoArea.id ? myObj["geoArea"]=config.geo :'' : undefined
 		$event.city ? config.city != $event.city.id ? myObj["city"]=config.city :'' : undefined
 
-		if(this.res.length > 0){
-			this.res[0]['name'] = config.adminName != this.res[0].name ?  config.adminName : this.res[0].name
-			this.res[0]['email'] = config.adminEmail != this.res[0].email ?  config.adminEmail : this.res[0].email
-			this.res[0]['phone'] = config.adminPhone != this.res[0].phone ?  config.adminPhone : this.res[0].phone
-			this.res[0]['job'] = config.adminJob != this.res[0].job ?  config.adminJob : this.res[0].job
-			this.res[0]['username'] = config.adminUsername != this.res[0].username ?  config.adminUsername : this.res[0].username
-			this.res[0]['password'] = config.adminPassword != this.res[0].password ?  config.adminPassword : this.res[0].password
-			this.res[0]['whatsApp'] = config.adminWhatsApp != this.res[0].whatsApp ?  config.adminWhatsApp : this.res[0].whatsApp
-		}else{
-			this.res['name'] = config.adminName
-			this.res['email'] = config.adminEmail
-			this.res['phone'] = config.adminPhone
-			this.res['job'] = config.adminJob
-			this.res['username'] = config.adminUsername
-			this.res['password'] = config.adminPassword
-			this.res['whatsApp'] = config.adminWhatsApp
-
+		console.log("config ======", config)
+		console.log("res----------------", this.res, this.admin)
+		if(this.res){
+			this.res['name'] = config.adminName != this.res.name ?  config.adminName : this.res.name
+			this.res['email'] = config.adminEmail != this.res.email ?  config.adminEmail : this.res.email
+			this.res['phone'] = config.adminPhone != this.res.phone ?  config.adminPhone : this.res.phone
+			this.res['job'] = config.adminJob != this.res.job ?  config.adminJob : this.res.job
+			this.res['username'] = config.adminUsername != this.res.username ?  config.adminUsername : this.res.username
+			this.res['password'] = config.adminPassword != this.res.password ?  config.adminPassword : this.res.password
+			this.res['whatsApp'] = config.adminWhatsApp != this.res.whatsApp ?  config.adminWhatsApp : this.res.whatsApp
 		}
+		// else{
+		// 	if (config.adminName || config.adminEmail || config.adminPhone || config.adminJob || config.adminUsername || config.adminPassword || config.adminWhatsApp) {
+		// 		this.res = {}
+		// 		this.res['type'] = "res"
+		// 		this.res['name'] = config.adminName
+		// 		this.res['email'] = config.adminEmail
+		// 		this.res['phone'] = config.adminPhone
+		// 		this.res['job'] = config.adminJob
+		// 		this.res['username'] = config.adminUsername
+		// 		this.res['password'] = config.adminPassword
+		// 		this.res['whatsApp'] = config.adminWhatsApp
+		// 	}
 
-		if (this.admin.length > 0) {
-			this.admin[0]['name'] = config.nahjAdminName != this.admin[0].name ?  config.nahjAdminName : this.admin[0].name
-			this.admin[0]['email'] = config.nahjAdminEmail != this.admin[0].email ?  config.nahjAdminEmail : this.admin[0].email
-			this.admin[0]['phone'] = config.nahjAdminPhone != this.admin[0].phone ?  config.nahjAdminPhone : this.admin[0].phone
-			this.admin[0]['job'] = config.nahjAdminJob != this.admin[0].job ?  config.nahjAdminJob : this.admin[0].job
-			this.admin[0]['username'] = config.nahjAdminUsername != this.admin[0].username ?  config.nahjAdminUsername : this.admin[0].username
-			this.admin[0]['password'] = config.nahjAdminPassword != this.admin[0].password ?  config.nahjAdminPassword : this.admin[0].password
-			this.admin[0]['whatsApp'] = config.nahjAdminWhatsApp != this.admin[0].whatsApp ?  config.nahjAdminWhatsApp : this.admin[0].whatsApp
-		}else{
-			this.admin['name'] = config.nahjAdminName
-			this.admin['email'] = config.nahjAdminEmail
-			this.admin['phone'] = config.nahjAdminPhone
-			this.admin['job'] = config.nahjAdminJob
-			this.admin['username'] = config.nahjAdminUsername
-			this.admin['password'] = config.nahjAdminPassword
-			this.admin['whatsApp'] = config.nahjAdminWhatsApp
+		// }
+
+		if (this.admin) {
+			this.admin['name'] = config.nahjAdminName != this.admin.name ?  config.nahjAdminName : this.admin.name
+			this.admin['email'] = config.nahjAdminEmail != this.admin.email ?  config.nahjAdminEmail : this.admin.email
+			this.admin['phone'] = config.nahjAdminPhone != this.admin.phone ?  config.nahjAdminPhone : this.admin.phone
+			this.admin['job'] = config.nahjAdminJob != this.admin.job ?  config.nahjAdminJob : this.admin.job
+			this.admin['username'] = config.nahjAdminUsername != this.admin.username ?  config.nahjAdminUsername : this.admin.username
+			this.admin['password'] = config.nahjAdminPassword != this.admin.password ?  config.nahjAdminPassword : this.admin.password
+			this.admin['whatsApp'] = config.nahjAdminWhatsApp != this.admin.whatsApp ?  config.nahjAdminWhatsApp : this.admin.whatsApp
 		}
-
-		myObj['admin'] = [this.admin[0], this.res[0]]
-
+		// else{
+		// 	if (config.nahjAdminName || config.nahjAdminEmail || config.nahjAdminPhone || config.nahjAdminJob || config.nahjAdminUsername || config.nahjAdminPassword || config.nahjAdminWhatsApp) {
+		// 		this.admin = {}
+		// 		this.admin['type'] = "admin"
+		// 		this.admin['name'] = config.nahjAdminName
+		// 		this.admin['email'] = config.nahjAdminEmail
+		// 		this.admin['phone'] = config.nahjAdminPhone
+		// 		this.admin['job'] = config.nahjAdminJob
+		// 		this.admin['username'] = config.nahjAdminUsername
+		// 		this.admin['password'] = config.nahjAdminPassword
+		// 		this.admin['whatsApp'] = config.nahjAdminWhatsApp
+		// 	}
+		// }
+		myObj['admin'] = [this.admin, this.res]
+		console.log("admin *****", this.admin, this.res)
+		
+		
 		config.ladminsNum != $event.licensedTerm.adminNum ? myObj['ladminNum'] = config.ladminsNum : $event.licensedTerm.adminNum
 		config.lstudentsNum != $event.licensedTerm.studentsNum ? myObj['lstudentsNum'] = config.lstudentsNum : $event.licensedTerm.studentsNum
 		config.lteachersNum != $event.licensedTerm.teachersNum ? myObj['lteachersNum'] = config.lteachersNum : $event.licensedTerm.teachersNum
