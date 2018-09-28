@@ -120,9 +120,12 @@ export class questionType {
                 }
                 break;
             case "DELETE": //delete
-                query = `mutation{
-                  deleteQuestionType(where:{id:${config.id}}){id}
+                query = `mutation($id: ID!){
+                  deleteQuestionType(where:{id:$id}){id}
                 }`
+                variable= {
+                  id: config.id
+                }
                 break;
         }
         return this

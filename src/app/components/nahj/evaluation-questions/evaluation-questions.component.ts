@@ -58,9 +58,10 @@ export class EvaluationQuestionsComponent implements OnInit {
   }
   // list functions
   evaluationClicked($event) {
+    console.log("evaluationClicked", $event)
     this.selectedEvaluation = $event.id;
-    this.questionGroups = $event.questionGroup.filter(item => item.name != '');
-    let arr = $event.questionGroup.map(item => item.id)
+    this.questionGroups = $event.evaluation.questionGroup;
+    let arr = this.questionGroups.map(item => item.id)
     this.getQuestions(arr);
   }
   getQuestions(id) {
@@ -68,23 +69,24 @@ export class EvaluationQuestionsComponent implements OnInit {
       method: "GET",
       url: this.url
     }).subscribe(data => {
-      this.questions = data['data'].questionTypes.filter((item) => {
-        return id && item && item.id ? id.includes(item.id) : false
-      })
-        .reduce((questions, item) => {
-          questions.push(...item.questions)
-          return questions
-        }, []);
-      this.form = this.fb.group({
-        questionGroup: [this.form.value.questionGroup, Validators.required],
-        question: [this.questions && this.questions[0] && this.questions[0].question?this.questions[0].question : "", Validators.required],
-        details: [""],
-        enhancement: [""],
-        weight: [""],
-        multiSelect: [""],
-        isPercentage: [""],
-        isEqualWeights: [""]
-      })
+      console.log("getQuestions", data)
+      // this.questions = data['data'].questionTypes.filter((item) => {
+      //   return id && item && item.id ? id.includes(item.id) : false
+      // })
+      //   .reduce((questions, item) => {
+      //     questions.push(...item.questions)
+      //     return questions
+      //   }, []);
+      // this.form = this.fb.group({
+      //   questionGroup: [this.form.value.questionGroup, Validators.required],
+      //   question: [this.questions && this.questions[0] && this.questions[0].question?this.questions[0].question : "", Validators.required],
+      //   details: [""],
+      //   enhancement: [""],
+      //   weight: [""],
+      //   multiSelect: [""],
+      //   isPercentage: [""],
+      //   isEqualWeights: [""]
+      // })
     })
   }
   getQuestionDetails(question) {
@@ -117,8 +119,9 @@ export class EvaluationQuestionsComponent implements OnInit {
       multiSelect: this.form.value.multiSelect,
       isPercentage: this.form.value.isPercentage ? this.form.value.isPercentage : false,
       isEqualWeights: this.form.value.isEqualWeights ? this.form.value.isEqualWeights : false,
-      questionTypeId: this.form.value.questionGroup
+      id: this.form.value.questionGroup
     }).subscribe(data => {
+      console.log("addNewQuestion", data)
       this.add = true;
       this.getQuestions(this.form.value.questionGroup);
     })

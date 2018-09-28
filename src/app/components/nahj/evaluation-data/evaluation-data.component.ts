@@ -379,8 +379,9 @@ export class EvaluationDataComponent implements OnInit {
 			this.questionType.service({
 				method: "DELETE",
 				url: this.url,
-				Id:this.selectedQuestionGroup.id
+				id:this.selectedQuestionGroup.id
 			}).subscribe(data => {
+				console.log("deleteQuestionGroup", data)
 				this.selectedQuestionGroup = undefined;
 				
 				// this.getQuestionGroups()
