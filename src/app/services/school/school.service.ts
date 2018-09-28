@@ -23,57 +23,31 @@ export class SchoolService {
     let query: string = "";
     let variable: object = {};
 
-    console.log("config service===", config)
+    console.log("config service ===> ", config)
     switch (config.method) {
       case "POST": //update
-        query = `mutation(
-          ${config.hasOwnProperty('address') ? '$address: String' : ''}
-          ${config.hasOwnProperty('gps') ? '$gps: String' : ''}
-          ${config.hasOwnProperty('email') ? '$email: String' : ''}
-          ${config.hasOwnProperty('phone') ? '$phone: String' : ''}
-          ${config.hasOwnProperty('fax') ? '$fax: String' : ''}
-          ${config.hasOwnProperty('district') ? '$district: String' : ''}
-          ${config.hasOwnProperty('lowestStudyYear') ? '$lowestStudyYear: String' : ''}
-          ${config.hasOwnProperty('highestStudyYear') ? '$highestStudyYear: String' : ''}
-          ${config.hasOwnProperty('name') ? '$name: String' : ''}
-          ${config.hasOwnProperty('motherComp') ? '$motherComp: String' : ''}
-          ${config.hasOwnProperty('studentsNum') ? '$studentsNum: Int' : ''}
-          ${config.hasOwnProperty('classesNum') ? '$classesNum: Int' : ''}
-          
-          ${config.hasOwnProperty('ladminNum')    && config.hasOwnProperty('licencedTermId') ? '$ladminNum: Int' : ''}
-          ${config.hasOwnProperty('lstudentsNum') && config.hasOwnProperty('licencedTermId') ? '$lstudentsNum: Int' : ''}
-          ${config.hasOwnProperty('lclassesNum')  && config.hasOwnProperty('licencedTermId') ? '$lclassesNum: Int' : ''}
-          ${config.hasOwnProperty('lteachersNum') && config.hasOwnProperty('licencedTermId') ? '$lteachersNum: Int' : ''}
-          
-          ${config.hasOwnProperty('geoArea') ? '$geoArea:ID!' : ''}
-          ${config.hasOwnProperty('city') ? '$city: ID' : ''}
-          ${config.hasOwnProperty('levels') ? '$levels: ID' : ''}
-          ${config.hasOwnProperty('levelTwo') ? '$levelTwo: ID' : ''}
-          ${config.hasOwnProperty('levelThree') ? '$levelThree: ID' : ''}
-          ${config.hasOwnProperty('lstudyYear') ? '$lstudyYear: ID' : ''}
-          ${config.hasOwnProperty('licencedTermId') ? '$licencedTermId: ID' : ''}
-        ) {
+        query = `mutation {
           updateSchool(
             data:{
-              ${config.hasOwnProperty('address') ? 'address: $address' : ''}
-              ${config.hasOwnProperty('gps') ? 'gps: $gps' : ''}
-              ${config.hasOwnProperty('email') ? 'email: $email' : ''}
-              ${config.hasOwnProperty('phone') ? 'phone: $phone' : ''}
-              ${config.hasOwnProperty('fax') ? 'fax: $fax' : ''}
-              ${config.hasOwnProperty('district') ? 'district: $district' : ''}
-              ${config.hasOwnProperty('studentsNum') ? 'studentsNum: $studentsNum' : ''}
-              ${config.hasOwnProperty('classesNum') ? 'classesNum: $classesNum' : ''}
-              ${config.hasOwnProperty('lowestStudyYear') ? 'lowestStudyYear: $lowestStudyYear' : ''}
-              ${config.hasOwnProperty('highestStudyYear') ? 'highestStudyYear: $highestStudyYear' : ''}
-              ${config.hasOwnProperty('name') ? 'name: $name' : ''}
-              ${config.hasOwnProperty('motherComp') ? 'motherComp: $motherComp' : ''}
+              ${config.hasOwnProperty('address') ? `address: "${config.address}"` : ''}
+              ${config.hasOwnProperty('gps') ? `gps:     "${config.gps}"` : ''}
+              ${config.hasOwnProperty('email') ? `email: "${config.email}"` : ''}
+              ${config.hasOwnProperty('phone') ? `phone: "${config.phone}"` : ''}
+              ${config.hasOwnProperty('fax') ? `fax:     "${config.fax}"` : ''}
+              ${config.hasOwnProperty('district') ? `district: "${config.district}"` : ''}
+              ${config.hasOwnProperty('studentsNum') ? `studentsNum: ${config.studentsNum}` : ''}
+              ${config.hasOwnProperty('classesNum') ? `classesNum: ${config.classesNum}` : ''}
+              ${config.hasOwnProperty('lowestStudyYear') ? `lowestStudyYear: "${config.lowestStudyYear}"` : ''}
+              ${config.hasOwnProperty('highestStudyYear') ? `highestStudyYear: "${config.highestStudyYear}"` : ''}
+              ${config.hasOwnProperty('name') ? `name: "${config.name}"` : ''}
+              ${config.hasOwnProperty('motherComp') ? `motherComp: "${config.motherComp}"` : ''}
               
               
-              ${config.hasOwnProperty('geoArea') ? (config.geoArea == false ? 'geoArea:   {disconnect:true}' : 'geoArea:{connect:{id:$geoArea}}') : ''}
-              ${config.hasOwnProperty('city') ? (config.city == false ? 'city:   {disconnect:true}' : 'city:{connect:{id:$city}}') : ''}
-              ${config.hasOwnProperty('levels') ? (config.levels == false ? 'levels:   {disconnect:true}' : 'levels:{connect:{id:$levels}}') : ''}
-              ${config.hasOwnProperty('levelTwo') ? (config.levelTwo == false ? 'levelTwo:   {disconnect:true}' : 'levelTwo:{connect:{id:$levelTwo}}') : ''}
-              ${config.hasOwnProperty('levelThree') ? (config.levelThree == false ? 'levelThree:   {disconnect:true}' : 'levelThree:{connect:{id:$levelThree}}') : ''}
+              ${config.hasOwnProperty('geoArea') ? (config.geoArea == false ? 'geoArea:   {disconnect:true}' : `geoArea:{connect:{id:"${config.geoArea}"}}`) : ''}
+              ${config.hasOwnProperty('city') ? (config.city == false ? 'city:   {disconnect:true}' : `city:{connect:{id:"${config.city}"}}`) : ''}
+              ${config.hasOwnProperty('levels') ? (config.levels == false ? 'levels:   {disconnect:true}' : `levels:{connect:{id:"${config.levels}"}}`) : ''}
+              ${config.hasOwnProperty('levelTwo') ? (config.levelTwo == false ? 'levelTwo:   {disconnect:true}' : `levelTwo:{connect:{id:"${config.levelTwo}"}}`) : ''}
+              ${config.hasOwnProperty('levelThree') ? (config.levelThree == false ? 'levelThree:   {disconnect:true}' : `levelThree:{connect:{id:"${config.levelThree}"}}`) : ''}
               
               admin:{
                 update:${ this.CreateAdmin(config) ? "[" + this.updateAdmin(config) + "]" : '[]'} 
@@ -83,11 +57,12 @@ export class SchoolService {
                   update:{
                     where:{ id:"${config.licencedTermId}" }
                     data:{
-                      ${config.hasOwnProperty('ladminNum')    ? 'adminNum: $ladminNum' : ''}
-                      ${config.hasOwnProperty('lstudentsNum') ? 'studentsNum: $lstudentsNum' : ''}
-                      ${config.hasOwnProperty('lteachersNum') ? 'teachersNum: $lteachersNum' : ''}
-                      ${config.hasOwnProperty('lclassesNum')  ? 'classesNum: $lclassesNum' : ''}
-                      ${config.hasOwnProperty('lstudyYear')   ? (config.lstudyYear == false ? 'studyYear:   {disconnect:true}' : 'studyYear:{connect:{id:$lstudyYear}}') : ''}
+                      ${config.hasOwnProperty('ladminNum')    ? `adminNum: ${config.ladminNum}` : ''}
+                      ${config.hasOwnProperty('lstudentsNum') ? `studentsNum: ${config.lstudentsNum}` : ''}
+                      ${config.hasOwnProperty('lteachersNum') ? `teachersNum: ${config.lteachersNum}` : ''}
+                      ${config.hasOwnProperty('lclassesNum')  ? `classesNum: ${config.lclassesNum}` : ''}
+
+                      ${config.hasOwnProperty('lstudyYear')   ? (config.lstudyYear == false ? 'studyYear:   {disconnect:true}' : `studyYear:{connect:{id:"${config.lstudyYear}"}}`) : ''}
                       licensedContent:{
                         create:[
                           ${this.CreateContentLevel(config) ? '[' + this.CreateContentLevel(config) + ']' : '[]'}
@@ -193,65 +168,36 @@ export class SchoolService {
         }`;
         break;
       case "PUT"://create
-        console.log("config", config);
-        console.log("lstudyYear lstudyYear", config.lstudyYear)
-
-        query = `mutation(
-          ${config.hasOwnProperty('address') ? '$address: String' : ''}
-          ${config.hasOwnProperty('gps') ? '$gps: String' : ''}
-          ${config.hasOwnProperty('email') ? '$email: String' : ''}
-          ${config.hasOwnProperty('phone') ? '$phone: String' : ''}
-          ${config.hasOwnProperty('fax') ? '$fax: String' : ''}
-          ${config.hasOwnProperty('district') ? '$district: String' : ''}
-          ${config.hasOwnProperty('lowestStudyYear') ? '$lowestStudyYear: String' : ''}
-          ${config.hasOwnProperty('highestStudyYear') ? '$highestStudyYear: String' : ''}
-          ${config.hasOwnProperty('name') ? '$name: String' : ''}
-          ${config.hasOwnProperty('motherComp') ? '$motherComp: String' : ''}
-          
-          ${config.hasOwnProperty('studentsNum') ? '$studentsNum: Int' : ''}
-          ${config.hasOwnProperty('classesNum') ? '$classesNum: Int' : ''}
-          ${config.hasOwnProperty('ladminNum') ? '$ladminNum: Int' : ''}
-          ${config.hasOwnProperty('lstudentsNum') ? '$lstudentsNum: Int' : ''}
-          ${config.hasOwnProperty('lclassesNum') ? '$lclassesNum: Int' : ''}
-          ${config.hasOwnProperty('lteachersNum') ? '$lteachersNum: Int' : ''}
-                              
-         
-          ${config.hasOwnProperty('city') ? '$city: ID' : ''}
-          ${config.hasOwnProperty('levels') ? '$levels: ID' : ''}
-          ${config.hasOwnProperty('levelTwo') ? '$levelTwo: ID' : ''}
-          ${config.hasOwnProperty('levelThree') ? '$levelThree: ID' : ''}
-          ${config.hasOwnProperty('geoArea') ? '$geoArea: ID' : ''}
-          ${config.hasOwnProperty('licencedTermIdlstudyYear') ? '$lstudyYear: ID' : ''}
-        ) {
+        query = `mutation{
           createSchool(
             data: {
-              ${config.hasOwnProperty('address') ? 'address: $address' : ''}
-              ${config.hasOwnProperty('gps') ? 'gps: $gps' : ''}
-              ${config.hasOwnProperty('email') ? 'email: $email' : ''}
-              ${config.hasOwnProperty('phone') ? 'phone: $phone' : ''}
-              ${config.hasOwnProperty('fax') ? 'fax: $fax' : ''}
-              ${config.hasOwnProperty('district') ? 'district: $district' : ''}
-              ${config.hasOwnProperty('studentsNum') ? 'studentsNum: $studentsNum' : ''}
-              ${config.hasOwnProperty('classesNum') ? 'classesNum: $classesNum' : ''}
-              ${config.hasOwnProperty('lowestStudyYear') ? 'lowestStudyYear: $lowestStudyYear' : ''}
-              ${config.hasOwnProperty('highestStudyYear') ? 'highestStudyYear: $highestStudyYear' : ''}
-              ${config.hasOwnProperty('name') ? 'name: $name' : ''}
-              ${config.hasOwnProperty('motherComp') ? 'motherComp: $motherComp' : ''}
+              ${config.hasOwnProperty('address') ? `address: "${config.address}"` : ''}
+              ${config.hasOwnProperty('gps') ? `gps: "${config.gps}"` : ''}
+              ${config.hasOwnProperty('email') ? `email: "${config.email}"` : ''}
+              ${config.hasOwnProperty('phone') ? `phone: "${config.phone}"` : ''}
+              ${config.hasOwnProperty('fax') ? `fax: "${config.fax}"` : ''}
+              ${config.hasOwnProperty('district') ? `district: "${config.district}"` : ''}
+              ${config.hasOwnProperty('studentsNum') ? `studentsNum: ${config.studentsNum}` : ''}
+              ${config.hasOwnProperty('classesNum') ? `classesNum: ${config.classesNum}` : ''}
+              ${config.hasOwnProperty('lowestStudyYear') ? `lowestStudyYear: "${config.lowestStudyYear}"` : ''}
+              ${config.hasOwnProperty('highestStudyYear') ? `highestStudyYear: "${config.highestStudyYear}"` : ''}
+              ${config.hasOwnProperty('name') ? `name: "${config.name}"` : ''}
+              ${config.hasOwnProperty('motherComp') ? `motherComp: "${config.motherComp}"` : ''}
               
-              ${config.hasOwnProperty('city') ? 'city: { connect: { id: $city } }' : ''}
-              ${config.hasOwnProperty('geoArea') ? 'geoArea: { connect: { id: $geoArea } }' : ''}
-              ${config.hasOwnProperty('levels') ? 'levels: { connect: { id: $levels } }' : ''}
-              ${config.hasOwnProperty('levelTwo') ? 'levelTwo: { connect: { id: $levelTwo } }' : ''}
-              ${config.hasOwnProperty('levelThree') ? 'levelThree: { connect: { id: $levelThree } }' : ''}
+              ${config.hasOwnProperty('city') ? `city: { connect: { id: "${config.city}" } }` : ''}
+              ${config.hasOwnProperty('geoArea') ? `geoArea: { connect: { id: "${config.geoArea}" } }` : ''}
+              ${config.hasOwnProperty('levels') ? `levels: { connect: { id: "${config.levels}" } }` : ''}
+              ${config.hasOwnProperty('levelTwo') ? `levelTwo: { connect: { id: "${config.levelTwo}" } }` : ''}
+              ${config.hasOwnProperty('levelThree') ? `levelThree: { connect: { id: "${config.levelThree}" } }` : ''}
              
               admin: { create: ${ this.CreateAdmin(config) ? "[" + this.CreateAdmin(config) + "]" : '[]'} }
               licensedTerm: {
                 create: {
-                  ${config.hasOwnProperty('ladminNum') ? 'adminNum: $ladminNum' : ''}
-                  ${config.hasOwnProperty('lstudentsNum') ? 'studentsNum: $lstudentsNum' : ''}
-                  ${config.hasOwnProperty('lteachersNum') ? 'teachersNum: $lteachersNum' : ''}
-                  ${config.hasOwnProperty('lclassesNum') ? 'classesNum: $lclassesNum' : ''}
-                  ${config.hasOwnProperty('lstudyYear') ? 'studyYear: { connect: { id: $lstudyYear } }' : ''}
+                  ${config.hasOwnProperty('ladminNum') ? `adminNum: ${config.ladminNum}` : ''}
+                  ${config.hasOwnProperty('lstudentsNum') ? `studentsNum: ${config.lstudentsNum}` : ''}
+                  ${config.hasOwnProperty('lteachersNum') ? `teachersNum: ${config.lteachersNum}` : ''}
+                  ${config.hasOwnProperty('lclassesNum') ? `classesNum: ${config.lclassesNum}` : ''}
+                  ${config.hasOwnProperty('lstudyYear') ? `studyYear: { connect: { id: "${config.lstudyYear}" } }` : ''}
                   licensedContent: { create: ${this.CreateContentLevel(config) ? '[' + this.CreateContentLevel(config) + ']' : '[]'} }
                 }
               }
@@ -261,7 +207,6 @@ export class SchoolService {
           }
         }`
         variable = this.createVariable(config);
-        console.log("variable", variable)
         break;
       case "DELETE": //delete
         // query = `mutation{
