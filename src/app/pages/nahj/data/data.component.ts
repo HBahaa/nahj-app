@@ -592,21 +592,7 @@ export class DataComponent implements OnInit {
 			this.res['password'] = config.adminPassword != this.res.password ?  config.adminPassword : this.res.password
 			this.res['whatsApp'] = config.adminWhatsApp != this.res.whatsApp ?  config.adminWhatsApp : this.res.whatsApp
 		}
-		// else{
-		// 	if (config.adminName || config.adminEmail || config.adminPhone || config.adminJob || config.adminUsername || config.adminPassword || config.adminWhatsApp) {
-		// 		this.res = {}
-		// 		this.res['type'] = "res"
-		// 		this.res['name'] = config.adminName
-		// 		this.res['email'] = config.adminEmail
-		// 		this.res['phone'] = config.adminPhone
-		// 		this.res['job'] = config.adminJob
-		// 		this.res['username'] = config.adminUsername
-		// 		this.res['password'] = config.adminPassword
-		// 		this.res['whatsApp'] = config.adminWhatsApp
-		// 	}
-
-		// }
-
+		
 		if (this.admin) {
 			this.admin['name'] = config.nahjAdminName != this.admin.name ?  config.nahjAdminName : this.admin.name
 			this.admin['email'] = config.nahjAdminEmail != this.admin.email ?  config.nahjAdminEmail : this.admin.email
@@ -616,22 +602,9 @@ export class DataComponent implements OnInit {
 			this.admin['password'] = config.nahjAdminPassword != this.admin.password ?  config.nahjAdminPassword : this.admin.password
 			this.admin['whatsApp'] = config.nahjAdminWhatsApp != this.admin.whatsApp ?  config.nahjAdminWhatsApp : this.admin.whatsApp
 		}
-		// else{
-		// 	if (config.nahjAdminName || config.nahjAdminEmail || config.nahjAdminPhone || config.nahjAdminJob || config.nahjAdminUsername || config.nahjAdminPassword || config.nahjAdminWhatsApp) {
-		// 		this.admin = {}
-		// 		this.admin['type'] = "admin"
-		// 		this.admin['name'] = config.nahjAdminName
-		// 		this.admin['email'] = config.nahjAdminEmail
-		// 		this.admin['phone'] = config.nahjAdminPhone
-		// 		this.admin['job'] = config.nahjAdminJob
-		// 		this.admin['username'] = config.nahjAdminUsername
-		// 		this.admin['password'] = config.nahjAdminPassword
-		// 		this.admin['whatsApp'] = config.nahjAdminWhatsApp
-		// 	}
-		// }
+
 		myObj['admin'] = [this.admin, this.res]
 		console.log("admin *****", this.admin, this.res)
-		
 		
 		config.ladminsNum != $event.licensedTerm.adminNum ? myObj['ladminNum'] = config.ladminsNum : $event.licensedTerm.adminNum
 		config.lstudentsNum != $event.licensedTerm.studentsNum ? myObj['lstudentsNum'] = config.lstudentsNum : $event.licensedTerm.studentsNum
