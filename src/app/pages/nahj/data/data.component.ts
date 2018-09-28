@@ -462,7 +462,7 @@ export class DataComponent implements OnInit {
 	addSchool(conf, state = 0) {
 		let config = conf || this.form.value;
 
-console.log("config add scool", config)
+        console.log("config add scool", config)
 		console.log("config.studyYears", config.studyYears)
 		var myObj = {
 			method: 'PUT',
@@ -495,28 +495,33 @@ console.log("config add scool", config)
 			phone: config.phone,
 			fax: config.fax,
 			district: config.district,
-			ladminNum: parseInt(config.ladminsNum),
 			studentsNum: parseInt(config.studentsNum),
 			classesNum: parseInt(config.classesNum),
-			lstudentsNum: parseInt(config.lstudentsNum),
-			lclassesNum: parseInt(config.lclassesNum),
-			lteachersNum: parseInt(config.lteachersNum),
-			lstudyYear: config.studyYears,
 			lowestStudyYear: config.lowestStudyYear,
 			highestStudyYear: config.highestStudyYear,
 			name: config.schoolName,
 			motherComp: config.motherComp,
-			levels: config.level1,
-			levelTwo: config.level2,
-			levelThree: config.level3,
+			// levels: config.level1,
+			// levelTwo: config.level2,
+			// levelThree: config.level3,
 			geoArea: config.geo,
 			city: config.city,
 			content:this.speciificContent
 		}
+		console.log("config.level3", config.level3)
+		console.log("config.level1 != null || !config.level1", config.level1 != null || !config.level1)
+
+		config.level1 != null || !config.level1 ? myObj['levels'] = config.level1 : ''
+		config.level2 != null || !config.level2 ? myObj['levelTwo'] = config.level2 : ''
+		config.level3 != null || !config.level3 ? myObj['levelThree'] = config.level3 : ''
+
+		config.lstudentsNum ? myObj['lstudentsNum'] = parseInt(config.lstudentsNum) : '';
+		config.lclassesNum ? myObj['lclassesNum'] = parseInt(config.lclassesNum) : '';
+		config.lteachersNum ? myObj['lteachersNum'] = parseInt(config.lteachersNum) : '';
+		config.ladminsNum ? myObj['ladminNum'] = parseInt(config.ladminsNum) : '';
+		config.studyYears ? myObj['lstudyYear'] = config.studyYears : '';
 
 		Object.keys(myObj).forEach((key) => (myObj[key] == "") && delete myObj[key]);
-		console.log("myObj ----", myObj.lstudyYear)
-
 
 		this.schoolService.service(myObj).subscribe(data => {
 			console.log("add school *******", data)
@@ -553,9 +558,11 @@ console.log("config add scool", config)
 		config.highestStudyYear != $event.highestStudyYear ? myObj['highestStudyYear'] = config.highestStudyYear: ''
 		config.lowestStudyYear != $event.lowestStudyYear ? myObj['lowestStudyYear'] = config.lowestStudyYear: ''
 
-		config.level1 != $event.levels.id ? myObj["levels"]=config.level1 :''
-		config.level2 != $event.levelTwo.id ? myObj["levelTwo"]=config.level2 :''
-		config.level3 != $event.levelThree.id ? myObj["levelThree"]=config.level3 :''
+		$event.levels != null ? config.level1 != $event.levels.id ? myObj["levels"]=config.level1 :'' : myObj["levels"]=config.level1
+
+		$event.levelTwo != null ? config.level2 != $event.levelTwo.id ? myObj["levelTwo"]=config.level2 :'': myObj["levelTwo"]=config.level2
+		
+		$event.levelThree != null ? config.level3 != $event.levelThree.id ? myObj["levelThree"]=config.level3 :'' : myObj["levelThree"]=config.level3
 
 
 		config.geo != $event.geoArea.id ? myObj["geoArea"]=config.geo :''

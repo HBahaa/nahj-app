@@ -234,6 +234,7 @@ export class SchoolService {
   CreateAdmin(config) {
     if (config.admin && config.admin.length > 1) {
       return config.admin.reduce((admin, item) => {
+        console.log("reduce admin *********", admin)
         let a = `{
           name: "${item.name || ""}",
           job:  "${item.job || ""}",
