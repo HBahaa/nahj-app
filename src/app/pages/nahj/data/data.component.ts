@@ -337,11 +337,13 @@ export class DataComponent implements OnInit {
 		this.licensedTerm = $event.licensedTerm;
 		this.terms = $event.licensedTerm.map(term => term.studyYear );
 
+		// $event.licensedTerm ? this.terms = $event.licensedTerm.map(term => term.studyYear ) : this.terms= [];
+
 		this.admin  = $event.admin.filter(item=> item.type == 'admin');
 		this.res  = $event.admin.filter(item=> item.type == 'res');
 
 		this.handleStudyYearChange(undefined)
-
+        console.log("this.admin", this.admin)
 		this.form = this.fb.group({
 			schoolName: $event.name ? $event.name : undefined,
 			motherComp: $event.motherComp ? $event.motherComp : undefined,
@@ -358,29 +360,29 @@ export class DataComponent implements OnInit {
 			studentsNum: $event.studentsNum ? $event.studentsNum : undefined,
 			classesNum: $event.classesNum ? $event.classesNum : undefined,
 
-			studyYears: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].studyYear.id : undefined,
-			lstudentsNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].studentsNum : undefined,
-			lclassesNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].classesNum : undefined,
-			lteachersNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].teachersNum : undefined,
-			ladminsNum: $event.licensedTerm.length > 0 ? $event.licensedTerm[0].adminNum : undefined,
+			studyYears: $event.licensedTerm.length > 0 && $event.licensedTerm[0].studyYear ? $event.licensedTerm[0].studyYear.id : undefined,
+			lstudentsNum: $event.licensedTerm.length > 0 && $event.licensedTerm[0].studentsNum ? $event.licensedTerm[0].studentsNum : undefined,
+			lclassesNum: $event.licensedTerm.length > 0 && $event.licensedTerm[0].classesNum ? $event.licensedTerm[0].classesNum : undefined,
+			lteachersNum: $event.licensedTerm.length > 0 && $event.licensedTerm[0].teachersNum ? $event.licensedTerm[0].teachersNum : undefined,
+			ladminsNum: $event.licensedTerm.length > 0 && $event.licensedTerm[0].adminNum ? $event.licensedTerm[0].adminNum : undefined,
 
 			level1: $event.levels ? $event.levels.id : undefined,
 			level2: $event['levelTwo'] ? $event['levelTwo'].id : undefined,
 			level3: $event['levelThree'] ? $event['levelThree'].id : undefined,
 
-			nahjAdminName : this.admin[0].name,
-			nahjAdminEmail : this.admin[0].email,
-			nahjAdminPhone : this.admin[0].phone,
-			nahjAdminJob : this.admin[0].job,
-			nahjAdminWhatsApp : this.admin[0].whatsApp,
-			nahjAdminUsername : this.admin[0].username,
+			nahjAdminName : this.admin.length > 0 ? this.admin[0].name : undefined,
+			nahjAdminEmail : this.admin.length > 0 ? this.admin[0].email : undefined,
+			nahjAdminPhone : this.admin.length > 0 ? this.admin[0].phone : undefined,
+			nahjAdminJob : this.admin.length > 0 ? this.admin[0].job : undefined,
+			nahjAdminWhatsApp : this.admin.length > 0 ? this.admin[0].whatsApp : undefined,
+			nahjAdminUsername : this.admin.length > 0 ? this.admin[0].username : undefined,
 
-			adminName : this.res[0].name,
-			adminEmail : this.res[0].email,
-			adminPhone : this.res[0].phone,
-			adminJob : this.res[0].job,
-			adminWhatsApp : this.res[0].whatsApp,
-			adminUsername : this.res[0].username
+			adminName : this.res.length > 0 ? this.res[0].name : undefined,
+			adminEmail : this.res.length > 0 ? this.res[0].email : undefined,
+			adminPhone : this.res.length > 0 ? this.res[0].phone : undefined,
+			adminJob : this.res.length > 0 ? this.res[0].job : undefined,
+			adminWhatsApp : this.res.length > 0 ? this.res[0].whatsApp : undefined,
+			adminUsername : this.res.length > 0 ? this.res[0].username : undefined
 			
 		});				
 	}
@@ -462,58 +464,52 @@ export class DataComponent implements OnInit {
 	addSchool(conf, state = 0) {
 		let config = conf || this.form.value;
 
-        console.log("config add scool", config)
-		console.log("config.studyYears", config.studyYears)
+		var admin; var res;
 		var myObj = {
 			method: 'PUT',
-			url: this.url,
-			email: config.email,
-			address: config.address,
-			admin:[
-				{
-					name: config.nahjAdminName,
-					phone: config.nahjAdminPhone,
-					email: config.nahjAdminEmail,
-					job: config.nahjAdminJob,
-					whatsApp: config.nahjAdminWhatsApp,
-					type: 'admin',
-					password: config.nahjAdminPassword,
-					username: config.nahjAdminUsername
-				},
-				{
-					name: config.adminName,
-					phone: config.adminPhone,
-					email: config.adminEmail,
-					job: config.adminJob,
-					whatsApp: config.adminWhatsApp,
-					type: 'res',
-					password: config.adminPassword,
-					username: config.adminUsername
-				}
-			],
-			gps: config.gps,
-			phone: config.phone,
-			fax: config.fax,
-			district: config.district,
-			studentsNum: parseInt(config.studentsNum),
-			classesNum: parseInt(config.classesNum),
-			lowestStudyYear: config.lowestStudyYear,
-			highestStudyYear: config.highestStudyYear,
-			name: config.schoolName,
-			motherComp: config.motherComp,
-			// levels: config.level1,
-			// levelTwo: config.level2,
-			// levelThree: config.level3,
-			geoArea: config.geo,
-			city: config.city,
-			content:this.speciificContent
+			url: this.url
 		}
-		console.log("config.level3", config.level3)
-		console.log("config.level1 != null || !config.level1", config.level1 != null || !config.level1)
+
+		this.speciificContent != [] ? myObj['content']=this.speciificContent: ''
+		
+		config.adminName ?  res['name'] = config.adminName : ""
+		config.adminEmail ?  res['email'] = config.adminEmail : ""
+		config.adminPhone ?  res['phone'] = config.adminPhone : ""
+		config.adminJob ?  res['job'] = config.adminJob : ""
+		config.adminUsername ?  res['userUadminUsername'] = config.adminName : ""
+		config.adminPassword ?  res['password'] = config.adminPassword : ""
+		config.adminWhatsApp ?  res['whatsApp'] = config.adminWhatsApp : ""
+
+		config.nahjAdminName ?  admin['name'] = config.nahjAdminName : ""
+		config.nahjAdminEmail ?  admin['email'] = config.nahjAdminEmail : ""
+		config.nahjAdminPhone ?  admin['phone'] = config.nahjAdminPhone : ""
+		config.nahjAdminJob ?  admin['job'] = config.nahjAdminJob : ""
+		config.nahjAdminUsername ?  admin['userUadminUsername'] = config.nahjAdminName : ""
+		config.nahjAdminPassword ?  admin['password'] = config.nahjAdminPassword : ""
+		config.nahjAdminWhatsApp ?  admin['whatsApp'] = config.nahjAdminWhatsApp : ""
+
+		res ? myObj['admin'] = [res] :  '';
+		admin ? myObj['admin'].length > 0 ? myObj['admin'].push(admin) : myObj['admin'] = [admin] :  '';
+
+		config.schoolName ? myObj['name'] = config.schoolName: '';
+		config.district ? myObj['district'] = config.district: '';
+		config.motherComp ? myObj['motherComp'] = config.motherComp: '';
+		config.fax ? myObj['fax'] = config.fax: '';
+		config.email ? myObj['email'] = config.email: '';
+		config.address ? myObj['address'] = config.address: '';
+		config.phone ? myObj['phone'] = config.phone: '';
+		config.gps ? myObj['gps'] = config.gps: '';
+		config.studentsNum ? myObj['studentsNum'] = parseInt(config.studentsNum): '';
+		config.classesNum ? myObj['classesNum'] = parseInt(config.classesNum): '';
+		config.lowestStudyYear ? myObj['lowestStudyYear'] = config.lowestStudyYear: '';
+		config.highestStudyYear ? myObj['highestStudyYear'] = config.highestStudyYear: '';
+		
+		config.geo ? myObj['geoArea'] = config.geo: '';
+		config.city ? myObj['city'] = config.city: '';
 
 		config.level1 != null || !config.level1 ? myObj['levels'] = config.level1 : ''
 		config.level2 != null || !config.level2 ? myObj['levelTwo'] = config.level2 : ''
-		config.level3 != null || !config.level3 ? myObj['levelThree'] = config.level3 : ''
+		config.level3 != null || !config.level3 ? myObj['levelThree'] = config.level3 : ''	
 
 		config.lstudentsNum ? myObj['lstudentsNum'] = parseInt(config.lstudentsNum) : '';
 		config.lclassesNum ? myObj['lclassesNum'] = parseInt(config.lclassesNum) : '';
@@ -521,7 +517,7 @@ export class DataComponent implements OnInit {
 		config.ladminsNum ? myObj['ladminNum'] = parseInt(config.ladminsNum) : '';
 		config.studyYears ? myObj['lstudyYear'] = config.studyYears : '';
 
-		Object.keys(myObj).forEach((key) => (myObj[key] == "") && delete myObj[key]);
+		// Object.keys(myObj).forEach((key) => (myObj[key] == "") && delete myObj[key]);
 
 		this.schoolService.service(myObj).subscribe(data => {
 			console.log("add school *******", data)
@@ -533,11 +529,7 @@ export class DataComponent implements OnInit {
 	}
 
 	editSchool($event) {
-		console.log("event", $event)
-		console.log("this.form.value", this.form.value)
-		console.log("this.admin", this.admin)
 		let config = this.form.value;
-
 		var myObj = {
 			method: "POST",
 			url: this.url,
@@ -559,15 +551,11 @@ export class DataComponent implements OnInit {
 		config.lowestStudyYear != $event.lowestStudyYear ? myObj['lowestStudyYear'] = config.lowestStudyYear: ''
 
 		$event.levels != null ? config.level1 != $event.levels.id ? myObj["levels"]=config.level1 :'' : myObj["levels"]=config.level1
-
 		$event.levelTwo != null ? config.level2 != $event.levelTwo.id ? myObj["levelTwo"]=config.level2 :'': myObj["levelTwo"]=config.level2
-		
 		$event.levelThree != null ? config.level3 != $event.levelThree.id ? myObj["levelThree"]=config.level3 :'' : myObj["levelThree"]=config.level3
-
 
 		config.geo != $event.geoArea.id ? myObj["geoArea"]=config.geo :''
 		config.city != $event.city.id ? myObj["city"]=config.city :''
-
 
 		this.admin[0]['name'] = config.adminName != this.admin[0].name ?  config.adminName : this.admin[0].name
 		this.admin[0]['email'] = config.adminEmail != this.admin[0].email ?  config.adminEmail : this.admin[0].email
@@ -577,7 +565,6 @@ export class DataComponent implements OnInit {
 		this.admin[0]['password'] = config.adminPassword != this.admin[0].password ?  config.adminPassword : this.admin[0].password
 		this.admin[0]['whatsApp'] = config.adminWhatsApp != this.admin[0].whatsApp ?  config.adminWhatsApp : this.admin[0].whatsApp
 
-
 		this.res[0]['name'] = config.nahjAdminName != this.res[0].name ?  config.nahjAdminName : this.res[0].name
 		this.res[0]['email'] = config.nahjAdminEmail != this.res[0].email ?  config.nahjAdminEmail : this.res[0].email
 		this.res[0]['phone'] = config.nahjAdminPhone != this.res[0].phone ?  config.nahjAdminPhone : this.res[0].phone
@@ -586,22 +573,12 @@ export class DataComponent implements OnInit {
 		this.res[0]['password'] = config.nahjAdminPassword != this.res[0].password ?  config.nahjAdminPassword : this.res[0].password
 		this.res[0]['whatsApp'] = config.nahjAdminWhatsApp != this.res[0].whatsApp ?  config.nahjAdminWhatsApp : this.res[0].whatsApp
 
-
-		console.log("[this.admin[0], this.res[0]]", [this.admin[0], this.res[0]])
 		myObj['admin'] = [this.admin[0], this.res[0]]
 
-
-		// config.ladminsNum != $event.licensedTerm.adminNum ?
-		// $event..lclassesNum
-		// $event.licensedTerm.lteachersNum
-		// $event.licensedTerm.lstudentsNum
-		// config.studyYears != $event.licensedTerm.studyYear.id
-		// $event.licensedTerm.licensedContent != this.speciificContent ? myObj[""] : ''
-		// myObj["licencedTermId"] = $event.licensedTerm.id
-		
-		Object.keys(myObj).forEach((key) => (myObj[key] == "") && delete myObj[key]);
-
-		console.log("obj+***", myObj)
+		config.ladminsNum != $event.licensedTerm.adminNum ? myObj['ladminNum'] = config.ladminsNum : $event.licensedTerm.adminNum
+		config.lstudentsNum != $event.licensedTerm.studentsNum ? myObj['lstudentsNum'] = config.lstudentsNum : $event.licensedTerm.studentsNum
+		config.lteachersNum != $event.licensedTerm.teachersNum ? myObj['lteachersNum'] = config.lteachersNum : $event.licensedTerm.teachersNum
+		config.lclassesNum != $event.licensedTerm.classesNum ? myObj['lclassesNum'] = config.lclassesNum : $event.licensedTerm.classesNum
 
 		this.schoolService.service(myObj)
 		.subscribe(data => {
