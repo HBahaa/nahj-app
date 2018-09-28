@@ -194,6 +194,7 @@ export class SchoolService {
         break;
       case "PUT"://create
         console.log("config", config);
+        console.log("lstudyYear lstudyYear", config.lstudyYear)
 
         query = `mutation(
           ${config.hasOwnProperty('address') ? '$address: String' : ''}
@@ -220,7 +221,7 @@ export class SchoolService {
           ${config.hasOwnProperty('levelTwo') ? '$levelTwo: ID' : ''}
           ${config.hasOwnProperty('levelThree') ? '$levelThree: ID' : ''}
           ${config.hasOwnProperty('geoArea') ? '$geoArea: ID' : ''}
-          ${config.hasOwnProperty('lstudyYear') ? '$lstudyYear: ID' : ''}
+          ${config.hasOwnProperty('licencedTermIdlstudyYear') ? '$lstudyYear: ID' : ''}
         ) {
           createSchool(
             data: {
@@ -243,7 +244,6 @@ export class SchoolService {
               ${config.hasOwnProperty('levelTwo') ? 'levelTwo: { connect: { id: $levelTwo } }' : ''}
               ${config.hasOwnProperty('levelThree') ? 'levelThree: { connect: { id: $levelThree } }' : ''}
              
-              
               admin: { create: ${ this.CreateAdmin(config) ? "[" + this.CreateAdmin(config) + "]" : '[]'} }
               licensedTerm: {
                 create: {

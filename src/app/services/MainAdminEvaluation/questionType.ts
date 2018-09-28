@@ -14,6 +14,7 @@ export class questionType {
         // console.log(config)
         switch (config.method) {
             case "POST": //update
+            
                 query = `mutation{
                   updateQuestionType(
                     data:{
@@ -94,24 +95,29 @@ export class questionType {
                 }`;
                 break;
             case "PUT"://create
-                query = `mutation{
+            console.log("config ===", config)
+                query = `mutation($id:ID!, $name: String!, $weight:String!){
                   updateEvaluation(
                     data:{
                       questionGroup:{
                         create:{
-                          ${config.hasOwnProperty('name') ? `name: ${config.name}` : '' }
-                          ${config.hasOwnProperty('weight') ? `weight: ${config.weight}` : '' }
-                          ${config.hasOwnProperty('accountWay') ? `accountWay:{connect:{id:""}}`:'' }
+                          name: $name
+                          weight: $weight
                         }
                       }
                     }
                     where:{
-                      id:${config.id}
+                      id:$id
                     }
                   ){
                     id
                   }
                 }`
+                variable = {
+                  id: config.id,
+                  name: config.name,
+                  weight: config.weight
+                }
                 break;
             case "DELETE": //delete
                 query = `mutation{

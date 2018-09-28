@@ -6,9 +6,9 @@ import { EcontentFourService } from '../../../services/econtent/econtent-four.se
 import { evaluation } from '../../../services/MainAdminEvaluation/evaluation';
 
 @Component({
-  selector: 'app-level-filter',
-  templateUrl: './level-filter.component.html',
-  styleUrls: ['./level-filter.component.scss']
+	selector: 'app-level-filter',
+	templateUrl: './level-filter.component.html',
+	styleUrls: ['./level-filter.component.scss']
 })
 export class LevelFilterComponent implements OnInit {
 
@@ -39,114 +39,112 @@ export class LevelFilterComponent implements OnInit {
 		this.getContentData(undefined, undefined, undefined, undefined);
 	}
 
-	ngOnChanges(){
+	ngOnChanges() {
 		this.getEvaluations();
 	}
 
-	handleItemClicked(item){
+	handleItemClicked(item) {
 		this.itemClicked.emit(item);
 	}
 	/// get Functions
 
-	getEvaluations(){
+	getEvaluations() {
 		this.evaluation.service({
 			method: 'GET',
 			url: this.url
-		}).subscribe(data=>{
-			// console.log("data", data['data']['contentLevelOnes'])
-			console.log("selectedLevel1", this.selectedLevel1);
+		}).subscribe(data => {
 			if (this.selectedLevel1) {
-				this.evaluations = data['data'].contentLevelOnes.filter(level1 => level1.evaluation);
+				this.evaluations = []
+				this.evaluations = data['data'].contentLevelOnes.filter(level1 => {
+					if(level1.id == this.selectedLevel1)
+					    return level1.evaluation
+				});
 			}
-			console.log("evalution", this.evaluations)
-			// if (this.selectedLevel2) {
-			// 	this.evaluations = this.evaluations.filter(item => {						
-			// 		try{
-			// 			return item.evaluation == this.selectedLevel2;
-			// 		}catch(er){
-			// 			return false;
-			// 		}
-			// 	});
-			// }
-			// if (this.selectedLevel3) {					
-			// 	this.evaluations = this.evaluations.filter(item => {
-			// 		try{
-			// 			return item.speciificContentLevel.speciificContentLevelThree['id'] == this.selectedLevel3;
-			// 		}catch(er){
-			// 			return false;
-			// 		}
-			// 	});
-			// }
-			// if (this.selectedLevel4) {
-			// 	this.evaluations = this.evaluations.filter(item => {
-			// 		try{
-			// 			return item.speciificContentLevel.speciificContentLevelFour['id'] == this.selectedLevel4;
-			// 		}catch(er){
-			// 			return false;
-			// 		}								
-			// 	});
-			// }
+
+			if (this.selectedLevel2) {
+				this.evaluations=[]
+				this.evaluations = data['data'].contentLevelTwoes.filter(level2 => {
+					if(level2.id == this.selectedLevel2)
+					    return level2.evaluation
+				});
+			}
+
+			if (this.selectedLevel3) {
+				this.evaluations=[]				
+				this.evaluations = data['data'].contentLevelThrees.filter(level3 => {
+					if(level3.id == this.selectedLevel3)
+					    return level3.evaluation
+				});
+			}
+			if (this.selectedLevel4) {
+				this.evaluations=[]				
+				this.evaluations = data['data'].contentLevelFours.filter(level4 => {
+					if(level4.id == this.selectedLevel4)
+					    return level4.evaluation
+				});
+			}
+			console.log("evaluations ===", this.evaluations)
 		})
 	}
 
-	getContentData(id1, id2, id3, id4){
+	getContentData(id1, id2, id3, id4) {
 		this.econtentOneService.service({
 			method: 'GET',
 			url: this.url
-		}).subscribe(econtent1=>{
-			this.level1 = econtent1['data'].contentLevelOnes.map((l1, index1)=> {
-				if(index1 == 0){
-					this.selectedLevel1 = l1.id ;
-				}
-				else if (id1 == l1.id) {
-					this.level2 = l1.contentLevelTwo.map((l2, index2)=>{
+		}).subscribe(econtent1 => {
+			this.level1 = econtent1['data'].contentLevelOnes.map((l1, index1) => {
+				if (id1 == l1.id) {
+					this.level2 = l1.contentLevelTwo.map((l2, index2) => {
 						if (id2 == l2.id) {
 							if (l2.contentLevelThree.length > 0) {
-								 this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
+								this.level3 = l2.contentLevelThree.filter(n => n.name != "").map((l3, index3) => {
 									if (id3 == l3.id) {
 										if (l3.contentLevelFour.length > 0) {
-											this.level4 = l3.contentLevelFour.filter(n => n.name != "" )
-										}else{
-											this.level4 = [];
+											this.level4 = l3.contentLevelFour.filter(n => n.name != "")
 										}
+									} else {
+										this.level4 = [];
 									}
 									return l3
 								})
-							}else{
-								this.level3 = [];
-								this.level4 = [];
 							}
+						}else{
+							this.level3 = [];
+							this.level4 = [];
 						}
 						return l2
 					})
 				}
-				// return (({id, name})=>({id, name}))(l1)
 				return l1
 			});
 		})
 	}
 
-	handleLevelChange(level, e){
-		console.log("e", e.target.value)
-		this.getLevelData({'level': level, 'value': e.target.value })
+	handleLevelChange(level, e) {
+		this.getLevelData({ 'level': level, 'value': e.target.value })
 	}
-	getLevelData($event){
-		console.log("$event.value", $event.value)
-		switch($event.level){
+	getLevelData($event) {
+		switch ($event.level) {
 			case "level1":
 				this.selectedLevel1 = $event.value;
 				this.getContentData(this.selectedLevel1, undefined, undefined, undefined);
-			break;
+				this.selectedLevel2 = undefined;
+				this.selectedLevel3 = undefined;
+				this.selectedLevel4 = undefined;
+				break;
 			case "level2":
 				this.selectedLevel2 = $event.value;
+				this.selectedLevel3 = undefined;
+				this.selectedLevel4 = undefined;
 				this.getContentData(this.selectedLevel1, this.selectedLevel2, undefined, undefined);
-			break;
+				break;
 			case "level3":
 				this.selectedLevel3 = $event.value;
-				this.getContentData(this.selectedLevel3, this.selectedLevel2,$event.value, undefined);
-			break;
+				this.selectedLevel4 = undefined;
+				this.getContentData(this.selectedLevel3, this.selectedLevel2, $event.value, undefined);
+				break;
 		}
+		this.evaluations=[]
 		this.getEvaluations();
-
 	}
 }

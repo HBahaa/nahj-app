@@ -33,56 +33,64 @@ export class evaluation {
         `
         break;
       case "GET": //read
-        query = `query {
-          contentLevelOnes {
+        query = `query{
+          contentLevelOnes{
             id
             name
-            evaluation {
+            evaluation{
               id
               title
               shortTitle
-              currentStatus {
+              currentStatus{id,name}
+              questionGroup{
                 id
                 name
+                weight
               }
             }
-            contentLevelTwo{
+          }
+          contentLevelTwoes{
+            id
+            name
+            evaluation{
               id
-              name
-              evaluation{
-                id
-                title
-                shortTitle
-                currentStatus{
-                  id
-                  name
-                }
-              }
-              contentLevelThree{
+              title
+              shortTitle
+              currentStatus{id,name}
+              questionGroup{
                 id
                 name
-                evaluation{
-                  id
-                  title
-                  shortTitle
-                  currentStatus{
-                    id
-                    name
-                  }
-                }
-                contentLevelFour{
-                  id
-                  name
-                  evaluation{
-                    id
-                    title
-                    shortTitle
-                    currentStatus{
-                      id
-                      name
-                    }
-                  }
-                }
+                weight
+              }
+            }
+          }
+          contentLevelThrees{
+            id
+            name
+            evaluation{
+              id
+              title
+              shortTitle
+              currentStatus{id,name}
+              questionGroup{
+                id
+                name
+                weight
+              }
+            }
+          }
+          contentLevelFours{
+            id
+            name
+            evaluation{
+              id
+              title
+              shortTitle
+              currentStatus{id,name}
+              questionGroup{
+                id
+                name
+                weight
               }
             }
           }
@@ -107,12 +115,14 @@ export class evaluation {
               id
             }
           }`
-        break;
+        break; 
       case "DELETE": //delete
-        query = `mutation{
-          deleteEvaluation(where:{id:${config.id}}){id}
+        query = `mutation($id:ID!){
+          deleteEvaluation(where:{id:$id}){id}
         }`
-        
+        variable = {
+          id: config.id
+        }
         break;
     }
     return this
