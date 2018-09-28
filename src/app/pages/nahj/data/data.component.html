@@ -21,13 +21,13 @@
               </div>
               <div class="form-group">
                 <select class="form-control" (change)="getCities($event)" formControlName="geo">
-                    <option>اخنر عنصر</option>
+                    <option value="">اخنر عنصر</option>
                   <option *ngFor="let geo of geoArray" value="{{geo.id}}">{{geo.name}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <select class="form-control" formControlName="city">
-                  <option>اخنر عنصر</option>
+                  <option value="">اخنر عنصر</option>
                   <option *ngFor="let city of citiesArray" value="{{city.id}}">{{city.name}}</option>
                 </select>
               </div>
@@ -153,8 +153,8 @@
               <div class="form-group">
                 <label>الفصل الدراسي</label>
                 <select class="form-control" (change)="handleStudyYearChange($event.target.value)" formControlName="studyYears">
-                  <option>اختر عنصر</option>
-                  <option *ngFor="let term of terms" [value]="term.id">{{ term.name }}</option>
+                  <option value="">اختر عنصر</option>
+                  <option *ngFor="let term of terms" [value]="term?.id">{{ term?.name }}</option>
                 </select>
               </div>
               <h5>بيانات الرخصة</h5>
@@ -230,25 +230,25 @@
           <form [formGroup]="contentForm">
             <div class="form-group">
               <select (change)="handleContentChange('content1', $event)" class="form-control" formControlName="content1">
-                <option>اختر عنصر</option>
+                <option value="">اختر عنصر</option>
                 <option *ngFor="let item of content1; index as i" value="{{item.id}}">{{item.name}}</option>
               </select>
             </div>
             <div class="form-group">
               <select (change)="handleContentChange('content2', $event)" class="form-control" formControlName="content2">
-                <option>اختر عنصر</option>
+                <option value="">اختر عنصر</option>
                 <option *ngFor="let item of content2; index as i" value="{{item.id}}">{{item.name}}</option>
               </select>
             </div>
             <div class="form-group">
               <select (change)="handleContentChange('content3', $event)" class="form-control" formControlName="content3">
-                <option>اختر عنصر</option>
+                <option value="">اختر عنصر</option>
                 <option *ngFor="let item of content3; index as i" value="{{item.id}}">{{item.name}}</option>
               </select>
             </div>
             <div class="form-group">
               <select (change)="handleContentChange('content4', $event)" class="form-control" formControlName="content4">
-                <option>اختر عنصر</option>
+                <option value="">اختر عنصر</option>
                 <option *ngFor="let item of content4; index as i" value="{{item.id}}">{{item.name}}</option>
               </select>
             </div>
