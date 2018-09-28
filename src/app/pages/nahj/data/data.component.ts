@@ -561,41 +561,41 @@ export class DataComponent implements OnInit {
 		$event.geoArea ? config.geo != $event.geoArea.id ? myObj["geoArea"]=config.geo :'' : undefined
 		$event.city ? config.city != $event.city.id ? myObj["city"]=config.city :'' : undefined
 
-		if(this.admin.length > 0){
-			this.admin[0]['name'] = config.adminName != this.admin[0].name ?  config.adminName : this.admin[0].name
-			this.admin[0]['email'] = config.adminEmail != this.admin[0].email ?  config.adminEmail : this.admin[0].email
-			this.admin[0]['phone'] = config.adminPhone != this.admin[0].phone ?  config.adminPhone : this.admin[0].phone
-			this.admin[0]['job'] = config.adminJob != this.admin[0].job ?  config.adminJob : this.admin[0].job
-			this.admin[0]['username'] = config.adminUsername != this.admin[0].username ?  config.adminUsername : this.admin[0].username
-			this.admin[0]['password'] = config.adminPassword != this.admin[0].password ?  config.adminPassword : this.admin[0].password
-			this.admin[0]['whatsApp'] = config.adminWhatsApp != this.admin[0].whatsApp ?  config.adminWhatsApp : this.admin[0].whatsApp
+		if(this.res.length > 0){
+			this.res[0]['name'] = config.adminName != this.res[0].name ?  config.adminName : this.res[0].name
+			this.res[0]['email'] = config.adminEmail != this.res[0].email ?  config.adminEmail : this.res[0].email
+			this.res[0]['phone'] = config.adminPhone != this.res[0].phone ?  config.adminPhone : this.res[0].phone
+			this.res[0]['job'] = config.adminJob != this.res[0].job ?  config.adminJob : this.res[0].job
+			this.res[0]['username'] = config.adminUsername != this.res[0].username ?  config.adminUsername : this.res[0].username
+			this.res[0]['password'] = config.adminPassword != this.res[0].password ?  config.adminPassword : this.res[0].password
+			this.res[0]['whatsApp'] = config.adminWhatsApp != this.res[0].whatsApp ?  config.adminWhatsApp : this.res[0].whatsApp
 		}else{
-			this.admin['name'] = config.adminName
-			this.admin['email'] = config.adminEmail
-			this.admin['phone'] = config.adminPhone
-			this.admin['job'] = config.adminJob
-			this.admin['username'] = config.adminUsername
-			this.admin['password'] = config.adminPassword
-			this.admin['whatsApp'] = config.adminWhatsApp
+			this.res['name'] = config.adminName
+			this.res['email'] = config.adminEmail
+			this.res['phone'] = config.adminPhone
+			this.res['job'] = config.adminJob
+			this.res['username'] = config.adminUsername
+			this.res['password'] = config.adminPassword
+			this.res['whatsApp'] = config.adminWhatsApp
 
 		}
 
-		if (this.res.length > 0) {
-			this.res[0]['name'] = config.nahjAdminName != this.res[0].name ?  config.nahjAdminName : this.res[0].name
-			this.res[0]['email'] = config.nahjAdminEmail != this.res[0].email ?  config.nahjAdminEmail : this.res[0].email
-			this.res[0]['phone'] = config.nahjAdminPhone != this.res[0].phone ?  config.nahjAdminPhone : this.res[0].phone
-			this.res[0]['job'] = config.nahjAdminJob != this.res[0].job ?  config.nahjAdminJob : this.res[0].job
-			this.res[0]['username'] = config.nahjAdminUsername != this.res[0].username ?  config.nahjAdminUsername : this.res[0].username
-			this.res[0]['password'] = config.nahjAdminPassword != this.res[0].password ?  config.nahjAdminPassword : this.res[0].password
-			this.res[0]['whatsApp'] = config.nahjAdminWhatsApp != this.res[0].whatsApp ?  config.nahjAdminWhatsApp : this.res[0].whatsApp
+		if (this.admin.length > 0) {
+			this.admin[0]['name'] = config.nahjAdminName != this.admin[0].name ?  config.nahjAdminName : this.admin[0].name
+			this.admin[0]['email'] = config.nahjAdminEmail != this.admin[0].email ?  config.nahjAdminEmail : this.admin[0].email
+			this.admin[0]['phone'] = config.nahjAdminPhone != this.admin[0].phone ?  config.nahjAdminPhone : this.admin[0].phone
+			this.admin[0]['job'] = config.nahjAdminJob != this.admin[0].job ?  config.nahjAdminJob : this.admin[0].job
+			this.admin[0]['username'] = config.nahjAdminUsername != this.admin[0].username ?  config.nahjAdminUsername : this.admin[0].username
+			this.admin[0]['password'] = config.nahjAdminPassword != this.admin[0].password ?  config.nahjAdminPassword : this.admin[0].password
+			this.admin[0]['whatsApp'] = config.nahjAdminWhatsApp != this.admin[0].whatsApp ?  config.nahjAdminWhatsApp : this.admin[0].whatsApp
 		}else{
-			this.res['name'] = config.nahjAdminName
-			this.res['email'] = config.nahjAdminEmail
-			this.res['phone'] = config.nahjAdminPhone
-			this.res['job'] = config.nahjAdminJob
-			this.res['username'] = config.nahjAdminUsername
-			this.res['password'] = config.nahjAdminPassword
-			this.res['whatsApp'] = config.nahjAdminWhatsApp
+			this.admin['name'] = config.nahjAdminName
+			this.admin['email'] = config.nahjAdminEmail
+			this.admin['phone'] = config.nahjAdminPhone
+			this.admin['job'] = config.nahjAdminJob
+			this.admin['username'] = config.nahjAdminUsername
+			this.admin['password'] = config.nahjAdminPassword
+			this.admin['whatsApp'] = config.nahjAdminWhatsApp
 		}
 
 		myObj['admin'] = [this.admin[0], this.res[0]]
@@ -604,6 +604,8 @@ export class DataComponent implements OnInit {
 		config.lstudentsNum != $event.licensedTerm.studentsNum ? myObj['lstudentsNum'] = config.lstudentsNum : $event.licensedTerm.studentsNum
 		config.lteachersNum != $event.licensedTerm.teachersNum ? myObj['lteachersNum'] = config.lteachersNum : $event.licensedTerm.teachersNum
 		config.lclassesNum != $event.licensedTerm.classesNum ? myObj['lclassesNum'] = config.lclassesNum : $event.licensedTerm.classesNum
+
+		Object.keys(myObj).forEach((key) => (myObj[key] == "" || myObj[key] == null ) && delete myObj[key]);
 
 		this.schoolService.service(myObj)
 		.subscribe(data => {
