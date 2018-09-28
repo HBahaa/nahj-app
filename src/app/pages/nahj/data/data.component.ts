@@ -521,7 +521,8 @@ export class DataComponent implements OnInit {
 		config.ladminsNum ? myObj['ladminNum'] = parseInt(config.ladminsNum) : '';
 		config.studyYears ? myObj['lstudyYear'] = config.studyYears : '';
 
-		// Object.keys(myObj).forEach((key) => (myObj[key] == "") && delete myObj[key]);
+		Object.keys(myObj).forEach((key) => (myObj[key] == "" || myObj[key] == null ) && delete myObj[key]);
+
 		console.log("add obj", myObj)
 		this.schoolService.service(myObj).subscribe(data => {
 			console.log("add school *******", data)
