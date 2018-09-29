@@ -281,6 +281,7 @@ export class SchoolService {
           },
           data: {
             name: "${item.name || ""}",
+            email: "${item.email || ""}",
             job: "${item.job || ""}",
             type: "${item.type || ""}",
             phone: "${item.phone || ""}",

@@ -43,15 +43,15 @@ export class SchoolFilterComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.getAllLevels(undefined, undefined);
+		this.getAllLevels(undefined, undefined, undefined);
 	}
 	ngOnChanges(){
 		//when update input changes this function runs
-		this.getAllLevels(undefined, undefined);
+		this.getAllLevels(undefined, undefined, undefined);
 	}
 
 	///   get data functions
-	getAllLevels(id1, id2) {
+	getAllLevels(id1, id2, id3) {
 		this.elevelsOne.service({
 			method: 'GET',
 			url: this.url
@@ -62,13 +62,13 @@ export class SchoolFilterComponent implements OnInit {
 				}else if (id1 == level1.id) {
 					this.getSchool('level1' ,level1.id)
 					this.level2 = level1['LevelTwo'].filter(n => n.name != "" ).map((level2, index2)=> {
+						console.log("level2 ", id2 == level2.id)
 						if (id2 == level2.id) {
-							// this.selectedLevel2 = level2['id'];
+
 							this.getSchool('level2' ,level2.id)
 							if (level2['levelThree']) {
 								this.level3 = level2['levelThree'].filter(n => n.name != "" ).map((level3, index3)=> {
-									if(index3 == 0){
-										// this.selectedLevel3 = level3['id']
+									if(id3 == level3.id){
 										this.getSchool('level3', level3.id)
 									}
 									return level3;
@@ -84,22 +84,20 @@ export class SchoolFilterComponent implements OnInit {
 	}
 
 	getLevelData($event){
-		console.log("event", $event)
 		switch($event.level){
 			case "level1":
 				this.selectedLevel1 = $event.value;
-				this.getAllLevels($event.value, undefined);
+				this.getAllLevels($event.value, undefined, undefined);
 			break;
 			case "level2":
 				this.selectedLevel2 = $event.value;
-				this.getAllLevels(this.selectedLevel1, this.selectedLevel2);
+				this.getAllLevels(this.selectedLevel1, this.selectedLevel2, undefined);
 			break;
 		}
 
 	}
 
 	itemClicked(item) {
-		console.log("item", item)
 		this.add = true;
 		this.edit = true;
 	    this.selectedItemName = item.name;
@@ -111,7 +109,6 @@ export class SchoolFilterComponent implements OnInit {
 			method: 'GET',
 			url: this.url
 		}).subscribe(schools =>{
-			console.log("schol", schools)
 			if(!levelName){
 				this.result = schools['data'].schools
 			}
@@ -125,7 +122,6 @@ export class SchoolFilterComponent implements OnInit {
 			else if (levelName == 'level3') {
 				this.result = schools['data'].schools.filter(item=> item.levelThree && item.levelThree.id == id)
 			}
-			
 		});
 	}
 
