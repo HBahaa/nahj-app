@@ -19,7 +19,6 @@ export class SchoolService {
   }
 
   service(config) { ////method,url,id,adminId,address,admin,gps,phone,fa,district,adminNum,studentsNum,classesNum ... , admin[Object of admin data check schema] 
-    console.log("config school====", config)
     let query: string = "";
     let variable: object = {};
 
@@ -50,7 +49,7 @@ export class SchoolService {
               ${config.hasOwnProperty('levelThree') ? (config.levelThree == false ? 'levelThree:   {disconnect:true}' : `levelThree:{connect:{id:"${config.levelThree}"}}`) : ''}
               
               admin:{
-                update:${ this.CreateAdmin(config) ? "[" + this.updateAdmin(config) + "]" : '[]'} 
+                update:${ this.updateAdmin(config) ? "[" + this.updateAdmin(config) + "]" : '[]'} 
               }
               ${config.hasOwnProperty('licencedTermId') ? `
                 licensedTerm:{
@@ -233,8 +232,7 @@ export class SchoolService {
 
   CreateAdmin(config) {
     if (config.admin && config.admin.length > 1) {
-      return config.admin.reduce((admin, item) => {
-        console.log("reduce admin *********", admin)
+      return config.admin.reduce((admin, item) => { 
         let a = `{
           name: "${item.name || ""}",
           job:  "${item.job || ""}",
@@ -275,7 +273,6 @@ export class SchoolService {
   }
 
   updateAdmin(config) {
-    console.log(config.admin.length)
     if (config.admin && config.admin.length > 1)
       return config.admin.reduce((admin, item) => {
         return admin += `{
