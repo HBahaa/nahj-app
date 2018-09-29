@@ -9,7 +9,7 @@
 					<div class="card-body">
 						<div class="form-group">
 							<label>المجموعىة الفرعية</label>
-							<select class="form-control" formControlName="questionGroup" [(ngModel)]="qGroup"  (change)="getQuestions([qGroup])" >
+							<select class="form-control" formControlName="questionGroup" (change)="getQuestions($event.target.value)" >
 								<option  *ngFor="let questionGroup of questionGroups" [value]="questionGroup.id">{{questionGroup.name}}</option>
 							</select>
 						</div>

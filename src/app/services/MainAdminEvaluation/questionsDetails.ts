@@ -35,8 +35,11 @@ export class questionDetails {
       case "GET": //read
         query = `query{
           evaluations{
+            id
+            title
             questionGroup{
               id
+              name
               questions{
                 id
                 question
@@ -49,7 +52,7 @@ export class questionDetails {
               }
             }
           }
-        }`;
+        }`; 
       break;
       case "PUT"://create
         query = `mutation{

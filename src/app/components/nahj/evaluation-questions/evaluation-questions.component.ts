@@ -60,33 +60,29 @@ export class EvaluationQuestionsComponent implements OnInit {
   evaluationClicked($event) {
     console.log("evaluationClicked", $event)
     this.selectedEvaluation = $event.id;
-    this.questionGroups = $event.evaluation.questionGroup;
-    let arr = this.questionGroups.map(item => item.id)
-    this.getQuestions(arr);
+    this.questionGroups = $event.item.evaluation.questionGroup;
+    // let arr = this.questionGroups.map(item => item.id)
+    // this.getQuestions(arr);
   }
   getQuestions(id) {
-    this.questionType.service({
+    console.log("id===========", id)
+    this.questionDetails.service({
       method: "GET",
       url: this.url
     }).subscribe(data => {
       console.log("getQuestions", data)
-      // this.questions = data['data'].questionTypes.filter((item) => {
-      //   return id && item && item.id ? id.includes(item.id) : false
-      // })
-      //   .reduce((questions, item) => {
-      //     questions.push(...item.questions)
-      //     return questions
-      //   }, []);
-      // this.form = this.fb.group({
-      //   questionGroup: [this.form.value.questionGroup, Validators.required],
-      //   question: [this.questions && this.questions[0] && this.questions[0].question?this.questions[0].question : "", Validators.required],
-      //   details: [""],
-      //   enhancement: [""],
-      //   weight: [""],
-      //   multiSelect: [""],
-      //   isPercentage: [""],
-      //   isEqualWeights: [""]
-      // })
+
+      data['data'].evaluations.map(evaluation=>{
+        if (evaluation.id == this.selectedEvaluation) {
+          evaluation.questionGroup.map(qgroup=>{
+            if (qgroup.id == id) {
+              this.questions = qgroup.questions
+            }
+          })
+        }
+        console.log("evaluation======", evaluation)
+        console.log("questions======", this.questions)
+      })
     })
   }
   getQuestionDetails(question) {
