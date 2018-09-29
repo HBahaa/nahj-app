@@ -106,7 +106,7 @@ export class DataComponent implements OnInit {
 			nahjAdminWhatsApp: ['', Validators.required],
 			nahjAdminUsername: ['', Validators.required],
 			nahjAdminPassword: ['', Validators.required]
-		});
+		}); 
 
 		this.contentForm = this.fb.group({
 			content1: ['', Validators.required],
@@ -196,7 +196,6 @@ export class DataComponent implements OnInit {
 	}
 
 	handleContentChange(level, e) {
-		console.log("handleContentChange", level, e)
 		this.getContent({ 'level': level, 'value': e.target.value })
 	}
 
@@ -306,8 +305,6 @@ export class DataComponent implements OnInit {
 
 	///   get data functions
 	saveLContent() {
-		console.log("saveLContent", this.contentForm.value.content1)
-		console.log("this.speciificContent", this.speciificContent)
 		if (this.contentForm.value.content1) {
 			let obj = {}
 			if (this.contentForm.value.content1) {
@@ -321,13 +318,13 @@ export class DataComponent implements OnInit {
 			this.contentForm.value.content4 ? obj["speciificContentLevelFour"] = this.contentForm.value.content4
 			: ''
 			
-			console.log("obj save content", obj)
 			this.speciificContent.push(obj)
 			alert("added successfully")
 		};
 	}
 
 	getItemDetails($event) {
+		console.log("getItemDetails", $event);
 		this.selectedSchool = $event;
 
 		// this condition to get cities of a selected geo and set selected city
@@ -337,13 +334,10 @@ export class DataComponent implements OnInit {
 		this.licensedTerm = $event.licensedTerm;
 		this.terms = $event.licensedTerm.map(term => term.studyYear );
 
-		// $event.licensedTerm ? this.terms = $event.licensedTerm.map(term => term.studyYear ) : this.terms= [];
-
 		this.admin  = $event.admin.filter(item=> item.type == 'admin')[0];
 		this.res  = $event.admin.filter(item=> item.type == 'res')[0];
 
 		this.handleStudyYearChange(undefined)
-        console.log("this.admin///////////////", this.admin)
 		this.form = this.fb.group({
 			schoolName: $event.name ? $event.name : undefined,
 			motherComp: $event.motherComp ? $event.motherComp : undefined,
@@ -373,6 +367,7 @@ export class DataComponent implements OnInit {
 			nahjAdminName : this.admin ? this.admin.name : undefined,
 			nahjAdminEmail : this.admin ? this.admin.email : undefined,
 			nahjAdminPhone : this.admin ? this.admin.phone : undefined,
+			nahjAdminPassword : this.admin ? this.admin.password : undefined,
 			nahjAdminJob : this.admin ? this.admin.job : undefined,
 			nahjAdminWhatsApp : this.admin ? this.admin.whatsApp : undefined,
 			nahjAdminUsername : this.admin ? this.admin.username : undefined,
@@ -380,6 +375,7 @@ export class DataComponent implements OnInit {
 			adminName : this.res ? this.res.name : undefined,
 			adminEmail : this.res ? this.res.email : undefined,
 			adminPhone : this.res ? this.res.phone : undefined,
+			adminPassword : this.res ? this.res.password : undefined,
 			adminJob : this.res ? this.res.job : undefined,
 			adminWhatsApp : this.res ? this.res.whatsApp : undefined,
 			adminUsername : this.res ? this.res.username : undefined
@@ -389,9 +385,7 @@ export class DataComponent implements OnInit {
 
 	handleStudyYearChange(id) {
 		this.licensedTerm.map((term, i)=>{
-			console.log("term i", i ,term)
 			if (id == term.id) {
-				console.log("id == term.id", id == term.id)
 				this.form = this.fb.group({
 					studyYears: term.studyYear.id,
 					lstudentsNum: term.studentsNum,
@@ -401,18 +395,8 @@ export class DataComponent implements OnInit {
 				})
 				this.speciificContent = term.licensedContent
 			}else if(i == 0 && !id ){
-				// console.log("term.studyYear.id", term.studyYear.id )
-				// this.form = this.fb.group({
-				// 	studyYears: term.studyYear.id,
-				// 	lstudentsNum: term.studentsNum,
-				// 	lclassesNum: term.classesNum,
-				// 	lteachersNum: term.teachersNum,
-				// 	ladminsNum: term.adminNum
-				// })
 				this.speciificContent = term.licensedContent
 			}
-		console.log("speciificContent", this.speciificContent)
-
 		})
 	}
 
@@ -461,10 +445,8 @@ export class DataComponent implements OnInit {
 		this.speciificContent = [];
 	}
 
-	addSchool(conf, state = 0) {
+	addSchool(conf) {
 		let config = conf || this.form.value;
-
-		var admin; var res;
 		var myObj = {
 			method: 'PUT',
 			url: this.url,
@@ -491,28 +473,8 @@ export class DataComponent implements OnInit {
 				}
 			]
 		}
-		console.log("config", config)
 
 		this.speciificContent != [] ? myObj['content']=this.speciificContent: ''
-		
-		// config.adminName ?  res['name'] = config.adminName : ""
-		// config.adminEmail ?  res['email'] = config.adminEmail : ""
-		// config.adminPhone ?  res['phone'] = config.adminPhone : ""
-		// config.adminJob ?  res['job'] = config.adminJob : ""
-		// config.adminUsername ?  res['userUadminUsername'] = config.adminName : ""
-		// config.adminPassword ?  res['password'] = config.adminPassword : ""
-		// config.adminWhatsApp ?  res['whatsApp'] = config.adminWhatsApp : ""
-
-		// config.nahjAdminName ?  admin['name'] = config.nahjAdminName : ""
-		// config.nahjAdminEmail ?  admin['email'] = config.nahjAdminEmail : ""
-		// config.nahjAdminPhone ?  admin['phone'] = config.nahjAdminPhone : ""
-		// config.nahjAdminJob ?  admin['job'] = config.nahjAdminJob : ""
-		// config.nahjAdminUsername ?  admin['userUadminUsername'] = config.nahjAdminName : ""
-		// config.nahjAdminPassword ?  admin['password'] = config.nahjAdminPassword : ""
-		// config.nahjAdminWhatsApp ?  admin['whatsApp'] = config.nahjAdminWhatsApp : ""
-
-		// res ? myObj['admin'] = [res] :  '';
-		// admin ? myObj['admin'].length > 0 ? myObj['admin'].push(admin) : myObj['admin'] = [admin] :  '';
 
 		config.schoolName ? myObj['name'] = config.schoolName: '';
 		config.district ? myObj['district'] = config.district: '';
@@ -542,9 +504,7 @@ export class DataComponent implements OnInit {
 
 		Object.keys(myObj).forEach((key) => (myObj[key] == "" || myObj[key] == null ) && delete myObj[key]);
 
-		console.log("add obj", myObj)
 		this.schoolService.service(myObj).subscribe(data => {
-			console.log("add school *******", data)
 			this.clearFields();
 			this.updateChildData = true;
 			this.speciificContent = [];
@@ -559,6 +519,9 @@ export class DataComponent implements OnInit {
 			url: this.url,
 			id: this.selectedSchool.id
 		};
+
+		console.log("$event edit school ==   ", $event)
+		console.log("config edit school ==   ", config)
 		
 		config.district != $event.district ? myObj['district'] = config.district : ''
 		config.phone != $event.phone ? myObj['phone'] = config.phone : ''
@@ -581,8 +544,6 @@ export class DataComponent implements OnInit {
 		$event.geoArea ? config.geo != $event.geoArea.id ? myObj["geoArea"]=config.geo :'' : undefined
 		$event.city ? config.city != $event.city.id ? myObj["city"]=config.city :'' : undefined
 
-		console.log("config ======", config)
-		console.log("res----------------", this.res, this.admin)
 		if(this.res){
 			this.res['name'] = config.adminName != this.res.name ?  config.adminName : this.res.name
 			this.res['email'] = config.adminEmail != this.res.email ?  config.adminEmail : this.res.email
@@ -604,7 +565,6 @@ export class DataComponent implements OnInit {
 		}
 
 		myObj['admin'] = [this.admin, this.res]
-		console.log("admin *****", this.admin, this.res)
 		
 		config.ladminsNum != $event.licensedTerm.adminNum ? myObj['ladminNum'] = config.ladminsNum : $event.licensedTerm.adminNum
 		config.lstudentsNum != $event.licensedTerm.studentsNum ? myObj['lstudentsNum'] = config.lstudentsNum : $event.licensedTerm.studentsNum
@@ -615,7 +575,6 @@ export class DataComponent implements OnInit {
 
 		this.schoolService.service(myObj)
 		.subscribe(data => {
-			console.log("school edited", data)
 			this.updateChildData = true;
 			this.clearFields()
 		});
@@ -638,8 +597,6 @@ export class DataComponent implements OnInit {
 	}
 
 	deleteContent($event) {
-		console.log("event", $event.target.id)
-		console.log("speciificContent", this.speciificContent)
 		var index = $event.target.id;
 		const dialogRef = this.dialog.open(DialogComponent, {
 			width: '500px'
@@ -647,9 +604,7 @@ export class DataComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
 				this.speciificContent.splice(index, 1);
-				console.log("sep----", this.speciificContent)
-				this.selectedSchool.licensedTerm.licensedContent = this.speciificContent
-				console.log("selectedSchool", this.selectedSchool)
+				this.selectedSchool.licensedTerm.licensedContent = this.speciificContent;
 				this.editSchool(this.selectedSchool)
 			} else {
 				console.log("thanks")

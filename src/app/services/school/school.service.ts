@@ -19,7 +19,7 @@ export class SchoolService {
   }
 
   service(config) { ////method,url,id,adminId,address,admin,gps,phone,fa,district,adminNum,studentsNum,classesNum ... , admin[Object of admin data check schema] 
-    console.log(config)
+    console.log("config school====", config)
     let query: string = "";
     let variable: object = {};
 
