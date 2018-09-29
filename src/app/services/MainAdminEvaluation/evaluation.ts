@@ -11,9 +11,6 @@ export class evaluation {
   service(config) { 
     let query: string = "";
     let variable: object = {};
-
-    console.log("eval config", config)
-
     switch (config.method) {
       case "POST": //update
         query = `mutation{
@@ -33,26 +30,26 @@ export class evaluation {
         `
         break;
       case "GET": //read
-        query = `query{
-          contentLevelOnes{
+        query = `query {
+          contentLevelOnes {
             id
             name
-            evaluation{
+            evaluation {
               id
               title
               shortTitle
-              currentStatus{
+              currentStatus {
                 id
                 name
               }
-              questionGroup{
+              questionGroup {
                 id
                 name
                 weight
-                accountWay{
+                accountWay {
                   id
                   name
-                  grades{
+                  grades {
                     id
                     grade
                     weight
@@ -60,86 +57,86 @@ export class evaluation {
                 }
               }
             }
-            contentLevelTwo{
+          }
+          contentLevelTwoes {
+            id
+            name
+            relativePercentage
+            evaluation {
               id
-              name
-              relativePercentage
-              evaluation{
+              title
+              shortTitle
+              currentStatus {
                 id
-                title
-                shortTitle
-                currentStatus{
+                name
+              }
+              questionGroup {
+                id
+                name
+                weight
+                accountWay {
                   id
                   name
-                }
-                questionGroup{
-                  id
-                  name
-                  weight
-                  accountWay{
+                  grades {
                     id
-                    name
-                    grades{
-                      id
-                      grade
-                      weight
-                    }
+                    grade
+                    weight
                   }
                 }
               }
-              contentLevelThree{
+            }
+          }
+          contentLevelThrees {
+            id
+            relativePercentage
+            name
+            evaluation {
+              id
+              title
+              shortTitle
+              currentStatus {
                 id
-                relativePercentage
                 name
-                evaluation{
+              }
+              questionGroup {
+                id
+                name
+                weight
+                accountWay {
                   id
-                  title
-                  shortTitle
-                  currentStatus{
+                  name
+                  grades {
                     id
-                    name
-                  }
-                  questionGroup{
-                    id
-                    name
+                    grade
                     weight
-                    accountWay{
-                      id
-                      name
-                      grades{
-                        id
-                        grade
-                        weight
-                      }
-                    }
                   }
                 }
-                contentLevelFour{
+              }
+            }
+          }
+          contentLevelFours {
+            id
+            relativePercentage
+            name
+            evaluation {
+              id
+              title
+              shortTitle
+              currentStatus {
+                id
+                name
+              }
+              questionGroup {
+                id
+                name
+                weight
+                accountWay {
                   id
-                  relativePercentage
                   name
-                  evaluation{
+                  grades {
                     id
-                    title
-                    shortTitle
-                    currentStatus{
-                      id
-                      name
-                    }
-                    questionGroup{
-                      id
-                      name
-                      weight
-                      accountWay{
-                        id
-                        name
-                        grades{
-                          id
-                          grade
-                          weight
-                        }
-                      }
-                    }
+                    grade
+                    weight
                   }
                 }
               }

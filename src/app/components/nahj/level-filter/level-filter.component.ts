@@ -44,7 +44,7 @@ export class LevelFilterComponent implements OnInit {
 	}
 
 	handleItemClicked(item) {
-		this.itemClicked.emit(item);
+		this.itemClicked.emit({item, 'level1': this.selectedLevel1, 'level2': this.selectedLevel2, 'level3': this.selectedLevel3, 'level4': this.selectedLevel4});
 	}
 	/// get Functions
 
@@ -83,7 +83,6 @@ export class LevelFilterComponent implements OnInit {
 					    return level4.evaluation
 				});
 			}
-			console.log("evaluations ===", this.evaluations)
 		})
 	}
 
