@@ -14,13 +14,13 @@ export class questionType {
         // console.log(config)
         switch (config.method) {
             case "POST": //update
-            
+              console.log("questionType service", config)
                 query = `mutation{
                   updateQuestionType(
                     data:{
                       ${config.hasOwnProperty('name') ? `name: ${config.name}` : '' }
                       ${config.hasOwnProperty('weight') ? `weight: ${config.weight}` : '' }
-                      ${config.hasOwnProperty('accountWay') ? `${ config.accountWay == false ? `accountWay: {disconnect:true}` : `accountWay: {connect:{id:${config.accountWay}}}` }` : ''}
+                      
                     }
                     where:{
                       id:${config.id}
@@ -35,60 +35,40 @@ export class questionType {
                   contentLevelOnes{
                     evaluation{
                       id
-                      title
-                      shortTitle
-                      currentStatus{
-                        id
-                        name
-                      }
                       questionGroup{
                         id
                         name
+                        weight
                       }
                     }
                   }
                   contentLevelTwoes{
                     evaluation{
                       id
-                      title
-                      shortTitle
-                      currentStatus{
-                        id
-                        name
-                      }
                       questionGroup{
                         id
                         name
+                        weight
                       }
                     }
                   }
                   contentLevelThrees{
                     evaluation{
                       id
-                      title
-                      shortTitle
-                      currentStatus{
-                        id
-                        name
-                      }
                       questionGroup{
                         id
                         name
+                        weight
                       }
                     }
                   }
                   contentLevelFours{
                     evaluation{
                       id
-                      title
-                      shortTitle
-                      currentStatus{
-                        id
-                        name
-                      }
                       questionGroup{
                         id
                         name
+                        weight
                       }
                     }
                   }

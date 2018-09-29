@@ -39,6 +39,10 @@ export class EvaluationDataComponent implements OnInit {
 	selectedLevel4;
 	selectedEvaluation;
 	selectedQuestionGroup;
+	l1 = '';
+	l2 = '';
+	l3 = '';
+	l4 = '';
 
 	constructor( 
 		private fb: FormBuilder,
@@ -112,12 +116,18 @@ export class EvaluationDataComponent implements OnInit {
 	evaluationClicked($event){
 		this.selectedEvaluation = $event.item.evaluation.id;
 		this.getContentData($event.level1, $event.level2, $event.level3, $event.level4)
+
+		this.l1 = $event.level1
+		this.l2 = $event.level2
+		this.l3 = $event.level3
+		this.l4 = $event.level4
+
 		this.selectedQuestionGroup = undefined;
 		this.questGroupForm = this.fb.group({
 			name: [''],
 			weight: [''],
 		}) 
-		this.questionGroups = $event.item.evaluation.questionGroup
+		// this.questionGroups = $event.item.evaluation.questionGroup
 		this.form = this.fb.group({
 			title: [$event.item.evaluation.title],
 			shortTitle: [$event.item.evaluation.shortTitle],
@@ -128,10 +138,11 @@ export class EvaluationDataComponent implements OnInit {
 			level3: $event.level3,
 			level4: $event.level4,
 		});
-		// this.getQuestionGroups()
+		this.getQuestionGroups()
 	}
 
 	getQuestionGroupDetails(qGroup){
+		console.log("getQuestionGroupDetails", qGroup)
 		this.selectedQuestionGroup = qGroup;
 		this.questGroupForm = this.fb.group({
 			name: [qGroup.name],
@@ -160,12 +171,32 @@ export class EvaluationDataComponent implements OnInit {
 			method: 'GET',
 			url: this.url
 		}).subscribe(data=>{
-			console.log("questionType", data)
-			// data['data'].evaluations.map(item=>{
-			// 	if(item.id == this.selectedEvaluation){
-			// 		this.questionGroups  =  item.questionGroup.filter(item => item.name !="");
-			// 	}
-			// })
+			if (this.l4) {
+				this.questionGroups=[]				
+				this.questionGroups = data['data'].contentLevelFours.filter(level4 => {
+					if(level4.evaluation!= null &&level4.evaluation.id == this.selectedEvaluation)
+					    return level4.evaluation.questionGroup
+				});
+			}else if (this.l3) {
+				this.questionGroups=[]				
+				this.questionGroups = data['data'].contentLevelThrees.filter(level3 => {
+					if(level3.evaluation!= null && level3.evaluation.id == this.selectedEvaluation)
+					    return level3.evaluation.questionGroup
+				});
+			}else if (this.l2) {
+				this.questionGroups=[]
+				this.questionGroups = data['data'].contentLevelTwoes.filter(level2 => {
+					if(level2.evaluation!= null &&level2.evaluation.id == this.selectedEvaluation)
+					    return level2.evaluation.questionGroup
+				});
+			}else if (this.l1) {
+				this.questionGroups = []
+				this.questionGroups = data['data'].contentLevelOnes.filter(level1 => 
+					level1.evaluation!= null && level1.evaluation.id == this.selectedEvaluation ? level1.evaluation.questionGroup : undefined
+				);
+			}
+			this.questionGroups = this.questionGroups[0]['evaluation']['questionGroup']
+			console.log("questionGroups", this.questionGroups)
 		})
 	}
 	getContentData(id1, id2, id3, id4){
@@ -279,6 +310,25 @@ export class EvaluationDataComponent implements OnInit {
 	// edit functions
 	editEvaluation(){
 		if (this.selectedEvaluation) {
+			var levelName, levelId;
+
+			if (this.form.value.level4) {
+				levelName = 'updateContentLevelFour'
+				levelId = this.form.value.level4
+			}
+			else if (this.form.value.level3) {
+				levelName = 'updateContentLevelThree'
+				levelId = this.form.value.level3
+			}
+			else if (this.form.value.level2) {
+				levelName = 'updateContentLevelTwo'
+				levelId = this.form.value.level2
+			}
+			else if (this.form.value.level1) {
+				levelName = 'updateContentLevelOne'
+				levelId = this.form.value.level1
+			}
+
 			this.evaluation.service({
 				method: "POST",
 				url: this.url,
@@ -307,12 +357,14 @@ export class EvaluationDataComponent implements OnInit {
 				url: this.url,
 				name: this.questGroupForm.value.name,
 				weight: this.questGroupForm.value.weight,
-				evaluationId: this.selectedEvaluation,
 				id:this.selectedQuestionGroup.id
 			}).subscribe(data => {
-				// this.getQuestionGroups()
+				console.log("data", data)
+				this.getQuestionGroups()
 				this.questionEdit = true;
+				this.updateFilter = true;
 			})
+			this.updateFilter = false;
 		}
 	}
 
@@ -320,56 +372,34 @@ export class EvaluationDataComponent implements OnInit {
 	// delete Functions
 	deleteEvaluation(){
 		if (this.selectedEvaluation) {
-			console.log("selectedEvaluation", this.selectedEvaluation)
 			this.evaluation.service({
 				method: "DELETE",
 				url: this.url,
 				id:this.selectedEvaluation
 			}).subscribe(data=>{
-				console.log("data delete ", data)
 				this.updateFilter = true;
-				// this.EvalEdit = true;
-				// this.questionType.service({
-				// 	method: "DELETE",
-				// 	url: this.url,
-				// 	Id: questionGroupsID
-				// }).subscribe(data => {
-				// 	this.updateFilter = true;
-				// 	this.questionGroups = []
-				// 	this.form = this.fb.group({
-				// 		title: [''],
-				// 		shortTitle: [''],
-				// 		currentStatus: [''],
-				// 		accountWay: [''],
-				// 		level1: [''],
-				// 		level2: [''],
-				// 		level3: [''],
-				// 		level4: ['']
-				// 	});
-				// })
 			})
 			this.updateFilter = false;			
 		}
 	}
 
 	deleteQuestionGroup(){
-		console.log("dele g", this.selectedQuestionGroup)
 		if (this.selectedEvaluation && this.selectedQuestionGroup) {
 			this.questionType.service({
 				method: "DELETE",
 				url: this.url,
 				id:this.selectedQuestionGroup.id
 			}).subscribe(data => {
-				console.log("deleteQuestionGroup", data)
 				this.selectedQuestionGroup = undefined;
-				// this.getQuestionGroups()
+				this.getQuestionGroups()
 				this.questGroupForm = this.fb.group({
 					name: [''],
 					weight: [''],
 				})
+				this.updateFilter = true;
 			})
 			this.EvalEdit = true;
-			this.updateFilter = true;
+			
 			this.updateFilter = false;
 		}
 	}
