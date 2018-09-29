@@ -50,7 +50,7 @@ export class SchoolService {
               ${config.hasOwnProperty('levelThree') ? (config.levelThree == false ? 'levelThree:   {disconnect:true}' : `levelThree:{connect:{id:"${config.levelThree}"}}`) : ''}
               
               admin:{
-                update:${ this.CreateAdmin(config) ? "[" + this.updateAdmin(config) + "]" : '[]'} 
+                update:${ this.updateAdmin(config) ? "[" + this.updateAdmin(config) + "]" : '[]'} 
               }
               ${config.hasOwnProperty('licencedTermId') ? `
                 licensedTerm:{
@@ -233,8 +233,8 @@ export class SchoolService {
 
   CreateAdmin(config) {
     if (config.admin && config.admin.length > 1) {
-      return config.admin.reduce((admin, item) => {
-        console.log("reduce admin *********", admin)
+      return config.admin.reduce((admin, item) => { 
+        console.log(item.password,item)
         let a = `{
           name: "${item.name || ""}",
           job:  "${item.job || ""}",
@@ -278,6 +278,7 @@ export class SchoolService {
     console.log(config.admin.length)
     if (config.admin && config.admin.length > 1)
       return config.admin.reduce((admin, item) => {
+        console.log(item.password)
         return admin += `{
           where: {
             id: "${item.id}"

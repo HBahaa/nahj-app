@@ -35,70 +35,117 @@ export class evaluation {
       case "GET": //read
         query = `query{
           contentLevelOnes{
-            id
-            name
             evaluation{
               id
               title
               shortTitle
-              currentStatus{id,name}
+              currentStatus{
+                id
+                name
+              }
               questionGroup{
                 id
                 name
                 weight
+                accountWay{
+                  id
+                  name
+                  grades{
+                    id
+                    grade
+                    weight
+                  }
+                }
               }
             }
-          }
-          contentLevelTwoes{
-            id
-            name
-            evaluation{
+            contentLevelTwo{
               id
-              title
-              shortTitle
-              currentStatus{id,name}
-              questionGroup{
+              name
+              relativePercentage
+              evaluation{
                 id
+                title
+                shortTitle
+                currentStatus{
+                  id
+                  name
+                }
+                questionGroup{
+                  id
+                  name
+                  weight
+                  accountWay{
+                    id
+                    name
+                    grades{
+                      id
+                      grade
+                      weight
+                    }
+                  }
+                }
+              }
+              contentLevelThree{
+                id
+                relativePercentage
                 name
-                weight
+                evaluation{
+                  id
+                  title
+                  shortTitle
+                  currentStatus{
+                    id
+                    name
+                  }
+                  questionGroup{
+                    id
+                    name
+                    weight
+                    accountWay{
+                      id
+                      name
+                      grades{
+                        id
+                        grade
+                        weight
+                      }
+                    }
+                  }
+                }
+                contentLevelFour{
+                  id
+                  relativePercentage
+                  name
+                  evaluation{
+                    id
+                    title
+                    shortTitle
+                    currentStatus{
+                      id
+                      name
+                    }
+                    questionGroup{
+                      id
+                      name
+                      weight
+                      accountWay{
+                        id
+                        name
+                        grades{
+                          id
+                          grade
+                          weight
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
-          contentLevelThrees{
-            id
-            name
-            evaluation{
-              id
-              title
-              shortTitle
-              currentStatus{id,name}
-              questionGroup{
-                id
-                name
-                weight
-              }
-            }
-          }
-          contentLevelFours{
-            id
-            name
-            evaluation{
-              id
-              title
-              shortTitle
-              currentStatus{id,name}
-              questionGroup{
-                id
-                name
-                weight
-              }
-            }
-          }
-        }
-        `;
+        }`;
         break;
       case "PUT"://create
-      console.log("config", config)
         query = `mutation {
             ${config.levelName}(
               data: {

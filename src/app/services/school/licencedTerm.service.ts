@@ -18,6 +18,7 @@ export class licencedTermService {
         return newVar
     }
     service(config) {
+        console.log("licenced config ===> ",config)
         let query: string = "";
         let variable: object = {};
 
@@ -28,25 +29,60 @@ export class licencedTermService {
                     updateSchool(
                       data: {
                         licensedTerm: {
-                          create: {
                             create: {
-                                ${config.hasOwnProperty('ladminNum') ? 'adminNum: $ladminNum' : ''}
-                                ${config.hasOwnProperty('lstudentsNum') ? 'studentsNum: $lstudentsNum' : ''}
-                                ${config.hasOwnProperty('lteachersNum') ? 'teachersNum: $lteachersNum' : ''}
-                                ${config.hasOwnProperty('lclassesNum') ? 'classesNum: $lclassesNum' : ''}
-                                ${config.hasOwnProperty('lstudyYear') ? 'studyYear: { connect: { id: $lstudyYear } }' : ''}
-                                licensedContent: { create: [ ${this.CreateContentLevel(config)} ] }
+                              ${config.hasOwnProperty('ladminNum') ? `adminNum: ${config.ladminNum}` : ''}
+                              ${config.hasOwnProperty('lstudentsNum') ? `studentsNum: ${config.lstudentsNum}` : ''}
+                              ${config.hasOwnProperty('lteachersNum') ? `teachersNum: ${config.lteachersNum}` : ''}
+                              ${config.hasOwnProperty('lclassesNum') ? `classesNum: ${config.lclassesNum}` : ''}
+                              ${config.hasOwnProperty('lstudyYear') ? `studyYear: { connect: { id: "${config.lstudyYear}" } }` : ''}
+                              licensedContent: { create: ${this.CreateContentLevel(config) ? '[' + this.CreateContentLevel(config) + ']' : '[]'} }
                             }
                           }
-                        }
                       }
-                      where: { id: ${config.id} }
+                      where: { id: "${config.id}" }
                     ) {
                       id
                     }
                   }`
                 variable = this.createVariable(config)
                 break;
+            case "POST"://update
+                  query= `mutation{
+                    updateLicensedTerm(
+                        data:{
+                                ${config.hasOwnProperty('ladminNum')    ? `adminNum: ${config.ladminNum}` : ''}
+                                ${config.hasOwnProperty('lstudentsNum') ? `studentsNum: ${config.lstudentsNum}` : ''}
+                                ${config.hasOwnProperty('lteachersNum') ? `teachersNum: ${config.lteachersNum}` : ''}
+                                ${config.hasOwnProperty('lclassesNum')  ? `classesNum: ${config.lclassesNum}` : ''}
+        
+                                ${config.hasOwnProperty('lstudyYear')   ? (config.lstudyYear == false ? 'studyYear:   {disconnect:true}' : `studyYear:{connect:{id:"${config.lstudyYear}"}}`) : ''}
+                                licensedContent:{
+                                    create:[
+                                        ${this.CreateContentLevel(config) ? '[' + this.CreateContentLevel(config) + ']' : '[]'}
+                                    ]
+                                    delete:[
+                                        ${this.deleteContentLevel(config)}
+                                    ]
+                                }
+                        }
+                        where:{
+                            id:"${config.id}"
+                        }
+                    ){
+                      id
+                    }
+                  }
+                  `
+                break;
+            case "DELETE":
+                  query=`mutation{
+                    deleteLicensedTerm(
+                      where:{id:"${config.id}"}
+                    ){
+                      id
+                    }
+                  }`
+                  break;
         }
 
         return this
@@ -56,20 +92,32 @@ export class licencedTermService {
                 "variables": variable
             });
     }
+    deleteContentLevel(config) {
+        let str = '';
+        if(!config.content_to_delete || config.content_to_delete.length < 1) return str;
+        str = config.content_to_delete.reduce((strI,id) =>{
+         return strI+=`{id:"${id}"}`
+        },str)
+        return str;
+    }
+
     CreateContentLevel(config) {
         if (config.content && config.content.length > 0) {
-            return (config.content
-                .map((item) => {
-                    let a = {}
-                    if (item.speciificContentLevelOne) a['speciificContentLevelOne'] = { connect: { id: item.speciificContentLevelOne } }
-                    if (item.speciificContentLevelTwo) a['speciificContentLevelTwo'] = { connect: { id: item.speciificContentLevelTwo } }
-                    if (item.speciificContentLevelThree) a['speciificContentLevelThree'] = { connect: { id: item.speciificContentLevelThree } }
-                    if (item.speciificContentLevelFour) a['speciificContentLevelFour'] = { connect: { id: item.speciificContentLevelFour } }
-                    return a;
-                })
-            )
+          return (config.content
+            .reduce((content, item) => {
+              let a = `{
+                ${(item.speciificContentLevelOne) ? `speciificContentLevelOne : { connect: { id: "${item.speciificContentLevelOne}" } }` : ''}
+                ${(item.speciificContentLevelTwo) ? `speciificContentLevelTwo : { connect: { id: "${item.speciificContentLevelTwo}" } }` : ''}
+                ${(item.speciificContentLevelThree) ? `speciificContentLevelThree : { connect: { id: "${item.speciificContentLevelThree}" } }` : ''}
+                ${(item.speciificContentLevelFour) ? `speciificContentLevelFour : { connect: { id: "${item.speciificContentLevelFour}" } }` : ''}
+              }`
+              a = a.replace(/\r?\n|\r/g, '')
+              content += a
+              return content;
+            }, '')
+          )
         } else {
-            return '';
+          return '';
         }
-    }
+      }
 }
