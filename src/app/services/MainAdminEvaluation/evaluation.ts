@@ -35,6 +35,8 @@ export class evaluation {
       case "GET": //read
         query = `query{
           contentLevelOnes{
+            id
+            name
             evaluation{
               id
               title

@@ -19,7 +19,6 @@ export class SchoolService {
   }
 
   service(config) { ////method,url,id,adminId,address,admin,gps,phone,fa,district,adminNum,studentsNum,classesNum ... , admin[Object of admin data check schema] 
-    console.log(config)
     let query: string = "";
     let variable: object = {};
 
@@ -234,7 +233,6 @@ export class SchoolService {
   CreateAdmin(config) {
     if (config.admin && config.admin.length > 1) {
       return config.admin.reduce((admin, item) => { 
-        console.log(item.password,item)
         let a = `{
           name: "${item.name || ""}",
           job:  "${item.job || ""}",
@@ -275,10 +273,8 @@ export class SchoolService {
   }
 
   updateAdmin(config) {
-    console.log(config.admin.length)
     if (config.admin && config.admin.length > 1)
       return config.admin.reduce((admin, item) => {
-        console.log(item.password)
         return admin += `{
           where: {
             id: "${item.id}"
