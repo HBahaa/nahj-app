@@ -114,7 +114,8 @@ export class EvaluationDataComponent implements OnInit {
 	
 	// list functions
 	evaluationClicked($event){
-		this.selectedEvaluation = $event.item.evaluation.id;
+		this.selectedEvaluation = $event.item.id;
+		console.log("$event.item", $event.item)
 		this.getContentData($event.level1, $event.level2, $event.level3, $event.level4)
 
 		this.l1 = $event.level1
@@ -127,12 +128,12 @@ export class EvaluationDataComponent implements OnInit {
 			name: [''],
 			weight: [''],
 		}) 
-		// this.questionGroups = $event.item.evaluation.questionGroup
+		// this.questionGroups = $event.item.questionGroup
 		this.form = this.fb.group({
-			title: [$event.item.evaluation.title],
-			shortTitle: [$event.item.evaluation.shortTitle],
-			currentStatus: $event.item.evaluation['currentStatus'].id,
-			// accountWay: [$event.item.evaluation.accountWay.id],
+			title: $event.item.title,
+			shortTitle: $event.item.shortTitle,
+			currentStatus: $event.item.currentStatus ? $event.item.currentStatus.id : undefined,
+			accountWay: $event.item.accountWay ? $event.item.accountWay.id : undefined,
 			level1: $event.level1,
 			level2: $event.level2,
 			level3: $event.level3,
@@ -191,11 +192,15 @@ export class EvaluationDataComponent implements OnInit {
 				});
 			}else if (this.l1) {
 				this.questionGroups = []
-				this.questionGroups = data['data'].contentLevelOnes.filter(level1 => 
-					level1.evaluation!= null && level1.evaluation.id == this.selectedEvaluation ? level1.evaluation.questionGroup : undefined
-				);
+				this.questionGroups = data['data'].contentLevelOnes? data['data'].contentLevelOnes
+					.map((item)=> {console.log(item);return item.evaluation})
+					.reduce((_arr,item)=>{;_arr.push(...item);return _arr},[])
+					.filter((item)=> {console.log(item);return item.id == this.selectedEvaluation ?true:false})
+					.map(item => item.questionGroup)
+					.reduce((_arr,item)=>{;_arr.push(...item);return _arr},[])
+				:[];
 			}
-			this.questionGroups = this.questionGroups[0]['evaluation']['questionGroup']
+			// this.questionGroups = this.questionGroups['questionGroup']
 			console.log("questionGroups", this.questionGroups)
 		})
 	}

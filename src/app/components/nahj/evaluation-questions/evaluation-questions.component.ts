@@ -58,20 +58,18 @@ export class EvaluationQuestionsComponent implements OnInit {
   }
   // list functions
   evaluationClicked($event) {
-    console.log("evaluationClicked", $event)
-    this.selectedEvaluation = $event.id;
-    this.questionGroups = $event.item.evaluation.questionGroup;
+    this.questions = [];
+    this.clearAllInputs();
+    this.selectedEvaluation = $event.item.id;
+    this.questionGroups = $event.item.questionGroup;
     // let arr = this.questionGroups.map(item => item.id)
     // this.getQuestions(arr);
   }
   getQuestions(id) {
-    console.log("id===========", id)
     this.questionDetails.service({
       method: "GET",
       url: this.url
     }).subscribe(data => {
-      console.log("getQuestions", data)
-
       data['data'].evaluations.map(evaluation=>{
         if (evaluation.id == this.selectedEvaluation) {
           evaluation.questionGroup.map(qgroup=>{
@@ -80,8 +78,6 @@ export class EvaluationQuestionsComponent implements OnInit {
             }
           })
         }
-        console.log("evaluation======", evaluation)
-        console.log("questions======", this.questions)
       })
     })
   }
@@ -117,8 +113,9 @@ export class EvaluationQuestionsComponent implements OnInit {
       isEqualWeights: this.form.value.isEqualWeights ? this.form.value.isEqualWeights : false,
       id: this.form.value.questionGroup
     }).subscribe(data => {
-      console.log("addNewQuestion", data)
       this.add = true;
+      console.log("this.form.value.questionGroup", this.form.value.questionGroup)
+      this.clearAllInputs();
       this.getQuestions(this.form.value.questionGroup);
     })
   }
@@ -128,7 +125,7 @@ export class EvaluationQuestionsComponent implements OnInit {
       this.questionDetails.service({
         method: "POST",
         url: this.url,
-        Id: this.selectedQuestion.id,
+        id: this.selectedQuestion.id,
         question: this.form.value.question,
         details: this.form.value.details,
         enhancement: this.form.value.enhancement,
@@ -138,6 +135,7 @@ export class EvaluationQuestionsComponent implements OnInit {
         isEqualWeights: this.form.value.isEqualWeights
       }).subscribe(data => {
         this.edit = true;
+        this.clearAllInputs();
         this.getQuestions(this.selectedQuestion.questionGroup);
       })
     }
@@ -148,9 +146,8 @@ export class EvaluationQuestionsComponent implements OnInit {
       this.questionDetails.service({
         method: "DELETE",
         url: this.url,
-        Id: this.selectedQuestion.id
+        id: this.selectedQuestion.id
       }).subscribe(data => {
-        console.log("data", this.selectedQuestion)
         this.getQuestions(this.selectedQuestion.questionGroup);
         this.clearAllInputs();
       })

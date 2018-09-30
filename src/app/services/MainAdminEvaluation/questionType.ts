@@ -11,10 +11,9 @@ export class questionType {
     service(config) { ////method,url,name,cities,newName
         let query: string = "";
         let variable: object = {};
-        // console.log(config)
+        console.log("questionType service: ===> ", config)
         switch (config.method) {
             case "POST": //update
-              console.log("questionType service", config)
                 query = `mutation{
                   updateQuestionType(
                     data:{
@@ -75,7 +74,6 @@ export class questionType {
                 }`;
                 break;
             case "PUT"://create
-            console.log("config ===", config)
                 query = `mutation($id:ID!, $name: String!, $weight:String!){
                   updateEvaluation(
                     data:{

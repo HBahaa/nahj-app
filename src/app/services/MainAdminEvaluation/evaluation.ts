@@ -11,6 +11,7 @@ export class evaluation {
   service(config) { 
     let query: string = "";
     let variable: object = {};
+    console.log("evaluation service: ===> ",config)
     switch (config.method) {
       case "POST": //update
         query = `mutation{
@@ -19,6 +20,8 @@ export class evaluation {
               ${config.hasOwnProperty('title')  ? `title: "${config.title}"`:`` }
               ${config.hasOwnProperty('shortTitle')  ? `shortTitle: "${config.shortTitle}"`:`` }
               ${config.hasOwnProperty('currentStatus') ? `${ config.currentStatus == false ? `currentStatus: {disconnect:true}` : `currentStatus: {connect:{id:"${config.currentStatus}"}}` }` : ''}
+              ${config.hasOwnProperty('accountWay') ? `${ config.accountWay == false ? `accountWay: {disconnect:true}` : `accountWay: {connect:{id:"${config.accountWay}"}}` }` : ''}
+
             }
             where:{
               id:"${config.id}"
@@ -38,6 +41,15 @@ export class evaluation {
               id
               title
               shortTitle
+              accountWay {
+                id
+                name
+                grades {
+                  id
+                  grade
+                  weight
+                }
+              }
               currentStatus {
                 id
                 name
@@ -46,15 +58,6 @@ export class evaluation {
                 id
                 name
                 weight
-                accountWay {
-                  id
-                  name
-                  grades {
-                    id
-                    grade
-                    weight
-                  }
-                }
               }
             }
           }
@@ -70,19 +73,19 @@ export class evaluation {
                 id
                 name
               }
+              accountWay {
+                id
+                name
+                grades {
+                  id
+                  grade
+                  weight
+                }
+              }
               questionGroup {
                 id
                 name
                 weight
-                accountWay {
-                  id
-                  name
-                  grades {
-                    id
-                    grade
-                    weight
-                  }
-                }
               }
             }
           }
@@ -98,19 +101,19 @@ export class evaluation {
                 id
                 name
               }
+              accountWay {
+                id
+                name
+                grades {
+                  id
+                  grade
+                  weight
+                }
+              }
               questionGroup {
                 id
                 name
                 weight
-                accountWay {
-                  id
-                  name
-                  grades {
-                    id
-                    grade
-                    weight
-                  }
-                }
               }
             }
           }
@@ -126,23 +129,24 @@ export class evaluation {
                 id
                 name
               }
+              accountWay {
+                id
+                name
+                grades {
+                  id
+                  grade
+                  weight
+                }
+              }
               questionGroup {
                 id
                 name
                 weight
-                accountWay {
-                  id
-                  name
-                  grades {
-                    id
-                    grade
-                    weight
-                  }
-                }
               }
             }
           }
-        }`;
+        }
+        `;
         break;
       case "PUT"://create
         query = `mutation {
@@ -153,6 +157,7 @@ export class evaluation {
                     ${config.hasOwnProperty('title') ? `title: "${config.title}"` : '' }
                     ${config.hasOwnProperty('shortTitle') ? `shortTitle: "${config.shortTitle}"` : '' }
                     ${config.hasOwnProperty('currentStatus') ? `currentStatus: { connect: { id: "${config.currentStatus}" } }`:'' }
+                    ${config.hasOwnProperty('accountWay') ? `accountWay: { connect: { id: "${config.accountWay}" } }`:'' }
                   }
                 }
               } 

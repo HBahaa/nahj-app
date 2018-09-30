@@ -44,6 +44,7 @@ export class LevelFilterComponent implements OnInit {
 	}
 
 	handleItemClicked(item) {
+		console.log("handleItemClicked", item)
 		this.itemClicked.emit({item, 'level1': this.selectedLevel1, 'level2': this.selectedLevel2, 'level3': this.selectedLevel3, 'level4': this.selectedLevel4});
 	}
 	/// get Functions
@@ -53,12 +54,13 @@ export class LevelFilterComponent implements OnInit {
 			method: 'GET',
 			url: this.url
 		}).subscribe(data => {
+			console.log("data -----", data)
 			if (this.selectedLevel1) {
 				this.evaluations = []
 				this.evaluations = data['data'].contentLevelOnes.filter(level1 => {
 					if(level1.id == this.selectedLevel1)
 					    return level1.evaluation
-				});
+				}).reduce((_obj,item)=> item.evaluation,{});
 			}
 
 			if (this.selectedLevel2) {
@@ -66,7 +68,7 @@ export class LevelFilterComponent implements OnInit {
 				this.evaluations = data['data'].contentLevelTwoes.filter(level2 => {
 					if(level2.id == this.selectedLevel2)
 					    return level2.evaluation
-				});
+				}).reduce((_obj,item)=> item.evaluation,{});
 			}
 
 			if (this.selectedLevel3) {
@@ -74,14 +76,14 @@ export class LevelFilterComponent implements OnInit {
 				this.evaluations = data['data'].contentLevelThrees.filter(level3 => {
 					if(level3.id == this.selectedLevel3)
 					    return level3.evaluation
-				});
+				}).reduce((_obj,item)=> item.evaluation,{});
 			}
 			if (this.selectedLevel4) {
 				this.evaluations=[]				
 				this.evaluations = data['data'].contentLevelFours.filter(level4 => {
 					if(level4.id == this.selectedLevel4)
 					    return level4.evaluation
-				});
+				}).reduce((_obj,item)=> item.evaluation,{});
 			}
 		})
 	}

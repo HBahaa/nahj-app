@@ -11,21 +11,22 @@ export class questionDetails {
   service(config) { ////method,url,name,cities,newName
     let query: string = "";
     let variable: object = {};
+    console.log(config)
     switch(config.method){
       case "POST" : //update
         query = `mutation{
           updateQuestion(
             data:{
-              ${config.hasOwnProperty('question') ? `question: ${config.question}` : '' }
-              ${config.hasOwnProperty('details') ? `details: ${config.details}` : '' }
-              ${config.hasOwnProperty('enhancement') ? `enhancement: ${config.enhancement}` : '' }
-              ${config.hasOwnProperty('weight') ? `weight: ${config.weight}` : '' }
-              ${config.hasOwnProperty('multiSelect') ? `multiSelect: ${config.multiSelect}` : '' }
+              ${config.hasOwnProperty('question') ? `question: "${config.question}"` : '' }
+              ${config.hasOwnProperty('details') ? `details: "${config.details}"` : '' }
+              ${config.hasOwnProperty('enhancement') ? `enhancement: "${config.enhancement}"` : '' }
+              ${config.hasOwnProperty('weight') ? `weight: "${config.weight}"` : '' }
+              ${config.hasOwnProperty('multiSelect') ? `multiSelect: "${config.multiSelect}"` : '' }
               isPercentage:${config.isPercentage ? 'true' : 'false'}
-              isEqualWeights:${config.isPercentage ? 'true' : 'false'}
+              isEqualWeights:${config.isEqualWeights ? 'true' : 'false'}
             }
             where:{
-              id:${config.id}
+              id:"${config.id}"
             }
           ){
             id
@@ -60,18 +61,18 @@ export class questionDetails {
             data:{
               questions:{
                 create:{
-                  ${config.hasOwnProperty('question') ? `question: ${config.question}` : '' }
-                  ${config.hasOwnProperty('details') ? `details: ${config.details}` : '' }
-                  ${config.hasOwnProperty('enhancement') ? `enhancement: ${config.enhancement}` : '' }
-                  ${config.hasOwnProperty('weight') ? `weight: ${config.weight}` : '' }
-                  ${config.hasOwnProperty('multiSelect') ? `multiSelect: ${config.multiSelect}` : '' }
+                  ${config.hasOwnProperty('question') ? `question: "${config.question}"` : '' }
+                  ${config.hasOwnProperty('details') ? `details: "${config.details}"` : '' }
+                  ${config.hasOwnProperty('enhancement') ? `enhancement: "${config.enhancement}"` : '' }
+                  ${config.hasOwnProperty('weight') ? `weight: "${config.weight}"` : '' }
+                  ${config.hasOwnProperty('multiSelect') ? `multiSelect: "${config.multiSelect}"` : '' }
                   isPercentage:${config.isPercentage ? 'true' : 'false'}
-                  isEqualWeights:${config.isPercentage ? 'true' : 'false'}
+                  isEqualWeights:${config.isEqualWeights ? 'true' : 'false'}
                 }
               }
             }
             where:{
-              id:${config.id}
+              id:"${config.id}"
             }
           ){
             id
