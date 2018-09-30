@@ -218,6 +218,7 @@ export class LevelsComponent implements OnInit {
 						try{
 							this.level1.push({name:data['data'].createContentLevelOne.name, relativePercentage: data['data'].createContentLevelOne.parcentage});
 							this.selectedContent1 = $event.newValue1;
+							this.selectedParcentage1 = $event.newValue2;
 						}catch(er){
 							console.log(er)
 						}
@@ -243,6 +244,7 @@ export class LevelsComponent implements OnInit {
 									Id: l1.id
 								}).subscribe(data=>{
 									this.selectedContent1 = $event.newValue1;
+									this.selectedParcentage1 = $event.newValue2;
 									this.getContentData($event.newValue1, undefined, undefined, undefined)
 								})
 							}

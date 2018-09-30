@@ -385,7 +385,7 @@ export class DataComponent implements OnInit {
 
 	handleStudyYearChange(id) {
 		this.licensedTerm.map((term, i)=>{
-			if (id == term.id) {
+			if (id == term.studyYear.id) {
 				this.form = this.fb.group({
 					studyYears: term.studyYear.id,
 					lstudentsNum: term.studentsNum,
