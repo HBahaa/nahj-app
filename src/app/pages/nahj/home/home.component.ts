@@ -107,8 +107,7 @@ export class HomeComponent implements OnInit {
 				this.geoService.service({
 					url:this.url,
 					method: 'POST',
-					newName:$event.newValue,
-					name:$event.value,
+					name:$event.newValue, 
 					id:this.selectedGeo['id']
 				}).subscribe((data:any)=>{
 					this.getGeoCityData($event.newValue)
@@ -144,8 +143,6 @@ export class HomeComponent implements OnInit {
 		}
 	}
 	addNewEvaluation($event){
-		console.log("add eval", $event)
-		console.log("selected eval", this.selectedEval)
 		switch ($event.eventType) {
 			case "add":
 				this.evaluationService.service({
@@ -153,6 +150,7 @@ export class HomeComponent implements OnInit {
 					url: this.url,
 					name: $event.newValue
 				}).subscribe((data: any) => {
+					console.log("addNewEvaluation", data)
 					this.getEvaluationStatusData();
 				});
 			break;

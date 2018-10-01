@@ -1,3 +1,4 @@
+import { ConfigService } from './../../../services/config';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { EcontentOneService } from '../../../services/econtent/econtent-one.service';
 import { EcontentTwoService } from '../../../services/econtent/econtent-two.service';
@@ -15,7 +16,7 @@ export class LevelFilterComponent implements OnInit {
 	@Input() img: string;
 	@Input() update: boolean;
 	@Output() itemClicked = new EventEmitter();
-	url: string = 'http://localhost:4466';
+	url: string = '';
 	level1 = [];
 	level2 = [];
 	level3 = [];
@@ -31,8 +32,11 @@ export class LevelFilterComponent implements OnInit {
 		private econtentTwoService: EcontentTwoService,
 		private econtentThreeService: EcontentThreeService,
 		private econtentFourService: EcontentFourService,
-		private evaluation: evaluation
-	) { }
+		private evaluation: evaluation,
+		private configService: ConfigService
+	) { 
+		this.url = this.configService.url;
+	}
 
 	ngOnInit() {
 		this.getEvaluations();

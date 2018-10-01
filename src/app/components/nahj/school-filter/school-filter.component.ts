@@ -1,3 +1,4 @@
+import { ConfigService } from './../../../services/config';
 import { Component, OnInit,Input, Output, EventEmitter } from '@angular/core';
 import { ELevelsOneService } from '../../../services/elevels/elevelsOne.service';
 import { ELevelsTwoService } from '../../../services/elevels/elevelsTwo.service';
@@ -13,7 +14,7 @@ export class SchoolFilterComponent implements OnInit {
 
 	@Input() img: string;
 	@Input() update: string;
-	url = 'http://localhost:4466';
+	url = '';
 	level1=[];
 	level2=[];
 	level3=[];
@@ -39,8 +40,11 @@ export class SchoolFilterComponent implements OnInit {
 		private elevelsOne: ELevelsOneService,
 		private elevelsTwo: ELevelsTwoService,
 		private elevelsThree: ELevelsThreeService,
-		private schoolService: SchoolService
-	) { }
+		private schoolService: SchoolService,
+		private configService: ConfigService
+	) { 
+		this.url = this.configService.url;
+	}
 
 	ngOnInit() {
 		this.getAllLevels(undefined, undefined, undefined);

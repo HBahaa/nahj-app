@@ -209,12 +209,11 @@ export class EvaluationDataComponent implements OnInit {
 			method: 'GET',
 			url: this.url
 		}).subscribe(econtent1=>{
-			this.level1 = econtent1['data'].contentLevelOnes.map((l1, index1)=> {
+			console.log("econetent1", econtent1)
+			this.level1 = econtent1['data'].contentLevelOnes? econtent1['data'].contentLevelOnes.map((l1, index1)=> {
 				if (id1 == l1.id) {
 					this.level2 = l1.contentLevelTwo.map((l2, index2)=>{
 						if (id2 == l2.id) {
-							console.log("id2 == l2.id", id2 == l2.id)
-							console.log("l2.contentLevelThree.length", l2.contentLevelThree.length)
 							if (l2.contentLevelThree.length > 0) {
 								this.level3 = l2.contentLevelThree.filter(n => n.name != "" ).map((l3, index3)=>{
 									if (id3 == l3.id) {
@@ -235,7 +234,7 @@ export class EvaluationDataComponent implements OnInit {
 					})
 				}
 				return l1
-			});
+			}) : [];
 		})
 	}
 
