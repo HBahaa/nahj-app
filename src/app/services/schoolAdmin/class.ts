@@ -7,15 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class classes {
 
     constructor(private http: HttpClient) { }
-    fields = ['studyLevelOne','studyLevelTwo','studyLevelThree','schoolId'];
-    createVariable(config){
-        let newVar = {};
-        for (let key in config){
-            if(this.fields.includes(key) && config[key])
-                newVar[key] = config[key]
-        }
-        return newVar
-    }
+
     service(config) {
         let query: string = ``
         let variable: object = {};
@@ -42,7 +34,6 @@ export class classes {
                     id
                   }
                 }`
-                variable = this.createVariable(config);
             break;
             case "PUT" : //Create
                 query=`mutation(
@@ -66,11 +57,9 @@ export class classes {
                       id
                     }
                   }`
-                variable = this.createVariable(config);
             break;
             case "DELETE" : //Delete
                   query=``
-                  variable = this.createVariable(config);
             break;
             case "GET":
                   query=`
@@ -93,7 +82,6 @@ export class classes {
                       }
                     }
                   }`
-                  variable = this.createVariable(config);
             break;
         }
 

@@ -9,63 +9,57 @@ export class getMySchool {
     constructor(private http: HttpClient) { }
 
     service(config) {
-        let query: string = `{
-            schools {
+        let query: string = `query{
+          schools{
+            id
+            name
+            licensedTerm{
               id
-              address
-              speciificArea {
-                id
-                speciificGeaoArea {
-                  id
-                  name
-                }
-                speciificCity {
-                  id
-                  name
-                }
-              }
-              gps
-              phone
-              admin {
+              studyYear{
                 id
                 name
-                job
-                type
-                phone
-                whatsApp
-                email
-                username
-                password
               }
-              fax
-              district
+              
               adminNum
               studentsNum
               classesNum
               teachersNum
-              StudyYears
-              lowestStudyYear
-              highestStudyYear
-              name
-              motherComp
-              specificStudyLevels {
-                id
-                 studyLevelOne{
-                  name
-                  id
-                }
-                studyLevelTwo {
-                  id
-                  name
-                }
-                studylevelThree {
-                  id
-                  name
-                }
-              }
             }
+            email
+            address
+            gps
+            phone
+            fax
+            
+            admin{
+              id
+              name
+              type
+              job
+              phone
+              whatsApp
+              email
+              username
+              password
+            }
+            
+            motherComp
+            geoArea{
+              id
+              name
+            }
+            city{
+              id
+              name
+            }
+            district
+            classesNum
+            studentsNum
+            highestStudyYear
+            lowestStudyYear
+            
           }
-         `;
+        }`;
         let variable: object = {};
 
         return this
