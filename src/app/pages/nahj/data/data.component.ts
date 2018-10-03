@@ -62,6 +62,7 @@ export class DataComponent implements OnInit {
 	) {
 
 		this.url = this.configService.url;
+		console.log("url", this.url)
 	}
 
 	ngOnInit() {
@@ -226,7 +227,8 @@ export class DataComponent implements OnInit {
 			method: 'GET',
 			url: this.url
 		}).subscribe(econtent1 => {
-			this.content1 = econtent1['data'].contentLevelOnes.map((l1, index1) => {
+			console.log("econtent1", econtent1)
+			this.content1 = econtent1['data'].contentLevelOnes ? econtent1['data'].contentLevelOnes.map((l1, index1) => {
 				if (id1 == l1.id) {
 					this.content2 = l1.contentLevelTwo.map((l2, index2) => {
 						if (!id2 && index2 == 0) {
@@ -257,7 +259,7 @@ export class DataComponent implements OnInit {
 					})
 				}
 				return l1
-			});
+			}) : [];
 		})
 	}
 
@@ -337,7 +339,9 @@ export class DataComponent implements OnInit {
 		this.admin  = $event.admin.filter(item=> item.type == 'admin')[0];
 		this.res  = $event.admin.filter(item=> item.type == 'res')[0];
 
-		this.handleStudyYearChange(undefined)
+		this.selectedStudyYear = $event.licensedTerm.length > 0 && $event.licensedTerm[0].studyYear ? $event.licensedTerm[0].studyYear.id : undefined
+		this.handleStudyYearChange(this.selectedStudyYear);
+
 		this.form = this.fb.group({
 			schoolName: $event.name ? $event.name : undefined,
 			motherComp: $event.motherComp ? $event.motherComp : undefined,
@@ -379,11 +383,11 @@ export class DataComponent implements OnInit {
 			adminJob : this.res ? this.res.job : undefined,
 			adminWhatsApp : this.res ? this.res.whatsApp : undefined,
 			adminUsername : this.res ? this.res.username : undefined
-			
 		});				
 	}
 
 	handleStudyYearChange(id) {
+		this.selectedStudyYear = id;
 		this.licensedTerm.map((term, i)=>{
 			if (id == term.studyYear.id) {
 				this.form = this.fb.group({
@@ -604,8 +608,13 @@ export class DataComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
 				this.speciificContent.splice(index, 1);
-				this.selectedSchool.licensedTerm.licensedContent = this.speciificContent;
-				this.editSchool(this.selectedSchool)
+				
+				this.selectedSchool.licensedTerm.map(term=>{
+					if(term.studyYear.id == this.selectedStudyYear){
+						term.licensedContent = this.speciificContent
+					}
+				})
+				// this.editSchool(this.selectedSchool)
 			} else {
 				console.log("thanks")
 			}
