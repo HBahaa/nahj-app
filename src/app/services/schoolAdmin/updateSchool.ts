@@ -7,93 +7,56 @@ import { HttpClient } from '@angular/common/http';
 export class updateSchool {
     
     constructor(private http: HttpClient) { }
-    createVariable(config){
-        let newVar = {};
-        for (let key in config){
-            if(this.fields.includes(key) && config[key])
-                newVar[key] = config[key]
-        }
-        return newVar
-    }
-    fields  = ['address','gps','phone','fax','StudyYears','lowestStudyYear','highestStudyYear','name','motherComp','district','adminNum','studentsNum','classesNum','teachersNum','speciificCity','speciificGeaoArea','admin1ID','admin2ID','admin1','admin2','schoolId']
-    renderSpecificArea(config){
-        if(config.speciificGeaoArea && config.speciificCity)
-            return `speciificArea: {
-                update: {
-                    speciificGeaoArea: { connect: { id: $speciificGeaoArea } }
-                    speciificCity: { connect: { id: $speciificCity } }
+
+    renderAdmin(config){
+        let str = '';
+        if(!config.admin || !(config.admin.length > 1))return ''
+        str = config.admin.reduce((myStr,item)=>{
+            return myStr += `{
+                where:{
+                    id : "${item.id}"
+                }
+                data:{
+                    ${item.hasOwnProperty("name")     ? `name:    "${item.name}"` : "" }
+                    ${item.hasOwnProperty("job")      ? `job:     "${item.job}"` : "" }
+                    ${item.hasOwnProperty("type")     ? `type:    "${item.type}"` : "" }
+                    ${item.hasOwnProperty("phone")    ? `phone:   "${item.phone}"` : "" }
+                    ${item.hasOwnProperty("whatsApp") ? `whatsApp:"${item.whatsApp}"` : "" }
+                    ${item.hasOwnProperty("name")     ? `name:    "${item.name}"` : "" }
+                    ${item.hasOwnProperty("email")    ? `email:   "${item.email}"` : "" }
+                    ${item.hasOwnProperty("username") ? `username:"${item.username}"` : "" }
+                    ${item.hasOwnProperty("password") ? `password:"${item.password}"` : "" }
                 }
             }`
-        else
-            return ""
-            
+        },str)
     }
-    renderAdmin(config){
-        if(config.admin1 && config.admin2 && config.admin1ID && config.admin2ID)
-            return `admin: {
-                update: [
-                    { where: { id: $admin1ID }, data: $admin1 }
-                    { where: { id: $admin2ID }, data: $admin2 }
-                ]
-            }`
-        else
-            return ``
-    }
+
     service(config) {
         console.log("config", config)
         let query: string = ``
         let variable: object = {};
         switch (config.method) {
             case "POST": //update
-                query=`mutation(
-                        ${config.address?"$address: String":""}
-                        ${config.gps?"$gps: String":""}
-                        ${config.phone?"$phone: String":""}
-                        ${config.fax?"$fax: String":""}
-                        ${config.StudyYears?"$StudyYears:String":""}
-                        ${config.lowestStudyYear?"$lowestStudyYear:String":""}                        
-                        ${config.highestStudyYear?"$highestStudyYear:String":""}                        
-                        ${config.name?"$name:String":""}                        
-                        ${config.motherComp?"$motherComp:String":""}                        
-                        ${config.district?"$district:String":""}                        
-                        ${config.adminNum?"$adminNum:Int":""}                        
-                        ${config.studentsNum?"$studentsNum:Int":""}                        
-                        ${config.classesNum?"$classesNum:Int":""}                        
-                        ${config.teachersNum?"$teachersNum:Int":""}                        
-                        ${config.speciificCity?"$speciificCity:ID":""}                        
-                        ${config.speciificGeaoArea?"$speciificGeaoArea:ID":""}                        
-                        ${config.admin1ID?"$admin1ID: ID!":""}                        
-                        ${config.admin1?"$admin1: NahjAdminUpdateDataInput!":""}                        
-                        ${config.admin2ID?"$admin2ID: ID!":""}                        
-                        ${config.admin2?"$admin2: NahjAdminUpdateDataInput!":""}                        
-                        ${config.schoolId?"$schoolId: ID!":""}                        
-                    ) {
-                        updateSchool(
-                        data: {
-                            ${config.address?"address: $address":""}
-                            ${config.gps?"gps: $gps":""}
-                            ${config.phone?"phone: $phone":""}
-                            ${config.fax?"fax: $fax":""}
-                            ${config.district?"district: $district":""}  
-                            ${config.adminNum?"adminNum: $adminNum":""} 
-                            ${config.studentsNum?"studentsNum: $studentsNum":""}
-                            ${config.classesNum?"classesNum: $classesNum":""}
-                            ${config.teachersNum?"teachersNum: $teachersNum":""} 
-                            ${config.StudyYears?"StudyYears: $StudyYears":""}
-                            ${config.lowestStudyYear?"lowestStudyYear: $lowestStudyYear":""} 
-                            ${config.highestStudyYear?"highestStudyYear: $highestStudyYear":""} 
-                            ${config.name?"name: $name":""} 
-                            ${config.motherComp?"motherComp: $motherComp":""} 
-                            ${this.renderSpecificArea(config)}
-                            ${this.renderAdmin(config)}
+                query=`mutation{
+                    updateSchgpsool(
+                      data:{
+                        name:"${config.name}"
+                        email:"${config.email}"
+                        address:"${config.address}"
+                        gps:"${config.gps}"
+                        phone:"${config.phone}"
+                        fax:"${config.fax}"
+                        admin:{
+                          update:[${this.renderAdmin(config)}]
                         }
-                        ${config.schoolId?"where: { id: $schoolId }":""} 
-                        ) {
-                        id
-                        }
+                      }
+                      where:{
+                        id:"${config.id}"
+                      }
+                    ){
+                      id
                     }
-                `
-                variable = this.createVariable(config);
+                }`
             break;
             case "GET":
             query= `query {
@@ -148,3 +111,25 @@ export class updateSchool {
             });
     }
 }
+
+`config{
+    id:  ""
+    method  : "GET|POST",
+    name    : "" ,
+    email   : "" ,
+    address : "" , 
+    gps     : "" ,
+    phone   : "" ,
+    fax     : "" ,
+    admin   : [{
+        name        : "",
+        job         : "",
+        type        : "",
+        phone       : "",
+        whatsApp    : "",
+        email       : "",
+        username    : "",
+        password    : "",
+        id          : ""            
+    }]
+}`

@@ -1,0 +1,472 @@
+# mutation {
+#   updateSchool(
+#     where: { id: "" }
+#     data:{
+#       classes:{
+#         create:{
+#           studyLevelOnea:{
+#             create:{
+#               name:""
+#             }
+#           }
+#         }
+#       }
+#     }
+#   ) {
+#     id
+#   }
+# }
+
+# mutation {
+#   updateStudyLevelOne(
+#     data:{
+#       name:""
+#     }
+#     where:{
+#       id:""
+#     }
+#   ){
+#     id
+#   }
+# }
+
+# mutation {
+#   deleteStudyLevelOne(where: { id: "" }) {
+#     id
+#   }
+# }
+
+# query{
+#   school(
+#     where:{id:""}
+#   ){
+#     id
+#     classes{
+#       studyLevelOnea{
+#         id
+#         name
+#         studyLevelTwo{
+#           id
+#           name
+#           class{
+#             id
+#             name
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
+
+# mutation{
+#   updateStudyLevelOne(
+#     data:{
+#       studyLevelTwo:{
+#         create:{
+#           name:""
+#         }
+#       }
+#     }
+#     where:{
+#       id:""
+#     }
+#   ){
+#     id
+#   }
+# }
+
+# mutation{
+#   updateStudyLevelTwo(
+#     data:{
+#       name:""
+#     }
+#     where:{
+#       id:""
+#     }
+#   ){
+#     id
+#   }
+# }
+
+# mutation{
+#   deleteStudyLevelTwo(where:{id:""}){id}
+# }
+
+# mutation{
+#   updateStudyLevelTwo(
+#     data:{
+#       class:{
+#         create:{
+#           name:""
+#           studyLevelOnea:{
+#             connect:{
+#               id:""
+#             }
+#           }
+#         }
+#       }
+#     }
+#     where:{
+#       id:""
+#     }
+#   ){
+#     id
+#   }
+# }
+
+# mutation{
+#   updateClass(
+#     data:{
+#       name:""
+#     }
+#     where:{
+#       id:""
+#     }
+#   ){
+#     id
+#   }
+# }
+
+# mutation {
+#   deleteClass(where: { id: "" }) {
+#     id
+#   }
+# }
+
+
+# mutation{
+#   updateSchool(
+#     data:{
+#       parents:{
+#         create:{
+#           name:""
+#           title:""
+#           relationToChild:""
+#           phone:""
+#           whatsApp:""
+#           email:""
+#           accountStatus:""
+#           username:""
+#           password:""
+#           extraInfoOne:""
+#           extraInfoTwo:""
+#           extraInfoThree:""
+#           extraInfoFour:""
+#           students:{
+#             connect:{
+#               id:""
+#             }
+#           }
+#         }
+#       }
+#     }
+#     where:{
+#       id:""
+#     }
+#   ){
+#     id
+#   }
+# }
+
+# mutation{
+#   updateParent(
+#     data:{
+#       name:""
+#       title:""
+#       relationToChild:""
+#       phone:""
+#       whatsApp:""
+#       email:""
+#       accountStatus:""
+#       username:""
+#       password:""
+#       extraInfoOne:""
+#       extraInfoTwo:""
+#       extraInfoThree:""
+#       extraInfoFour:""
+#       students:{
+#       	connect:{
+#         	id:""
+#         }
+#       }
+#     }
+#     where:{
+#       id:""
+#     }
+#   ){
+#     id
+#   }
+# }
+
+
+
+
+# mutation{
+#   deleteParent(where:{id:""}){id}
+# }
+
+
+# query{
+#   school(where:{id:""}){
+#     id
+#     parents{
+#       id
+#       name
+#       title
+#       relationToChild
+#       phone
+#       whatsApp
+#       email
+#       accountStatus
+#       username
+#       password
+#       students{
+#         id
+#         fullName
+#       }
+#     }
+#   }
+# }
+
+# mutation {
+#   updateSchool(
+#     data: {
+#       teachers: {
+#         create: {
+#           name: ""
+#           title: ""
+#           job: ""
+#           type: ""
+#           phone: ""
+#           whatsApp: ""
+#           email: ""
+#           username: ""
+#           password: ""
+#         }
+#       }
+#     }
+#     where: { id: "" }
+#   ) {
+#     id
+#   }
+# }
+
+# mutation{
+#   updateTeacher(
+#     data:{
+#       name:""
+#       title:""
+#       job:""
+#       type:""
+#       phone:""
+#       whatsApp:""
+#       email:""
+#       username:""
+#       password:""
+#     }
+#     where:{
+#       id:""
+#     }
+#   ){
+#     id
+#   }
+# }
+
+# mutation {
+#   deleteTeacher(where: { id: "" }){id}
+# }
+
+
+# query{
+#   school(where:{id:""}){
+#     id
+#     teachers{
+#       id
+#       name
+#       title
+#       job
+#       type
+#       phone
+#       whatsApp
+#       email
+#       username
+#       password
+#     }
+#   }
+# }
+
+# mutation{
+#   updateSchool(
+#     data:{
+#       students:{
+#         create:{
+#           fullName:""
+#           necName:""
+#           birthday:""
+#           idNum:""
+#           nationality:""
+#           gender:""
+#           photo:""
+#           accountStatus:""
+#           username:""
+#           password:""
+#           extraInfoOne:""
+#           extraInfoTwo:""
+#           extraInfoThree:""
+#           parent:{
+#             connect:{
+#               id:""
+#             }
+#           }
+#         }
+#       }
+#     }
+#     where:{
+#       id:""
+#     }
+#   ){
+#     id
+#   }
+# }
+
+# mutation {
+#   updateStudent(
+#     data: {
+#       fullName: ""
+#       necName: ""
+#       birthday: ""
+#       idNum: ""
+#       nationality: ""
+#       gender: ""
+#       photo: ""
+#       accountStatus: ""
+#       username: ""
+#       password: ""
+#       extraInfoOne: ""
+#       extraInfoTwo: ""
+#       extraInfoThree: ""
+#       parent: { connect: { id: "" } }
+#     }
+#     where: { id: "" }
+#   ) {
+#     id
+#   }
+# }
+
+
+# mutation{
+#   deleteStudent(where:{id:""}){
+#     id
+#   }
+# }
+
+# query{
+#   school(where:{id:""}){
+#     id
+#     students{
+#       id
+#       fullName
+#       necName
+#       birthday
+#       idNum
+#       nationality
+#       gender
+#       parent{
+#         id
+#         name
+#       }
+#       photo
+#       accountStatus
+#       username
+#       password
+#       extraInfoOne
+#       extraInfoTwo
+#       extraInfoThree
+#     }
+#   }
+# }
+
+# mutation {
+#   updateSchool(
+#     data: {
+#       parents: {
+#         create: {
+#           name: ""
+#           title: ""
+#           relationToChild: ""
+#           phone: ""
+#           whatsApp: ""
+#           email: ""
+#           accountStatus: ""
+#           username: ""
+#           password: ""
+#           extraInfoOne: ""
+#           extraInfoTwo: ""
+#           extraInfoThree: ""
+#           extraInfoFour: ""
+#           students: { connect: [{ id: "" }] }
+#         }
+#       }
+#     }
+#     where: { id: "" }
+#   ) {
+#     id
+#   }
+# }
+
+# mutation{
+#   updateParent(
+#     data:{
+#       name: ""
+#       title: ""
+#       relationToChild: ""
+# 			phone: ""
+#       whatsApp: ""
+#       email: ""
+# 			accountStatus: ""
+#       username: ""
+#       password: ""
+#       extraInfoOne: ""
+#       extraInfoTwo: ""
+#       extraInfoThree: ""
+#       extraInfoFour: ""
+#       students: { connect: [{ id: "" }] disconnect:[{id:""}]}
+#     }
+#     where:{
+#       id:""
+#     }
+#   ){id}
+# }
+
+# mutation{
+#   deleteParent(
+#     where:{
+#       id:""
+#     }
+#   ){id}
+# }
+
+# query{
+#   school(where:{id:""}){
+#     parents{
+#       id
+#       name
+#       title
+#       relationToChild
+#       phone
+#       whatsApp
+#       email
+#       students{
+#         id
+#         fullName
+#       }
+#       accountStatus
+#       username
+#       password
+#       extraInfoOne
+#       extraInfoTwo
+#       extraInfoThree
+#       extraInfoFour
+#     }
+#   }
+# }
