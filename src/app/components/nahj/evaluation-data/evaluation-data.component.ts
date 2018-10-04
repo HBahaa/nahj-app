@@ -173,23 +173,32 @@ export class EvaluationDataComponent implements OnInit {
 			url: this.url
 		}).subscribe(data=>{
 			if (this.l4) {
-				this.questionGroups=[]				
-				this.questionGroups = data['data'].contentLevelFours.filter(level4 => {
-					if(level4.evaluation!= null &&level4.evaluation.id == this.selectedEvaluation)
-					    return level4.evaluation.questionGroup
-				});
+				this.questionGroups=[];
+				this.questionGroups = data['data'].contentLevelFours ? data['data'].contentLevelFours
+					.map((item)=> {console.log(item);return item.evaluation})
+					.reduce((_arr,item)=>{;_arr.push(...item);return _arr},[])
+					.filter((item)=> {console.log(item);return item.id == this.selectedEvaluation ?true:false})
+					.map(item => item.questionGroup)
+					.reduce((_arr,item)=>{;_arr.push(...item);return _arr},[])
+				:[];
 			}else if (this.l3) {
-				this.questionGroups=[]				
-				this.questionGroups = data['data'].contentLevelThrees.filter(level3 => {
-					if(level3.evaluation!= null && level3.evaluation.id == this.selectedEvaluation)
-					    return level3.evaluation.questionGroup
-				});
+				this.questionGroups=[];
+				this.questionGroups = data['data'].contentLevelThrees ? data['data'].contentLevelThrees
+					.map((item)=> {console.log(item);return item.evaluation})
+					.reduce((_arr,item)=>{;_arr.push(...item);return _arr},[])
+					.filter((item)=> {console.log(item);return item.id == this.selectedEvaluation ?true:false})
+					.map(item => item.questionGroup)
+					.reduce((_arr,item)=>{;_arr.push(...item);return _arr},[])
+				:[];
 			}else if (this.l2) {
-				this.questionGroups=[]
-				this.questionGroups = data['data'].contentLevelTwoes.filter(level2 => {
-					if(level2.evaluation!= null &&level2.evaluation.id == this.selectedEvaluation)
-					    return level2.evaluation.questionGroup
-				});
+				this.questionGroups=[];
+				this.questionGroups = data['data'].contentLevelTwoes ? data['data'].contentLevelTwoes
+					.map((item)=> {console.log(item);return item.evaluation})
+					.reduce((_arr,item)=>{;_arr.push(...item);return _arr},[])
+					.filter((item)=> {console.log(item);return item.id == this.selectedEvaluation ?true:false})
+					.map(item => item.questionGroup)
+					.reduce((_arr,item)=>{;_arr.push(...item);return _arr},[])
+				:[];
 			}else if (this.l1) {
 				this.questionGroups = []
 				this.questionGroups = data['data'].contentLevelOnes? data['data'].contentLevelOnes
@@ -200,8 +209,6 @@ export class EvaluationDataComponent implements OnInit {
 					.reduce((_arr,item)=>{;_arr.push(...item);return _arr},[])
 				:[];
 			}
-			// this.questionGroups = this.questionGroups['questionGroup']
-			console.log("questionGroups", this.questionGroups)
 		})
 	}
 	getContentData(id1, id2, id3, id4){
@@ -209,7 +216,6 @@ export class EvaluationDataComponent implements OnInit {
 			method: 'GET',
 			url: this.url
 		}).subscribe(econtent1=>{
-			console.log("econetent1", econtent1)
 			this.level1 = econtent1['data'].contentLevelOnes? econtent1['data'].contentLevelOnes.map((l1, index1)=> {
 				if (id1 == l1.id) {
 					this.level2 = l1.contentLevelTwo.map((l2, index2)=>{

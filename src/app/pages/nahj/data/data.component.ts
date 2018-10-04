@@ -521,11 +521,9 @@ export class DataComponent implements OnInit {
 		var myObj = {
 			method: "POST",
 			url: this.url,
-			id: this.selectedSchool.id
-		};
+			id: this.selectedSchool.id,
 
-		console.log("$event edit school ==   ", $event)
-		console.log("config edit school ==   ", config)
+		};
 		
 		config.district != $event.district ? myObj['district'] = config.district : ''
 		config.phone != $event.phone ? myObj['phone'] = config.phone : ''
@@ -570,12 +568,18 @@ export class DataComponent implements OnInit {
 
 		myObj['admin'] = [this.admin, this.res]
 		
-		config.ladminsNum != $event.licensedTerm.adminNum ? myObj['ladminNum'] = config.ladminsNum : $event.licensedTerm.adminNum
-		config.lstudentsNum != $event.licensedTerm.studentsNum ? myObj['lstudentsNum'] = config.lstudentsNum : $event.licensedTerm.studentsNum
-		config.lteachersNum != $event.licensedTerm.teachersNum ? myObj['lteachersNum'] = config.lteachersNum : $event.licensedTerm.teachersNum
-		config.lclassesNum != $event.licensedTerm.classesNum ? myObj['lclassesNum'] = config.lclassesNum : $event.licensedTerm.classesNum
+		myObj['licensedTerm'] = {}
+
+		config.ladminsNum != $event.licensedTerm.adminNum ? myObj['licensedTerm']['ladminNum'] = config.ladminsNum : $event.licensedTerm.adminNum
+		config.lstudentsNum != $event.licensedTerm.studentsNum ? myObj['licensedTerm']['lstudentsNum'] = config.lstudentsNum : $event.licensedTerm.studentsNum
+		config.lteachersNum != $event.licensedTerm.teachersNum ? myObj['licensedTerm']['lteachersNum'] = config.lteachersNum : $event.licensedTerm.teachersNum
+		config.lclassesNum != $event.licensedTerm.classesNum ? myObj['licensedTerm']['lclassesNum'] = config.lclassesNum : $event.licensedTerm.classesNum
+
+		myObj['licensedTerm']['licensedContent'] =  this.speciificContent	
 
 		Object.keys(myObj).forEach((key) => (myObj[key] == "" || myObj[key] == null ) && delete myObj[key]);
+
+		console.log("myObj ===== ", myObj)
 
 		this.schoolService.service(myObj)
 		.subscribe(data => {
@@ -608,12 +612,14 @@ export class DataComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
 				this.speciificContent.splice(index, 1);
-				
+				console.log("this.selectedSchool", this.selectedSchool)
 				this.selectedSchool.licensedTerm.map(term=>{
+					console.log("term", term)
 					if(term.studyYear.id == this.selectedStudyYear){
 						term.licensedContent = this.speciificContent
 					}
 				})
+				console.log("this.selectedSchool ==== ", this.selectedSchool)
 				// this.editSchool(this.selectedSchool)
 			} else {
 				console.log("thanks")
