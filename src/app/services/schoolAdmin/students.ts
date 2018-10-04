@@ -7,169 +7,102 @@ import { HttpClient } from '@angular/common/http';
 export class students {
 
     constructor(private http: HttpClient) { }
-    fields = ['schoolId','specificStudyLevelsId','fullName','necName','birthday','idNum','nationality','gender','studyYear','class','photo','accountStatus','username','password','extraInfoOne','extraInfoTwo','extraInfoThree','connectedClassId','disconnect','studentId'];
-    createVariable(config){
-        let newVar = {};
-        for (let key in config){
-            if(this.fields.includes(key) && config[key])
-                newVar[key] = config[key]
-        }
-        return newVar
-    }
+
     service(config) {
         let query: string = ``
         let variable: object = {};
         switch (config.method) {
             case "POST": //update
-                query=`mutation(
-                  ${config.fullName?'$fullName: String':""}
-                  ${config.necName?'$necName: String':""}
-                  ${config.birthday?'$birthday: String':""}
-                  ${config.idNum?'$idNum: String':""}
-                  ${config.nationality?'$nationality: String':""}
-                  ${config.gender?'$gender: String':""}
-                  ${config.studyYear?'$studyYear: String':""}
-                  ${config.class?'$class: String':""}
-                  ${config.photo?'$photo: String':""}
-                  ${config.accountStatus?'$accountStatus: String':""}
-                  ${config.username?'$username: String':""}
-                  ${config.password?'$password: String':""}
-                  ${config.extraInfoOne?'$extraInfoOne: String':""}
-                  ${config.extraInfoTwo?'$extraInfoTwo: String':""}
-                  ${config.extraInfoThree?'$extraInfoThree: String':""}
-                  
-                  
-                  ${config.connectedClassId?'$connectedClassId: ID':""}
-                  ${config.disconnect?'$disconnect:Boolean':""}
-                  
-                  ${config.studentId?'$studentId: ID!':""}
-                ){
-                  updateStudent(
-                    data:{
+              query=`mutation {
+                updateStudent(
+                  data: {
+                    ${config.hasOwnProperty("fullName") ? `fullName:"${config.fullName}"` : ""}
+                    ${config.hasOwnProperty("necName") ? `necName:"${config.necName}"` : ""}
+                    ${config.hasOwnProperty("birthday") ? `birthday:"${config.birthday}"` : ""}
+                    ${config.hasOwnProperty("idNum") ? `idNum:"${config.idNum}"` : ""}
+                    ${config.hasOwnProperty("nationality") ? `nationality:"${config.nationality}"` : ""}
+                    ${config.hasOwnProperty("gender") ? `gender:"${config.gender}"` : ""}
+                    ${config.hasOwnProperty("photo") ? `photo:"${config.photo}"` : ""}
+                    ${config.hasOwnProperty("accountStatus") ? `accountStatus:"${config.accountStatus}"` : ""}
+                    ${config.hasOwnProperty("username") ? `username:"${config.username}"` : ""}
+                    ${config.hasOwnProperty("password") ? `password:"${config.password}"` : ""}
+                    ${config.hasOwnProperty("extraInfoOne") ? `extraInfoOne:"${config.extraInfoOne}"` : ""}
+                    ${config.hasOwnProperty("extraInfoTwo") ? `extraInfoTwo:"${config.extraInfoTwo}"` : ""}
+                    ${config.hasOwnProperty("extraInfoThree") ? `extraInfoThree:"${config.extraInfoThree}"` : ""}
+                    ${config.hasOwnProperty("parent") ? `parent: { connect: { id: "${config.parent}" } }` : ""}
 
-                      ${config.fullName?'fullName: $fullName':""}
-                      ${config.necName?'necName: $necName':""}
-                      ${config.birthday?'birthday: $birthday':""}
-                      ${config.idNum?'idNum: $idNum':""}
-                      ${config.nationality?'nationality: $nationality':""}
-                      ${config.gender?'gender: $gender':""}
-                      ${config.class?'class: $class':""}
-                      ${config.studyYear?'studyYear: $studyYear':""}
-                      ${config.photo?'photo: $photo':""}
-                      ${config.accountStatus?'accountStatus: $accountStatus':""}
-                      ${config.username?'username: $username':""}
-                      ${config.password?'password: $password':""}
-                      ${config.extraInfoOne?'extraInfoOne: $extraInfoOne':""}
-                      ${config.extraInfoTwo?'extraInfoTwo: $extraInfoTwo':""}
-                      ${config.extraInfoThree?'extraInfoThree: $extraInfoThree':""}
-                      ${config.connectedClassId || config.disconnect? `specificStudyLevels: {
-                                                                          ${config.connectedClassId?'connect: {id:$connectedClassId}':''}
-                                                                          ${config.disconnect?'disconnect: $disconnect':''}
-                                                                        }`:'' }
-                    }
-                    where:{
-                      id:$studentId
-                    }
-                  ){
-                    id
                   }
-                }`
-                variable = this.createVariable(config);
+                  where: { id: "${config.id}" }
+                ) {
+                  id
+                }
+              }`
             break;
             case "PUT" : //Create
-                query=`mutation(
-                  ${config.schoolId?'$schoolId: ID!':""}
-                  ${config.specificStudyLevelsId?'$specificStudyLevelsId: ID!':""}
-                  ${config.fullName?'$fullName: String':""}
-                  ${config.necName?'$necName: String':""}
-                  ${config.birthday?'$birthday: String':""}
-                  ${config.idNum?'$idNum: String':""}
-                  ${config.nationality?'$nationality: String':""}
-                  ${config.gender?'$gender: String':""}
-                  ${config.studyYear?'$studyYear: String':""}
-                  ${config.class?'$class: String':""}
-                  ${config.photo?'$photo: String':""}
-                  ${config.accountStatus?'$accountStatus: String':""}
-                  ${config.username?'$username: String':""}
-                  ${config.password?'$password: String':""}
-                  ${config.extraInfoOne?'$extraInfoOne: String':""}
-                  ${config.extraInfoTwo?'$extraInfoTwo: String':""}
-                  ${config.extraInfoThree?'$extraInfoThree: String':""}                 
-                ){
-                  updateSchool(
-                    data:{
-                      students:{
-                        create:{
-                          ${config.fullName?'fullName: $fullName':""}
-                          ${config.necName?'necName: $necName':""}
-                          ${config.birthday?'birthday: $birthday':""}
-                          ${config.idNum?'idNum: $idNum':""}
-                          ${config.nationality?'nationality: $nationality':""}
-                          ${config.gender?'gender: $gender':""}
-                          ${config.class?'class: $class':""}
-                          ${config.studyYear?'studyYear: $studyYear':""}
-                          ${config.photo?'photo: $photo':""}
-                          ${config.accountStatus?'accountStatus: $accountStatus':""}
-                          ${config.username?'username: $username':""}
-                          ${config.password?'password: $password':""}
-                          ${config.extraInfoOne?'extraInfoOne: $extraInfoOne':""}
-                          ${config.extraInfoTwo?'extraInfoTwo: $extraInfoTwo':""}
-                          ${config.extraInfoThree?'extraInfoThree: $extraInfoThree':""}
-
-                          ${config.specificStudyLevelsId?'specificStudyLevels:{connect:{id:$specificStudyLevelsId }}':""}
-                        }
+              query=`mutation{
+                updateSchool(
+                  data:{
+                    students:{
+                      create:{
+                        
+                        ${config.hasOwnProperty("fullName") ? `fullName:"${config.fullName}"` : ""}
+                        ${config.hasOwnProperty("necName") ? `necName:"${config.necName}"` : ""}
+                        ${config.hasOwnProperty("birthday") ? `birthday:"${config.birthday}"` : ""}
+                        ${config.hasOwnProperty("idNum") ? `idNum:"${config.idNum}"` : ""}
+                        ${config.hasOwnProperty("nationality") ? `nationality:"${config.nationality}"` : ""}
+                        ${config.hasOwnProperty("gender") ? `gender:"${config.gender}"` : ""}
+                        ${config.hasOwnProperty("photo") ? `photo:"${config.photo}"` : ""}
+                        ${config.hasOwnProperty("accountStatus") ? `accountStatus:"${config.accountStatus}"` : ""}
+                        ${config.hasOwnProperty("username") ? `username:"${config.username}"` : ""}
+                        ${config.hasOwnProperty("password") ? `password:"${config.password}"` : ""}
+                        ${config.hasOwnProperty("extraInfoOne") ? `extraInfoOne:"${config.extraInfoOne}"` : ""}
+                        ${config.hasOwnProperty("extraInfoTwo") ? `extraInfoTwo:"${config.extraInfoTwo}"` : ""}
+                        ${config.hasOwnProperty("extraInfoThree") ? `extraInfoThree:"${config.extraInfoThree}"` : ""}
+                        ${config.hasOwnProperty("parent") ? `parent: { connect: { id: "${config.parent}" } }` : ""}
                       }
                     }
-                    ${config.schoolId?'where: { id: $schoolId }':""}
-                  ){
+                  }
+                  where:{
+                    id:"${config.id}"
+                  }
+                ){
+                  id
+                }
+              }`
+            break;
+            case "DELETE" : //Delete
+                query=`mutation{
+                  deleteStudent(where:{id:"${config.id}"}){
                     id
                   }
                 }`
-                variable = this.createVariable(config);
-            break;
-            case "DELETE" : //Delete
-                  query=`mutation($studentId:ID!){deleteStudent(where:{id:$studentId}){id}}`
-                  variable = this.createVariable(config);
             break;
             case "GET":
-                  query=`query($schoolId: ID!) {
-                    school(where: { id: $schoolId }) {
-                      students {
+                query=`query{
+                  school(where:{id:"${config.id}"}){
+                    id
+                    students{
+                      id
+                      fullName
+                      necName
+                      birthday
+                      idNum
+                      nationality
+                      gender
+                      parent{
                         id
-                        fullName
-                        necName
-                        birthday
-                        idNum
-                        nationality
-                        gender
-                        class
-                        studyYear
-                        photo
-                        accountStatus
-                        username
-                        password
-                        specificStudyLevels {
-                          id
-                          studyLevelOne {
-                            id
-                            name
-                          }
-                          studyLevelTwo {
-                            id
-                            name
-                          }
-                          studylevelThree {
-                            id
-                            name
-                          }
-                        }
-                        extraInfoOne
-                        extraInfoTwo
-                        extraInfoThree
+                        name
                       }
+                      photo
+                      accountStatus
+                      username
+                      password
+                      extraInfoOne
+                      extraInfoTwo
+                      extraInfoThree
                     }
-                  }`
-                  variable = this.createVariable(config);
+                  }
+                }`
             break;
         }
 
@@ -181,3 +114,25 @@ export class students {
             });
     }
 }
+
+
+/*
+  config:{
+    method
+    id
+    fullName
+    necName
+    birthday
+    idNum
+    nationality
+    gender
+    parent -> id
+    photo
+    accountStatus
+    username
+    password
+    extraInfoOne
+    extraInfoTwo
+    extraInfoThree
+  }
+*/

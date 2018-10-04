@@ -21,55 +21,51 @@ export class studyLevelsThree {
         let variable: object = {};
         switch (config.method) {
             case "POST": //update
-                query=`mutation($levelThreeName: String!, $levelThreeId: ID!) {
-                  updateStudyLevelThree(
-                    data: { name: $levelThreeName }
-                    where: { id: $levelThreeId }
-                  ) {
+                query=`mutation{
+                  updateClass(
+                    data:{
+                      name:"${config.name}"
+                    }
+                    where:{
+                      id:"${config.id}"
+                    }
+                  ){
                     id
                   }
                 }`
-                  variable = this.createVariable(config);
             break;
             case "PUT" : //Create
-                query=`mutation($levelThreeName: String!, $levelTwoId: ID!) {
+                query=`mutation{
                   updateStudyLevelTwo(
-                    data: { studylevelThree: { create: { name: $levelThreeName } } }
-                    where: { id: $levelTwoId }
-                  ) {
-                    id
-                  }
-                }`
-                variable = this.createVariable(config);
-            break;
-            case "DELETE" : //Delete
-                  query=`mutation($levelThreeId: ID!) {
-                    deleteStudyLevelThree(where: { id: $levelThreeId }) {
-                      id
-                    }
-                  }`
-                  variable = this.createVariable(config);
-            break;
-            case "GET":
-                  query=`query($schoolId: ID!) {
-                    school(where: { id: $schoolId }) {
-                      specificStudyLevels {
-                        id
-                        studyLevelOne {
-                          id
-                          name
-                          studyLevelTwo {
-                            id
-                            name
-                            studylevelThree {
-                              id
-                              name
+                    data:{
+                      class:{
+                        create:{
+                          name:"${config.name}"
+                          studyLevelOnea:{
+                            connect:{
+                              id:"${config.studyLevelOnea}"
                             }
                           }
                         }
                       }
                     }
-                  }`
+                    where:{
+                      id:"${config.id}"
+                    }
+                  ){
+                    id
+                  }
+                }`
+            break;
+            case "DELETE" : //Delete
+                query=`mutation {
+                  deleteClass(where: { id: "${config.id}" }) {
+                    id
+                  }
+                }`
+            break;
+            case "GET":
+              query=``
             break;
         }
 

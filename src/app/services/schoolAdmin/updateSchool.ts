@@ -8,19 +8,6 @@ export class updateSchool {
     
     constructor(private http: HttpClient) { }
 
-    renderSpecificArea(config){
-        if(config.speciificGeaoArea && config.speciificCity)
-            return `speciificArea: {
-                update: {
-                    speciificGeaoArea: { connect: { id: $speciificGeaoArea } }
-                    speciificCity: { connect: { id: $speciificCity } }
-                }
-            }`
-        else
-            return ""
-            
-    }
-
     renderAdmin(config){
         let str = '';
         if(!config.admin || !(config.admin.length > 1))return ''
@@ -42,9 +29,6 @@ export class updateSchool {
                 }
             }`
         },str)
-        
-        
-        
     }
 
     service(config) {
