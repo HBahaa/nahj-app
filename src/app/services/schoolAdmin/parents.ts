@@ -91,7 +91,6 @@ export class parents {
             case "GET":
                 query = `query{
                     school(where:{id:"${config.id}"}){
-                      id
                       parents{
                         id
                         name

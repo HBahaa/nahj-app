@@ -29,6 +29,8 @@ export class updateSchool {
                 }
             }`
         },str)
+
+        return str;
     }
 
     service(config) {
