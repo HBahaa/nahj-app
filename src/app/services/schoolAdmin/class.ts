@@ -63,21 +63,21 @@ export class classes {
             break;
             case "GET":
                   query=`
-                  query($schoolId:ID!){
+                  query($schoolId: ID!) {
                     school(where: { id: $schoolId }) {
-                      specificStudyLevels {
+                      classes {
                         id
-                        studyLevelOne {
+                        studyLevelOnea {
                           id
                           name
-                        }
-                        studyLevelTwo {
-                          id
-                          name
-                        }
-                        studylevelThree {
-                          id
-                          name
+                          studyLevelTwo {
+                            id
+                            name
+                            class {
+                              id
+                              name
+                            }
+                          }
                         }
                       }
                     }
