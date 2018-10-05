@@ -1,3 +1,4 @@
+import { ConfigService } from './../../../services/config';
 import { getMySchool } from './../../../services/schoolAdmin/getSchool';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -16,7 +17,7 @@ import { classes } from '../../../services/schoolAdmin/class';
 export class SchoolDataComponent implements OnInit {
 
 	form: FormGroup;
-	url = 'http://localhost:4466';
+	url :string;
 	geoArray = [];
 	citiesArray = [];
 	selectedGeo = "";
@@ -27,6 +28,11 @@ export class SchoolDataComponent implements OnInit {
 	selectedStudyLevel1;
 	selectedStudyLevel2;
 	selectedStudyLevel3;
+	terms = [];
+	licensedTerm = [];
+	selectedStudyYear;
+	admin;
+	res;
 
 	studyLevel1 = [];
 	studyLevel2 = [];
@@ -35,7 +41,11 @@ export class SchoolDataComponent implements OnInit {
 	constructor(private fb: FormBuilder, private geoService: GeoService,
 		private getMySchool: getMySchool, private updateSchool: updateSchool,
 		private studyLevelsOne: studyLevelsOne, private studyLevelsTwo: studyLevelsTwo,
-		private studyLevelsThree: studyLevelsThree, private classes: classes) { }
+		private studyLevelsThree: studyLevelsThree, private classes: classes,
+		private configService: ConfigService) 
+		{ 
+			this.url = this.configService.url;
+		}
 
 	ngOnInit() {
 		this.getMySchoolData();
@@ -54,8 +64,10 @@ export class SchoolDataComponent implements OnInit {
 			city: [''],
 			studentsNum: [''],
 			classesNum: [''],
-			teachersNum: [''],
-			adminsNum: [''],
+			lstudentsNum: [''],
+			lclassesNum: [''],
+			lteachersNum: [''],
+			ladminsNum: [''],
 			lowestStudyYear: [''],
 			highestStudyYear: [''],
 			studyYears: [''],
@@ -109,48 +121,77 @@ export class SchoolDataComponent implements OnInit {
 			localStorage.setItem("schoolID", this.schoolID);
 			this.getStudyLevelData(undefined, undefined);
 
-			this.mySchool['admin'].filter(admin => admin.type == 'res').map(res => {
-				let adminRes = res;
-				this.adminResID = res.id
-				this.mySchool['admin'].filter(admin => admin.type == 'admin').map(admin => {
-					let nahjAdmin = admin;
-					this.adminNahjID = admin.id
-					this.form = this.fb.group({
-						schoolName: this.mySchool['name'],
-						motherComp: this.mySchool['motherComp'],
-						email: this.mySchool['email'],
-						phone: this.mySchool['phone'],
-						gps: this.mySchool['gps'],
-						fax: this.mySchool['fax'],
-						address: this.mySchool['address'],
-						geo: this.mySchool['speciificArea']['speciificGeaoArea'].id,
-						district: this.mySchool['district'],
-						city: this.mySchool['speciificArea']['speciificCity'],
-						studentsNum: this.mySchool['studentsNum'],
-						classesNum: this.mySchool['classesNum'],
-						teachersNum: this.mySchool['teachersNum'],
-						adminsNum: this.mySchool['adminNum'],
-						lowestStudyYear: this.mySchool['lowestStudyYear'],
-						highestStudyYear: this.mySchool['highestStudyYear'],
-						studyYears: this.mySchool['studyYears'],
-						term: this.mySchool['studyYears'],
-						adminName: adminRes.name,
-						adminEmail: adminRes.email,
-						adminPhone: adminRes.phone,
-						adminJob: adminRes.job,
-						adminWhatsApp: adminRes.whatsApp,
-						adminUsername: adminRes.username,
-						adminPassword: adminRes.password,
-						nahjAdminName: nahjAdmin.name,
-						nahjAdminEmail: nahjAdmin.email,
-						nahjAdminPhone: nahjAdmin.phone,
-						nahjAdminJob: nahjAdmin.job,
-						nahjAdminWhatsApp: nahjAdmin.whatsApp,
-						nahjAdminUsername: nahjAdmin.username,
-						nahjAdminPassword: nahjAdmin.password
-					});
-				})
+			this.mySchool['geoArea'] ? this.getGeoData(this.mySchool['geoArea'].id) : '';
+
+			this.licensedTerm = this.mySchool['licensedTerm'];
+			this.terms = this.mySchool['licensedTerm'].map(term => term.studyYear );
+
+			this.admin  = this.mySchool['admin'].filter(item=> item.type == 'admin')[0];
+			this.res  = this.mySchool['admin'].filter(item=> item.type == 'res')[0];
+
+			this.selectedStudyYear = this.mySchool['licensedTerm'].length > 0 && this.mySchool['licensedTerm'][0].studyYear ? this.mySchool['licensedTerm'][0].studyYear.id : undefined
+			this.handleStudyYearChange(this.selectedStudyYear);
+
+			this.form = this.fb.group({
+				schoolName: this.mySchool['name'],
+				motherComp: this.mySchool['motherComp'],
+				email: this.mySchool['email'],
+				phone: this.mySchool['phone'],
+				gps: this.mySchool['gps'],
+				fax: this.mySchool['fax'],
+				address: this.mySchool['address'],
+				geo: this.mySchool['geoArea'] ? this.mySchool['geoArea'].id : undefined,
+				district: this.mySchool['district'],
+				city: this.mySchool['city'] ? this.mySchool['city'].id : undefined ,
+				studentsNum: this.mySchool['studentsNum'],
+				classesNum: this.mySchool['classesNum'],
+				lowestStudyYear: this.mySchool['lowestStudyYear'],
+				highestStudyYear: this.mySchool['highestStudyYear'],
+				teachersNum: this.mySchool['teachersNum'],
+				studyYears: this.licensedTerm.length > 0 && this.licensedTerm[0].studyYear ? this.licensedTerm[0].studyYear.id : undefined,
+
+				lteachersNum: this.licensedTerm.length > 0 && this.licensedTerm[0].teachersNum ? this.licensedTerm[0].teachersNum : undefined,
+
+				ladminsNum: this.licensedTerm.length > 0 && this.licensedTerm[0].adminNum ? this.licensedTerm[0].adminNum : undefined,
+				
+				lstudentsNum: this.licensedTerm.length > 0 && this.licensedTerm[0].studentsNum ? this.licensedTerm[0].studentsNum : undefined,
+
+				lclassesNum: this.licensedTerm.length > 0 && this.licensedTerm[0].classesNum ? this.licensedTerm[0].classesNum : undefined,
+
+				nahjAdminName : this.admin ? this.admin.name : undefined,
+				nahjAdminEmail : this.admin ? this.admin.email : undefined,
+				nahjAdminPhone : this.admin ? this.admin.phone : undefined,
+				nahjAdminPassword : this.admin ? this.admin.password : undefined,
+				nahjAdminJob : this.admin ? this.admin.job : undefined,
+				nahjAdminWhatsApp : this.admin ? this.admin.whatsApp : undefined,
+				nahjAdminUsername : this.admin ? this.admin.username : undefined,
+
+				adminName : this.res ? this.res.name : undefined,
+				adminEmail : this.res ? this.res.email : undefined,
+				adminPhone : this.res ? this.res.phone : undefined,
+				adminPassword : this.res ? this.res.password : undefined,
+				adminJob : this.res ? this.res.job : undefined,
+				adminWhatsApp : this.res ? this.res.whatsApp : undefined,
+				adminUsername : this.res ? this.res.username : undefined
 			});
+		})
+	}
+	handleStudyYearChange(id) {
+		this.selectedStudyYear = id;
+		this.licensedTerm.map((term, i)=>{
+			if (id == term.studyYear.id) {
+				console.log("term", term)
+				this.form = this.fb.group({
+					studyYears: term.studyYear.id,
+					lstudentsNum: term.studentsNum,
+					lclassesNum: term.classesNum,
+					lteachersNum: term.teachersNum,
+					ladminsNum: term.adminNum
+				})
+				// this.speciificContent = term.licensedContent
+			}else if(i == 0 && !id ){
+				// this.speciificContent = term.licensedContent
+			}
 		})
 	}
 	getGeoData(id) {//get geoDataCity
@@ -159,52 +200,99 @@ export class SchoolDataComponent implements OnInit {
 			url: this.url
 		}).subscribe((data: any) => {
 			this.geoArray = data.data.geoAreas.map((item, index) => {
-				if (!id && index == 0) {
-					this.citiesArray = item["cities"];
-				} else if (item.id == id) {
+				if (item.id == id) {
 					this.citiesArray = item["cities"]
 				}
 				return item;
 			});
 		});
 	}
+
 	getCities($event) {
 		this.getGeoData($event.target.value || undefined);
-		this.selectedGeo = $event.target.value;
+		this.selectedGeo = $event.target.value
 	}
 
+	updateSchoolData() {
+		let admin = {
+			name: this.form.value.nahjAdminName,
+			phone: this.form.value.nahjAdminPhone,
+			email: this.form.value.nahjAdminEmail,
+			job: this.form.value.nahjAdminJob,
+			whatsApp: this.form.value.nahjAdminWhatsApp,
+			type: 'admin',
+			password: this.form.value.nahjAdminPassword,
+			username: this.form.value.nahjAdminUsername,
+			id: this.admin.id
+		};
+		let res = {
+			name: this.form.value.adminName,
+			phone: this.form.value.adminPhone,
+			email: this.form.value.adminEmail,
+			job: this.form.value.adminJob,
+			whatsApp: this.form.value.adminWhatsApp,
+			type: 'res',
+			password: this.form.value.adminPassword,
+			username: this.form.value.adminUsername,
+			id: this.res.id
+		}
+		let config = {
+			id			: this.schoolID,
+			admin 		: [admin, res],
+			name    	: this.form.value.schoolName ,
+			motherComp 	: this.form.value.motherComp ,
+			email 		: this.form.value.email ,
+			address 	: this.form.value.address , 
+			gps     	: this.form.value.gps ,
+			phone   	: this.form.value.phone ,
+			fax     	: this.form.value.fax ,
+			district	: this.form.value.district
+		}
+		config['method'] = "POST"
+		config['url'] = this.url
+		console.log("updateSchool", config)
+		this.updateSchool.service(config).subscribe((data: any) => {
+			console.log("data", data)
+		});
+	}
+
+
+	// tab2 
+
 	getStudyLevelData(name1, addClass) {
+		console.log("this.schoolID", this.schoolID)
 		this.studyLevelsOne.service({
 			method: "GET",
 			url: this.url,
-			schoolId: this.schoolID
+			id: this.schoolID
 		}).subscribe(data => {
-			this.studyLevel1 = data['data'].school.specificStudyLevels
-				.filter(item1 => item1.studyLevelOne != null)
-				.map((item1, index1) => {
-					if (!name1 && index1 == 0) {
-						return item1.studyLevelOne;
-					} else if (name1 == item1.studyLevelOne.name) {
-						this.selectedStudyLevel1 = item1;
-						// console.log("------------> setting new level 1")
-						this.listStudyLevelOne(this.selectedStudyLevel1);
-						this.selectedStudyLevel2 = item1.studyLevelOne.studyLevelTwo;
-						this.listStudyLevelTwo(this.selectedStudyLevel2);
+			console.log("data", data)
+			// this.studyLevel1 = data['data'].school.specificStudyLevels
+			// 	.filter(item1 => item1.studyLevelOne != null)
+			// 	.map((item1, index1) => {
+			// 		if (!name1 && index1 == 0) {
+			// 			return item1.studyLevelOne;
+			// 		} else if (name1 == item1.studyLevelOne.name) {
+			// 			this.selectedStudyLevel1 = item1;
+			// 			// console.log("------------> setting new level 1")
+			// 			this.listStudyLevelOne(this.selectedStudyLevel1);
+			// 			this.selectedStudyLevel2 = item1.studyLevelOne.studyLevelTwo;
+			// 			this.listStudyLevelTwo(this.selectedStudyLevel2);
 
-						if(addClass){
-							let l3 = this.selectedStudyLevel2[0].studylevelThree.filter(item => item.name == addClass);
+			// 			if(addClass){
+			// 				let l3 = this.selectedStudyLevel2[0].studylevelThree.filter(item => item.name == addClass);
 							
-							this.addClass(
-								this.selectedStudyLevel1.studyLevelOne.id,
-								this.selectedStudyLevel2[0].id,
-								l3[0].id,
-								this.schoolID
-							)
-						}
-						return item1.studyLevelOne;
-					}
-					return item1.studyLevelOne;
-				});
+			// 				this.addClass(
+			// 					this.selectedStudyLevel1.studyLevelOne.id,
+			// 					this.selectedStudyLevel2[0].id,
+			// 					l3[0].id,
+			// 					this.schoolID
+			// 				)
+			// 			}
+			// 			return item1.studyLevelOne;
+			// 		}
+			// 		return item1.studyLevelOne;
+			// 	});
 				
 		})
 	}
@@ -216,9 +304,10 @@ export class SchoolDataComponent implements OnInit {
 				this.studyLevelsOne.service({
 					method: "PUT",
 					url: this.url,
-					schoolId: this.schoolID,
+					id: this.schoolID,
 					levelOneName: $event.newValue
 				}).subscribe(data => {
+					console.log("addStudyLevelOne", data)
 					this.getStudyLevelData(undefined, undefined);
 				})
 				break;
@@ -298,43 +387,6 @@ export class SchoolDataComponent implements OnInit {
 		}).subscribe(data=>{
 			console.log("data", data)
 		})
-	}
-
-	updateSchoolData() {
-		let adminNahj = {
-			name: this.form.value.nahjAdminName,
-			phone: this.form.value.nahjAdminPhone,
-			email: this.form.value.nahjAdminEmail,
-			job: this.form.value.nahjAdminJob,
-			whatsApp: this.form.value.nahjAdminWhatsApp,
-			type: 'admin',
-			password: this.form.value.nahjAdminPassword,
-			username: this.form.value.nahjAdminUsername
-		};
-		let admin2 = {
-			name: this.form.value.adminName,
-			phone: this.form.value.adminPhone,
-			email: this.form.value.adminEmail,
-			job: this.form.value.adminJob,
-			whatsApp: this.form.value.adminWhatsApp,
-			type: 'res',
-			password: this.form.value.adminPassword,
-			username: this.form.value.adminUsername
-		}
-		this.form.value.schoolId = this.schoolID;
-
-		this.form.value.admin1 = adminNahj;
-		this.form.value.admin1ID = this.adminNahjID;
-
-		this.form.value.admin2 = admin2;
-		this.form.value.admin2ID = this.adminResID;
-
-		let config = this.form.value
-		config['method'] = "POST"
-		config['url'] = this.url
-		this.updateSchool.service(config).subscribe((data: any) => {
-			console.log("data", data)
-		});
 	}
 
 	// delete functions

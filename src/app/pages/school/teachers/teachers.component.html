@@ -97,28 +97,7 @@
 									</div>
 								</div>
 
-								<div class="row">
-									<div class="col-6">
-										<div class="custom-control custom-checkbox mb-3 mt-3">
-											<input class="custom-control-input" type="checkbox" id="add_evaluation" name="add_evaluation" [(ngModel)]="add_evaluation">
-											<label class="custom-control-label" for="add_evaluation">إضافة تقييم</label>
-										</div>
-										<div class="custom-control custom-checkbox">
-											<input class="custom-control-input" type="checkbox" id="delete_evaluation" name="delete_evaluation" [(ngModel)]="delete_evaluation">
-											<label class="custom-control-label" for="delete_evaluation">حذف تقييم</label>
-										</div>
-									</div>
-									<div class="col-6">
-										<div class="custom-control custom-checkbox mb-3 mt-3">
-											<input class="custom-control-input" type="checkbox" id="add_data" name="add_data" [(ngModel)]="add_data">
-											<label class="custom-control-label" for="add_data">إدخال بيانات التقييم</label>
-										</div>
-										<div class="custom-control custom-checkbox">
-											<input class="custom-control-input" type="checkbox" id="edit_data" name="edit_data" [(ngModel)]="edit_data">
-											<label class="custom-control-label" for="edit_data">تعديل بيانات التقييم</label>
-										</div>
-									</div>
-								</div>
+								
 								<div class="card-footer text-left mt-3">
 									<button class="btn btn-primary" type="button"><i class="fa fa-save fa-fw"></i></button>
 									<button class="btn btn-danger mr-2" type="button"><i class="fa fa-close fa-fw"></i></button>
@@ -164,7 +143,31 @@
               <option>اختر عنصر</option>
               <option *ngFor="let item of studyLevel3; index as i" value="{{item.id}}">{{item.name}}</option>
             </select>
-          </div>          
+					</div>
+					
+					<div class="row text-right">
+						<div class="col-6">
+							<div class="custom-control custom-checkbox mb-3 mt-3">
+								<input class="custom-control-input" type="checkbox" id="add_evaluation" name="add_evaluation" [(ngModel)]="add_evaluation">
+								<label class="custom-control-label" for="add_evaluation">إضافة تقييم</label>
+							</div>
+							<div class="custom-control custom-checkbox">
+								<input class="custom-control-input" type="checkbox" id="delete_evaluation" name="delete_evaluation" [(ngModel)]="delete_evaluation">
+								<label class="custom-control-label" for="delete_evaluation">حذف تقييم</label>
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="custom-control custom-checkbox mb-3 mt-3">
+								<input class="custom-control-input" type="checkbox" id="add_data" name="add_data" [(ngModel)]="add_data">
+								<label class="custom-control-label" for="add_data">إدخال بيانات التقييم</label>
+							</div>
+							<div class="custom-control custom-checkbox">
+								<input class="custom-control-input" type="checkbox" id="edit_data" name="edit_data" [(ngModel)]="edit_data">
+								<label class="custom-control-label" for="edit_data">تعديل بيانات التقييم</label>
+							</div>
+						</div>
+					</div>
+					
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

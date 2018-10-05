@@ -14,7 +14,6 @@ export class TeachersComponent implements OnInit {
 
 	// form: FormGroup;
 	url : string;
-
 	schoolID;
 	selectedStudyLevel1;
 	selectedStudyLevel2;

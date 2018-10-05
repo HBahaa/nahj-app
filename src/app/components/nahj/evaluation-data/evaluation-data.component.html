@@ -23,7 +23,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="">الحالة الراهنة</label>
+								(itemClicked)="evaluationClicked($event)" [update]="updateFilter"							<label for="">الحالة الراهنة</label>
 							<select class="form-control" formControlName="currentStatus">
 								<option *ngFor="let value of evalStatus" [value]="value.id" >{{value.name}}</option>
 							</select>

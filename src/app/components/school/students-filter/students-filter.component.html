@@ -34,8 +34,7 @@
 		</div>
 		<div>
 			<select class="form-control" size="4">
-				<option>خديجة الجابر</option>
-				<option>أمل العيسي</option>
+				<option (click)="handleItemClicked(parent)" *ngFor="let parent of data" [value]="parent.id">{{parent.title}}</option>
 			</select>
 		</div>
 	</div>

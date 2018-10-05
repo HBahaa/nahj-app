@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class teachers {
 
     constructor(private http: HttpClient) { }
-    
+     
     service(config) {
         let query: string = ``
         let variable: object = {};

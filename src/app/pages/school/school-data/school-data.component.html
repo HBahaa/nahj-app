@@ -48,7 +48,7 @@
                           <div class="col-md-7">
                             <select class="form-control" formControlName="city" disabled>
                               <option value="">اختر عنصر</option>
-                              <option *ngFor="let city of citiesArray" [value]="city">{{ city }}</option>
+                              <option *ngFor="let city of citiesArray" [value]="city.id">{{ city.name }}</option>
                             </select>
                           </div>
                         </div>
@@ -91,8 +91,9 @@
                   <div class="card-body mt-3">
                     <div class="form-group">
                       <label>الفصل الدراسي</label>
-                      <select class="form-control" formControlName="term">
-                        <option value="">الفصل الأول 2018\2019</option>
+                      <select class="form-control" (change)="handleStudyYearChange($event.target.value)" formControlName="studyYears">
+                        <option value="">اختر عنصر</option>
+                        <option *ngFor="let term of terms" [value]="term?.id">{{ term?.name }}</option>
                       </select>
                     </div>
                     <div>
@@ -119,16 +120,16 @@
                       <h6>بيانات الرخصة</h6>
                       <ul class="list-group">
                         <li class="list-group-item">
-                          <input type="text" class="form-control" formControlName="studentsNum" placeholder="عدد الطلاب" disabled>
+                          <input type="text" class="form-control" formControlName="lstudentsNum" placeholder="عدد الطلاب" disabled>
                         </li>
                         <li class="list-group-item">
-                          <input type="text" class="form-control" formControlName="classesNum" placeholder="عدد الفصول" disabled>
+                          <input type="text" class="form-control" formControlName="lclassesNum" placeholder="عدد الفصول" disabled>
                         </li>
                         <li class="list-group-item">
-                          <input type="text" class="form-control" formControlName="teachersNum" placeholder="عدد المعلمات" disabled>
+                          <input type="text" class="form-control" formControlName="lteachersNum" placeholder="عدد المعلمات" disabled>
                         </li>
                         <li class="list-group-item">
-                          <input type="text" class="form-control" formControlName="adminsNum" placeholder="عدد اﻷدمن" disabled>
+                          <input type="text" class="form-control" formControlName="ladminsNum" placeholder="عدد اﻷدمن" disabled>
                         </li>
                       </ul>
                     </div>

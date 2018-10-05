@@ -38,7 +38,7 @@ export class updateSchool {
         switch (config.method) {
             case "POST": //update
                 query=`mutation{
-                    updateSchgpsool(
+                    updateSchool(
                       data:{
                         name:"${config.name}"
                         email:"${config.email}"
