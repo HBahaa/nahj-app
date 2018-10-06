@@ -34,7 +34,7 @@
 		</div>
 		<div>
 			<select class="form-control" size="4">
-				<option (click)="handleItemClicked(parent)" *ngFor="let parent of data" [value]="parent.id">{{parent.title}}</option>
+				<option (click)="handleItemClicked(parent)" *ngFor="let parent of data | filter: searchName; index as i" [value]="parent.id">{{parent.name}}</option>
 			</select>
 		</div>
 	</div>

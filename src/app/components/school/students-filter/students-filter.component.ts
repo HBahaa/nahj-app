@@ -10,6 +10,7 @@ export class StudentsFilterComponent implements OnInit {
 	@Input() img: string;
 	@Input() title: string;
 	@Input() data: any = [];
+	searchText: string = '';
 	// @Input() update: boolean;
 	@Output() itemClicked = new EventEmitter();
 
