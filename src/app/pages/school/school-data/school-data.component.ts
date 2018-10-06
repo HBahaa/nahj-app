@@ -299,13 +299,14 @@ export class SchoolDataComponent implements OnInit {
 
 	//edit function
 	addStudyLevelOne($event) {
+		console.log("$ ===", $event)
 		switch ($event.eventType) {
 			case "add":
 				this.studyLevelsOne.service({
 					method: "PUT",
 					url: this.url,
 					id: this.schoolID,
-					levelOneName: $event.newValue
+					name: $event.newValue
 				}).subscribe(data => {
 					console.log("addStudyLevelOne", data)
 					this.getStudyLevelData(undefined, undefined);

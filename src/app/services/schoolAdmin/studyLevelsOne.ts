@@ -27,6 +27,7 @@ export class studyLevelsOne {
                 }`
             break;
             case "PUT" : //Create
+            console.log("put config", config)
                 query=`mutation {
                   updateSchool(
                     where: { id: "${config.id}" }
@@ -36,7 +37,7 @@ export class studyLevelsOne {
                           studyLevelOnea:{
                             create:{
                               name:"${config.name}"
-                            }
+                            } 
                           }
                         }
                       }

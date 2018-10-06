@@ -91,7 +91,7 @@ export class ParentsComponent implements OnInit {
 			method: 'GET',
 			id: this.schoolID
 		}).subscribe(data=>{
-			console.log("getParents", data);
+			console.log("getParents", data['data']['school']['parents']);
 		})
 	}
 
