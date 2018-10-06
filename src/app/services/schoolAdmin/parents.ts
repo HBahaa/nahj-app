@@ -24,6 +24,7 @@ export class parents {
                         ${config.hasOwnProperty("whatsApp") ? `whatsApp:"${config.whatsApp}"` : ""}
                         ${config.hasOwnProperty("accountStatus") ? `accountStatus:"${config.accountStatus}"` : ""}
                         ${config.hasOwnProperty("username") ? `username:"${config.username}"` : ""}
+                        ${config.hasOwnProperty("email") ? `email:"${config.email}"` : ""}
                         ${config.hasOwnProperty("password") ? `password:"${config.password}"` : ""}
                         
                         ${config.hasOwnProperty("extraInfoOne") ? `extraInfoOne:"${config.extraInfoOne}"` : ""}
@@ -62,6 +63,7 @@ export class parents {
                             ${config.hasOwnProperty("phone") ? `phone:"${config.phone}"` : ""}
                             ${config.hasOwnProperty("whatsApp") ? `whatsApp:"${config.whatsApp}"` : ""}
                             ${config.hasOwnProperty("accountStatus") ? `accountStatus:"${config.accountStatus}"` : ""}
+                            ${config.hasOwnProperty("email") ? `email:"${config.email}"` : ""}
                             ${config.hasOwnProperty("username") ? `username:"${config.username}"` : ""}
                             ${config.hasOwnProperty("password") ? `password:"${config.password}"` : ""}
                             
@@ -102,6 +104,10 @@ export class parents {
                         accountStatus
                         username
                         password
+                        extraInfoOne
+                        extraInfoTwo
+                        extraInfoThree
+                        extraInfoFour
                         students{
                           id
                           fullName

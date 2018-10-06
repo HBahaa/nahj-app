@@ -25,7 +25,6 @@ export class teachers {
                       ${config.hasOwnProperty("email") ? `email:"${config.email}"` : ""}
                       ${config.hasOwnProperty("username") ? `username:"${config.username}"` : ""}
                       ${config.hasOwnProperty("password") ? `password:"${config.password}"` : ""}
-                      ${config.hasOwnProperty("email") ? `email:"${config.email}"` : ""}
                     }
                     where:{
                       id:"${config.id}"
@@ -67,7 +66,7 @@ export class teachers {
             break;
             case "GET":
                   query=`query{
-                    school(where:{id:"${config.id}"}){
+                    schools(where:{id:"${config.id}"}){
                       id
                       teachers{
                         id

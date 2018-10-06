@@ -16,7 +16,17 @@ $color : #0eb6e2;
 
     .card-body{
       	text-align: right;
-
+		
+		input[type="file"] {
+			display: none;
+		}
+		.custom-file-upload {
+			border: 1px solid #ccc;
+			display: inline-block;
+			padding: 6px 12px;
+			cursor: pointer;
+			background-color: #efefef;
+		}
       	.card-footer{
 			background-color: transparent;
 			border-top: 0px;

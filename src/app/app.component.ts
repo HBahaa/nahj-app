@@ -39,7 +39,7 @@ export class AppComponent {
 			// else 
 			if (isLoggedIn) {
 				this.authService.userType.subscribe(type=>{
-					this.router.navigate(['/school/parents']);
+					this.router.navigate(['/school/teachers']);
 					this.type = 3;
 				})
 			}

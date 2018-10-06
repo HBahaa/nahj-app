@@ -126,7 +126,7 @@
 									<button *ngIf="add" class="btn btn-success ml-2" (click)="addParent()" type="button">
 										<i class="fa fa-fw fa-save"></i> 
 									</button>
-									<button *ngIf="!edit" class="btn btn-primary ml-2" (click)="editClicked()" type="button">
+									<button *ngIf="!edit" class="btn btn-primary ml-2" (click)="editClicked(e)" type="button">
 										<i class="fa fa-fw fa-edit"></i>
 									</button>
 									<button *ngIf="edit" class="btn btn-primary ml-2" (click)="editParent(item)" type="button">
