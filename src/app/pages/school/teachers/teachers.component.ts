@@ -29,7 +29,7 @@ export class TeachersComponent implements OnInit {
 	studyLevel3 = [];
 
 
-	constructor( private teachers: teachers, private configService: ConfigService,private fb: FormBuilder
+	constructor( private teachers: teachers, private configService: ConfigService,private fb: FormBuilder,
 				private studyLevelsOne: studyLevelsOne, private classesService: classes ) {
 		this.url = this.configService.url;
 		this.schoolID = localStorage.getItem("schoolID");
