@@ -33,6 +33,7 @@ export class studyLevelsOne {
                     data:{
                       classes:{
                         create:{
+                          name:""
                           studyLevelOnea:{
                             create:{
                               name:"${config.name}"
@@ -55,10 +56,9 @@ export class studyLevelsOne {
             break;
             case "GET":
                   query=`query{
-                    school(
+                    schools(
                       where:{id:"${config.id}"}
                     ){
-                      id
                       classes{
                         studyLevelOnea{
                           id
