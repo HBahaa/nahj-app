@@ -90,7 +90,7 @@ export class parents {
                 break;
             case "GET":
                 query = `query{
-                    school(where:{id:"${config.id}"}){
+                    schools(where:{id:"${config.id}"}){
                       parents{
                         id
                         name
