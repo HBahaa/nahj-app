@@ -22,28 +22,28 @@ export class AppComponent {
 
 	async ngOnInit() {
 		this.isLoggedIn$ = this.authService.isLoggedIn;
-		// this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
-		// 	if (!isLoggedIn) {
-		// 		this.router.navigate(['/login']);
-		// 	}
-		// 	else if (isLoggedIn) {
-		// 		this.authService.userType.subscribe(type=>{
-		// 			this.type = type;
-		// 		})
-		// 	}
-		// })
 		this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
-			// if (!isLoggedIn) {
-			// 	this.router.navigate(['/login']);
-			// }
-			// else 
-			if (isLoggedIn) {
+			if (!isLoggedIn) {
+				this.router.navigate(['/login']);
+			}
+			else if (isLoggedIn) {
 				this.authService.userType.subscribe(type=>{
-					this.router.navigate(['/school/teachers']);
-					this.type = 3;
+					this.type = type;
 				})
 			}
 		})
+		// this.authService.isLoggedIn.subscribe((isLoggedIn:boolean)=>{
+		// 	// if (!isLoggedIn) {
+		// 	// 	this.router.navigate(['/login']);
+		// 	// }
+		// 	// else 
+		// 	if (isLoggedIn) {
+		// 		this.authService.userType.subscribe(type=>{
+		// 			this.router.navigate(['/school/teachers']);
+		// 			this.type = 3;
+		// 		})
+		// 	}
+		// })
 	}
 
 }
