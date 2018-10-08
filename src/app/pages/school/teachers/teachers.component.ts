@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { studyLevelsOne } from '../../../services/schoolAdmin/studyLevelsOne';
 import { teachers } from '../../../services/schoolAdmin/teachers';
 import { classes } from '../../../services/schoolAdmin/class';
@@ -12,62 +12,49 @@ import { ConfigService } from '../../../services/config';
 })
 export class TeachersComponent implements OnInit {
 
-	// form: FormGroup;
+	form: FormGroup;
 	url : string;
-	schoolID;
+	teachersArr:any[] = [];
+	schoolID: string = '';
+	add: boolean = false;
+	edit: boolean = false;
+	
 	selectedStudyLevel1;
 	selectedStudyLevel2;
 	selectedStudyLevel3;
-
-	specificStudyLevelsId;
-	evaluationAdd;
-	evaluationDelete;
-	evaluationInfoAdd;
-	evaluationInfoEdit;
-	name;
-	title;
-	job;
-	whatsApp;
-	email;
-	phone;
-	type;
-	username;
-	password;
-	nickname;
-	term;
-
+	selectedTeacher;
 	classes = [];
 	studyLevel1 = [];
 	studyLevel2 = [];
 	studyLevel3 = [];
 
 
-	constructor( private teachers: teachers, private configService: ConfigService,
+	constructor( private teachers: teachers, private configService: ConfigService,private fb: FormBuilder,
 				private studyLevelsOne: studyLevelsOne, private classesService: classes ) {
 		this.url = this.configService.url;
 		this.schoolID = localStorage.getItem("schoolID");
 	}
 
 	ngOnInit() {
-		// this.form = this.fb.group({
-		// 	name: ['', Validators.required],
-		// 	userName: ['', Validators.required],
-		// 	nickname: ['', Validators.required],
-		// 	email: ['', Validators.required],
-		// 	password: ['', Validators.required],
-		// 	job: ['', Validators.required],
-		// 	phone1: ['', Validators.required],
-		// 	phone2: ['', Validators.required],
-		// 	class: ['', Validators.required],
-		// 	term: ['', Validators.required],
-		// 	status: ['', Validators.required],
-		// 	add_evaluation: ['', Validators.required],
-		// 	add_data: ['', Validators.required],
-		// 	edit_data: ['', Validators.required],
-		// 	delete_evaluation: ['', Validators.required]
-		// });
-		this.getStudyLevelData(undefined, undefined, undefined);
-		this.getTeachersData();
+		this.form = this.fb.group({
+			name: ['', Validators.required],
+			username: ['', Validators.required],
+			title: ['', Validators.required],
+			email: ['', Validators.required],
+			password: ['', Validators.required],
+			job: ['', Validators.required],
+			phone: ['', Validators.required],
+			whatsApp: ['', Validators.required],
+			class: ['', Validators.required],
+			term: ['', Validators.required],
+			accountStatus: ['', Validators.required],
+			add_evaluation: ['', Validators.required],
+			add_data: ['', Validators.required],
+			edit_data: ['', Validators.required],
+			delete_evaluation: ['', Validators.required]
+		});
+		this.getStudyLevelData(undefined, undefined);
+		this.getTeachers();
 	}
 
 	handleStudyLevelChange(level, e){
@@ -75,82 +62,127 @@ export class TeachersComponent implements OnInit {
 		console.log("======", this.studyLevel1)
 		switch (level) {
 			case "studyLevel1":
-				this.getStudyLevelData(e.target.value, undefined, undefined)
+				this.getStudyLevelData(e.target.value, undefined)
 				break;
 		
 			case "studyLevel2":
-				this.getStudyLevelData( this.selectedStudyLevel1.id, e.target.value, undefined)
+				this.getStudyLevelData( this.selectedStudyLevel1.id, e.target.value)
 				break;
 			
 			case "studyLevel2":
-				this.getStudyLevelData(this.selectedStudyLevel1.id, this.selectedStudyLevel2.id, e.target.value )
+				this.getStudyLevelData(this.selectedStudyLevel1.id, this.selectedStudyLevel2.id )
 				break;
 		}
 	}
 
+	teacherClicked(e){
+		console.log("e====", e);
+		this.selectedTeacher = e;
+		this.form = this.fb.group({
+			name: e.name,
+			username: e.username,
+			title: e.title,
+			email: e.email,
+			password: e.password,
+			job: e.job,
+			phone: e.phone,
+			whatsApp: e.whatsApp,
+		});
+	}
+
 	//get functions 
-	getStudyLevelData(id1, id2,id3) {
+	getStudyLevelData(id1, id2){
 		this.studyLevelsOne.service({
 			method: "GET",
 			url: this.url,
-			schoolId: this.schoolID
+			id: this.schoolID
 		}).subscribe(data => {
-			this.studyLevel1 = data['data'].school.specificStudyLevels
-				.filter(item1 => item1.studyLevelOne != null)
-				.map((item1, index1) => {
-					if (!id1 && index1 == 0) {
-						this.selectedStudyLevel1 = item1.studyLevelOne;
-						this.studyLevel2 = item1.studyLevelOne.studyLevelTwo.map((l2, index2)=>{
-							if (!id2 && index2==0) {
-								this.selectedStudyLevel2 = l2
-								this.studyLevel3 = l2.studylevelThree
-								.map((l3, index3)=>{
-									if (index3==0) {
-										this.selectedStudyLevel2 = l2;
-									}
-									return l3;
-								})
+			if (data['data']['schools'].length > 0) {
+				if (data['data']['schools'][0].classes) {
+					this.studyLevel1 = data['data']['schools'][0].classes
+						.filter(item1 => item1.studyLevelOnea != null)
+						.map(item1 => { 
+							if (id1 == item1.studyLevelOnea.id) {
+								this.selectedStudyLevel1 = item1.studyLevelOnea.id;
+								if (item1.studyLevelOnea.studyLevelTwo.length > 0) {
+									this.studyLevel2 = item1.studyLevelOnea.studyLevelTwo
+										.filter(item2=> item2 != null)
+										.map(item2=>{
+											if (id2 == item2.id) {
+												this.selectedStudyLevel2 = item2.id;
+													if (item2.class.length > 0) {
+														this.studyLevel3 = item2.class.filter(item3=> item3 != null)
+													}else{
+														this.studyLevel3 = []
+													}
+
+												return item2
+											}
+											return item2;
+										})
+								}else{
+									this.studyLevel2 = []
+									this.studyLevel3 = []
+								}						
+								return item1.studyLevelOnea;
 							}
-							return l2;
-						})
-					} else if (id1 == item1.studyLevelOne.id) {
-						this.selectedStudyLevel1 = item1.studyLevelOne;
-						this.studyLevel2 = item1.studyLevelOne.studyLevelTwo.map((l2, index2)=>{
-							if (!id2 && index2==0) {
-								this.selectedStudyLevel2 = l2;
-								this.studyLevel3 = l2.studylevelThree
-								.map((l3, index3)=>{
-									if (index3==0) {
-										this.selectedStudyLevel2 = l2;
-									}
-									return l3;
-								})
-							}else if (id2 == l2.id) {
-								this.selectedStudyLevel2 = l2;
-								this.studyLevel3 = l2.studylevelThree.map((l3, index3)=>{
-									if (id3) {
-										this.selectedStudyLevel2 = l2;
-									}
-									return l3;
-								})
+							else if(id1 == '' || !id1){
+								this.studyLevel2 = []
+								this.studyLevel3 = []
 							}
-							return l2;
-						})
-					}
-					return item1.studyLevelOne;
-				});
+							return item1.studyLevelOnea;
+						});
+				}else{
+					this.studyLevel1 = []
+					this.studyLevel2 = []
+					this.studyLevel3 = []
+				}
+				
+			}
 		})
 	}
-	getTeachersData(){
+	getTeachers(){
 		this.teachers.service({
 			method: "GET",
 			url: this.url,
-			schoolId: this.schoolID
+			id: this.schoolID
 		}).subscribe(data=>{
-			console.log("data teachers", data)
+			if(data['data'].schools.length > 0){
+				this.teachersArr = data['data'].schools[0].teachers
+			}else{
+				this.teachersArr= []; 
+			}
 		})
 	}
+	clearInputs(){
+		this.form = this.fb.group({
+			name: [''],
+			username: [''],
+			title: [''],
+			email: [''],
+			password: [''],
+			job: [''],
+			phone: [''],
+			whatsApp: [''],
+			class: [''],
+			term: [''],
+			accountStatus: [''],
+			add_evaluation: [''],
+			add_data: [''],
+			edit_data: [''],
+			delete_evaluation: ['']
+		});
+	}
 
+	addClicked(){
+		this.add = true;
+		this.clearInputs()
+	}
+	editClicked(){
+		this.edit = true;
+	}
+
+	
 	addClass(){
 		console.log("selectedStudyLevel1", this.selectedStudyLevel1)
 		console.log("selectedStudyLevel2", this.selectedStudyLevel2)
@@ -167,25 +199,54 @@ export class TeachersComponent implements OnInit {
 	}
 
 	addTeacher(){
-		// this.teachers.service({
-		// 	method: "PUT",
-		// 	url: this.url,
-		// 	specificStudyLevelsId: ,
-		// 	evaluationAdd: ,
-		// 	evaluationDelete: ,
-		// 	evaluationInfoAdd: ,
-		// 	evaluationInfoEdit: ,
-		// 	name: ,
-		// 	title: ,
-		// 	job: ,
-		// 	whatsApp: ,
-		// 	email:,
-		// 	phone:,
-		// 	type:,
-		// 	username:,
-		// 	password:,
-		// 	schoolId: this.schoolID
-		// })		
+		this.teachers.service({
+			method: "PUT",
+			url: this.url,
+			name: this.form.value.name,
+			title: this.form.value.title,
+			job: this.form.value.job,
+			whatsApp: this.form.value.whatsApp,
+			email:this.form.value.email,
+			phone:this.form.value.phone,
+			type:this.form.value.type,
+			username:this.form.value.username,
+			password:this.form.value.password,
+			id: this.schoolID
+		}).subscribe(data=>{
+			this.getTeachers();
+			this.clearInputs();
+			this.add = false;
+		})
 	}
 
+	editTeacher(){
+		this.teachers.service({
+			method: "POST",
+			url: this.url,
+			name: this.form.value.name,
+			title: this.form.value.title,
+			job: this.form.value.job,
+			whatsApp: this.form.value.whatsApp,
+			email:this.form.value.email,
+			phone:this.form.value.phone,
+			type:this.form.value.type,
+			username:this.form.value.username,
+			password:this.form.value.password,
+			id: this.selectedTeacher.id
+		}).subscribe(data=>{
+			this.getTeachers();
+			this.edit= false;
+		})
+	}
+
+	deleteTeacher(){
+		this.teachers.service({
+			method: "DELETE",
+			url: this.url,
+			id: this.selectedTeacher.id
+		}).subscribe(data=>{
+			this.getTeachers();
+			this.clearInputs();
+		})
+	}
 }

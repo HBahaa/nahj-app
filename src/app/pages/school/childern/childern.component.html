@@ -8,7 +8,7 @@
 				<app-students-filter title="اختيار الطفل" (itemClicked)="studentClicked($event)" [data]="studentsArr" img="./assets/images/students.png"></app-students-filter>
 			</div>
 			<div class="col-lg-8">
-				<form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+				<form class="row" [formGroup]="form">
 					<div class="col-lg-6 col-md-6">
 						<div class="card">
 							<div class="card-body mt-5">
@@ -27,10 +27,10 @@
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">ولي اﻷمر</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" placeholder="بحث باﻷسم" [(ngModel)]="searchText" />
+										<!-- <input type="text" class="form-control mb-1" placeholder="بحث باﻷسم" [(ngModel)]="searchName" /> -->
 										<select class="form-control" formControlName="parent">
 											<option value="">اختر عنصر</option>
-											<option *ngFor="let parent of parents" [value]="parent?.id">{{ parent?.name }}</option>
+											<option *ngFor="let parent of parentsArr | filter: searchName " [value]="parent.id">{{ parent.name }}</option>
 										</select>
 									</div>
 								</div>
@@ -49,13 +49,13 @@
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">النوع</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" formControlName="type" />
+										<input type="text" class="form-control" formControlName="gender" />
 									</div>
 								</div>
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">بيان إضافي</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" formControlName="id" />
+										<input type="text" class="form-control" formControlName="extraInfoOne" />
 									</div>
 								</div>
 							</div>					
@@ -65,7 +65,11 @@
 						<div class="card">
 							<div class="card-body mt-3">
 								<div class="col-sm-12 text-center">
-									<img id="img" src="./assets/images/profile.png" class="img-responsive mb-3" />
+									<img id="img" src="./assets/images/profile.png" class="img-responsive mb-3 ml-2" />
+									<label class="custom-file-upload">
+										<input type="file" accept="image/*" (change)="changeListener($event)" />
+										<i class="fa fa-cloud-upload"></i> تغيير
+									</label>
 								</div>
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">الفصل الدراسي</label>
@@ -89,14 +93,15 @@
 				                	<label class="col-md-4 col-form-label">الفصل </label>
 				                	<div class="col-md-8">
 										<select class="form-control" formControlName="class" >
-											<option selected></option>
+											<option value="">اختر عنصر</option>
+											<option *ngFor="let class of classesArr" [value]="class.id">{{ class.name }}</option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">اسم المستخدم</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" formControlName="userName" />
+										<input type="text" class="form-control" formControlName="username" />
 									</div>
 								</div>
 								<div class="form-group row">
@@ -106,9 +111,21 @@
 									</div>
 								</div>
 								<div class="card-footer text-left mt-3">
-									<button class="btn btn-primary" type="button"><i class="fa fa-save fa-fw"></i></button>
-									<button class="btn btn-danger mr-2" type="button"><i class="fa fa-close fa-fw"></i></button>
-									<button class="btn btn-success mr-2" type="button"><i class="fa fa-plus fa-fw"></i></button>
+									<button *ngIf="!add" class="btn btn-success ml-2" (click)="addClicked()" type="button">
+										<i class="fa fa-fw fa-plus"></i>
+									</button>
+									<button *ngIf="add" class="btn btn-success ml-2" (click)="addStudent()" type="button">
+										<i class="fa fa-fw fa-save"></i> 
+									</button>
+									<button *ngIf="!edit" class="btn btn-primary ml-2" (click)="editClicked()" type="button">
+										<i class="fa fa-fw fa-edit"></i>
+									</button>
+									<button *ngIf="edit" class="btn btn-primary ml-2" (click)="editStudent()" type="button">
+										<i class="fa fa-fw fa-save"></i>
+									</button>
+									<button class="btn btn-danger" (click)="deleteStudent()" type="button">
+										<i class="fa fa-fw fa-close"></i>
+									</button>
 								</div>					
 							</div>
 						</div>

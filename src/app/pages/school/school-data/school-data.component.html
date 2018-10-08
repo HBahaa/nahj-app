@@ -30,14 +30,14 @@
                         <div class="form-group row">
                           <label class="col-md-5 col-form-label">الشركة اﻷم</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" formControlName="motherComp" disabled/>
-                          </div>
+                            <input type="text" class="form-control" formControlName="motherComp"/>
+                          </div> 
                         </div>
                         <!-- <h6>بيانات المدرسة</h6> -->
                         <div class="form-group row">
                           <label class="col-md-5 col-form-label">المنطقة</label>
                           <div class="col-md-7">
-                            <select class="form-control" (change)="getCities($event)" formControlName="geo" disabled>
+                            <select class="form-control" (change)="getCities($event)" formControlName="geo">
                                 <option value="">اختر عنصر</option>
                               <option *ngFor="let geo of geoArray" [value]="geo.id">{{ geo.name }}</option>
                             </select>
@@ -46,7 +46,7 @@
                         <div class="form-group row">
                           <label class="col-md-5 col-form-label">المدينة</label>
                           <div class="col-md-7">
-                            <select class="form-control" formControlName="city" disabled>
+                            <select class="form-control" formControlName="city">
                               <option value="">اختر عنصر</option>
                               <option *ngFor="let city of citiesArray" [value]="city.id">{{ city.name }}</option>
                             </select>
@@ -55,31 +55,31 @@
                         <div class="form-group row">
                           <label class="col-md-5 col-form-label">الحي</label>
                           <div class="col-md-7">
-                            <input type="text" formControlName="district" class="form-control" placeholder="الحي" disabled>
+                            <input type="text" formControlName="district" class="form-control" placeholder="الحي">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-md-5 col-form-label">إجمالي عدد الطلاب</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" formControlName="studentsNum" placeholder="إجمالي عدد الطلاب" disabled>
+                            <input type="text" class="form-control" formControlName="studentsNum" placeholder="إجمالي عدد الطلاب">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-md-5 col-form-label">عدد الفصول الدراسية</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" formControlName="classesNum" placeholder="عدد الفصول الدراسية" disabled>
+                            <input type="text" class="form-control" formControlName="classesNum" placeholder="عدد الفصول الدراسية">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-md-5 col-form-label">السنة الدراسية اﻷدني</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" formControlName="lowestStudyYear" placeholder="السنة الدراسية اﻷدني" disabled>
+                            <input type="text" class="form-control" formControlName="lowestStudyYear" placeholder="السنة الدراسية اﻷدني">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-md-5 col-form-label">السنة الدراسية اﻷعلي</label>
                           <div class="col-md-7">
-                            <input type="text" class="form-control" formControlName="highestStudyYear" placeholder="السنة الدراسية اﻷعلي" disabled>
+                            <input type="text" class="form-control" formControlName="highestStudyYear" placeholder="السنة الدراسية اﻷعلي">
                           </div>
                         </div>
                       </div>

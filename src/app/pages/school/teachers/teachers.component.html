@@ -5,63 +5,65 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-4 col-md-6">
-				<app-students-filter title="اختيار المعلمة" img="./assets/images/teacher.png"></app-students-filter>
+				<app-students-filter title="اختيار المعلمة" (itemClicked)="teacherClicked($event)" [data]="teachersArr" img="./assets/images/teacher.png"></app-students-filter>
 			</div>
 			<div class="col-lg-8">
-				<form class="row" (ngSubmit)="onSubmit()">
+				<form class="row" [formGroup]="form">
 					<div class="col-lg-6 col-md-6">
 						<div class="card">
 							<div class="card-body mt-5">
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label">الأسم</label>
-				                	<div class="col-md-8">
-										<input type="text" class="form-control" name="name" [(ngModel)]="name" />
+									<label class="col-md-4 col-form-label">الأسم</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" name="name" formControlName="name" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label">اللقب</label>
-				                	<div class="col-md-8">
-										<select class="form-control" name="nickname" [(ngModel)]="nickname" >
+									<label class="col-md-4 col-form-label">اللقب</label>
+									<div class="col-md-8">
+											<input type="text" class="form-control" name="title" formControlName="title" />
+										<!-- <select class="form-control" name="title" formControlName="title" >
 											<option selected></option>
-										</select>
+										</select> -->
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label">الوظيفة</label>
-				                	<div class="col-md-8">
-										<select class="form-control" name="job" [(ngModel)]="job" >
+									<label class="col-md-4 col-form-label">الوظيفة</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" name="job" formControlName="job" />
+										<!-- <select class="form-control" name="job" formControlName="job" >
 											<option selected></option>
-										</select>
+										</select> -->
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label">جوال 1 - اتصال</label>
-				                	<div class="col-md-8">
-										<input type="text" class="form-control" [(ngModel)]="phone" name="phone" />
+									<label class="col-md-4 col-form-label">جوال 1 - اتصال</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" formControlName="phone" name="phone" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label">جوال 2 - واتس</label>
-				                	<div class="col-md-8">
-										<input type="text" class="form-control" name="whatsApp" [(ngModel)]="whatsApp" />
+									<label class="col-md-4 col-form-label">جوال 2 - واتس</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" name="whatsApp" formControlName="whatsApp" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label">البريد اﻷلكتروني</label>
-				                	<div class="col-md-8">
-										<input type="email" class="form-control" name="email" [(ngModel)]="email" />
+									<label class="col-md-4 col-form-label">البريد اﻷلكتروني</label>
+									<div class="col-md-8">
+										<input type="email" class="form-control" name="email" formControlName="email" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label">اسم المستخدم</label>
-				                	<div class="col-md-8">
-										<input type="text" class="form-control" name="username" [(ngModel)]="username" />
+									<label class="col-md-4 col-form-label">اسم المستخدم</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" name="username" formControlName="username" />
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label">كلمة السر</label>
-				                	<div class="col-md-8">
-										<input type="text" class="form-control" name="password" [(ngModel)]="password" />
+									<label class="col-md-4 col-form-label">كلمة السر</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" name="password" formControlName="password" />
 									</div>
 								</div>						
 							</div>					
@@ -71,23 +73,26 @@
 						<div class="card">
 							<div class="card-body mt-5">
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label">الفصل الدراسي</label>
-				                	<div class="col-md-8">
-										<select class="form-control" name="term" [(ngModel)]="term" >
+									<label class="col-md-4 col-form-label">الفصل الدراسي</label>
+									<div class="col-md-8">
+										<select class="form-control" name="term" formControlName="term" >
 											<option selected>الفصل اﻷول - 2019/2018</option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group row">
-				                	<label class="col-md-4 col-form-label">حالة الحساب</label>
-				                	<div class="col-md-8">
-										<input type="text" class="form-control" name="status" [(ngModel)]="status" />
+									<label class="col-md-4 col-form-label">حالة الحساب</label>
+									<div class="col-md-8">
+										<select class="form-control" formControlName="accountStatus">
+											<option value="active">نشط</option>
+											<option value="inActive">غير نشط</option>
+										</select>
 									</div>
 								</div>
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">الفصول</label>
 				                	<div class="col-md-8">
-										<select class="form-control" size="3" name="class" [(ngModel)]="class" >
+										<select class="form-control" size="3" name="class" formControlName="class" >
 											<option>KG2 - D</option>
 											<option selected>KG2 - E</option>
 											<option>KG2 - F</option>
@@ -96,12 +101,45 @@
 										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">add New Class</button>
 									</div>
 								</div>
-
+								<div class="row text-right">
+									<div class="col-6">
+										<div class="custom-control custom-checkbox mb-3 mt-3">
+											<input class="custom-control-input" type="checkbox" id="add_evaluation" name="add_evaluation" formControlName="add_evaluation">
+											<label class="custom-control-label" for="add_evaluation">إضافة تقييم</label>
+										</div>
+										<div class="custom-control custom-checkbox">
+											<input class="custom-control-input" type="checkbox" id="delete_evaluation" name="delete_evaluation" formControlName="delete_evaluation">
+											<label class="custom-control-label" for="delete_evaluation">حذف تقييم</label>
+										</div>
+									</div>
+									<div class="col-6">
+										<div class="custom-control custom-checkbox mb-3 mt-3">
+											<input class="custom-control-input" type="checkbox" id="add_data" name="add_data" formControlName="add_data">
+											<label class="custom-control-label" for="add_data">إدخال بيانات التقييم</label>
+										</div>
+										<div class="custom-control custom-checkbox">
+											<input class="custom-control-input" type="checkbox" id="edit_data" name="edit_data" formControlName="edit_data">
+											<label class="custom-control-label" for="edit_data">تعديل بيانات التقييم</label>
+										</div>
+									</div>
+								</div>
 								
 								<div class="card-footer text-left mt-3">
-									<button class="btn btn-primary" type="button"><i class="fa fa-save fa-fw"></i></button>
-									<button class="btn btn-danger mr-2" type="button"><i class="fa fa-close fa-fw"></i></button>
-									<button class="btn btn-success mr-2" type="button"><i class="fa fa-plus fa-fw"></i></button>
+									<button *ngIf="!add" class="btn btn-success ml-2" (click)="addClicked()" type="button">
+										<i class="fa fa-fw fa-plus"></i>
+									</button>
+									<button *ngIf="add" class="btn btn-success ml-2" (click)="addTeacher()" type="button">
+										<i class="fa fa-fw fa-save"></i> 
+									</button>
+									<button *ngIf="!edit" class="btn btn-primary ml-2" (click)="editClicked()" type="button">
+										<i class="fa fa-fw fa-edit"></i>
+									</button>
+									<button *ngIf="edit" class="btn btn-primary ml-2" (click)="editTeacher()" type="button">
+										<i class="fa fa-fw fa-save"></i>
+									</button>
+									<button class="btn btn-danger" (click)="deleteTeacher()" type="button">
+										<i class="fa fa-fw fa-close"></i>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -143,35 +181,11 @@
               <option>اختر عنصر</option>
               <option *ngFor="let item of studyLevel3; index as i" value="{{item.id}}">{{item.name}}</option>
             </select>
-					</div>
-					
-					<div class="row text-right">
-						<div class="col-6">
-							<div class="custom-control custom-checkbox mb-3 mt-3">
-								<input class="custom-control-input" type="checkbox" id="add_evaluation" name="add_evaluation" [(ngModel)]="add_evaluation">
-								<label class="custom-control-label" for="add_evaluation">إضافة تقييم</label>
-							</div>
-							<div class="custom-control custom-checkbox">
-								<input class="custom-control-input" type="checkbox" id="delete_evaluation" name="delete_evaluation" [(ngModel)]="delete_evaluation">
-								<label class="custom-control-label" for="delete_evaluation">حذف تقييم</label>
-							</div>
-						</div>
-						<div class="col-6">
-							<div class="custom-control custom-checkbox mb-3 mt-3">
-								<input class="custom-control-input" type="checkbox" id="add_data" name="add_data" [(ngModel)]="add_data">
-								<label class="custom-control-label" for="add_data">إدخال بيانات التقييم</label>
-							</div>
-							<div class="custom-control custom-checkbox">
-								<input class="custom-control-input" type="checkbox" id="edit_data" name="edit_data" [(ngModel)]="edit_data">
-								<label class="custom-control-label" for="edit_data">تعديل بيانات التقييم</label>
-							</div>
-						</div>
-					</div>
-					
+					</div>					
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button"  class="btn btn-primary" id="save" (click)="addClass()" >Save</button>
+					<button type="button" class="btn btn-primary" id="save" (click)="addClass()" >Save</button>
+          <button type="button" class="btn btn-secondary mr-1" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

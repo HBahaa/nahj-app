@@ -18,6 +18,7 @@ export class ParentsComponent implements OnInit {
 	schoolID: string;
 	terms = [];
 	parentsArr: any[] = [];
+	selectedParent: any ;
 
 	constructor( private fb: FormBuilder, private parents: parents,
 		private configService: ConfigService, private studyYearsService: StudyYearsService ) 
@@ -91,12 +92,16 @@ export class ParentsComponent implements OnInit {
 			method: 'GET',
 			id: this.schoolID
 		}).subscribe(data=>{
-			console.log("getParents", data);
+			if(data['data'].schools.length > 0){
+				this.parentsArr = data['data'].schools[0].parents
+			}else{
+				this.parentsArr= []; 
+			}
 		})
 	}
 
 	parentClicked(e){
-		console.log("parentClicked", e)
+		this.selectedParent = e
 		this.form = this.fb.group({
 			name: e.name,
 			nickname: e.title,
@@ -125,6 +130,7 @@ export class ParentsComponent implements OnInit {
 			title: this.form.value.nickname,
 			relationToChild: this.form.value.relation,
 			phone: this.form.value.phone,
+			email: this.form.value.email,
 			whatsApp: this.form.value.whatsApp,
 			accountStatus: this.form.value.accountStatus,
 			username: this.form.value.username,
@@ -134,22 +140,22 @@ export class ParentsComponent implements OnInit {
 			extraInfoThree: this.form.value.extraInfoThree,
 			extraInfoFour: this.form.value.extraInfoFour
 		}).subscribe(data=>{
-			console.log("addParent", data)
 			this.clearInputs();
 			this.getParents();
 			this.add = false;
 		})
 	}
 
-	editParent(){
+	editParent(e){
 		this.parents.service({
 			url: this.url,
 			method: 'POST',
-			id: this.schoolID,
+			id: this.selectedParent.id,
 			name: this.form.value.name,
 			title: this.form.value.nickname,
 			relationToChild: this.form.value.relation,
 			phone: this.form.value.phone,
+			email: this.form.value.email,
 			whatsApp: this.form.value.whatsApp,
 			accountStatus: this.form.value.accountStatus,
 			username: this.form.value.username,
@@ -159,7 +165,6 @@ export class ParentsComponent implements OnInit {
 			extraInfoThree: this.form.value.extraInfoThree,
 			extraInfoFour: this.form.value.extraInfoFour
 		}).subscribe(data=>{
-			console.log("editParent", data);
 			this.getParents();
 			this.edit = false;
 		})
@@ -169,9 +174,8 @@ export class ParentsComponent implements OnInit {
 		this.parents.service({
 			url: this.url,
 			method: 'DELETE',
-			id: this.schoolID
+			id: this.selectedParent.id
 		}).subscribe(data=>{
-			console.log("deleteParent", data)
 			this.getParents();
 		})
 	}

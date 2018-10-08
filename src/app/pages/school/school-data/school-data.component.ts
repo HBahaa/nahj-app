@@ -94,15 +94,13 @@ export class SchoolDataComponent implements OnInit {
 
 	listStudyLevelOne(value) {
 		this.selectedStudyLevel1 = value;
-		this.studyLevel2 = value.studyLevelTwo ? value.studyLevelTwo: value.studyLevelOne.studyLevelTwo;
+		this.studyLevel2 = value.studyLevelTwo ? value.studyLevelTwo: value.studyLevelOnea.studyLevelTwo;
 		this.studyLevel3 = [];
 	}
 
 	listStudyLevelTwo(value) {
-		console.log("value 2 --------", value)
 		this.selectedStudyLevel2 = value;
-		this.studyLevel3 =  value.studylevelThree ?  value.studylevelThree : value[0].studylevelThree;
-		console.log("studyLevel3", this.studyLevel3)
+		this.studyLevel3 =  value.class ?  value.class : value[0].class;
 	}
 
 	listStudyLevelThree(value) {
@@ -180,7 +178,6 @@ export class SchoolDataComponent implements OnInit {
 		this.selectedStudyYear = id;
 		this.licensedTerm.map((term, i)=>{
 			if (id == term.studyYear.id) {
-				console.log("term", term)
 				this.form = this.fb.group({
 					studyYears: term.studyYear.id,
 					lstudentsNum: term.studentsNum,
@@ -250,7 +247,6 @@ export class SchoolDataComponent implements OnInit {
 		}
 		config['method'] = "POST"
 		config['url'] = this.url
-		console.log("updateSchool", config)
 		this.updateSchool.service(config).subscribe((data: any) => {
 			console.log("data", data)
 		});
@@ -260,39 +256,42 @@ export class SchoolDataComponent implements OnInit {
 	// tab2 
 
 	getStudyLevelData(name1, addClass) {
-		console.log("this.schoolID", this.schoolID)
 		this.studyLevelsOne.service({
 			method: "GET",
 			url: this.url,
 			id: this.schoolID
 		}).subscribe(data => {
-			console.log("data", data)
-			// this.studyLevel1 = data['data'].school.specificStudyLevels
-			// 	.filter(item1 => item1.studyLevelOne != null)
-			// 	.map((item1, index1) => {
-			// 		if (!name1 && index1 == 0) {
-			// 			return item1.studyLevelOne;
-			// 		} else if (name1 == item1.studyLevelOne.name) {
-			// 			this.selectedStudyLevel1 = item1;
-			// 			// console.log("------------> setting new level 1")
-			// 			this.listStudyLevelOne(this.selectedStudyLevel1);
-			// 			this.selectedStudyLevel2 = item1.studyLevelOne.studyLevelTwo;
-			// 			this.listStudyLevelTwo(this.selectedStudyLevel2);
+			console.log("getStudyLevelData", data)
+			this.studyLevel1 = data['data']['schools'][0].classes
+				.filter(item1 => item1.studyLevelOnea != null)
+				.map((item1, index1) => {
+					console.log("item11111111", item1)
+					// if (!name1 && index1 == 0) {
+					// 	return item1.studyLevelOnea;
+					// } else 
+					console.log("item1.studyLevelOnea.name", item1.studyLevelOnea.name)
+					console.log("name1", name1)
+					if (name1 == item1.studyLevelOnea.name) {
+						this.selectedStudyLevel1 = item1;
+						console.log("selectedStudyLevel1", this.selectedStudyLevel1)
+						this.listStudyLevelOne(this.selectedStudyLevel1);
+						this.selectedStudyLevel2 = item1.studyLevelOnea.studyLevelTwo;
+						console.log("selectedStudyLevel2", this.selectedStudyLevel2	)
+						this.listStudyLevelTwo(this.selectedStudyLevel2);
+						if(addClass){
+							let l3 = this.selectedStudyLevel2[0].class.filter(item => item.name == addClass);
 
-			// 			if(addClass){
-			// 				let l3 = this.selectedStudyLevel2[0].studylevelThree.filter(item => item.name == addClass);
-							
-			// 				this.addClass(
-			// 					this.selectedStudyLevel1.studyLevelOne.id,
-			// 					this.selectedStudyLevel2[0].id,
-			// 					l3[0].id,
-			// 					this.schoolID
-			// 				)
-			// 			}
-			// 			return item1.studyLevelOne;
-			// 		}
-			// 		return item1.studyLevelOne;
-			// 	});
+							this.addClass(
+								this.selectedStudyLevel1.studyLevelOnea.id,
+								this.selectedStudyLevel2[0].id,
+								l3[0].id,
+								this.schoolID
+							)
+						}
+						return item1.studyLevelOnea;
+					}
+					return item1.studyLevelOnea;
+				});
 				
 		})
 	}
@@ -305,9 +304,8 @@ export class SchoolDataComponent implements OnInit {
 					method: "PUT",
 					url: this.url,
 					id: this.schoolID,
-					levelOneName: $event.newValue
+					name: $event.newValue
 				}).subscribe(data => {
-					console.log("addStudyLevelOne", data)
 					this.getStudyLevelData(undefined, undefined);
 				})
 				break;
@@ -315,13 +313,12 @@ export class SchoolDataComponent implements OnInit {
 				this.studyLevelsOne.service({
 					method: "POST",
 					url: this.url,
-					levelOneId: this.selectedStudyLevel1.id,
-					levelOneName: $event.newValue
+					id: this.selectedStudyLevel1.id,
+					name: $event.newValue
 				}).subscribe(data => {
 					this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 				})
 				break;
-
 		}
 	}
 
@@ -331,8 +328,8 @@ export class SchoolDataComponent implements OnInit {
 				this.studyLevelsTwo.service({
 					method: "PUT",
 					url: this.url,
-					levelOneId: this.selectedStudyLevel1.id,
-					levelTwoName: $event.newValue
+					id: this.selectedStudyLevel1.id,
+					name: $event.newValue
 				}).subscribe(data => {
 					this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 				})
@@ -341,8 +338,8 @@ export class SchoolDataComponent implements OnInit {
 				this.studyLevelsTwo.service({
 					method: "POST",
 					url: this.url,
-					levelTwoId: this.selectedStudyLevel2.id,
-					levelTwoName: $event.newValue
+					id: this.selectedStudyLevel2.id,
+					name: $event.newValue
 				}).subscribe(data => {
 					this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 				})
@@ -357,8 +354,9 @@ export class SchoolDataComponent implements OnInit {
 				this.studyLevelsThree.service({
 					method: "PUT",
 					url: this.url,
-					levelTwoId: this.selectedStudyLevel2.id,
-					levelThreeName: $event.newValue
+					studyLevelOnea: this.selectedStudyLevel1.id,
+					id: this.selectedStudyLevel2.id,
+					name: $event.newValue
 				}).subscribe(data => {
 					this.getStudyLevelData(this.selectedStudyLevel1.name, $event.newValue);
 				})
@@ -367,8 +365,8 @@ export class SchoolDataComponent implements OnInit {
 				this.studyLevelsThree.service({
 					method: "POST",
 					url: this.url,
-					levelThreeId: this.selectedStudyLevel3.id,
-					levelThreeName: $event.newValue
+					id: this.selectedStudyLevel3.id,
+					name: $event.newValue
 				}).subscribe(data => {
 					this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 				})
@@ -394,7 +392,7 @@ export class SchoolDataComponent implements OnInit {
 		this.studyLevelsOne.service({
 			method: "DELETE",
 			url: this.url,
-			levelOneId: $event.value.id
+			id: $event.value.id
 		}).subscribe(data => {
 			this.selectedStudyLevel1 = undefined;
 			this.getStudyLevelData(undefined, undefined);
@@ -405,7 +403,7 @@ export class SchoolDataComponent implements OnInit {
 		this.studyLevelsTwo.service({
 			method: "DELETE",
 			url: this.url,
-			levelTwoId: $event.value.id
+			id: $event.value.id
 		}).subscribe(data => {
 			this.selectedStudyLevel2 = undefined;
 			this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
@@ -416,9 +414,11 @@ export class SchoolDataComponent implements OnInit {
 		this.studyLevelsThree.service({
 			method: "DELETE",
 			url: this.url,
-			levelThreeId: $event.value.id
+			id: $event.value.id
 		}).subscribe(data => {
+			console.log("delete 3====", data)
 			this.selectedStudyLevel3 = undefined;
+			console.log("this.selectedStudyLevel1", this.selectedStudyLevel1)
 			this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 		})
 	}
