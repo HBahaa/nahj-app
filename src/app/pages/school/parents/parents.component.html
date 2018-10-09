@@ -3,12 +3,12 @@
 		<div class="row">
 			<h2 class="col-12">حسابات أولياء الأمور</h2>
 		</div>
-		<div class="row">
+		<div class="row"> 
 			<div class="col-lg-4 col-md-6">
-				<app-students-filter title="اختيار ولي اﻷمر" img="./assets/images/parents.png"></app-students-filter>
+				<app-students-filter (itemClicked)="parentClicked($event)" [data]="parentsArr" title="اختيار ولي اﻷمر" img="./assets/images/parents.png"></app-students-filter>
 			</div>
 			<div class="col-lg-8">
-				<form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+				<form class="row" [formGroup]="form">
 					<div class="col-lg-6 col-md-6">
 						<div class="card">
 							<div class="card-body mt-5">
@@ -22,7 +22,7 @@
 				                	<label class="col-md-4 col-form-label">اللقب</label>
 				                	<div class="col-md-8">
 										<select class="form-control" formControlName="nickname" >
-											<option selected></option>
+											<option value="اللقب">اللقب</option>
 										</select>
 									</div>
 								</div>
@@ -30,20 +30,21 @@
 				                	<label class="col-md-4 col-form-label">الصلة بالطفل</label>
 				                	<div class="col-md-8">
 										<select class="form-control" formControlName="relation" >
-											<option selected></option>
+											<option value="اب">اب</option>
+											<option value="ام">ام</option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">جوال 1 - اتصال</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" formControlName="phone1" />
+										<input type="text" class="form-control" formControlName="phone" />
 									</div>
 								</div>
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">جوال 2 - واتس</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" formControlName="phone2" />
+										<input type="text" class="form-control" formControlName="whatsApp" />
 									</div>
 								</div>
 								<div class="form-group row">
@@ -55,8 +56,9 @@
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">الفصل الدراسي</label>
 				                	<div class="col-md-8">
-										<select class="form-control" formControlName="term" >
-											<option selected>الفصل اﻷول - 2019/2018</option>
+										<select class="form-control" formControlName="term">
+											<option value="">اختر عنصر</option>
+											<option *ngFor="let term of terms" [value]="term?.id">{{ term?.name }}</option>
 										</select>
 									</div>
 								</div>
@@ -75,13 +77,16 @@
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">حالة الحساب</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" formControlName="status" />
+										<select class="form-control" formControlName="accountStatus">
+											<option value="active">نشط</option>
+											<option value="inActive">غير نشط</option>
+										</select>
 									</div>
 								</div>
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">اسم المستخدم</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" formControlName="userName" />
+										<input type="text" class="form-control" formControlName="username" />
 									</div>
 								</div>
 								<div class="form-group row">
@@ -93,31 +98,43 @@
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">بيان إضافي 1</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" formControlName="data1" />
+										<input type="text" class="form-control" formControlName="extraInfoOne" />
 									</div>
 								</div>
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">بيان إضافي 2</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" formControlName="data2" />
+										<input type="text" class="form-control" formControlName="extraInfoTwo" />
 									</div>
 								</div>	
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">بيان إضافي 3</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" formControlName="data3" />
+										<input type="text" class="form-control" formControlName="extraInfoThree" />
 									</div>
 								</div>	
 								<div class="form-group row">
 				                	<label class="col-md-4 col-form-label">بيان إضافي 4</label>
 				                	<div class="col-md-8">
-										<input type="text" class="form-control" formControlName="data4" />
+										<input type="text" class="form-control" formControlName="extraInfoFour" />
 									</div>
 								</div>
 								<div class="card-footer text-left mt-3">
-									<button class="btn btn-primary" type="button"><i class="fa fa-save fa-fw"></i></button>
-									<button class="btn btn-danger mr-2" type="button"><i class="fa fa-close fa-fw"></i></button>
-									<button class="btn btn-success mr-2" type="button"><i class="fa fa-plus fa-fw"></i></button>
+									<button *ngIf="!add" class="btn btn-success ml-2" (click)="addClicked()" type="button">
+										<i class="fa fa-fw fa-plus"></i>
+									</button>
+									<button *ngIf="add" class="btn btn-success ml-2" (click)="addParent()" type="button">
+										<i class="fa fa-fw fa-save"></i> 
+									</button>
+									<button *ngIf="!edit" class="btn btn-primary ml-2" (click)="editClicked(e)" type="button">
+										<i class="fa fa-fw fa-edit"></i>
+									</button>
+									<button *ngIf="edit" class="btn btn-primary ml-2" (click)="editParent(item)" type="button">
+										<i class="fa fa-fw fa-save"></i>
+									</button>
+									<button class="btn btn-danger" (click)="deleteParent(item)" type="button">
+										<i class="fa fa-fw fa-close"></i>
+									</button>
 								</div>					
 							</div>
 						</div>

@@ -1,6 +1,4 @@
 <div>
-
-
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -195,18 +193,18 @@
                   </li>
                 </ul>
                 </div>
-                <button type="button" class="btn btn-primary add-content mt-1" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button>
+                <button type="button" [disabled]="show" class="btn btn-primary add-content mt-1" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button>
               </div>
               <div class="text-left card-footer">
-                <button *ngIf="!add" class="btn btn-success ml-2" (click)="addTermClicked()" type="button">
+                <button [disabled]="show" *ngIf="!add" class="btn btn-success ml-2" (click)="addTermClicked()" type="button">
                   <i class="fa fa-fw fa-plus"></i>
                 </button>
                 <button *ngIf="add" class="btn btn-success ml-2" (click)="addTerm()" type="button">
                   <i class="fa fa-fw fa-save"></i> 
                 </button>
-                <button class="btn btn-danger" (click)="deleteTerm(item)" type="button">
+                <!-- <button class="btn btn-danger" (click)="deleteTerm(item)" type="button">
                   <i class="fa fa-fw fa-close"></i>
-                </button>
+                </button> -->
               </div>
             </div>
           </div>

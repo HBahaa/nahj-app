@@ -19,7 +19,6 @@ export class students {
                     ${config.hasOwnProperty("fullName") ? `fullName:"${config.fullName}"` : ""}
                     ${config.hasOwnProperty("necName") ? `necName:"${config.necName}"` : ""}
                     ${config.hasOwnProperty("birthday") ? `birthday:"${config.birthday}"` : ""}
-                    ${config.hasOwnProperty("idNum") ? `idNum:"${config.idNum}"` : ""}
                     ${config.hasOwnProperty("nationality") ? `nationality:"${config.nationality}"` : ""}
                     ${config.hasOwnProperty("gender") ? `gender:"${config.gender}"` : ""}
                     ${config.hasOwnProperty("photo") ? `photo:"${config.photo}"` : ""}
@@ -27,8 +26,6 @@ export class students {
                     ${config.hasOwnProperty("username") ? `username:"${config.username}"` : ""}
                     ${config.hasOwnProperty("password") ? `password:"${config.password}"` : ""}
                     ${config.hasOwnProperty("extraInfoOne") ? `extraInfoOne:"${config.extraInfoOne}"` : ""}
-                    ${config.hasOwnProperty("extraInfoTwo") ? `extraInfoTwo:"${config.extraInfoTwo}"` : ""}
-                    ${config.hasOwnProperty("extraInfoThree") ? `extraInfoThree:"${config.extraInfoThree}"` : ""}
                     ${config.hasOwnProperty("parent") ? `parent: { connect: { id: "${config.parent}" } }` : ""}
 
                   }
@@ -48,7 +45,6 @@ export class students {
                         ${config.hasOwnProperty("fullName") ? `fullName:"${config.fullName}"` : ""}
                         ${config.hasOwnProperty("necName") ? `necName:"${config.necName}"` : ""}
                         ${config.hasOwnProperty("birthday") ? `birthday:"${config.birthday}"` : ""}
-                        ${config.hasOwnProperty("idNum") ? `idNum:"${config.idNum}"` : ""}
                         ${config.hasOwnProperty("nationality") ? `nationality:"${config.nationality}"` : ""}
                         ${config.hasOwnProperty("gender") ? `gender:"${config.gender}"` : ""}
                         ${config.hasOwnProperty("photo") ? `photo:"${config.photo}"` : ""}
@@ -56,8 +52,6 @@ export class students {
                         ${config.hasOwnProperty("username") ? `username:"${config.username}"` : ""}
                         ${config.hasOwnProperty("password") ? `password:"${config.password}"` : ""}
                         ${config.hasOwnProperty("extraInfoOne") ? `extraInfoOne:"${config.extraInfoOne}"` : ""}
-                        ${config.hasOwnProperty("extraInfoTwo") ? `extraInfoTwo:"${config.extraInfoTwo}"` : ""}
-                        ${config.hasOwnProperty("extraInfoThree") ? `extraInfoThree:"${config.extraInfoThree}"` : ""}
                         ${config.hasOwnProperty("parent") ? `parent: { connect: { id: "${config.parent}" } }` : ""}
                       }
                     }
@@ -79,14 +73,13 @@ export class students {
             break;
             case "GET":
                 query=`query{
-                  school(where:{id:"${config.id}"}){
+                  schools(where:{id:"${config.id}"}){
                     id
                     students{
                       id
                       fullName
                       necName
                       birthday
-                      idNum
                       nationality
                       gender
                       parent{
@@ -98,8 +91,6 @@ export class students {
                       username
                       password
                       extraInfoOne
-                      extraInfoTwo
-                      extraInfoThree
                     }
                   }
                 }`

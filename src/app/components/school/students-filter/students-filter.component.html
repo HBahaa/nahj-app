@@ -5,27 +5,27 @@
 		<div class="form-group row">
 			<label class="col-md-4 col-form-label" for="">المستوي اﻷول</label>
 			<div class="col-md-8">
-				<select class="form-control" (change)="handleLevel1Change($event.target.value)">
-					<option selected>فصول الأولاد</option>
-					<option>فصول البنات</option>
+				<select class="form-control" [(ngModel)]="selectedStudyLevel1" (change)="handleLevel1Change($event.target.value)">
+					<option value="">الجميع</option>
+					<option *ngFor="let level1 of studyLevel1" [value]="level1.id">{{level1.name}}</option>
 				</select>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label class="col-md-4 col-form-label" for="">المستوي الثاني</label>
 			<div class="col-md-8">
-				<select class="form-control" (change)="handleLevel2Change($event.target.value)">
-					<option selected>KG2 - D</option>
-					<option>KG2 - E</option>
-					<option>KG2 - F</option>
+				<select class="form-control" [(ngModel)]="selectedStudyLevel2" (change)="handleLevel2Change($event.target.value)">
+					<option value="">الجميع</option>
+					<option *ngFor="let level2 of studyLevel2" [value]="level2.id">{{level2.name}}</option>
 				</select>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label class="col-md-4 col-form-label" for="">المستوي الثالث</label>
 			<div class="col-md-8">
-				<select class="form-control" (change)="handleLevel3Change($event.target.value)">
-					<option selected>الجميع</option>
+				<select class="form-control" [(ngModel)]="selectedStudyLevel3" (change)="handleLevel3Change($event.target.value)">
+					<option value="">الجميع</option>
+					<option *ngFor="let level3 of studyLevel3" [value]="level3.id">{{level3.name}}</option>
 				</select>
 			</div>
 		</div>
@@ -34,8 +34,7 @@
 		</div>
 		<div>
 			<select class="form-control" size="4">
-				<option>خديجة الجابر</option>
-				<option>أمل العيسي</option>
+				<option (click)="handleItemClicked(parent)" *ngFor="let parent of data | filter: searchText; index as i" [value]="i">{{parent.name}}</option>
 			</select>
 		</div>
 	</div>
