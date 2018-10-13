@@ -52,13 +52,17 @@ export class licensedClass {
                          }
                        ){
                          licensedClass{
+                           id
                            class{
+                             id
                              name
                              id
                              studyLevelOnea{
+                               id
                                name
                              }
                              studyLevelTwo{
+                               id
                                name
                              }
                            }
@@ -81,7 +85,7 @@ export class licensedClass {
 /*
 config:{
   method: (required)[GET|POST|DELETE|PUT]
-  id: (required licenced term id) 
+  id: (required licenced term id)
   class: (class id at create | licenced class id at delete)
 }
 */
