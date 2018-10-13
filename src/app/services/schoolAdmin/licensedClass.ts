@@ -80,7 +80,7 @@ export class licensedClass {
 /*
 config:{
   method: (required)[GET|POST|DELETE|PUT]
-  id: (required licenced term id) 
+  id: (required licenced term id)
   class: (class id at create | licenced class id at delete)
 }
 */
