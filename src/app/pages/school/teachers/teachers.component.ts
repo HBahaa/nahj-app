@@ -18,6 +18,7 @@ export class TeachersComponent implements OnInit {
 	form: FormGroup;
 	teacherLicenseForm: FormGroup;
 	licenseClassForm: FormGroup;
+	licenseForm: FormGroup;
 	url : string;
 	teachersArr:any[] = [];
 	schoolID: string = '';
@@ -31,7 +32,8 @@ export class TeachersComponent implements OnInit {
 	selectedStudyLevel3;
 	selectedTeacher;
 	selectedLicenseTerm;
-	classes = [];
+	licenseClasses = [];
+	teacherClasses = [];
 	studyLevel1 = [];
 	studyLevel2 = [];
 	studyLevel3 = [];
@@ -47,8 +49,7 @@ export class TeachersComponent implements OnInit {
 		this.schoolID = localStorage.getItem("schoolID");
 		this.licenseTerm = JSON.parse(localStorage.getItem("licenseTerm"));
 
-		this.terms = this.licenseTerm.map(term => term.studyYear)
-		console.log("terms", this.terms)
+		this.terms = this.licenseTerm && this.licenseTerm.length > 0 ? this.licenseTerm.map(term => term.studyYear) : []
 	}
 
 	ngOnInit() {
@@ -60,13 +61,14 @@ export class TeachersComponent implements OnInit {
 			password: ['', Validators.required],
 			job: ['', Validators.required],
 			phone: ['', Validators.required],
-			whatsApp: ['', Validators.required],
-			class: ['', Validators.required],
+			whatsApp: ['', Validators.required]
+		});
+		this.licenseForm = this.fb.group({
 			term: ['', Validators.required],
 			accountStatus: ['', Validators.required]
-		});
+		})
 		this.teacherLicenseForm = this.fb.group({
-			tclass: ['', Validators.required],
+			licenseClass: ['', Validators.required],
 			canAddEval: ['', Validators.required],
 			canEnterEval: ['', Validators.required],
 			canEditEval: ['', Validators.required],
@@ -187,20 +189,18 @@ export class TeachersComponent implements OnInit {
 			password: [''],
 			job: [''],
 			phone: [''],
-			whatsApp: [''],
-			class: [''],
-			term: [''],
-			accountStatus: ['']
+			whatsApp: ['']
 		});
 		this.clearLicenseInputs();
 	}
 	clearLicenseInputs(){
-		// this.licenseForm = this.fb.group({
-		// 	canAddEval: [''],
-		// 	canEnterEval: [''],
-		// 	canEditEval: [''],
-		// 	canDeleteEval: ['']
-		// })
+		this.teacherLicenseForm = this.fb.group({
+			licenseClass: [''],
+			canAddEval: [''],
+			canEnterEval: [''],
+			canEditEval: [''],
+			canDeleteEval: ['']
+		})
 	}
 
 	addClicked(){
@@ -224,12 +224,11 @@ export class TeachersComponent implements OnInit {
 			method: "GET",
 			id: this.selectedLicenseTerm['id']
 		}).subscribe(data=>{
-			this.classes = data['data']['licensedTerms'][0]['licensedClass'].map(item=> item.class )
+			this.licenseClasses = data['data']['licensedTerms'][0]['licensedClass'].map(item=> item.class )
 		});
 	}
 
 	addLicenseClass(){
-		console.log("id-------", this.selectedLicenseTerm['id'])
 		if (this.licenseClassForm.value.studyLevel3 && this.form.value.term) {
 			this.licensedClass.service({
 				method: "PUT",
@@ -237,10 +236,8 @@ export class TeachersComponent implements OnInit {
 				id: this.selectedLicenseTerm['id'],
 				class:this.licenseClassForm.value.studyLevel3
 			}).subscribe(data=>{
-				console.log("data====", data)
+				alert("added successfully")
 			});
-
-			alert("added successfully")
 		}else{
 			alert("please select class and term to continue");
 		}
@@ -266,25 +263,38 @@ export class TeachersComponent implements OnInit {
 			this.add = false;
 		})
 	}
+	addLicenseClassToTeacher(){
+		if (this.teacherLicenseForm.value.licenseClass) {
+			let obj = {}
+			obj['lclassid'] = this.teacherLicenseForm.value.licenseClass ? this.teacherLicenseForm.value.licenseClass : ''
+			obj['canAddEval'] = this.teacherLicenseForm.value.canAddEval ? this.teacherLicenseForm.value.canAddEval : false
+			obj['canEnterEval'] = this.teacherLicenseForm.value.canEnterEval ? this.teacherLicenseForm.value.canEnterEval : false
+			obj['canDeleteEval'] = this.teacherLicenseForm.value.canDeleteEval ? this.teacherLicenseForm.value.canDeleteEval : false
+			obj['canEditEval'] = this.teacherLicenseForm.value.canEditEval ? this.teacherLicenseForm.value.canEditEval : false
+
+			this.licenseContent.push(obj);
+			alert("added successfully")
+		}
+	}
 
 	addTeacherLicense(){
-		console.log("this.form.value.term", this.form.value.term)
-		console.log("this.licenseContent", this.licenseContent)
 		this.licensedTeacher.service({
 			method: "PUT",
 			url: this.url,
 			teacher: this.selectedTeacher.id,
-			isActiveAccount: this.form.value.accountStatus,
+			isActiveAccount: this.licenseForm.value.accountStatus,
 			classes:this.licenseContent,
-			ltermid: this.form.value.term
+			ltermid: this.selectedLicenseTerm['id']
 		}).subscribe(data=>{
 			console.log("addTeacherLicense", data);
 			this.addLicense = false;
 		})
 	}
 
-	editTeacherLicense(){
 
+	
+	editTeacherLicense(){
+		
 	}
 
 	editTeacher(){
