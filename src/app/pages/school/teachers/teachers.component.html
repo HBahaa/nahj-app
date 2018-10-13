@@ -99,7 +99,8 @@
 											<option>KG2 - F</option>
 										</select>
 										<br>
-										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">add New Class</button>
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#classModal">add License Class</button>
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#licenseModal">add Teacher License</button>
 									</div>
 								</div>
 								<!-- <div class="row text-right">
@@ -173,34 +174,22 @@
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalTitle" aria-hidden="true">
+<!-- Modal to add license term to teacher -->
+<div class="modal fade" id="licenseModal" tabindex="-1" role="dialog" aria-labelledby="licenseModalTitle" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+				<h5 class="modal-title" id="exampleModalLongTitle">Teacher License</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<form [formGroup]="licenseForm">
+				<form [formGroup]="teacherLicenseForm">
 					<div class="form-group">
-						<select (change)="handleStudyLevelChange('studyLevel1', $event)" class="form-control" formControlName="studyLevel1">
+						<select class="form-control" formControlName="tclass">
 							<option>اختر عنصر</option>
-							<option *ngFor="let item of studyLevel1" value="{{item.id}}">{{item.name}}</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<select (change)="handleStudyLevelChange('studyLevel2', $event)" class="form-control" formControlName="studyLevel2">
-							<option>اختر عنصر</option>
-							<option *ngFor="let item of studyLevel2" value="{{item.id}}">{{item.name}}</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<select (change)="handleStudyLevelChange('studyLevel3', $event)" class="form-control" formControlName="studyLevel3">
-							<option>اختر عنصر</option>
-							<option *ngFor="let item of studyLevel3" value="{{item.id}}">{{item.name}}</option>
+							<option *ngFor="let class of classes" value="{{class.id}}">{{class.name}}</option>
 						</select>
 					</div>
 					<div class="row text-right">
@@ -228,9 +217,49 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" id="save" (click)="addNewClass()">Save</button>
+				<button type="button" class="btn btn-primary" (click)="addTeacherLicense()">Save</button>
 				<button type="button" class="btn btn-secondary mr-1" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
 </div>
+
+<!-- Modal to add license class -->
+<div class="modal fade" id="classModal" tabindex="-1" role="dialog" aria-labelledby="classModalTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">License Class</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form [formGroup]="licenseClassForm">
+						<div class="form-group">
+							<select (change)="handleStudyLevelChange('studyLevel1', $event)" class="form-control" formControlName="studyLevel1">
+								<option>اختر عنصر</option>
+								<option *ngFor="let item of studyLevel1" value="{{item.id}}">{{item.name}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select (change)="handleStudyLevelChange('studyLevel2', $event)" class="form-control" formControlName="studyLevel2">
+								<option>اختر عنصر</option>
+								<option *ngFor="let item of studyLevel2" value="{{item.id}}">{{item.name}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select (change)="handleStudyLevelChange('studyLevel3', $event)" class="form-control" formControlName="studyLevel3">
+								<option>اختر عنصر</option>
+								<option *ngFor="let item of studyLevel3" value="{{item.id}}">{{item.name}}</option>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" (click)="addLicenseClass()">Save</button>
+					<button type="button" class="btn btn-secondary mr-1" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>

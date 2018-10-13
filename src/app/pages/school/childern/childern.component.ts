@@ -18,6 +18,7 @@ export class ChildernComponent implements OnInit {
 	edit: boolean = false;
 	url: string;
 	schoolID: string;
+	licenseTerm: any[];
 	searchName: string = '';
 	studentsArr: any[] = [];
 	parentsArr: any[] = [];
@@ -36,6 +37,8 @@ export class ChildernComponent implements OnInit {
 
 	ngOnInit() {
 		this.schoolID = localStorage.getItem("schoolID");
+		this.licenseTerm = JSON.parse(localStorage.getItem("licenseTerm"));
+		console.log("licenseTerm", this.licenseTerm)
 		this.form = this.fb.group({
 			name: ['', Validators.required],
 			nickname: ['', Validators.required],
@@ -93,7 +96,7 @@ export class ChildernComponent implements OnInit {
 			}
 		})
 	}
-
+ 
 	getStudyLevels(){
 		this.studyLevelsOne.service({
 			method: "GET",
