@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
     providedIn: 'root'
 })
 export class ConfigService {
-    url = 'http://localhost:4000/api';
+    // url = 'http://localhost:4000/api';
+    url = 'http://134.119.195.228:4000/api';
     constructor(private http: HttpClient) { }
 }

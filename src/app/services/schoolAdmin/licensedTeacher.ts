@@ -207,7 +207,7 @@ config:{
         lclassid:"" ()required
     }]
     specificConfigUpdate:[{ (optional)
-        canAddEval: true (required)
+        canAddEval: true (required)isActiveAccount
         canEnterEval: true (required)
         canDeleteEval: true (required)
         canEditEval: true (required)
