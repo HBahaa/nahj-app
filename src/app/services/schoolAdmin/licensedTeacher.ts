@@ -24,10 +24,10 @@ export class licensedTeacher {
                                    create: [
                                     ${config.classes.reduce((_str,item)=>{
                                         return _str+= `{
-                                            canAddEval: ${item.canAddEval ? 'true':'false'}
-                                            canEnterEval: ${item.canEnterEval ? 'true':'false'}
+                                            canAddEval:    ${item.canAddEval ? 'true':'false'}
+                                            canEnterEval:  ${item.canEnterEval ? 'true':'false'}
                                             canDeleteEval: ${item.canDeleteEval ? 'true':'false'}
-                                            canEditEval: ${item.canEditEval ? 'true':'false'}
+                                            canEditEval:   ${item.canEditEval ? 'true':'false'}
                                             licensedClass: {
                                               connect: { id: "${item.lclassid}" }
                                             }
@@ -38,12 +38,12 @@ export class licensedTeacher {
                                      ${
                                          config.specificConfigUpdate.reduce((_str,item)=>{
                                             return _str+=`{
-                                                where: { id: "${item.specificid}" } 
+                                                where: { id: "${item.specificid}" }
                                                 data: {
-                                                    canAddEval: ${item.canAddEval ? 'true':'false'}
-                                                    canEnterEval: ${item.canEnterEval ? 'true':'false'}
+                                                    canAddEval:    ${item.canAddEval ? 'true':'false'}
+                                                    canEnterEval:  ${item.canEnterEval ? 'true':'false'}
                                                     canDeleteEval: ${item.canDeleteEval ? 'true':'false'}
-                                                    canEditEval: ${item.canEditEval ? 'true':'false'}
+                                                    canEditEval:   ${item.canEditEval ? 'true':'false'}
                                                 }
                                               }`
                                          },'')
@@ -70,6 +70,28 @@ export class licensedTeacher {
                        }
                      }`
             break;
+            case "PUT2":
+                  query=`
+                    mutation{
+                      updateLicensedTerm(
+                        data:{
+                          licensedClass: {
+                           update: [
+                             ${
+                                 config.classes.reduce((_str,item)=>{
+                                   return _str += `{ where: { id: "${item.lclassid}" }, data: { teacher: { connect: { id: "${config.lteacherid}" } } } }`
+                                 },'')
+                             }
+                           ]
+                         }
+                        }
+                        where:{
+                          id:"${config.ltermid}"
+                        }
+                      )
+                    }
+                  `
+            break;
             case "PUT" : //create
                   query=` mutation {
                        updateLicensedTerm(
@@ -78,13 +100,13 @@ export class licensedTeacher {
                              create: {
                                teacher: { connect: { id: "${config.teacher}" } }
                                ${
-                                config.hasOwnProperty('isActiveAccount') 
-                                    ?config.isActiveAccount  
-                                        ?`isActiveAccount: true` 
-                                        :`isActiveAccount: false` 
-                                    :'' 
+                                config.hasOwnProperty('isActiveAccount')
+                                    ?config.isActiveAccount
+                                        ?`isActiveAccount: true`
+                                        :`isActiveAccount: false`
+                                    :''
                                 }
-                               
+
                                 specificClassConfig: {
                                     create: [
                                       ${config.classes.reduce((_str,item)=>{
@@ -102,15 +124,6 @@ export class licensedTeacher {
                                 }
                              }
                            }
-                           licensedClass: {
-                            update: [
-                              ${
-                                  config.classes.reduce((_str,item)=>{
-                                    return _str += `{ where: { id: "${item.lclassid}" }, data: { teacher: { connect: { id: "${config.teacher}" } } } }`
-                                  },'')
-                              }
-                            ]
-                          }
                          }
                          where: { id: "${config.ltermid}" }
                        ) {
@@ -129,7 +142,7 @@ export class licensedTeacher {
                            }
                          }
                          where:{
-                           id:"${config.lteacherid}" 
+                           id:"${config.lteacherid}"
                          }
                        ){
                          id
@@ -143,7 +156,7 @@ export class licensedTeacher {
                            }
                          }
                          where:{
-                           id:"${config.ltermid}" 
+                           id:"${config.ltermid}"
                          }
                        ){
                          id
@@ -214,6 +227,6 @@ config:{
         specificid:"" ()required
     }]
     specificid: specific config id to delete
-  
+
 }
 */

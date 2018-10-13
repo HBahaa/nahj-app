@@ -7,9 +7,9 @@ import { HttpClient } from '@angular/common/http';
 export class teachers {
 
     constructor(private http: HttpClient) { }
-     
+
     service(config) {
-        let query: string = ``
+        let query: string = ``;
         let variable: object = {};
         switch (config.method) {
             case "POST": //update
@@ -49,7 +49,6 @@ export class teachers {
                           ${config.hasOwnProperty("email") ? `email:"${config.email}"` : ""}
                           ${config.hasOwnProperty("username") ? `username:"${config.username}"` : ""}
                           ${config.hasOwnProperty("password") ? `password:"${config.password}"` : ""}
-                          ${config.hasOwnProperty("email") ? `email:"${config.email}"` : ""}
                         }
                       }
                     }
@@ -83,13 +82,54 @@ export class teachers {
                     }
                   }`
             break;
+            case "GETBYNAME":
+              query=`query{
+                      schools(
+                        where:{
+                          id:"${config.id}"
+                          teachers_every:{
+                            name_contains:"${config.teachersearchstring}"
+                          }
+                        }
+                      ){
+                      	id
+                        teachers{
+                          id
+                          name
+                          title
+                          job
+                          type
+                          phone
+                          whatsApp
+                          email
+                          username
+                          password
+                        }
+                      }
+                    }`
+            break;
         }
 
-        return this
-            .http
-            .post(`${config.url}`, {
+        return this.http.post(`${config.url}`, {
                 "query": query,
                 "variables": variable
             });
     }
 }
+
+/*
+  config:{
+    method: (PUT|GET|GETBYNAME|DELETE|POST)
+    id: (unique id for school id when using with create, GETBYNAME,GET  | teacher id when using with update and delete)
+    teachersearchstring:
+    name
+    title
+    job
+    type
+    phone
+    whatsApp
+    email
+    username
+    password
+}
+*/

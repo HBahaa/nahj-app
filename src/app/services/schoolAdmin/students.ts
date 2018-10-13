@@ -41,7 +41,7 @@ export class students {
                   data:{
                     students:{
                       create:{
-                        
+
                         ${config.hasOwnProperty("fullName") ? `fullName:"${config.fullName}"` : ""}
                         ${config.hasOwnProperty("necName") ? `necName:"${config.necName}"` : ""}
                         ${config.hasOwnProperty("birthday") ? `birthday:"${config.birthday}"` : ""}
@@ -95,6 +95,40 @@ export class students {
                   }
                 }`
             break;
+            case "GETBYNAME":
+                query = `query{
+                          schools(
+                            where:{
+                              id:"${config.id}"
+                              students_every:{
+                                fullName_contains:"config.studentsearchstring"
+                              }
+                            }
+                          ){
+                            id
+                            students{
+                              id
+                              fullName
+                              birthday
+                              idNum
+                              nationality
+                              gender
+                            	parent{
+                                id
+                                name
+                              }
+                              photo
+                              accountStatus
+                              username
+                              password
+                              extraInfoOne
+                              extraInfoTwo
+                              extraInfoThree
+                            }
+                          }
+                        }
+                `
+            break;
         }
 
         return this
@@ -109,8 +143,8 @@ export class students {
 
 /*
   config:{
-    method
-    id
+    method (GET|GETBYNAME|PUT|POST|DELETE)
+    id --> school id in get, create, GETBYNAME and student id in delete and update
     fullName
     necName
     birthday
@@ -125,5 +159,6 @@ export class students {
     extraInfoOne
     extraInfoTwo
     extraInfoThree
+    studentsearchstring
   }
 */
