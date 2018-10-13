@@ -116,7 +116,7 @@ export class parents {
                     }
                   }`
                 break;
-                case:"GETBYNAME":
+                case "GETBYNAME":
                     query= `query{
                               schools(
                                 where:{

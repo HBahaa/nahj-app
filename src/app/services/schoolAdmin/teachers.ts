@@ -9,7 +9,7 @@ export class teachers {
     constructor(private http: HttpClient) { }
 
     service(config) {
-        let query: string = ``
+        let query: string = ``;
         let variable: object = {};
         switch (config.method) {
             case "POST": //update
@@ -110,9 +110,7 @@ export class teachers {
             break;
         }
 
-        return this
-            .http
-            .post(`${config.url}`, {
+        return this.http.post(`${config.url}`, {
                 "query": query,
                 "variables": variable
             });
