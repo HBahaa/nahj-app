@@ -26,20 +26,20 @@ export class parents {
                         ${config.hasOwnProperty("username") ? `username:"${config.username}"` : ""}
                         ${config.hasOwnProperty("email") ? `email:"${config.email}"` : ""}
                         ${config.hasOwnProperty("password") ? `password:"${config.password}"` : ""}
-                        
+
                         ${config.hasOwnProperty("extraInfoOne") ? `extraInfoOne:"${config.extraInfoOne}"` : ""}
                         ${config.hasOwnProperty("extraInfoTwo") ? `extraInfoTwo:"${config.extraInfoTwo}"` : ""}
                         ${config.hasOwnProperty("extraInfoThree") ? `extraInfoThree:"${config.extraInfoThree}"` : ""}
                         ${config.hasOwnProperty("extraInfoFour") ? `extraInfoFour:"${config.extraInfoFour}"` : ""}
-                        
+
                         ${config.hasOwnProperty("students") || config.hasOwnProperty("students_to_delete") ?
 
-                            `students: { 
+                            `students: {
                                 connect: [${config.students.reduce((str, item) => str += `{ id:"${item}"}`, '')}]
-                                
-                                disconnect: [${config.students_to_delete.reduce((str, item) => str += `{ id:"${item}"}`, '')}] 
+
+                                disconnect: [${config.students_to_delete.reduce((str, item) => str += `{ id:"${item}"}`, '')}]
                             }`
-                            
+
                             :
 
                             ""
@@ -66,14 +66,14 @@ export class parents {
                             ${config.hasOwnProperty("email") ? `email:"${config.email}"` : ""}
                             ${config.hasOwnProperty("username") ? `username:"${config.username}"` : ""}
                             ${config.hasOwnProperty("password") ? `password:"${config.password}"` : ""}
-                            
+
                             ${config.hasOwnProperty("extraInfoOne") ? `extraInfoOne:"${config.extraInfoOne}"` : ""}
                             ${config.hasOwnProperty("extraInfoTwo") ? `extraInfoTwo:"${config.extraInfoTwo}"` : ""}
                             ${config.hasOwnProperty("extraInfoThree") ? `extraInfoThree:"${config.extraInfoThree}"` : ""}
                             ${config.hasOwnProperty("extraInfoFour") ? `extraInfoFour:"${config.extraInfoFour}"` : ""}
-                            
+
                             ${config.hasOwnProperty("students") ? `:"students:{ connect:[${config.students.reduce((str, item) => str += `{ id:"${item}"}`, '')}] }` : ""}
-                            
+
                           }
                         }
                       }
@@ -116,6 +116,40 @@ export class parents {
                     }
                   }`
                 break;
+                case:"GETBYNAME":
+                    query= `query{
+                              schools(
+                                where:{
+                                  id:"${config.id}"
+                                  parents_every:{
+                                    name_contains:"${config.parentsearchstring}"
+                                  }
+                                }
+                              ){
+                                id
+                                parents{
+                                  id
+                                  name
+                                  title
+                                  relationToChild
+                                  phone
+                                  whatsApp
+                                  email
+                                  students{
+                                    id
+                                    fullName
+                                  }
+                                  accountStatus
+                                  username
+                                  password
+                                  extraInfoOne
+                                  extraInfoTwo
+                                  extraInfoThree
+                                  extraInfoFour
+                                }
+                              }
+                            }`
+                break;
         }
 
         return this
@@ -132,7 +166,7 @@ export class parents {
 /*
     config{
         method
-        id
+        id -> school id when GET,GETBYNAME,PUT | parent id when update,delete
         name
         title
         relation
@@ -150,5 +184,6 @@ export class parents {
 
         students:[array of connected ids]
         students_to_delete:[array of disconnected ids]
+        parentsearchstring
     }
 */
