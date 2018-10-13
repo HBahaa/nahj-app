@@ -52,12 +52,16 @@ export class licensedClass {
                          }
                        ){
                          licensedClass{
+                           id
                            class{
+                             id
                              name
                              studyLevelOnea{
+                               id
                                name
                              }
                              studyLevelTwo{
+                               id
                                name
                              }
                            }
