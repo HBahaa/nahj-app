@@ -128,6 +128,9 @@ export class licensedTeacher {
                          where: { id: "${config.ltermid}" }
                        ) {
                          id
+                         licensedTeacher{
+                           id
+                         }
                        }
                      }`
             break;
@@ -192,6 +195,29 @@ export class licensedTeacher {
                          }
                        }
                      }`
+            break;
+            case "GETBYID":
+              query=`query{
+                licensedTerms(
+                  where:{
+                    id:"${config.ltermid}"
+                    licensedTeacher_every:{
+                      teacher:{
+                        id:"teacher"
+                      }
+                    }
+                  }
+                ){
+                  id
+                  licensedTeacher{
+                    id
+                    teacher{
+                      id
+                      name
+                    }
+                  }
+                }
+              }`
             break;
         }
 
