@@ -280,15 +280,14 @@ export class DataComponent implements OnInit {
 	}
 	addTerm() {
 		let config = this.form.value;
-		
 		this.licencedTermService.service({
 			method: 'PUT',
 			url: this.url,
 			id: this.selectedSchool.id,
-			ladminNum: config.ladminsNum,
-			lstudentsNum: config.lstudentsNum,
-			lteachersNum: config.lteachersNum,
-			lclassesNum: config.lclassesNum,
+			ladminNum: config.ladminsNum ? config.ladminsNum : 0,
+			lstudentsNum: config.lstudentsNum ? config.lstudentsNum : 0,
+			lteachersNum: config.lteachersNum ? config.lteachersNum : 0,
+			lclassesNum: config.lclassesNum ? config.lclassesNum : 0,
 			lstudyYear: config.studyYears,
 			content: this.speciificContent
 		}).subscribe(data=>{
@@ -326,7 +325,7 @@ export class DataComponent implements OnInit {
 	}
 
 	getItemDetails($event) {
-		console.log("getItemDetails", $event);
+		this.clearFields();
 		this.selectedSchool = $event;
 
 		// this condition to get cities of a selected geo and set selected city
@@ -340,7 +339,6 @@ export class DataComponent implements OnInit {
 		this.res  = $event.admin.filter(item=> item.type == 'res')[0];
 
 		this.selectedStudyYear = $event.licensedTerm.length > 0 && $event.licensedTerm[0].studyYear ? $event.licensedTerm[0].studyYear.id : undefined
-		this.handleStudyYearChange(this.selectedStudyYear);
 
 		this.form = this.fb.group({
 			schoolName: $event.name ? $event.name : undefined,
@@ -383,25 +381,31 @@ export class DataComponent implements OnInit {
 			adminJob : this.res ? this.res.job : undefined,
 			adminWhatsApp : this.res ? this.res.whatsApp : undefined,
 			adminUsername : this.res ? this.res.username : undefined
-		});				
+		});
+		
+		this.handleStudyYearChange(this.selectedStudyYear);
 	}
 
 	handleStudyYearChange(id) {
 		this.selectedStudyYear = id;
-		this.licensedTerm.map((term, i)=>{
-			if (id == term.studyYear.id) {
-				this.form = this.fb.group({
-					studyYears: term.studyYear.id,
-					lstudentsNum: term.studentsNum,
-					lclassesNum: term.classesNum,
-					lteachersNum: term.teachersNum,
-					ladminsNum: term.adminNum
+		if (!this.add) {
+			if (this.selectedStudyYear) {
+				this.licensedTerm.map((term, i)=>{
+					if (id == term.studyYear.id) {
+						this.form = this.fb.group({
+							studyYears: term.studyYear.id,
+							lstudentsNum: term.studentsNum,
+							lclassesNum: term.classesNum,
+							lteachersNum: term.teachersNum,
+							ladminsNum: term.adminNum
+						})
+						this.speciificContent = term.licensedContent
+					}else if(i == 0 && !id ){
+						this.speciificContent = term.licensedContent
+					}
 				})
-				this.speciificContent = term.licensedContent
-			}else if(i == 0 && !id ){
-				this.speciificContent = term.licensedContent
 			}
-		})
+		}
 	}
 
 	clearFields() {
@@ -451,6 +455,7 @@ export class DataComponent implements OnInit {
 
 	addSchool(conf) {
 		let config = conf || this.form.value;
+		console.log("config", config)
 		var myObj = {
 			method: 'PUT',
 			url: this.url,

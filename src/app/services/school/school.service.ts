@@ -190,16 +190,24 @@ export class SchoolService {
               ${config.hasOwnProperty('levelThree') ? `levelThree: { connect: { id: "${config.levelThree}" } }` : ''}
              
               admin: { create: ${ this.CreateAdmin(config) ? "[" + this.CreateAdmin(config) + "]" : '[]'} }
-              licensedTerm: {
-                create: {
-                  ${config.hasOwnProperty('ladminNum') ? `adminNum: ${config.ladminNum}` : ''}
-                  ${config.hasOwnProperty('lstudentsNum') ? `studentsNum: ${config.lstudentsNum}` : ''}
-                  ${config.hasOwnProperty('lteachersNum') ? `teachersNum: ${config.lteachersNum}` : ''}
-                  ${config.hasOwnProperty('lclassesNum') ? `classesNum: ${config.lclassesNum}` : ''}
-                  ${config.hasOwnProperty('lstudyYear') ? `studyYear: { connect: { id: "${config.lstudyYear}" } }` : ''}
-                  licensedContent: { create: ${this.CreateContentLevel(config) ? '[' + this.CreateContentLevel(config) + ']' : '[]'} }
-                }
-              }
+
+              ${ ( config.hasOwnProperty('ladminNum') ||
+                   config.hasOwnProperty('lstudentsNum') || 
+                   config.hasOwnProperty('lteachersNum') ||
+                   config.hasOwnProperty('lclassesNum') ||
+                   config.hasOwnProperty('lstudyYear') ? `
+                   licensedTerm: {
+                    create: {
+                      ${config.hasOwnProperty('ladminNum') ? `adminNum: ${config.ladminNum}` : `adminNum:0`}
+                      ${config.hasOwnProperty('lstudentsNum') ? `studentsNum: ${config.lstudentsNum}` : `studentsNum: 0`}
+                      ${config.hasOwnProperty('lteachersNum') ? `teachersNum: ${config.lteachersNum}` : `teachersNum: 0`}
+                      ${config.hasOwnProperty('lclassesNum') ? `classesNum: ${config.lclassesNum}` : `classesNum: 0`}
+                      ${config.hasOwnProperty('lstudyYear') ? `studyYear: { connect: { id: "${config.lstudyYear}" } }` : ''}
+                      licensedContent: { create: ${this.CreateContentLevel(config) ? '[' + this.CreateContentLevel(config) + ']' : '[]'} }
+                    }
+                  }
+                   `:""
+              ) }              
             }
           ) {
             id
