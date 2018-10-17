@@ -3,6 +3,7 @@ import { EcontentOneService } from '../../../services/econtent/econtent-one.serv
 import { EcontentTwoService } from '../../../services/econtent/econtent-two.service';
 import { EcontentThreeService } from '../../../services/econtent/econtent-three.service';
 import { EcontentFourService } from '../../../services/econtent/econtent-four.service';
+import { ConfigService } from '../../../services/config';
 
 @Component({
   selector: 'app-levels',
@@ -10,7 +11,7 @@ import { EcontentFourService } from '../../../services/econtent/econtent-four.se
   styleUrls: ['./levels.component.scss']
 })
 export class LevelsComponent implements OnInit {
-	url: string = 'http://localhost:4466';
+	url: string ;
 	selectedContent1;
 	selectedContent2;
 	selectedContent3;
@@ -24,9 +25,11 @@ export class LevelsComponent implements OnInit {
 		private econtentOneService: EcontentOneService,
 		private econtentTwoService: EcontentTwoService,
 		private econtentThreeService: EcontentThreeService,
-		private econtentFourService: EcontentFourService
-	) { }
-
+		private econtentFourService: EcontentFourService,
+		private configService: ConfigService
+	) {
+		this.url = this.configService.url;
+	}
 	ngOnInit() {
 		this.getContentData(undefined, undefined, undefined, undefined);
 
