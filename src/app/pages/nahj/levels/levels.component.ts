@@ -11,7 +11,7 @@ import { ConfigService } from '../../../services/config';
   styleUrls: ['./levels.component.scss']
 })
 export class LevelsComponent implements OnInit {
-	url: string;
+	url: string ;
 	selectedContent1;
 	selectedContent2;
 	selectedContent3;

@@ -386,22 +386,27 @@ export class DataComponent implements OnInit {
 		});				
 	}
 
+	
 	handleStudyYearChange(id) {
 		this.selectedStudyYear = id;
-		this.licensedTerm.map((term, i)=>{
-			if (id == term.studyYear.id) {
-				this.form = this.fb.group({
-					studyYears: term.studyYear.id,
-					lstudentsNum: term.studentsNum,
-					lclassesNum: term.classesNum,
-					lteachersNum: term.teachersNum,
-					ladminsNum: term.adminNum
+		if (!this.add) {
+			if (this.selectedStudyYear) {
+				this.licensedTerm.map((term, i)=>{
+					if (id == term.studyYear.id) {
+						this.form = this.fb.group({
+							studyYears: term.studyYear.id,
+							lstudentsNum: term.studentsNum,
+							lclassesNum: term.classesNum,
+							lteachersNum: term.teachersNum,
+							ladminsNum: term.adminNum
+						})
+						this.speciificContent = term.licensedContent
+					}else if(i == 0 && !id ){
+						this.speciificContent = term.licensedContent
+					}
 				})
-				this.speciificContent = term.licensedContent
-			}else if(i == 0 && !id ){
-				this.speciificContent = term.licensedContent
 			}
-		})
+		}
 	}
 
 	clearFields() {
@@ -517,10 +522,7 @@ export class DataComponent implements OnInit {
 	}
 
 	editSchool($event) {
-		console.log("$event", $event)
 		let config = this.form.value;
-		console.log("config", config)
-
 		var myObj = {
 			method: "POST",
 			url: this.url,
