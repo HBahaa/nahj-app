@@ -115,7 +115,6 @@ export class EvaluationDataComponent implements OnInit {
 	// list functions
 	evaluationClicked($event){
 		this.selectedEvaluation = $event.item.id;
-		console.log("$event.item", $event.item)
 		this.getContentData($event.level1, $event.level2, $event.level3, $event.level4)
 
 		this.l1 = $event.level1
@@ -143,7 +142,6 @@ export class EvaluationDataComponent implements OnInit {
 	}
 
 	getQuestionGroupDetails(qGroup){
-		console.log("getQuestionGroupDetails", qGroup)
 		this.selectedQuestionGroup = qGroup;
 		this.questGroupForm = this.fb.group({
 			name: [qGroup.name],
@@ -352,7 +350,6 @@ export class EvaluationDataComponent implements OnInit {
 				// speciificContentLevelThreeId: this.form.value.level3,
 				// speciificContentLevelFourId: this.form.value.level4	
 			}).subscribe(data=>{
-				console.log("edit", data)
 				this.EvalEdit = true;
 				this.updateFilter = true;
 				this.clearInputs()
@@ -369,7 +366,6 @@ export class EvaluationDataComponent implements OnInit {
 				weight: this.questGroupForm.value.weight,
 				id:this.selectedQuestionGroup.id
 			}).subscribe(data => {
-				console.log("data", data)
 				this.getQuestionGroups()
 				this.questionEdit = true;
 				this.updateFilter = true;

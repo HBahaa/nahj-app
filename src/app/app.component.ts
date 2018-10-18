@@ -39,8 +39,8 @@ export class AppComponent {
 			// else 
 			if (isLoggedIn) {
 				this.authService.userType.subscribe(type=>{
-					this.router.navigate(['/school/teachers']);
-					this.type = 3;
+					this.router.navigate(['/nahj']);
+					this.type = 1;
 				})
 			}
 		})

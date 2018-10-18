@@ -56,7 +56,6 @@ export class licensedClass {
                            class{
                              id
                              name
-                             id
                              studyLevelOnea{
                                id
                                name

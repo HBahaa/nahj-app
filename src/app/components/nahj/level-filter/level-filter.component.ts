@@ -107,8 +107,6 @@ export class LevelFilterComponent implements OnInit {
 										if (l3.contentLevelFour.length > 0) {
 											this.level4 = l3.contentLevelFour.filter(n => n.name != "")
 										}
-									} else {
-										this.level4 = [];
 									}
 									return l3
 								})
@@ -146,7 +144,7 @@ export class LevelFilterComponent implements OnInit {
 			case "level3":
 				this.selectedLevel3 = $event.value;
 				this.selectedLevel4 = undefined;
-				this.getContentData(this.selectedLevel3, this.selectedLevel2, $event.value, undefined);
+				this.getContentData(this.selectedLevel1, this.selectedLevel2, $event.value, undefined);
 				break;
 		}
 		this.evaluations=[]

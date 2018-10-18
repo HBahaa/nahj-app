@@ -517,7 +517,10 @@ export class DataComponent implements OnInit {
 	}
 
 	editSchool($event) {
+		console.log("$event", $event)
 		let config = this.form.value;
+		console.log("config", config)
+
 		var myObj = {
 			method: "POST",
 			url: this.url,

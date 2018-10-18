@@ -224,7 +224,9 @@ export class TeachersComponent implements OnInit {
 			method: "GET",
 			id: this.selectedLicenseTerm['id']
 		}).subscribe(data=>{
-			this.licenseClasses = data['data']['licensedTerms'][0]['licensedClass'].map(item=> item.class )
+			console.log("data['data']['licensedTerms'][0]['licensedClass']", data['data']['licensedTerms'][0]['licensedClass'])
+			// this.licenseClasses = data['data']['licensedTerms'][0]['licensedClass'].map(item=> item.class )
+			this.licenseClasses = data['data']['licensedTerms'][0]['licensedClass']
 		});
 	}
 
@@ -287,6 +289,15 @@ export class TeachersComponent implements OnInit {
 			ltermid: this.selectedLicenseTerm['id']
 		}).subscribe(data=>{
 			console.log("addTeacherLicense", data);
+			// this.licensedTeacher.service({
+			// 	method: "PUT2",
+			// 	url: this.url,
+			// 	lteacherid: data.id,
+			// 	classes:this.licenseContent
+			// }).subscribe(data=>{
+
+			// })
+			
 			this.addLicense = false;
 		})
 	}
@@ -294,7 +305,17 @@ export class TeachersComponent implements OnInit {
 
 	
 	editTeacherLicense(){
-		
+		this.licensedTeacher.service({
+			method: "POST",
+			url: this.url,
+			teacher: this.selectedTeacher.id,
+			isActiveAccount: this.licenseForm.value.accountStatus,
+			classes:this.licenseContent,
+			ltermid: this.selectedLicenseTerm['id']
+		}).subscribe(data=>{
+			console.log("addTeacherLicense", data);
+			this.editLicense = false;
+		})
 	}
 
 	editTeacher(){
