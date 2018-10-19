@@ -169,7 +169,7 @@ export class licensedTeacher {
             case "GET": // Read
                   query=` query {
                        licensedTerms(
-                         where: { id: "${config.ltermid}", licensedTeacher_every: { teacher: { id: "${config.teacher}" } } }
+                         where: { id: "${config.ltermid}" }
                        ) {
                          id
                          licensedTeacher {
@@ -203,7 +203,7 @@ export class licensedTeacher {
                     id:"${config.ltermid}"
                     licensedTeacher_every:{
                       teacher:{
-                        id:"teacher"
+                        id:"${config.teacher}"
                       }
                     }
                   }
