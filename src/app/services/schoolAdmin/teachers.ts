@@ -83,30 +83,52 @@ export class teachers {
                   }`
             break;
             case "GETBYNAME":
-              query=`query{
-                      schools(
-                        where:{
-                          id:"${config.id}"
-                          ${config.teachersearchstring ? `teachers_every:{
-                            name_contains:"${config.teachersearchstring}"
-                          }`:""}
+              query=`query {
+                schools(
+                  where: {
+                    id: "${config.id}"
+                    teachers_every: { name_contains: "${config.teachersearchstring}" }
+                  }
+                ) {
+                  id
+                  licensedTerm ${config.ltermid ? `(where: { id: "${config.ltermid}" }) `:""} {
+                    licensedClass
+                      ${config.classl1id || config.classl2id ? `(
+                        where: {
+                          class: {
+                            ${config.classl1id ? `studyLevelOnea: { id: "${config.classl1id}" }`:""}
+                            ${config.classl2id ? `studyLevelTwo: { id: "${config.classl2id}" }`:""}
+                          }
                         }
-                      ){
-                      	id
-                        teachers{
+                      )`:""} 
+                    {
+                      class {
+                        id
+                        name
+                      }
+                      teacher {
+                        id
+                        teacher {
                           id
                           name
-                          title
-                          job
-                          type
-                          phone
-                          whatsApp
-                          email
-                          username
-                          password
                         }
                       }
-                    }`
+                    }
+                  }
+                  teachers {
+                    id
+                    name
+                    title
+                    job
+                    type
+                    phone
+                    whatsApp
+                    email
+                    username
+                    password
+                  }
+                }
+              }`
             break;
         }
 
@@ -131,5 +153,8 @@ export class teachers {
     email
     username
     password
+    ltermid
+    classl1id
+    classl2id
 }
 */

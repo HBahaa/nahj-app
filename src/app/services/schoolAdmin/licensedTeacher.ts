@@ -166,54 +166,38 @@ export class licensedTeacher {
                        }
                      }`
             break;
-            case "GET": // Read
-                  query=` query {
-                       licensedTerms(
-                         where: { id: "${config.ltermid}" }
-                       ) {
-                         id
-                         licensedTeacher {
-                           id
-                           teacher {
-                             id
-                             name
-                           }
-                           isActiveAccount
-                           specificClassConfig {
-                             id
-                             licensedClass {
-                               id
-                               class {
-                                 name
-                               }
-                             }
-                             canAddEval
-                             canEnterEval
-                             canDeleteEval
-                             canEditEval
-                           }
-                         }
-                       }
-                     }`
-            break;
-            case "GETBYID":
-              query=`query{
-                licensedTerms(
-                  where:{
-                    id:"${config.ltermid}"
-                    licensedTeacher_every:{
-                      ${config.teacher ? `                      teacher:{
-                        id:"${config.teacher}"
-                      }`:""}
-                    }
-                  }
-                ){
+            case "GET":
+              query=`query {
+                licensedTerms{
                   id
-                  licensedTeacher{
+                  studyYear{
                     id
-                    teacher{
+                    name
+                  }
+                  licensedTeacher(where:{teacher:{id:"${config.teacher}"}}) {
+                    id
+                    isActiveAccount
+                    specificClassConfig{
                       id
-                      name
+                      licensedClass{
+                        id
+                        class{
+                          id
+                          name
+                          studyLevelOnea{
+                            id
+                            name
+                          }
+                          studyLevelTwo{
+                            id
+                            name
+                          }
+                        }
+                      }
+                      canAddEval
+                      canEnterEval
+                      canDeleteEval
+                      canEditEval
                     }
                   }
                 }

@@ -224,9 +224,10 @@ export class TeachersComponent implements OnInit {
 			method: "GET",
 			id: this.selectedLicenseTerm['id']
 		}).subscribe(data=>{
-			console.log("data['data']['licensedTerms'][0]['licensedClass']", data['data']['licensedTerms'][0]['licensedClass'])
 			// this.licenseClasses = data['data']['licensedTerms'][0]['licensedClass'].map(item=> item.class )
-			this.licenseClasses = data['data']['licensedTerms'][0]['licensedClass']
+			if (data['data']['licensedTerms'] && data['data']['licensedTerms'].length > 0) {
+				this.licenseClasses = data['data']['licensedTerms'][0]['licensedClass']				
+			}
 		});
 	}
 
@@ -289,21 +290,40 @@ export class TeachersComponent implements OnInit {
 			ltermid: this.selectedLicenseTerm['id']
 		}).subscribe(data=>{
 			console.log("addTeacherLicense", data);
+
 			this.licensedTeacher.service({
-				method: "PUT2",
+				method: "GETBYID",
 				url: this.url,
-				lteacherid: data['data'].updateLicensedTerm['licensedTeacher'].id,
-				classes:this.licenseContent
+				teacher: this.selectedTeacher.id,
+				ltermid: this.selectedLicenseTerm['id']
 			}).subscribe(data=>{
-				console.log("add license to teacher ", data)
-				this.addLicense = false;
+				console.log("get license to teacher ", data);
+
+
+				// this.licensedTeacher.service({
+				// 	method: "PUT2",
+				// 	url: this.url,
+				// 	lteacherid: data['data'].updateLicensedTerm['licensedTeacher'].id,
+				// 	classes:this.licenseContent
+				// }).subscribe(data=>{
+				// 	console.log("add license to teacher ", data)
+				// 	this.addLicense = false;
+				// })
 			})
-			
 			
 		})
 	}
 
-
+	getTeacherLivcienseId(){
+		this.licensedTeacher.service({
+			method: "GETBYID",
+			url: this.url,
+			teacher: this.selectedTeacher.id,
+			ltermid: this.selectedLicenseTerm['id']
+		}).subscribe(data=>{
+			console.log("add license to teacher ", data);
+		})
+	}
 	
 	editTeacherLicense(){
 		this.licensedTeacher.service({

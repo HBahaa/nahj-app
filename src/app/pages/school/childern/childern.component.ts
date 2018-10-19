@@ -54,7 +54,7 @@ export class ChildernComponent implements OnInit {
 			nationality: ['', Validators.required],
 			gender: ['', Validators.required],
 			term: ['', Validators.required],
-			lclassid: ['', Validators.required],
+			licenseClass: ['', Validators.required],
 			job: ['', Validators.required],
 			birthday: ['', Validators.required],
 			username: ['', Validators.required],
@@ -73,7 +73,7 @@ export class ChildernComponent implements OnInit {
 			nationality: [''],
 			gender: [''],
 			term: [''],
-			class: [''],
+			licenseClass: [''],
 			birthday: [''],
 			username: [''],
 			password: [''],
@@ -81,10 +81,20 @@ export class ChildernComponent implements OnInit {
 			extraInfoOne: ['']
 	    });
 	}
-
+	clearLicenseInputs(){
+		this.form = this.fb.group({			
+			term: [''],
+			licenseClass: [''],
+			accountStatus: ['']
+	    });
+	}
 	handleStudyYearChange(e){
+		console.log("handleStudyYearChange")
 		this.selectedLicenseTerm = this.licenseTerm.filter(data=> data.studyYear.id == e)[0];
-		this.getLicenseClasses()
+		this.getLicenseClasses();
+		if(!this.addLicense){
+			this.getLicenseStudent();
+		}
 	}
 
 	getLicenseClasses(){
@@ -93,8 +103,6 @@ export class ChildernComponent implements OnInit {
 			method: "GET",
 			id: this.selectedLicenseTerm['id']
 		}).subscribe(data=>{
-			// this.licenseClasses = data['data']['licensedTerms'][0]['licensedClass'].map(item=> item.class )
-			console.log("data['data']['licensedTerms'] && data['data']['licensedTerms'].length > 0", data['data']['licensedTerms'] && data['data']['licensedTerms'].length > 0)
 			if (data['data']['licensedTerms'] && data['data']['licensedTerms'].length > 0) {
 				this.licenseClasses = data['data']['licensedTerms'][0]['licensedClass']				
 			}
@@ -125,7 +133,6 @@ export class ChildernComponent implements OnInit {
 					student['name'] = student.fullName
 					return student
 				})
-				console.log("StudentsArr", this.studentsArr)
 			}else{
 				this.studentsArr= []; 
 			}
@@ -139,9 +146,15 @@ export class ChildernComponent implements OnInit {
 	editClicked(){
 		this.edit = true;
 	}
+	addLicenseClicked(){
+		this.addLicense = true;
+		this.clearLicenseInputs();
+	}
+	editLicenseClicked(){
+		this.editLicense = true;
+	}
 
 	studentClicked(e){
-		console.log("e========", e)
 		this.selectedStudent = e;
 		this.form = this.fb.group({
 			name: e.fullName,
@@ -155,7 +168,7 @@ export class ChildernComponent implements OnInit {
 			photo: e.photo,
 			accountStatus: e.accountStatus,
 			extraInfoOne: e.extraInfoOne
-	    });
+		});
 	}
 
 
@@ -166,7 +179,8 @@ export class ChildernComponent implements OnInit {
 	readThis(inputValue: any): void {
 		this.file = inputValue.files[0];
 		console.log("file===", this.file)
-		//var img = window.btoa(this.file)
+		var img = window.btoa(this.file['name'])
+		console.log("img=====", img)
 		var myReader:FileReader = new FileReader();
 		
 		myReader.onloadend = (e) => {
@@ -199,22 +213,7 @@ export class ChildernComponent implements OnInit {
 		})
 	}
 
-	addLicenseStudent(){
-		this.licensedStudent.service({
-			method: "PUT",
-			url: this.url,
-			teacher: this.selectedStudent.id,
-			isActiveAccount: this.form.value.accountStatus,
-			classes:this.form.value.lclassid,
-			ltermid: this.selectedLicenseTerm['id']
-		}).subscribe(data=>{
-			console.log("addStudentLicense", data);
-			this.addLicense = false;
-		})
-	}
-
 	editStudent(){
-		console.log("this.selectedStudent.photo", this.selectedStudent.photo)
 		this.students.service({
 			url: this.url,
 			method: 'POST',
@@ -225,9 +224,7 @@ export class ChildernComponent implements OnInit {
 			nationality: this.form.value.nationality,
 			photo: this.file ? this.file.name : this.selectedStudent.photo,
 			parent: this.form.value.parent,
-			asccountStatus: this.form.value.accountStatus,
-			// class: this.form.value.class,
-			// term: this.form.value.term,
+			//asccountStatus: this.form.value.accountStatus,
 			username: this.form.value.username,
 			gender: this.form.value.gender,
 			password: this.form.value.password,
@@ -249,4 +246,47 @@ export class ChildernComponent implements OnInit {
 			this.getStudents();
 		})
 	}
+
+	// license functions
+
+	getLicenseStudent(){
+		this.licensedStudent.service({
+			method: "GET",
+			url: this.url,
+			student: this.selectedStudent.id,
+			ltermid: this.selectedLicenseTerm['id']
+		}).subscribe(data=>{
+			console.log("get Student License", data);
+			console.log("data.data.licensedTerms[0].licensedClass", data['data'].licensedTerms[0].licensedClass)
+		})
+	}
+
+	addLicenseStudent(){
+		this.licensedStudent.service({
+			method: "PUT",
+			url: this.url,
+			student: this.selectedStudent.id,
+			isActiveAccount: this.form.value.accountStatus,
+			lclassid:this.form.value.licenseClass,
+			ltermid: this.selectedLicenseTerm['id']
+		}).subscribe(data=>{
+			console.log("addStudentLicense", data);
+			this.addLicense = false;
+		})
+	}
+	editLicenseStudent(e){
+		console.log("editLicenseStudent e", e)
+		// this.licensedStudent.service({
+		// 	method: "POST",
+		// 	url: this.url,
+		// 	lstudentid: e.id,
+		// 	oldlclassid:e.licenseClass,
+		// 	newlclassid:this.form.value.licenseClass,
+		// 	ltermid: this.selectedLicenseTerm['id']
+		// }).subscribe(data=>{
+		// 	console.log("addStudentLicense", data);
+		// 	this.addLicense = false;
+		// })
+	}
 }
+
