@@ -87,9 +87,9 @@ export class licensedStudent {
                            id:"${config.ltermid}"
                            licensedClass_every:{
                              students_every:{
-                               student:{
-                                 id:"${config.student}"
-                               }
+                               ${config.student ? `student:{
+                                id:"${config.student}"
+                              }` : ""}
                              }
                            }
                          }

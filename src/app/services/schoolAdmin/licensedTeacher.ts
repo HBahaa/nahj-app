@@ -202,9 +202,9 @@ export class licensedTeacher {
                   where:{
                     id:"${config.ltermid}"
                     licensedTeacher_every:{
-                      teacher:{
+                      ${config.teacher ? `                      teacher:{
                         id:"${config.teacher}"
-                      }
+                      }`:""}
                     }
                   }
                 ){

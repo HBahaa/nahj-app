@@ -87,9 +87,9 @@ export class teachers {
                       schools(
                         where:{
                           id:"${config.id}"
-                          teachers_every:{
+                          ${config.teachersearchstring ? `teachers_every:{
                             name_contains:"${config.teachersearchstring}"
-                          }
+                          }`:""}
                         }
                       ){
                       	id

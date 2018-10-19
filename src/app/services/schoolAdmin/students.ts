@@ -41,7 +41,6 @@ export class students {
                   data:{
                     students:{
                       create:{
-
                         ${config.hasOwnProperty("fullName") ? `fullName:"${config.fullName}"` : ""}
                         ${config.hasOwnProperty("necName") ? `necName:"${config.necName}"` : ""}
                         ${config.hasOwnProperty("birthday") ? `birthday:"${config.birthday}"` : ""}
@@ -101,7 +100,7 @@ export class students {
                             where:{
                               id:"${config.id}"
                               students_every:{
-                                fullName_contains:"config.studentsearchstring"
+                               ${config.studentsearchstring ? ` fullName_contains:"${config.studentsearchstring}"`:""}
                               }
                             }
                           ){
