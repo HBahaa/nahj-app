@@ -291,25 +291,24 @@ export class TeachersComponent implements OnInit {
 		}).subscribe(data=>{
 			console.log("addTeacherLicense", data);
 
-			this.licensedTeacher.service({
-				method: "GETBYID",
-				url: this.url,
-				teacher: this.selectedTeacher.id,
-				ltermid: this.selectedLicenseTerm['id']
-			}).subscribe(data=>{
-				console.log("get license to teacher ", data);
+			// this.licensedTeacher.service({
+			// 	method: "GET",
+			// 	url: this.url,
+			// 	teacher: this.selectedTeacher.id,
+			// 	ltermid: this.selectedLicenseTerm['id']
+			// }).subscribe(data=>{
+			// 	console.log("get license to teacher ", data);
 
-
-				// this.licensedTeacher.service({
-				// 	method: "PUT2",
-				// 	url: this.url,
-				// 	lteacherid: data['data'].updateLicensedTerm['licensedTeacher'].id,
-				// 	classes:this.licenseContent
-				// }).subscribe(data=>{
-				// 	console.log("add license to teacher ", data)
-				// 	this.addLicense = false;
-				// })
-			})
+			// 	this.licensedTeacher.service({
+			// 		method: "PUT2",
+			// 		url: this.url,
+			// 		lteacherid: data['data'].licensedTerms['licensedTeacher'].id,
+			// 		classes:this.licenseContent
+			// 	}).subscribe(data=>{
+			// 		console.log("add license to teacher ", data)
+			// 		this.addLicense = false;
+			// 	})
+			// })
 			
 		})
 	}

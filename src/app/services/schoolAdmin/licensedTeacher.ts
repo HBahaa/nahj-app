@@ -168,7 +168,11 @@ export class licensedTeacher {
             break;
             case "GET":
               query=`query {
-                licensedTerms{
+                licensedTerms(
+                  where:{
+                    id:"${config.ltermid}"
+                  }
+                ){
                   id
                   studyYear{
                     id
