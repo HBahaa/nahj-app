@@ -5,6 +5,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfigService } from '../../../services/config';
 import { students } from '../../../services/schoolAdmin/students';
 import { parents } from '../../../services/schoolAdmin/parents';
+import { licensedClass } from '../../../services/schoolAdmin/licensedClass';
+import { licensedStudent } from '../../../services/schoolAdmin/licensedStudent';
 
 @Component({
   selector: 'app-childern',
@@ -16,29 +18,35 @@ export class ChildernComponent implements OnInit {
 	form: FormGroup;
 	add: boolean = false;
 	edit: boolean = false;
+	addLicense: boolean = false;
+	editLicense: boolean = false;
 	url: string;
 	schoolID: string;
 	licenseTerm: any[];
 	searchName: string = '';
 	studentsArr: any[] = [];
 	parentsArr: any[] = [];
-	classesArr: any[] = [];
 	terms: any[] = [];
 	selectedStudent: any;
 	image: string;
 	file: File;
-	
+	selectedLicenseTerm;
+	licenseClasses = [];
+
+
 	constructor( private fb: FormBuilder, private configService: ConfigService,
 				 private students: students, private studyYearsService: StudyYearsService,
-				 private parents: parents, private studyLevelsOne: studyLevelsOne )
+				 private parents: parents, private studyLevelsOne: studyLevelsOne,
+				 private licensedClass: licensedClass, private licensedStudent: licensedStudent)
 	{
 		this.url = this.configService.url;
+		this.schoolID = localStorage.getItem("schoolID");
+		this.licenseTerm = JSON.parse(localStorage.getItem("licenseTerm"));
+
+		this.terms = this.licenseTerm && this.licenseTerm.length > 0 ? this.licenseTerm.map(term => term.studyYear) : []
 	}
 
 	ngOnInit() {
-		this.schoolID = localStorage.getItem("schoolID");
-		this.licenseTerm = JSON.parse(localStorage.getItem("licenseTerm"));
-		console.log("licenseTerm", this.licenseTerm)
 		this.form = this.fb.group({
 			name: ['', Validators.required],
 			nickname: ['', Validators.required],
@@ -46,7 +54,7 @@ export class ChildernComponent implements OnInit {
 			nationality: ['', Validators.required],
 			gender: ['', Validators.required],
 			term: ['', Validators.required],
-			class: ['', Validators.required],
+			lclassid: ['', Validators.required],
 			job: ['', Validators.required],
 			birthday: ['', Validators.required],
 			username: ['', Validators.required],
@@ -54,9 +62,7 @@ export class ChildernComponent implements OnInit {
 			accountStatus: ['', Validators.required],
 			extraInfoOne: ['', Validators.required]
 		});
-		this.getStudyYear();
 		this.getParents();
-		this.getStudyLevels()
 		this.getStudents();
 	}
 	clearInputs(){
@@ -75,13 +81,24 @@ export class ChildernComponent implements OnInit {
 			extraInfoOne: ['']
 	    });
 	}
-	getStudyYear() {
-		this.studyYearsService.service({
+
+	handleStudyYearChange(e){
+		this.selectedLicenseTerm = this.licenseTerm.filter(data=> data.studyYear.id == e)[0];
+		this.getLicenseClasses()
+	}
+
+	getLicenseClasses(){
+		this.licensedClass.service({
+			url: this.url,
 			method: "GET",
-			url: this.url
-		}).subscribe(terms => {
-			this.terms = terms['data']['studyYears'];
-		})
+			id: this.selectedLicenseTerm['id']
+		}).subscribe(data=>{
+			// this.licenseClasses = data['data']['licensedTerms'][0]['licensedClass'].map(item=> item.class )
+			console.log("data['data']['licensedTerms'] && data['data']['licensedTerms'].length > 0", data['data']['licensedTerms'] && data['data']['licensedTerms'].length > 0)
+			if (data['data']['licensedTerms'] && data['data']['licensedTerms'].length > 0) {
+				this.licenseClasses = data['data']['licensedTerms'][0]['licensedClass']				
+			}
+		});
 	}
 	getParents(){
 		this.parents.service({
@@ -97,32 +114,6 @@ export class ChildernComponent implements OnInit {
 		})
 	}
  
-	getStudyLevels(){
-		this.studyLevelsOne.service({
-			method: "GET",
-			url: this.url,
-			id: this.schoolID
-		}).subscribe(data => {
-			if (data['data']['schools'].length > 0) {
-				if (data['data']['schools'][0].classes) {
-					data['data']['schools'][0].classes
-						.filter(item1 => item1.studyLevelOnea != null)
-						.map(item1 => { 
-							item1.studyLevelOnea.studyLevelTwo
-							.filter(item2 => item2 != null)
-							.map(item2=>{
-								this.classesArr.push(...item2.class);
-							})
-						});
-				}else{
-					this.classesArr = []
-				}
-				
-			}
-				
-		})
-	}
-
 	getStudents(){
 		this.students.service({
 			method: "GET",
@@ -158,8 +149,6 @@ export class ChildernComponent implements OnInit {
 			parent: e.parent.id,
 			nationality: e.nationality,
 			gender: e.gender,
-			// term: e.,
-			// class: e.,
 			birthday: e.birthday,
 			username: e.username,
 			password: e.password,
@@ -177,13 +166,13 @@ export class ChildernComponent implements OnInit {
 	readThis(inputValue: any): void {
 		this.file = inputValue.files[0];
 		console.log("file===", this.file)
+		//var img = window.btoa(this.file)
 		var myReader:FileReader = new FileReader();
 		
 		myReader.onloadend = (e) => {
 			this.image = myReader.result;
 		}
 		myReader.readAsDataURL(this.file);
-		console.log("myReader", myReader)
 	}
 
 	addStudent(){
@@ -197,9 +186,7 @@ export class ChildernComponent implements OnInit {
 			nationality: this.form.value.nationality,
 			photo: this.file.name,
 			parent: this.form.value.parent,
-			asccountStatus: this.form.value.accountStatus,
-			// class: this.form.value.class,
-			// term: this.form.value.term,
+			//asccountStatus: this.form.value.accountStatus,
 			username: this.form.value.username,
 			gender: this.form.value.gender,
 			password: this.form.value.password,
@@ -209,6 +196,20 @@ export class ChildernComponent implements OnInit {
 			this.clearInputs();
 			this.getStudents();
 			this.add = false;
+		})
+	}
+
+	addLicenseStudent(){
+		this.licensedStudent.service({
+			method: "PUT",
+			url: this.url,
+			teacher: this.selectedStudent.id,
+			isActiveAccount: this.form.value.accountStatus,
+			classes:this.form.value.lclassid,
+			ltermid: this.selectedLicenseTerm['id']
+		}).subscribe(data=>{
+			console.log("addStudentLicense", data);
+			this.addLicense = false;
 		})
 	}
 
