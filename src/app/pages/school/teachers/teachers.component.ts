@@ -289,16 +289,17 @@ export class TeachersComponent implements OnInit {
 			ltermid: this.selectedLicenseTerm['id']
 		}).subscribe(data=>{
 			console.log("addTeacherLicense", data);
-			// this.licensedTeacher.service({
-			// 	method: "PUT2",
-			// 	url: this.url,
-			// 	lteacherid: data.id,
-			// 	classes:this.licenseContent
-			// }).subscribe(data=>{
-
-			// })
+			this.licensedTeacher.service({
+				method: "PUT2",
+				url: this.url,
+				lteacherid: data['data'].updateLicensedTerm['licensedTeacher'].id,
+				classes:this.licenseContent
+			}).subscribe(data=>{
+				console.log("add license to teacher ", data)
+				this.addLicense = false;
+			})
 			
-			this.addLicense = false;
+			
 		})
 	}
 
