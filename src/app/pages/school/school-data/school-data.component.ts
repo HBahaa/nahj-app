@@ -115,8 +115,10 @@ export class SchoolDataComponent implements OnInit {
 		}).subscribe((data: any) => {
 			this.mySchool = data['data'].schools[0]
 			this.schoolID = data['data'].schools[0].id;
-
+			console.log("data['data'].schools[0].licensedTerm", data['data'].schools[0].licensedTerm)
+			
 			localStorage.setItem("schoolID", this.schoolID);
+			localStorage.setItem("licenseTerm", JSON.stringify(data['data'].schools[0].licensedTerm));
 			this.getStudyLevelData(undefined, undefined);
 
 			this.mySchool['geoArea'] ? this.getGeoData(this.mySchool['geoArea'].id) : '';
@@ -261,22 +263,17 @@ export class SchoolDataComponent implements OnInit {
 			url: this.url,
 			id: this.schoolID
 		}).subscribe(data => {
-			console.log("getStudyLevelData", data)
 			this.studyLevel1 = data['data']['schools'][0].classes
 				.filter(item1 => item1.studyLevelOnea != null)
 				.map((item1, index1) => {
-					console.log("item11111111", item1)
 					// if (!name1 && index1 == 0) {
 					// 	return item1.studyLevelOnea;
 					// } else 
-					console.log("item1.studyLevelOnea.name", item1.studyLevelOnea.name)
-					console.log("name1", name1)
+
 					if (name1 == item1.studyLevelOnea.name) {
 						this.selectedStudyLevel1 = item1;
-						console.log("selectedStudyLevel1", this.selectedStudyLevel1)
 						this.listStudyLevelOne(this.selectedStudyLevel1);
 						this.selectedStudyLevel2 = item1.studyLevelOnea.studyLevelTwo;
-						console.log("selectedStudyLevel2", this.selectedStudyLevel2	)
 						this.listStudyLevelTwo(this.selectedStudyLevel2);
 						if(addClass){
 							let l3 = this.selectedStudyLevel2[0].class.filter(item => item.name == addClass);
@@ -416,9 +413,7 @@ export class SchoolDataComponent implements OnInit {
 			url: this.url,
 			id: $event.value.id
 		}).subscribe(data => {
-			console.log("delete 3====", data)
 			this.selectedStudyLevel3 = undefined;
-			console.log("this.selectedStudyLevel1", this.selectedStudyLevel1)
 			this.getStudyLevelData(this.selectedStudyLevel1.name, undefined);
 		})
 	}

@@ -47,7 +47,7 @@ export class licensedClass {
             case "GET": // Read
                   query=` query{
                        licensedTerms(
-                         where:{
+                         where:{ 
                            id:"${config.id}"
                          }
                        ){

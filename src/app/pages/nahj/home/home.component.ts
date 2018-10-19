@@ -100,7 +100,6 @@ export class HomeComponent implements OnInit {
 					name: $event.newValue
 				}).subscribe((data: any) => {
 					this.getGeoCityData($event.newValue);
-					// this.selectedGeo = $event.newValue;
 				});			
 			break;
 			case "update" :

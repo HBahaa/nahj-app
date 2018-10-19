@@ -10,7 +10,7 @@
 		    	<input type="text" class="form-control text-right" [disabled]="show" #inputVal1 [(ngModel)]="newValue">
 		    </div>
 		    <div class="input-group mb-2">
-		      	<input type="number" class="form-control text-right" [disabled]="show" #inputVal2 [(ngModel)]="parcentage" placeholder="الوزن النسبي %">
+		      	<input type="number" min="0" class="form-control text-right" [disabled]="show" #inputVal2 [(ngModel)]="parcentage" placeholder="الوزن النسبي %">
 		      	<span class="input-group-btn">
 					<button *ngIf="show" class="btn btn-primary" (click)="handleChanges()" type="button">
 						<i class="fa fa-edit"></i>

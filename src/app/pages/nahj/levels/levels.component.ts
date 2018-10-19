@@ -30,6 +30,8 @@ export class LevelsComponent implements OnInit {
 	) {
 		this.url = this.configService.url;
 	}
+ 
+
 	ngOnInit() {
 		this.getContentData(undefined, undefined, undefined, undefined);
 
@@ -216,7 +218,7 @@ export class LevelsComponent implements OnInit {
 						method: 'PUT',
 						url: this.url,
 						namel1: $event.newValue1,
-						relativePercentagel1: $event.newValue2
+						relativePercentagel1: $event.newValue2 ? $event.newValue2 : 0
 					}).subscribe(data=>{
 						try{
 							this.level1.push({name:data['data'].createContentLevelOne.name, relativePercentage: data['data'].createContentLevelOne.parcentage});
@@ -236,12 +238,12 @@ export class LevelsComponent implements OnInit {
 					}).subscribe(resp=>{
 						resp['data'].contentLevelOnes.map(l1=> {
 							if (l1.name == this.selectedContent1) {
-	
+								$event.newValue2
 								this.econtentOneService.service({
 									method: 'POST',
 									url: this.url,
 									namel1: $event.newValue1,
-									relativePercentagel1: $event.newValue2,
+									relativePercentagel1:  $event.newValue2 ? $event.newValue2 : 0,
 									namel2: "",
 									relativePercentagel2: 0,
 									Id: l1.id
@@ -277,7 +279,7 @@ export class LevelsComponent implements OnInit {
 								namel1: this.selectedContent1,
 								namel2: $event.newValue1,
 								relativePercentagel1: this.selectedParcentage1,
-								relativePercentagel2: $event.newValue2
+								relativePercentagel2: $event.newValue2 ? $event.newValue2 : 0
 							}).subscribe(resp => {
 								this.getContentData(this.selectedContent1, $event.newValue1, undefined, undefined)
 							});
@@ -290,7 +292,7 @@ export class LevelsComponent implements OnInit {
 										url: this.url,
 										namel3: "",
 										namel2: $event.newValue1,
-										relativePercentagel2: $event.newValue2,
+										relativePercentagel2:  $event.newValue2 ? $event.newValue2 : 0,
 										relativePercentagel3: 0,
 										Id: l2.id
 									}).subscribe(data2=>{
@@ -323,7 +325,7 @@ export class LevelsComponent implements OnInit {
 										namel2: this.selectedContent2,
 										namel3: $event.newValue1,
 										relativePercentagel2: this.selectedParcentage2,
-										relativePercentagel3: $event.newValue2
+										relativePercentagel3:  $event.newValue2 ? $event.newValue2 : 0
 									}).subscribe(resp => {
 										this.getContentData(this.selectedContent1, this.selectedContent2, $event.newValue1, undefined);
 									});
@@ -337,7 +339,7 @@ export class LevelsComponent implements OnInit {
 												url: this.url,
 												namel4: "",
 												namel3: $event.newValue1,
-												relativePercentagel3: $event.newValue2,
+												relativePercentagel3:  $event.newValue2 ? $event.newValue2 : 0,
 												relativePercentagel4: 0,
 												Id: l3.id
 											}).subscribe(data2=>{
@@ -373,7 +375,7 @@ export class LevelsComponent implements OnInit {
 												Id: l3.id,
 												namel3: this.selectedContent3,
 												namel4: $event.newValue1,
-												relativePercentagel4: $event.newValue2,
+												relativePercentagel4:  $event.newValue2 ? $event.newValue2 : 0,
 												relativePercentagel3: this.selectedParcentage3
 											}).subscribe(resp => {
 												this.getContentData(this.selectedContent1, this.selectedContent2, this.selectedContent3, $event.newValue1)
@@ -387,7 +389,7 @@ export class LevelsComponent implements OnInit {
 														method: 'POST',
 														url: this.url,
 														namel4: $event.newValue1,
-														relativePercentagel4: $event.newValue2,
+														relativePercentagel4:  $event.newValue2 ? $event.newValue2 : 0,
 														Id: l4.id
 													}).subscribe(data2=>{
 														this.getContentData(this.selectedContent1, this.selectedContent2, this.selectedContent3, $event.newValue1)
