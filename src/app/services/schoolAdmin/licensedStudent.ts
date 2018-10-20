@@ -81,32 +81,32 @@ export class licensedStudent {
                   query=``
             break;
             case "GET": // Read
-                  query=`query{
-                       licensedTerms(
-                         where:{
-                           id:"${config.ltermid}"
-                           licensedClass_every:{
-                             students_every:{
-                               ${config.student ? `student:{
-                                id:"${config.student}"
-                              }` : ""}
-                             }
-                           }
-                         }
-                       ){
-                         licensedClass{
-                           id
-                          	students{
-                             id
-                             student{
-                               id
-                               fullName
-                             }
-                             isActiveAccount
-                           }
-                         }
-                       }
-                     }`
+                  query=`query {
+                    licensedTerms(
+                      where: {
+                        id: "${config.ltermid}"
+                      }
+                    ) {
+                      licensedClass {
+                        id
+                        class{
+                          name
+                        }
+                        students {
+                          id
+                          student(
+                            where:{
+                              id:"${config.student}"
+                            }
+                          ) {
+                            id
+                            fullName
+                          }
+                          isActiveAccount
+                        }
+                      }
+                    }
+                  }`
             break;
         }
 
