@@ -19,7 +19,13 @@ export class licensedTeacher {
                            licensedTeacher: {
                              update: {
                                data: {
-                                 isActiveAccount: true
+                                ${
+                                  config.hasOwnProperty('isActiveAccount')
+                                      ?config.isActiveAccount
+                                          ?`isActiveAccount: true`
+                                          :`isActiveAccount: false`
+                                      :''
+                                  }
                                  specificClassConfig: {
                                    create: [
                                     ${config.classes.reduce((_str,item)=>{
